@@ -16,7 +16,7 @@
       <h4>USEREB45CD61</h4>
     </div>
     <div class="app-content">
-      <menu-my :items="items"></menu-my>
+      <base-menu :items="items"></base-menu>
       <RouterView />
     </div>
     <div class="app-footer">
@@ -27,6 +27,85 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
+import BaseMenu from './components/base/BaseMenu.vue'
+const items = [
+  {
+    icon: 'mdi-file-document-check-outline',
+    text: 'Документы, подтверждающие соответствие требованиям безопасности',
+    items: [
+      {
+        title: 'Реестр ОТТС (ОТШ)',
+        to: '/conformities'
+      },
+      {
+        title: 'Реестр СБКТС',
+        to: '/vehicle-safety-certificate'
+      },
+      {
+        title: 'Реестр сертификатов соответствия',
+        to: '/powered-machines/certificates'
+      },
+      {
+        title: 'Реестр деклараций о соответствии',
+        to: '/powered-machines/declarations'
+      }
+    ]
+  },
+  {
+    icon: 'mdi-receipt-text-outline',
+    text: 'Реестры',
+    color: 'white',
+    items: [
+      {
+        title: 'Реестр электронных паспортов',
+        to: '/epassports'
+      },
+      {
+        title: 'Реестр электронных паспортов CМ',
+        to: '/powered-machines/epassports'
+      },
+      {
+        title: 'Реестр заявлений по получению сведений',
+        to: '/application-request'
+      }
+    ]
+  },
+  {
+    icon: 'mdi-pencil-lock-outline',
+    text: 'Администрирование процессов',
+    color: 'white',
+    items: [
+      {
+        title: 'Реестр ролей',
+        to: '/registry-roles'
+      },
+      {
+        title: 'Реестр процессов и версий',
+        to: '/administrative-process'
+      },
+      {
+        title: 'Реестр бизнес процессов',
+        to: '/business-process'
+      },
+      {
+        title: 'Реестр изготовителей ТС, ШТС, СМ и других видов техники',
+        to: '/registry-manufacturers-process'
+      },
+      {
+        title: 'Реестр отчётов',
+        to: '/reports-registry'
+      },
+      {
+        title: 'Реестр органов по сертификации и испытательных лабораторий',
+        to: '/registry-certification-heightlaboratories'
+      },
+      {
+        title: 'Система оповещения',
+        to: '/registry-notification-system'
+      }
+    ]
+  }
+]
 </script>
 
 <style scoped>
@@ -71,7 +150,4 @@ import { RouterView } from 'vue-router'
   color: white;
   display: flex;
 }
-
-
-
 </style>

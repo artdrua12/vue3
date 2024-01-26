@@ -309,12 +309,8 @@ export default {
 
 <style scoped>
 .wrapper {
-  height: 100%;
-  scrollbar-width: none;
+  max-height: 90vh;
   overflow: auto;
-}
-.wrapper::-webkit-scrollbar {
-  width: 0;
 }
 .threeTitle {
   display: grid;

@@ -485,9 +485,9 @@ function onChangeSelect(index) {
   border: 1px solid;
   border-top: none;
   border-radius: 5px;
-  min-height: 470px;
-  /* height: 100%;
-  max-height: 70vh; */
+  /* min-height: 470px; */
+  height: 100%;
+  max-height: 70vh;
 }
 .wrapper::after {
   content: "";

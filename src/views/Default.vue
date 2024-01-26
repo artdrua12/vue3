@@ -1,88 +1,78 @@
 <template>
   <div class="baseLayout">
-    <v-form class="baseForm">
-      <base-panel class="baseSearch baseSearch--radius">
-        <template v-slot:title>Реестр ОТТС</template>
-        <template v-slot:main>
-          <div class="baseLayoutForm px-6">
+    <base-panel class="baseSearch baseSearch--radius">
+      <template v-slot:title>Реестр ОТТС</template>
+      <template v-slot:main>
+        <div class="baseLayoutForm px-6">
+          <component
+            v-for="(item, index) in searchMain"
+            :key="index"
+            :style="{
+              'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
+            }"
+            :label="item.label"
+            :is="item.type"
+            :dataSlot="item.dataSlot"
+          ></component>
+        </div>
+      </template>
+      <template v-slot:addition>
+        <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="#E3EDF4" elevation="0">
+          <div class="baseLayoutForm">
             <component
-              v-for="(item, index) in searchMain"
-              :key="index"
+              v-for="(item, index) in searchAdditionally"
+              :key="index + 2"
               :style="{
-                'grid-column': `${
-                  item.width == 'all' ? '1/-1' : 'span ' + item.width
-                }`,
+                'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
               }"
               :label="item.label"
               :is="item.type"
-              :dataSlot="item.dataSlot"
+              val="asd"
             ></component>
           </div>
-        </template>
-        <template v-slot:addition>
-          <div
-            v-if="JSON.stringify(searchAdditionally) !== '{}'"
-            color="#E3EDF4"
-            elevation="0"
+        </div>
+      </template>
+      <template v-slot:bottom>
+        <div style="display: flex; justify-content: space-between">
+          <v-btn
+            prepend-icon="mdi-close-circle"
+            color="red"
+            size="small"
+            variant="text"
+            class="rounded-0"
           >
-            <div class="baseLayoutForm">
-              <component
-                v-for="(item, index) in searchAdditionally"
-                :key="index + 2"
-                :style="{
-                  'grid-column': `${
-                    item.width == 'all' ? '1/-1' : 'span ' + item.width
-                  }`,
-                }"
-                :label="item.label"
-                :is="item.type"
-                val="asd"
-              ></component>
-            </div>
-          </div>
-        </template>
-        <template v-slot:bottom>
-          <div style="display: flex; justify-content: space-between">
-            <v-btn
-              prepend-icon="mdi-close-circle"
-              color="red"
-              size="small"
-              variant="text"
-              class="rounded-0"
-            >
-              Очистить форму
-            </v-btn>
-            <v-btn
-              append-icon="mdi-magnify"
-              width="120px"
-              color="#3f3c3c"
-              size="small"
-              elevation="3"
-              class="rounded-0"
-            >
-              Поиск
-            </v-btn>
-          </div>
-        </template>
-      </base-panel>
-      <div class="baseAction">
-        <base-threeview></base-threeview>
-      </div>
-    </v-form>
+            Очистить форму
+          </v-btn>
+          <v-btn
+            append-icon="mdi-magnify"
+            width="120px"
+            color="#3f3c3c"
+            size="small"
+            elevation="3"
+            class="rounded-0"
+          >
+            Поиск
+          </v-btn>
+        </div>
+      </template>
+    </base-panel>
+    <div class="baseAction">
+      <base-threeview></base-threeview>
+    </div>
     <base-table class="baseTable"></base-table>
   </div>
 </template>
 
 <script>
-import BaseThreeview from "../components/base/BaseThreeview.vue";
-import BaseTable from "../components/base/BaseTableSubGrid.vue"
-import BaseDateField from "../components/base/BaseDateField.vue";
-import BaseAutocomplete from "../components/base/BaseAutocomplite.vue";
-import BaseTextField from "../components/base/BaseTextField.vue";
-import BaseCheckBox from "../components/base/BaseCheckBox.vue";
-import BaseSlot from "../components/base/BaseSlot.vue";
-import BasePanel from "../components/base/BasePanel.vue";
-import { reactive } from "vue";
+import BaseThreeview from '../components/base/BaseThreeview.vue'
+import BaseTable from '../components/base/BaseTableSubGrid.vue'
+import BaseDateField from '../components/base/BaseDateField.vue'
+import BaseAutocomplete from '../components/base/BaseAutocomplite.vue'
+import BaseTextField from '../components/base/BaseTextField.vue'
+import BaseCheckBox from '../components/base/BaseCheckBox.vue'
+import BaseSlot from '../components/base/BaseSlot.vue'
+import BasePanel from '../components/base/BasePanel.vue'
+import { reactive } from 'vue'
 
 export default {
   components: {
@@ -93,176 +83,177 @@ export default {
     BaseTextField,
     BaseCheckBox,
     BaseSlot,
-    BasePanel,
+    BasePanel
   },
 
   setup() {
     const searchMain = reactive({
       own: {
-        width: "all",
-        label: "Только свои",
+        width: 'all',
+        label: 'Только свои',
         value: false,
-        type: "base-check-box",
+        type: 'base-check-box'
       },
 
       docId: {
-        width: "6",
-        label: "Номер документа",
-        value: "",
-        type: "base-text-field",
+        width: '6',
+        label: 'Номер документа',
+        value: '',
+        type: 'base-text-field'
       },
       startDateTime: {
-        width: "3",
-        label: "Срок действия с",
-        value: "",
-        type: "base-date-field",
+        width: '3',
+        label: 'Срок действия с',
+        value: '',
+        type: 'base-date-field'
       },
       endDateTime: {
-        width: "3",
-        label: "Срок действия по",
-        value: "",
-        type: "base-date-field",
+        width: '3',
+        label: 'Срок действия по',
+        value: '',
+        type: 'base-date-field'
       },
       docStatus: {
-        width: "6",
-        label: "Статус",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Статус',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/classifier/epassport/status-directory-otts",
-        text: "value",
+        url: '/api/classifier/epassport/status-directory-otts',
+        text: 'value'
       },
       lastModifiedWith: {
-        width: "3",
-        label: "Дата изменения с",
-        value: "",
-        type: "base-date-field",
+        width: '3',
+        label: 'Дата изменения с',
+        value: '',
+        type: 'base-date-field'
       },
       lastModifiedBy: {
-        width: "3",
-        label: "Дата изменения по",
-        value: "",
-        type: "base-date-field",
+        width: '3',
+        label: 'Дата изменения по',
+        value: '',
+        type: 'base-date-field'
       },
       fullName: {
-        width: "all",
-        value: "",
-        type: "base-slot",
+        width: 'all',
+        value: '',
+        type: 'base-slot',
         dataSlot: {
           signerSurname: {
-            width: "4",
-            label: "Документ подписан",
-            value: "",
-            type: "base-text-field",
-            placeholder: "Фамилия",
+            width: '4',
+            label: 'Документ подписан',
+            value: '',
+            type: 'base-text-field',
+            placeholder: 'Фамилия'
           },
           singerName: {
-            width: "4",
-            value: "",
-            type: "base-text-field",
-            placeholder: "Имя",
+            width: '4',
+            value: '',
+            type: 'base-text-field',
+            placeholder: 'Имя'
           },
           singerPatronimic: {
-            width: "4",
-            value: "",
-            type: "base-text-field",
-            placeholder: "Отчество",
-          },
-        },
-      },
-    });
+            width: '4',
+            value: '',
+            type: 'base-text-field',
+            placeholder: 'Отчество'
+          }
+        }
+      }
+    })
     const searchAdditionally = reactive({
       vehicleMakeName: {
-        width: "6",
-        label: "Марка",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Марка',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/classifier/epassport/vehicle-makes",
+        url: '/api/classifier/epassport/vehicle-makes'
       },
       commercialName: {
-        width: "6",
-        label: "Коммерческое наименование",
-        value: "",
-        type: "base-text-field",
+        width: '6',
+        label: 'Коммерческое наименование',
+        value: '',
+        type: 'base-text-field'
       },
       manufacturer: {
-        width: "6",
-        label: "Изготовитель",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Изготовитель',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/manufacturer-registry/all",
-        text: "businessEntityName",
-        itemValue: "businessEntityName",
+        url: '/api/manufacturer-registry/all',
+        text: 'businessEntityName',
+        itemValue: 'businessEntityName'
       },
       assemblyPlant: {
-        width: "6",
-        label: "Сборочный завод",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Сборочный завод',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/manufacturer-registry/all",
-        text: "businessEntityName",
-        itemValue: "businessEntityName",
+        url: '/api/manufacturer-registry/all',
+        text: 'businessEntityName',
+        itemValue: 'businessEntityName'
       },
       certificationAgency: {
-        width: "6",
-        label: "Орган по сертификации",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Орган по сертификации',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/classifier/epassport/certification-body/search/certificateAccreditations",
-        text: "certificationBodyNameBrief",
-        itemValue: "certificationBodyNameBrief",
+        url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
+        text: 'certificationBodyNameBrief',
+        itemValue: 'certificationBodyNameBrief'
       },
       docType: {
-        width: "6",
-        label: "Тип документа",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Тип документа',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
         // url: '/api/classifier/epassport/conformity-doc-kinds',
         // filter: "filter(e =>['30', '35'].includes(e.key))",
-        text: "value",
+        text: 'value'
       },
       countryCode: {
-        width: "6",
-        label: "Страна выдачи документа",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Страна выдачи документа',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/classifier/epassport/countries",
-        text: "value",
-        itemValue: "key",
+        url: '/api/classifier/epassport/countries',
+        text: 'value',
+        itemValue: 'key'
       },
       techCategory: {
-        width: "6",
-        label: "Категория ТС",
-        value: "",
-        type: "base-autocomplete",
+        width: '6',
+        label: 'Категория ТС',
+        value: '',
+        type: 'base-autocomplete',
         items: [],
-        url: "/api/classifier/epassport/vehicle-tech-categories",
-        filter: "filter(e => e.key.match(/L|M|N|O/))",
-        text: "key",
-        itemValue: "key",
-      },
-    });
+        url: '/api/classifier/epassport/vehicle-tech-categories',
+        filter: 'filter(e => e.key.match(/L|M|N|O/))',
+        text: 'key',
+        itemValue: 'key'
+      }
+    })
 
     return {
       searchMain,
-      searchAdditionally,
-    };
-  },
-};
+      searchAdditionally
+    }
+  }
+}
 </script>
 
 <style scoped>
 .baseLayout {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: auto 1fr;
   gap: 0px 0px;
   padding: 10px 5px 15px 20px;
   align-items: flex-start;
@@ -270,21 +261,18 @@ export default {
 }
 .baseForm {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  position: relative;
 }
 .baseSearch {
   grid-area: 1/1/2/2;
 }
-.baseSearch--radius{
+.baseSearch--radius {
   border-radius: 5px 0 0 0;
 }
 .baseAction {
-  position: absolute;
-  grid-area: 1/2/2/3;
+  grid-area: 1/2/-1/3;
   overflow: hidden;
-  height: 100%;
+  max-height: 90vh;
+  z-index: 2;
 }
 .baseTable {
   grid-area: 2/1/3/-1;
@@ -302,4 +290,3 @@ export default {
   }
 }
 </style>
-

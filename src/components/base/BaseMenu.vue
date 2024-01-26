@@ -66,10 +66,10 @@ onMounted(() => {
 
 <style scoped>
 .menu {
-  top: 37px;
+  top: 40px;
   position: fixed;
   width: 350px;
-  height: calc(100% - 65px);
+  height: calc(100% - 70px);
   transition: transform 0.4s;
   transform: translateX(-100%);
   --height: 0px;
