@@ -60,7 +60,7 @@ input[type="checkbox"] {
   display: none;
 }
 input[type="checkbox"]:checked ~ .panelText {
-  max-height: 1000px;
+  max-height: 400px;
   overflow: visible;
 }
 .ic {

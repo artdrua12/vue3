@@ -16,18 +16,9 @@
               </template>
             </v-tooltip>
           </span>
-          <div
-            v-for="(fh, index) in fixHeader"
-            :key="fh.elem.text"
-            class="headCell"
-          >
+          <div v-for="(fh, index) in fixHeader" :key="fh.elem.text" class="headCell">
             <div class="headPin">
-              <img
-                src="@/assets/png1.png"
-                width="40"
-                class="pin"
-                @click="removeFixed(index)"
-              />
+              <img src="@/assets/png1.png" width="40" class="pin" @click="removeFixed(index)" />
             </div>
 
             <span class="headText">{{ fh.elem.text }}</span>
@@ -37,7 +28,7 @@
                 type="checkbox"
                 name="choice"
                 :value="index"
-                @click.self="e => sortf(fh, e.target)"
+                @click.self="(e) => sortf(fh, e.target)"
               />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
@@ -55,9 +46,7 @@
             @click="addFixed(index)"
             class="headPin"
           >
-            <path
-              d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z"
-            />
+            <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
           </svg>
 
           <span class="headText">{{ hh.text }}</span>
@@ -67,12 +56,10 @@
               type="checkbox"
               name="choice"
               :value="index"
-              @click.self="e => sortf(hh, e.target)"
+              @click.self="(e) => sortf(hh, e.target)"
             />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                d="M14,20H10V11L6.5,14.5L4.08,12.08L12,4.16L19.92,12.08L17.5,14.5L14,11V20Z"
-              />
+              <path d="M14,20H10V11L6.5,14.5L4.08,12.08L12,4.16L19.92,12.08L17.5,14.5L14,11V20Z" />
             </svg>
           </label>
         </div>
@@ -83,7 +70,6 @@
         v-for="(item, index) in tableData"
         :key="index"
         :class="{ selection: item.f1 == checkedElement }"
-        @click="e => choice(e, item)"
       >
         <div class="fixPos">
           <div class="cell">
@@ -93,7 +79,7 @@
               v-model="checkedElement"
               :value="item.f1"
               :id="item.f1"
-              @click="e => choice(e, item)"
+              @click="(e) => choice(e, item)"
             />
           </div>
           <span v-for="f in fixHeader" :key="f.el" class="cell">
@@ -107,11 +93,7 @@
       </label>
     </div>
     <teleport to="#port">
-      <base-modal
-        v-if="modalOpen"
-        @modalOpen="modalOpen = false"
-        title="Настройки"
-      >
+      <base-modal v-if="modalOpen" @modalOpen="modalOpen = false" title="Настройки">
         <template v-slot:content>
           <div>
             <base-check-box
@@ -128,12 +110,7 @@
       <span class="itemBottom">
         <span>Строк на странице</span>
         <div class="pagination-select">
-          <input
-            :value="size"
-            readonly
-            class="pagination-select__input"
-            @click="show = true"
-          />
+          <input :value="size" readonly class="pagination-select__input" @click="show = true" />
           <div role="listbox" class="pagination-select__listbox" v-show="show">
             <div
               role="option"
@@ -159,9 +136,7 @@
           class="icon-pagination"
           :fill="2 < 1 ? '#c6c6c6' : ''"
         >
-          <path
-            d="M18.41,16.59L13.82,12L18.41,7.41L17,6L11,12L17,18L18.41,16.59M6,6H8V18H6V6Z"
-          />
+          <path d="M18.41,16.59L13.82,12L18.41,7.41L17,6L11,12L17,18L18.41,16.59M6,6H8V18H6V6Z" />
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -171,9 +146,7 @@
           class="icon-pagination"
           :fill="2 < 1 ? '#c6c6c6' : ''"
         >
-          <path
-            d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"
-          />
+          <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
         </svg>
 
         <svg
@@ -184,9 +157,7 @@
           class="icon-pagination"
           :fill="2 + 1 >= 3 ? '#c6c6c6' : ''"
         >
-          <path
-            d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
-          />
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -196,9 +167,7 @@
           class="icon-pagination"
           :fill="2 + 1 >= 3 ? '#c6c6c6' : ''"
         >
-          <path
-            d="M5.59,7.41L10.18,12L5.59,16.59L7,18L13,12L7,6L5.59,7.41M16,6H18V18H16V6Z"
-          />
+          <path d="M5.59,7.41L10.18,12L5.59,16.59L7,18L13,12L7,6L5.59,7.41M16,6H18V18H16V6Z" />
         </svg>
       </span>
     </div>
@@ -206,272 +175,273 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import BaseCheckBox from "./BaseCheckBox.vue";
-import BaseModal from "./BaseModal.vue";
-const modalOpen = ref(false);
-const checkedElement = ref("");
-const show = ref(false);
-const size = ref(1);
-const fixHeader = reactive([]);
+import { reactive, ref, defineEmits } from 'vue'
+import BaseCheckBox from './BaseCheckBox.vue'
+import BaseModal from './BaseModal.vue'
+const modalOpen = ref(false)
+const checkedElement = ref('')
+const show = ref(false)
+const size = ref(1)
+const fixHeader = reactive([])
 const header = reactive([
-  { text: "field1 ", value: "f1" },
-  { text: "field2", value: "f2" },
-  { text: "field3 dfgasf dhf hasg ", value: "f3" },
-  { text: "field4", value: "f4" },
-  { text: "field5", value: "f5" },
-  { text: "field6", value: "f6" },
-  { text: "field7", value: "f7" },
-  { text: "field8", value: "f8" },
-  { text: "field9", value: "f9" },
-]);
+  { text: 'field1 ', value: 'f1' },
+  { text: 'field2', value: 'f2' },
+  { text: 'field3 dfgasf dhf hasg ', value: 'f3' },
+  { text: 'field4', value: 'f4' },
+  { text: 'field5', value: 'f5' },
+  { text: 'field6', value: 'f6' },
+  { text: 'field7', value: 'f7' },
+  { text: 'field8', value: 'f8' },
+  { text: 'field9', value: 'f9' }
+])
+const emit = defineEmits(['choise'])
 
 const tableData = reactive([
   {
-    f1: "a1",
-    f2: "a2",
-    f3: "a3",
-    f4: "a4",
-    f5: "a5",
-    f6: "a6",
-    f7: "a7",
-    f8: "a8",
-    f9: "a9",
+    f1: 'a1',
+    f2: 'a2',
+    f3: 'a3',
+    f4: 'a4',
+    f5: 'a5',
+    f6: 'a6',
+    f7: 'a7',
+    f8: 'a8',
+    f9: 'a9'
   },
   {
-    f1: "b1",
-    f2: "b2",
-    f3: "b3",
-    f4: "b4",
-    f5: "b5dasf df as dfa sfasd fd asasasasasasasasasasasasas  adsffffffff adfsdfsdfsdfsdfsdfs",
-    f6: "b6",
-    f7: "b7",
-    f8: "b8",
-    f9: "b9",
+    f1: 'b1',
+    f2: 'b2',
+    f3: 'b3',
+    f4: 'b4',
+    f5: 'b5dasf df as dfa sfasd fd asasasasasasasasasasasasas  adsffffffff adfsdfsdfsdfsdfsdfs',
+    f6: 'b6',
+    f7: 'b7',
+    f8: 'b8',
+    f9: 'b9'
   },
   {
-    f1: "c1",
-    f2: "c2",
-    f3: "c3",
-    f4: "c4",
-    f5: "c5",
-    f6: "c6",
-    f7: "c7",
-    f8: "c8",
-    f9: "c9",
+    f1: 'c1',
+    f2: 'c2',
+    f3: 'c3',
+    f4: 'c4',
+    f5: 'c5',
+    f6: 'c6',
+    f7: 'c7',
+    f8: 'c8',
+    f9: 'c9'
   },
   {
-    f1: "d1",
-    f2: "d2",
-    f3: "d3",
-    f4: "d4",
-    f5: "d5",
-    f6: "d6",
-    f7: "d7",
-    f8: "d8",
-    f9: "d9",
+    f1: 'd1',
+    f2: 'd2',
+    f3: 'd3',
+    f4: 'd4',
+    f5: 'd5',
+    f6: 'd6',
+    f7: 'd7',
+    f8: 'd8',
+    f9: 'd9'
   },
   {
-    f1: "e1",
-    f2: "e2",
-    f3: "e3",
-    f4: "e4",
-    f5: "e5",
-    f6: "e6",
-    f7: "e7",
-    f8: "e8",
-    f9: "e9",
+    f1: 'e1',
+    f2: 'e2',
+    f3: 'e3',
+    f4: 'e4',
+    f5: 'e5',
+    f6: 'e6',
+    f7: 'e7',
+    f8: 'e8',
+    f9: 'e9'
   },
   {
-    f1: "f1",
-    f2: "f2",
-    f3: "f3",
-    f4: "f4",
-    f5: "f5",
-    f6: "f6",
-    f7: "f7",
-    f8: "f8",
-    f9: "f9",
+    f1: 'f1',
+    f2: 'f2',
+    f3: 'f3',
+    f4: 'f4',
+    f5: 'f5',
+    f6: 'f6',
+    f7: 'f7',
+    f8: 'f8',
+    f9: 'f9'
   },
   {
-    f1: "g1",
-    f2: "g2",
-    f3: "g3",
-    f4: "g4",
-    f5: "g5",
-    f6: "g6",
-    f7: "g7",
-    f8: "g8",
-    f9: "g9",
+    f1: 'g1',
+    f2: 'g2',
+    f3: 'g3',
+    f4: 'g4',
+    f5: 'g5',
+    f6: 'g6',
+    f7: 'g7',
+    f8: 'g8',
+    f9: 'g9'
   },
   {
-    f1: "h1",
-    f2: "h2",
-    f3: "h3",
-    f4: "h4",
-    f5: "h5",
-    f6: "h6",
-    f7: "h7",
-    f8: "h8",
-    f9: "h9",
+    f1: 'h1',
+    f2: 'h2',
+    f3: 'h3',
+    f4: 'h4',
+    f5: 'h5',
+    f6: 'h6',
+    f7: 'h7',
+    f8: 'h8',
+    f9: 'h9'
   },
   {
-    f1: "i1",
-    f2: "i2",
-    f3: "i3",
-    f4: "i4",
-    f5: "i5",
-    f6: "i6",
-    f7: "i7",
-    f8: "i8",
-    f9: "i9",
+    f1: 'i1',
+    f2: 'i2',
+    f3: 'i3',
+    f4: 'i4',
+    f5: 'i5',
+    f6: 'i6',
+    f7: 'i7',
+    f8: 'i8',
+    f9: 'i9'
   },
   {
-    f1: "j1",
-    f2: "j2",
-    f3: "j3",
-    f4: "j4",
-    f5: "j5",
-    f6: "j6",
-    f7: "j7",
-    f8: "j8",
-    f9: "j9",
+    f1: 'j1',
+    f2: 'j2',
+    f3: 'j3',
+    f4: 'j4',
+    f5: 'j5',
+    f6: 'j6',
+    f7: 'j7',
+    f8: 'j8',
+    f9: 'j9'
   },
   {
-    f1: "k1",
-    f2: "k2",
-    f3: "k3",
-    f4: "k4",
-    f5: "k5",
-    f6: "k6",
-    f7: "k7",
-    f8: "k8",
-    f9: "k9",
+    f1: 'k1',
+    f2: 'k2',
+    f3: 'k3',
+    f4: 'k4',
+    f5: 'k5',
+    f6: 'k6',
+    f7: 'k7',
+    f8: 'k8',
+    f9: 'k9'
   },
   {
-    f1: "l1",
-    f2: "l2",
-    f3: "l3",
-    f4: "l4",
-    f5: "l5",
-    f6: "l6",
-    f7: "l7",
-    f8: "l8",
-    f9: "l9",
+    f1: 'l1',
+    f2: 'l2',
+    f3: 'l3',
+    f4: 'l4',
+    f5: 'l5',
+    f6: 'l6',
+    f7: 'l7',
+    f8: 'l8',
+    f9: 'l9'
   },
   {
-    f1: "m1",
-    f2: "m2",
-    f3: "m3",
-    f4: "m4",
-    f5: "m5",
-    f6: "m6",
-    f7: "m7",
-    f8: "m8",
-    f9: "m9",
+    f1: 'm1',
+    f2: 'm2',
+    f3: 'm3',
+    f4: 'm4',
+    f5: 'm5',
+    f6: 'm6',
+    f7: 'm7',
+    f8: 'm8',
+    f9: 'm9'
   },
   {
-    f1: "n1",
-    f2: "n2",
-    f3: "n3",
-    f4: "n4",
-    f5: "n5",
-    f6: "n6",
-    f7: "n7",
-    f8: "n8",
-    f9: "n9",
+    f1: 'n1',
+    f2: 'n2',
+    f3: 'n3',
+    f4: 'n4',
+    f5: 'n5',
+    f6: 'n6',
+    f7: 'n7',
+    f8: 'n8',
+    f9: 'n9'
   },
   {
-    f1: "o1",
-    f2: "o2",
-    f3: "o3",
-    f4: "o4",
-    f5: "o5",
-    f6: "o6",
-    f7: "o7",
-    f8: "o8",
-    f9: "o9",
+    f1: 'o1',
+    f2: 'o2',
+    f3: 'o3',
+    f4: 'o4',
+    f5: 'o5',
+    f6: 'o6',
+    f7: 'o7',
+    f8: 'o8',
+    f9: 'o9'
   },
   {
-    f1: "p1",
-    f2: "p2",
-    f3: "p3",
-    f4: "p4",
-    f5: "p5",
-    f6: "p6",
-    f7: "p7",
-    f8: "p8",
-    f9: "p9",
+    f1: 'p1',
+    f2: 'p2',
+    f3: 'p3',
+    f4: 'p4',
+    f5: 'p5',
+    f6: 'p6',
+    f7: 'p7',
+    f8: 'p8',
+    f9: 'p9'
   },
   {
-    f1: "q1",
-    f2: "q2",
-    f3: "q3",
-    f4: "q4",
-    f5: "q5",
-    f6: "q6",
-    f7: "q7",
-    f8: "q8",
-    f9: "q9",
+    f1: 'q1',
+    f2: 'q2',
+    f3: 'q3',
+    f4: 'q4',
+    f5: 'q5',
+    f6: 'q6',
+    f7: 'q7',
+    f8: 'q8',
+    f9: 'q9'
   },
   {
-    f1: "r1",
-    f2: "r2",
-    f3: "r3",
-    f4: "r4",
-    f5: "r5",
-    f6: "r6",
-    f7: "r7",
-    f8: "r8",
-    f9: "r9",
+    f1: 'r1',
+    f2: 'r2',
+    f3: 'r3',
+    f4: 'r4',
+    f5: 'r5',
+    f6: 'r6',
+    f7: 'r7',
+    f8: 'r8',
+    f9: 'r9'
   },
   {
-    f1: "s1",
-    f2: "s2",
-    f3: "s3",
-    f4: "s4",
-    f5: "s5",
-    f6: "s6",
-    f7: "s7",
-    f8: "s8",
-    f9: "s9",
-  },
-]);
+    f1: 's1',
+    f2: 's2',
+    f3: 's3',
+    f4: 's4',
+    f5: 's5',
+    f6: 's6',
+    f7: 's7',
+    f8: 's8',
+    f9: 's9'
+  }
+])
 function addFixed(index) {
-  const del = header.splice(index, 1);
-  fixHeader.push({ elem: del[0], index: index });
+  const del = header.splice(index, 1)
+  fixHeader.push({ elem: del[0], index: index })
 
-  const el = document.querySelector(".tableWrapper");
-  const a = getComputedStyle(el).getPropertyValue("--sdf");
-  el.style.setProperty("--sdf", +a + 1);
+  const el = document.querySelector('.tableWrapper')
+  const a = getComputedStyle(el).getPropertyValue('--sdf')
+  el.style.setProperty('--sdf', +a + 1)
 }
 function removeFixed() {
-  const removeElemet = fixHeader.pop();
-  header.splice(removeElemet.index, 0, removeElemet.elem);
+  const removeElemet = fixHeader.pop()
+  header.splice(removeElemet.index, 0, removeElemet.elem)
 
-  const el = document.querySelector(".tableWrapper");
-  const a = getComputedStyle(el).getPropertyValue("--sdf");
-  el.style.setProperty("--sdf", +a - 1);
+  const el = document.querySelector('.tableWrapper')
+  const a = getComputedStyle(el).getPropertyValue('--sdf')
+  el.style.setProperty('--sdf', +a - 1)
 }
-function choice(e) {
+function choice(e,item) {
   if (checkedElement.value == e.target.id) {
-    e.target.checked = false;
-    checkedElement.value = "";
-    // this.$emit("choise", null);
+    e.target.checked = false
+    checkedElement.value = ''
+    emit('choise', null)
   } else {
-    // this.$emit("choise", item);
+    emit('choise', item)
   }
 }
 function sortf(item, t) {
   if (t.checked) {
-    console.log("Down", item);
+    console.log('Down', item)
   } else {
-    console.log("UP", item);
+    console.log('UP', item)
   }
 }
 function onChangeSelect(index) {
-  size.value = index;
-  show.value = false;
+  size.value = index
+  show.value = false
 }
 </script>
 
@@ -487,10 +457,10 @@ function onChangeSelect(index) {
   border-radius: 5px;
   /* min-height: 470px; */
   height: 100%;
-  max-height: 70vh;
+  max-height: 86vh;
 }
 .wrapper::after {
-  content: "";
+  content: '';
   width: calc(100% + 2px);
   height: 16px;
   background-color: #fff3e4;
@@ -589,15 +559,15 @@ function onChangeSelect(index) {
 }
 
 /* checkbox */
-input[type="radio"] {
+input[type='radio'] {
   width: 0px;
   margin: -8px 24px 0px 0px;
 }
-input[type="checkbox"] {
+input[type='checkbox'] {
   display: none;
 }
-input[type="radio"]::before {
-  content: "";
+input[type='radio']::before {
+  content: '';
   display: block;
   width: 22px;
   height: 22px;
@@ -609,7 +579,7 @@ input[type="radio"]::before {
   background-size: 77%;
 }
 
-input[type="radio"]:checked::before {
+input[type='radio']:checked::before {
   border-color: #686d70;
   background-color: #686d70;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
@@ -622,7 +592,7 @@ svg {
 svg:hover {
   opacity: 1;
 }
-input[type="checkbox"]:checked + svg {
+input[type='checkbox']:checked + svg {
   transform: rotate(-180deg);
 }
 
@@ -674,8 +644,10 @@ input[type="checkbox"]:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;
   z-index: 3;

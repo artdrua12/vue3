@@ -1,9 +1,9 @@
 <template>
   <div class="baseLayout">
-    <base-panel class="baseSearch baseSearch--radius">
+    <base-panel class="baseSearch" elevation="3" props-panel="1">
       <template v-slot:title>Реестр ОТТС</template>
-      <template v-slot:main>
-        <div class="baseLayoutForm px-6">
+      <template v-slot:content>
+        <div class="baseLayoutForm">
           <component
             v-for="(item, index) in searchMain"
             :key="index"
@@ -14,26 +14,27 @@
             :is="item.type"
             :dataSlot="item.dataSlot"
           ></component>
+
+          <base-panel class="fullWidth" elevation="3">
+            <template v-slot:content>
+              <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="">
+                <div class="baseLayoutForm mt-3">
+                  <component
+                    v-for="(item, index) in searchAdditionally"
+                    :key="index + 2"
+                    :style="{
+                      'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
+                    }"
+                    :label="item.label"
+                    :is="item.type"
+                    val="asd"
+                  ></component>
+                </div>
+              </div>
+            </template>
+          </base-panel>
         </div>
-      </template>
-      <template v-slot:addition>
-        <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="#E3EDF4" elevation="0">
-          <div class="baseLayoutForm">
-            <component
-              v-for="(item, index) in searchAdditionally"
-              :key="index + 2"
-              :style="{
-                'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
-              }"
-              :label="item.label"
-              :is="item.type"
-              val="asd"
-            ></component>
-          </div>
-        </div>
-      </template>
-      <template v-slot:bottom>
-        <div style="display: flex; justify-content: space-between">
+        <div class="fullWidth base-button">
           <v-btn
             prepend-icon="mdi-close-circle"
             color="red"
@@ -56,10 +57,15 @@
         </div>
       </template>
     </base-panel>
-    <div class="baseAction">
-      <base-threeview></base-threeview>
+    <div class="base-action elevation-5">
+      <base-panel props-panel="1">
+        <template v-slot:title>Выбор действия</template>
+        <template v-slot:content>
+          <base-threeview :selection="selection"></base-threeview>
+        </template>
+      </base-panel>
     </div>
-    <base-table class="baseTable"></base-table>
+    <base-table class="base-table" @choise="setSelection"></base-table>
   </div>
 </template>
 
@@ -72,7 +78,7 @@ import BaseTextField from '../components/base/BaseTextField.vue'
 import BaseCheckBox from '../components/base/BaseCheckBox.vue'
 import BaseSlot from '../components/base/BaseSlot.vue'
 import BasePanel from '../components/base/BasePanel.vue'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default {
   components: {
@@ -87,6 +93,7 @@ export default {
   },
 
   setup() {
+    const selection = reactive({})
     const searchMain = reactive({
       own: {
         width: 'all',
@@ -238,10 +245,17 @@ export default {
         itemValue: 'key'
       }
     })
-
+    const isOpen = ref('false')
+    const setSelection = function ($event) {
+      console.log('setSelection', $event)
+      selection.value = $event;
+    }
     return {
       searchMain,
-      searchAdditionally
+      searchAdditionally,
+      isOpen,
+      selection,
+      setSelection
     }
   }
 }
@@ -250,11 +264,11 @@ export default {
 <style scoped>
 .baseLayout {
   width: 100%;
-  height: 100%;
+  height: calc(100% -10px);
   display: grid;
   grid-template-columns: 1fr 400px;
   grid-template-rows: auto 1fr;
-  gap: 0px 0px;
+  gap: 0px 20px;
   padding: 10px 5px 15px 20px;
   align-items: flex-start;
   align-content: flex-start;
@@ -262,27 +276,36 @@ export default {
 .baseForm {
   width: 100%;
 }
-.baseSearch {
+.base-search {
   grid-area: 1/1/2/2;
 }
-.baseSearch--radius {
-  border-radius: 5px 0 0 0;
-}
-.baseAction {
+.base-action {
   grid-area: 1/2/-1/3;
   overflow: hidden;
   max-height: 90vh;
-  z-index: 2;
+  z-index: 1;
+  position: fixed;
+  right: 22px;
+  width: 400px;
 }
-.baseTable {
+.base-table {
   grid-area: 2/1/3/-1;
   z-index: 0;
+}
+.base-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.fullWidth {
+  grid-column: 1/-1;
 }
 .baseLayoutForm {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 5px 12px;
+  padding: 12px 24px 10px 24px;
 }
 @media (max-width: 1200px) {
   .baseLayoutForm {
