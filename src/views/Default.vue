@@ -247,8 +247,7 @@ export default {
     })
     const isOpen = ref('false')
     const setSelection = function ($event) {
-      console.log('setSelection', $event)
-      selection.value = $event;
+      selection.value = $event
     }
     return {
       searchMain,
@@ -264,7 +263,7 @@ export default {
 <style scoped>
 .baseLayout {
   width: 100%;
-  height: calc(100% -10px);
+  height: calc(100% - 10px);
   display: grid;
   grid-template-columns: 1fr 400px;
   grid-template-rows: auto 1fr;

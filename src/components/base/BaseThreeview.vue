@@ -58,9 +58,12 @@
 </template>
 
 <script setup>
-import { reactive, defineProps, computed, watchEffect } from 'vue'
+import { reactive, defineProps, computed } from 'vue'
 const props = defineProps({
-  selection: { type: Array }
+  selection: { type: Object }
+})
+const com = computed(() => {
+  return Boolean(props.selection.value)
 })
 const array = reactive([
   {
@@ -77,13 +80,13 @@ const array = reactive([
         name: 'ЭПШТС',
         key: 'createEPCH',
         icon: 'mdi-file-plus-outline',
-        enabled: true
+        enabled: false
       },
       {
         name: 'Ввод ЭПШТС из АИС СЭП ЕАЭС',
         key: 'createEPCHfromEEU',
         icon: 'mdi-file-plus-outline',
-        enabled: true
+        enabled: com
       },
       {
         name: 'ЭПТС на основе ЭПШТС',
@@ -97,26 +100,26 @@ const array = reactive([
     key: 'edit',
     name: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
-    enabled: Boolean(props.selection.value)
+    enabled: com
   },
   {
     key: 'edit',
     name: 'Внесение изменений НО в ЭПТС в статусе «Действующий»',
     icon: 'mdi-file-document-edit-outline',
-    enabled: Boolean(props.selection.value)
+    enabled: com
   },
-  {
-    key: 'edit',
-    name: 'Внесение изменений НО в ЭПТС в статусе «На аннулировании»',
-    icon: 'mdi-file-document-edit-outline',
-    enabled: Boolean(props.selection.value)
-  },
-  {
-    key: 'edit',
-    name: 'Внесение изменений НО в ЭПТС в статусе "Аннулированный"',
-    icon: 'mdi-file-document-edit-outline',
-    enabled: Boolean(props.selection.value)
-  },
+  // {
+  //   key: 'edit',
+  //   name: 'Внесение изменений НО в ЭПТС в статусе «На аннулировании»',
+  //   icon: 'mdi-file-document-edit-outline',
+  //   enabled: com
+  // },
+  // {
+  //   key: 'edit',
+  //   name: 'Внесение изменений НО в ЭПТС в статусе "Аннулированный"',
+  //   icon: 'mdi-file-document-edit-outline',
+  //   enabled: com
+  // },
   {
     key: 'look',
     name: 'Просмотреть',
@@ -127,195 +130,210 @@ const array = reactive([
     key: 'copy',
     name: 'Создать шаблон',
     icon: 'mdi-content-copy',
-    enabled: true
+    enabled: com
   },
   {
     key: 'delete',
     name: 'Удалить',
     icon: 'mdi-delete-outline',
     enabled: true
-  },
-  {
-    key: '1',
-    name: 'Создать заявление',
-    enabled: true,
-    children: [
-      {
-        key: '10',
-        name: 'Заявление на исполнение гарантийных обязательств',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '11',
-        name: 'Заявление на внесение сведений собственника ТС',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '12',
-        name: 'Смена собственника',
-        enabled: true,
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '13',
-        name: 'Залог',
-        enabled: Boolean(props.selection.value),
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '14',
-        name: 'Переуступка залога',
-        enabled: Boolean(props.selection.value),
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '15',
-        name: 'Снятие залога',
-        enabled: Boolean(props.selection.value),
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '16',
-        name: 'Лизинг',
-        enabled: true,
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '17',
-        name: 'Сублизинг',
-        enabled: Boolean(props.selection.value),
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '18',
-        name: 'Прекращение лизинга',
-        enabled: true,
-        icon: 'mdi-file-plus-outline'
-      },
-      {
-        key: '21',
-        name: 'Заявление на получение регистрационных знаков ТРАНЗИТ',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '25',
-        icon: 'mdi-file-plus-outline',
-        name: 'Заявление на внесение сведений об осуществленных регистрационных действиях',
-        enabled: true
-      },
-      {
-        key: '27',
-        name: 'Заявление на внесение в электронный паспорт сведений собственника',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '28',
-        name: 'Заявление на внесение в электронный паспорт сведений об ограничениях (обременениях)',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '29',
-        name: 'Заявление на внесение в электронный паспорт сведений о снятии ограничений (обременений)',
-        icon: 'mdi-file-plus-outline',
-        enabled: true
-      },
-      {
-        key: '30',
-        name: 'Заявление на внесение в электронный паспорт сведений о проведении технического обслуживания',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '31',
-        name: 'Заявление на внесение в электронный паспорт сведений о проведении ремонтных работ',
-        icon: 'mdi-file-plus-outline',
-        enabled: true
-      },
-      {
-        key: '33',
-        name: 'Заявление на внесение в электронный паспорт сведений о страховании',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: '34',
-        name: 'Заявление на внесение в электронный паспорт сведений о дорожно-транспортном происшествии',
-        icon: 'mdi-file-plus-outline',
-        enabled: true
-      },
-      {
-        key: '35',
-        name: 'Заявление на внесение в электронный паспорт сведений о страховых случаях',
-        icon: 'mdi-file-plus-outline',
-        enabled: Boolean(props.selection.value)
-      }
-    ]
-  },
-  {
-    key: '2',
-    name: 'Загрузить сведения о ТС (шасси)',
-    enabled: true,
-    icon: 'mdi-file-upload-outline'
-  },
-  {
-    key: 'pdf',
-    name: 'Выписка',
-    enabled: Boolean(props.selection.value),
-    icon: 'mdi-file-pdf-outline'
-  },
-  {
-    key: 'xml',
-    name: 'Выгрузка',
-    icon: 'mdi-xml',
-    enabled: Boolean(props.selection.value)
-  },
-  {
-    key: '6',
-    name: 'Внести сведения в электронный паспорт',
-    enabled: true,
-    children: [
-      {
-        key: 'recyclingReleaseNotes',
-        name: 'Внести сведения в электронный паспорт об утилизационном сборе и сведения о выпуске',
-        icon: 'mdi-file-document-edit-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: 'restrictionInfo',
-        name: 'Информация об ограничениях',
-        icon: 'mdi-file-document-edit-outline',
-        enabled: Boolean(props.selection.value)
-      },
-      {
-        key: 'warrantyWorkText',
-        name: 'Сведения об исполнении гарантийных обязательств',
-        icon: 'mdi-file-document-edit-outline',
-        enabled: true
-      }
-    ]
   }
+  // {
+  //   key: '1',
+  //   name: 'Создать заявление',
+  //   enabled: true,
+  //   children: [
+  //     {
+  //       key: '10',
+  //       name: 'Заявление на исполнение гарантийных обязательств',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '11',
+  //       name: 'Заявление на внесение сведений собственника ТС',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '12',
+  //       name: 'Смена собственника',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '13',
+  //       name: 'Залог',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '14',
+  //       name: 'Переуступка залога',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '15',
+  //       name: 'Снятие залога',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '16',
+  //       name: 'Лизинг',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '17',
+  //       name: 'Сублизинг',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '18',
+  //       name: 'Прекращение лизинга',
+  //       enabled: com,
+  //       icon: 'mdi-file-plus-outline'
+  //     },
+  //     {
+  //       key: '21',
+  //       name: 'Заявление на получение регистрационных знаков ТРАНЗИТ',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '25',
+  //       icon: 'mdi-file-plus-outline',
+  //       name: 'Заявление на внесение сведений об осуществленных регистрационных действиях',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '27',
+  //       name: 'Заявление на внесение в электронный паспорт сведений собственника',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '28',
+  //       name: 'Заявление на внесение в электронный паспорт сведений об ограничениях (обременениях)',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '29',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о снятии ограничений (обременений)',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '30',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о проведении технического обслуживания',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '31',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о проведении ремонтных работ',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: true
+  //     },
+  //     {
+  //       key: '33',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о страховании',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: '34',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о дорожно-транспортном происшествии',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: true
+  //     },
+  //     {
+  //       key: '35',
+  //       name: 'Заявление на внесение в электронный паспорт сведений о страховых случаях',
+  //       icon: 'mdi-file-plus-outline',
+  //       enabled: com
+  //     }
+  //   ]
+  // },
+  // {
+  //   key: '2',
+  //   name: 'Загрузить сведения о ТС (шасси)',
+  //   enabled: true,
+  //   icon: 'mdi-file-upload-outline'
+  // },
+  // {
+  //   key: 'pdf',
+  //   name: 'Выписка',
+  //   enabled: com,
+  //   icon: 'mdi-file-pdf-outline'
+  // },
+  // {
+  //   key: 'xml',
+  //   name: 'Выгрузка',
+  //   icon: 'mdi-xml',
+  //   enabled: com
+  // },
+  // {
+  //   key: '6',
+  //   name: 'Внести сведения в электронный паспорт',
+  //   enabled: true,
+  //   children: [
+  //     {
+  //       key: 'recyclingReleaseNotes',
+  //       name: 'Внести сведения в электронный паспорт об утилизационном сборе и сведения о выпуске',
+  //       icon: 'mdi-file-document-edit-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: 'restrictionInfo',
+  //       name: 'Информация об ограничениях',
+  //       icon: 'mdi-file-document-edit-outline',
+  //       enabled: com
+  //     },
+  //     {
+  //       key: 'warrantyWorkText',
+  //       name: 'Сведения об исполнении гарантийных обязательств',
+  //       icon: 'mdi-file-document-edit-outline',
+  //       enabled: true
+  //     }
+  //   ]
+  // }
 ])
 const sortArray = computed(() => {
-  const newItems = array[0].children.filter((item) => {
-    if (item.children) {
-      item.children = item.children.filter((i) => i.enabled)
+  // const newItems = array.filter((item) => {
+  //   if (item.children) {
+  //     item.children = item.children.filter((i) => i.enabled)
+  //     console.log(item)
+  //   }
+  //   return item.enabled
+  // })
+  const sort = filt(array)
+  const sort2 = [...sort]
+  console.log('sort2', sort2)
+
+  for (let i = 0; i < sort.length; i++) {
+    if (sort[i].children) {
+      console.log('ssss');
+      const items = filt(sort[i].children)
+      console.log('items', items, sort[i].children)
+      sort2.children = items
     }
+  }
+
+  return sort2
+})
+function filt(array) {
+  return array.filter((item) => {
     return item.enabled
   })
-  return newItems
-})
-function wa() {
-  console.log('props', props.selection.value)
 }
-watchEffect(props.selection.value, () => {
-  console.log('props change')
-})
-
+function wa() {
+  console.log('props', props.selection.value, sortArray)
+}
 </script>
 
 <style scoped>
