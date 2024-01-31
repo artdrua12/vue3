@@ -254,7 +254,7 @@
         searchAdditionally,
         isOpen,
         selection,
-        setSelection
+        setSelection,
       }
     }
   }

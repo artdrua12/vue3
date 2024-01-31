@@ -3,10 +3,10 @@
     <v-expansion-panel
       class="base rounded-0"
       :elevation="props.elevation"
-      bg-color="#fff3e4"
+      :bg-color="props.bgСolor"
       value="1"
     >
-      <v-expansion-panel-title color="#3f3c3c">
+      <v-expansion-panel-title :color="props.tColor">
         <slot name="title"></slot>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
@@ -20,8 +20,10 @@
 <script setup>
 import { ref } from 'vue'
 const props = defineProps({
-  elevation: { type: String, default: '5' },
-  propsPanel: { type: String, default: '' }
+  elevation: { type: String, default: '5' }, //тень
+  propsPanel: { type: String, default: '' }, //1-панель будет открыта при отрисовке
+  bgСolor: { type: String, default: '#fff3e4' }, // фон панели заголовка
+  tColor: { type: String, default: '#3f3c3c' } // цвет панели заголовка
 })
 const panel = ref('')
 panel.value = props.propsPanel
