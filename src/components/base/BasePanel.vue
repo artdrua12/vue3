@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 const props = defineProps({
   elevation: { type: String, default: '5' },
   propsPanel: { type: String, default: '' }
