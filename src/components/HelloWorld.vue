@@ -1,4 +1,5 @@
 <script setup>
+import { DefineProps } from 'vue';
 defineProps({
   msg: {
     type: String,

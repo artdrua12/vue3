@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { onMounted, defineProps } from "vue";
+import { onMounted } from "vue";
 const props = defineProps({
   items: { type: Array, required: true },
 });

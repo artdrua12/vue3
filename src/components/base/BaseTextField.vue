@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 const rules = {
   required: value => !!value || "Field is required",
 };

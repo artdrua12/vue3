@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 const checkbox1 = ref("false");
 const props = defineProps({
   label: { type: String, default: "" },
