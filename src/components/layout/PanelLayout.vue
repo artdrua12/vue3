@@ -1,18 +1,19 @@
 <template>
   <div class="panel-layot">
     <div class="panel-menu">
-      <div v-for="item in data2" :key="item.title">
+      <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
           <base-panel elevation="2" tColor="white" bgColor="primary" :key="item" :id="item">
             <template v-slot:title>{{ item.title }}</template>
             <template v-slot:content
-              ><p v-for="itm in item.panels" :key="itm">
-                <a :href="`#${itm}`">{{ itm }}</a>
+              ><p v-for="itm in item.panels" :key="itm" @click="toId(itm)">
+                {{ itm }}
+                <!-- <a :href="`#${itm}`">{{ itm }}</a> -->
               </p>
             </template>
           </base-panel>
         </template>
-        <a v-else :href="`#${item.title}`"> {{ item.title }}</a>
+        <p v-else @click="toId(item.title)">{{ item.title }}</p>
       </div>
     </div>
 
@@ -20,7 +21,7 @@
       <base-panel
         elevation="5"
         props-panel="1"
-        v-for="item in data2"
+        v-for="item in data"
         :key="item.title"
         :id="item.title"
       >
@@ -59,7 +60,12 @@
 </template>
 <script setup>
 import BasePanel from '../base/BasePanel.vue'
-const data2 = [
+function toId(id) {
+  let elem = document.getElementById(id)
+  elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  console.log(id)
+}
+const data = [
   { panels: ['children1', 'children2', 'children3'], title: 'панель1' },
   { title: 'панель2' },
   { panels: ['children12', 'children22', 'children32', 'children42'], title: 'панель3' },
@@ -77,6 +83,7 @@ const data2 = [
 .panel-menu {
   position: fixed;
   width: 400px;
+  scroll-margin-top: 20px;
 }
 .panels {
   grid-column: -1/-2;
