@@ -3,17 +3,23 @@
     <div class="panel-menu">
       <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
-          <base-panel elevation="2" tColor="white" bgColor="primary" :key="item" :id="item">
+          <base-panel elevation="5" tColor="#bdbdbf" bgColor="none" :key="item" :id="item"  >
             <template v-slot:title>{{ item.title }}</template>
-            <template v-slot:content
-              ><p v-for="itm in item.panels" :key="itm" @click="toId(itm)">
-                {{ itm }}
-                <!-- <a :href="`#${itm}`">{{ itm }}</a> -->
-              </p>
+            <template v-slot:content>
+              <div >
+                <v-btn
+                  class="menu-button rounded-0"
+                  block
+                  v-for="itm in item.panels"
+                  :key="itm"
+                  @click="toId(itm)"
+                  >{{ itm }}</v-btn
+                >
+              </div>
             </template>
           </base-panel>
         </template>
-        <p v-else @click="toId(item.title)">{{ item.title }}</p>
+        <v-btn   block  v-else @click="toId(item.title)"  class="menu-button rounded-0">{{ item.title }}</v-btn>
       </div>
     </div>
 
@@ -35,7 +41,6 @@
               elevation="2"
               props-panel="1"
               tColor="gray"
-              bgColor="primary"
               v-for="itm in item.panels"
               :key="itm"
               :id="itm"
@@ -66,10 +71,10 @@ function toId(id) {
   console.log(id)
 }
 const data = [
-  { panels: ['children1', 'children2', 'children3'], title: 'панель1' },
+  { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
   { title: 'панель2' },
-  { panels: ['children12', 'children22', 'children32', 'children42'], title: 'панель3' },
-  { panels: ['children13', 'children23'], title: 'панель4' },
+  { panels: ['children31', 'children32', 'children33', 'children34'], title: 'панель3' },
+  { panels: ['children41', 'children42'], title: 'панель4' },
   { title: 'панель5' }
 ]
 </script>
@@ -80,10 +85,17 @@ const data = [
   grid-template-columns: 400px 1fr;
   gap: 12px;
 }
+.menu-button {
+  display: flex;
+  justify-content: flex-start;
+}
 .panel-menu {
   position: fixed;
   width: 400px;
-  scroll-margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px
 }
 .panels {
   grid-column: -1/-2;
