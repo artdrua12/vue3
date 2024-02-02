@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper" v-if="isOpen">
     <div class="modal">
       <div class="modal-title">
         <p><v-icon icon="mdi-tune-variant"></v-icon> {{ props.title }}</p>
@@ -11,29 +11,31 @@
       <div class="modal-button">
         <slot name="button"></slot>
         <v-btn variant="text">Снять все выделения </v-btn>
-        <v-btn color="#3f3c3c" class="rounded-0" @click="close">{{
-          props.okTitle
-        }}</v-btn>
+        <v-btn color="#3f3c3c" class="rounded-0" @click="close">{{ props.okTitle }}</v-btn>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+import { defineEmits } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    default: "",
+    default: ''
   },
   okTitle: {
     type: String,
-    default: "OK",
+    default: 'OK'
   },
-});
-const emit = defineEmits(["modalOpen"]);
+  isOpen: {
+    type: Boolean,
+    default: false
+  }
+})
+const emit = defineEmits(['update:isOpen'])
 function close() {
-  emit("modalOpen");
+  emit('update:isOpen', false)
 }
 </script>
 

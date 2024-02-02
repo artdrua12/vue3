@@ -1,12 +1,18 @@
 <template>
   <div class="panel-layot">
     <div class="panel-menu">
+      <v-btn
+        v-bind="props"
+        icon="mdi-tune-variant"
+        variant="text"
+        @click="isOpen = true"
+      ></v-btn>
       <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
-          <base-panel elevation="5" tColor="#bdbdbf" bgColor="none" :key="item" :id="item"  >
+          <base-panel elevation="5" tColor="#bdbdbf" bgColor="none" :key="item" :id="item">
             <template v-slot:title>{{ item.title }}</template>
             <template v-slot:content>
-              <div >
+              <div>
                 <v-btn
                   class="menu-button rounded-0"
                   block
@@ -19,7 +25,9 @@
             </template>
           </base-panel>
         </template>
-        <v-btn   block  v-else @click="toId(item.title)"  class="menu-button rounded-0">{{ item.title }}</v-btn>
+        <v-btn block v-else @click="toId(item.title)" class="menu-button rounded-0">{{
+          item.title
+        }}</v-btn>
       </div>
     </div>
 
@@ -61,10 +69,14 @@
         </template>
       </base-panel>
     </div>
+    <base-modal v-model:isOpen="isOpen"></base-modal>
   </div>
 </template>
 <script setup>
 import BasePanel from '../base/BasePanel.vue'
+import BaseModal from '../base/BaseModal.vue'
+import { ref } from 'vue'
+const isOpen = ref('true')
 function toId(id) {
   let elem = document.getElementById(id)
   elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -95,7 +107,7 @@ const data = [
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px
+  margin-top: 20px;
 }
 .panels {
   grid-column: -1/-2;
