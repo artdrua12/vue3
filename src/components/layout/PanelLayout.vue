@@ -1,12 +1,7 @@
 <template>
   <div class="panel-layot">
     <div class="panel-menu">
-      <v-btn
-        v-bind="props"
-        icon="mdi-tune-variant"
-        variant="text"
-        @click="isOpen = true"
-      ></v-btn>
+      <v-btn v-bind="props" icon="mdi-tune-variant" variant="text" @click="isOpen = true"></v-btn>
       <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
           <base-panel elevation="5" tColor="#bdbdbf" bgColor="none" :key="item" :id="item">
@@ -69,7 +64,7 @@
         </template>
       </base-panel>
     </div>
-    <base-modal v-model:isOpen="isOpen"></base-modal>
+    <base-modal v-model:isOpen="isOpen"> </base-modal>
   </div>
 </template>
 <script setup>

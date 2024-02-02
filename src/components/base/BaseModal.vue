@@ -1,20 +1,22 @@
 <template>
-  <div class="modal-wrapper" v-if="isOpen">
-    <div class="modal">
-      <div class="modal-title">
-        <p><v-icon icon="mdi-tune-variant"></v-icon> {{ props.title }}</p>
-        <v-btn icon="mdi-window-close" @click="close" variant="text"> </v-btn>
-      </div>
-      <div class="modal-content">
-        <slot name="content"></slot>
-      </div>
-      <div class="modal-button">
-        <slot name="button"></slot>
-        <v-btn variant="text">Снять все выделения </v-btn>
-        <v-btn color="#3f3c3c" class="rounded-0" @click="close">{{ props.okTitle }}</v-btn>
+  <teleport to="#port">
+    <div class="modal-wrapper" v-if="isOpen">
+      <div class="modal">
+        <div class="modal-title">
+          <p><v-icon icon="mdi-tune-variant"></v-icon> {{ props.title }}</p>
+          <v-btn icon="mdi-window-close" @click="close" variant="text"> </v-btn>
+        </div>
+        <div class="modal-content">
+          <slot></slot>
+        </div>
+        <div class="modal-button">
+          <slot name="button"></slot>
+          <v-btn variant="text">Снять все выделения </v-btn>
+          <v-btn color="#3f3c3c" class="rounded-0" @click="close">{{ props.okTitle }}</v-btn>
+        </div>
       </div>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <script setup>

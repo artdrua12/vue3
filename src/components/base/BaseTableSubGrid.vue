@@ -92,19 +92,16 @@
         </span>
       </label>
     </div>
-    <teleport to="#port">
-      <base-modal v-model:isOpen="isOpen" title="Настройки">
-        <template v-slot:content>
-          <div>
-            <base-check-box
-              v-for="(item, index) in header"
-              :key="index"
-              :label="item.text"
-            ></base-check-box>
-          </div>
-        </template>
-      </base-modal>
-    </teleport>
+
+    <base-modal v-model:isOpen="isOpen" title="Настройки">
+      <div>
+        <base-check-box
+          v-for="(item, index) in header"
+          :key="index"
+          :label="item.text"
+        ></base-check-box>
+      </div>
+    </base-modal>
 
     <div class="pagination">
       <span class="itemBottom">
@@ -423,7 +420,7 @@ function removeFixed() {
   const a = getComputedStyle(el).getPropertyValue('--sdf')
   el.style.setProperty('--sdf', +a - 1)
 }
-function choice(e,item) {
+function choice(e, item) {
   if (checkedElement.value == e.target.id) {
     e.target.checked = false
     checkedElement.value = ''
