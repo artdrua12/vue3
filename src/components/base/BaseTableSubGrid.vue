@@ -10,7 +10,7 @@
                   v-bind="props"
                   icon="mdi-tune-variant"
                   variant="text"
-                  @click="modalOpen = true"
+                  @click="isOpen = true"
                   size="auto"
                 ></v-btn>
               </template>
@@ -93,7 +93,7 @@
       </label>
     </div>
     <teleport to="#port">
-      <base-modal v-if="modalOpen" @modalOpen="modalOpen = false" title="Настройки">
+      <base-modal v-model:isOpen="isOpen" title="Настройки">
         <template v-slot:content>
           <div>
             <base-check-box
@@ -178,7 +178,7 @@
 import { reactive, ref, defineEmits } from 'vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseModal from './BaseModal.vue'
-const modalOpen = ref(false)
+const isOpen = ref(false)
 const checkedElement = ref('')
 const show = ref(false)
 const size = ref(1)
