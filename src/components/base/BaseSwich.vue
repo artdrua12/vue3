@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-switch
-      color="#10a410"
       v-model="checkbox1"
+      color="#10a410"
       :label="props.label"
       class="base"
       hide-details
@@ -11,11 +11,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const checkbox1 = ref("false");
+import { ref } from 'vue'
+const checkbox1 = ref('false')
 const props = defineProps({
-  label: { type: String, default: "" },
-});
+  label: { type: String, default: '' }
+})
 </script>
 <style>
 .base.v-switch .v-selection-control {

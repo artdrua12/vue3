@@ -10,8 +10,8 @@
                   v-bind="props"
                   icon="mdi-tune-variant"
                   variant="text"
-                  @click="isOpen = true"
                   size="auto"
+                  @click="isOpen = true"
                 ></v-btn>
               </template>
             </v-tooltip>
@@ -43,8 +43,8 @@
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            @click="addFixed(index)"
             class="headPin"
+            @click="addFixed(index)"
           >
             <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
           </svg>
@@ -66,19 +66,19 @@
       </div>
 
       <label
-        class="row"
         v-for="(item, index) in tableData"
         :key="index"
         :class="{ selection: item.f1 == checkedElement }"
+        class="row"
       >
         <div class="fixPos">
           <div class="cell">
             <input
+              :id="item.f1"
+              v-model="checkedElement"
               type="radio"
               name="choice"
-              v-model="checkedElement"
               :value="item.f1"
-              :id="item.f1"
               @click="(e) => choice(e, item)"
             />
           </div>
@@ -110,9 +110,9 @@
           <input :value="size" readonly class="pagination-select__input" @click="show = true" />
           <div role="listbox" class="pagination-select__listbox" v-show="show">
             <div
-              role="option"
               v-for="item in 5"
               :key="item"
+              role="option"
               class="pagination-select__option"
               @click="onChangeSelect(item)"
             >

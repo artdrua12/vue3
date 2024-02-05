@@ -4,15 +4,15 @@
       <v-btn v-bind="props" icon="mdi-tune-variant" variant="text" @click="isOpen = true"></v-btn>
       <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
-          <base-panel elevation="5" tColor="#bdbdbf" bgColor="none" :key="item" :id="item">
-            <template v-slot:title>{{ item.title }}</template>
-            <template v-slot:content>
+          <base-panel :id="item" elevation="5" t-color="#bdbdbf" bg-color="none"  >
+            <template #title>{{ item.title }}</template>
+            <template #content>
               <div>
                 <v-btn
-                  class="menu-button rounded-0"
-                  block
                   v-for="itm in item.panels"
                   :key="itm"
+                  class="menu-button rounded-0"
+                  block
                   @click="toId(itm)"
                   >{{ itm }}</v-btn
                 >
@@ -20,7 +20,7 @@
             </template>
           </base-panel>
         </template>
-        <v-btn block v-else @click="toId(item.title)" class="menu-button rounded-0">{{
+        <v-btn v-else block  class="menu-button rounded-0" @click="toId(item.title)">{{
           item.title
         }}</v-btn>
       </div>
@@ -28,28 +28,28 @@
 
     <div class="panels">
       <base-panel
+        v-for="item in data"
+        :id="item.title"
+        :key="item.title"
         elevation="5"
         props-panel="1"
-        v-for="item in data"
-        :key="item.title"
-        :id="item.title"
       >
-        <template v-slot:title>Panel Title {{ item.title }}</template>
-        <template v-slot:content>
+        <template #title>Panel Title {{ item.title }}</template>
+        <template #content>
           <div
             v-if="item.panels"
             style="padding: 20px; display: flex; flex-direction: column; gap: 12px"
           >
             <base-panel
+              v-for="itm in item.panels"
+              :id="itm"
+              :key="itm"
               elevation="2"
               props-panel="1"
-              tColor="gray"
-              v-for="itm in item.panels"
-              :key="itm"
-              :id="itm"
+              t-color="gray"
             >
-              <template v-slot:title>Title Children</template>
-              <template v-slot:content
+              <template #title>Title Children</template>
+              <template #content
                 ><h1>{{ itm }}</h1></template
               >
             </base-panel>

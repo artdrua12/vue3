@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div v-for="item in sortArray" :key="item.name" class="three">
       <div v-if="item.children">
-        <input type="checkbox" :id="item.name" :value="item.name" />
+        <input :id="item.name" type="checkbox" :value="item.name" />
         <label :for="item.name" class="bold threeTitle mainTitle">
           <svg
             xmlns="http://www.w3.org/2000/svg"

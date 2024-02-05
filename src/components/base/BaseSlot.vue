@@ -1,38 +1,38 @@
 <template>
   <div class="slot">
     <component
+      :is="item.type"
       v-for="(item, index) in props.dataSlot"
       :key="index"
       :label="item.label"
       :model="item.value"
       :array="item.array"
-      :itemText="item.text"
-      v-bind:is="item.type"
+      :item-text="item.text"
       :items="item.items"
     ></component>
   </div>
 </template>
 
 <script>
-import BaseCheckBox from "./BaseCheckBox.vue";
-import BaseTextField from "./BaseTextField.vue";
+import BaseCheckBox from './BaseCheckBox.vue'
+import BaseTextField from './BaseTextField.vue'
 export default {
   components: {
     BaseTextField,
-    BaseCheckBox,
+    BaseCheckBox
   },
   props: {
     dataSlot: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   setup(props) {
     return {
-      props,
-    };
-  },
-};
+      props
+    }
+  }
+}
 </script>
 
 <!-- <script >

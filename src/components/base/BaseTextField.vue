@@ -1,10 +1,10 @@
 <template>
   <v-text-field
+    v-model="val"
     :label="props.label"
     clearable
     variant="outlined"
     density="compact"
-    v-model="val"
     class="base"
     persistent-counter
     :rules="[rules.required]"
@@ -13,14 +13,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 const rules = {
-  required: value => !!value || "Field is required",
-};
-const val = ref("");
+  required: (value) => !!value || 'Field is required'
+}
+const val = ref('')
 const props = defineProps({
-  label: { type: String, default: "" },
-});
+  label: { type: String, default: '' }
+})
 </script>
 <!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplite и другие с классом base, родные vuetify не изменяются  -->
 <style>
