@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <input type="radio" name="acordion" id="close" />
+    <input id="close" type="radio" name="acordion"  />
     <div class="openClose">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +13,7 @@
       </svg>
     </div>
     <div class="item" v-for="item in props.items" :key="item">
-      <input type="radio" name="acordion" :id="item.text" />
+      <input :id="item.text" type="radio" name="acordion"  />
       <label
         :for="item.text"
         class="item-text"

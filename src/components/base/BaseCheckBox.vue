@@ -1,20 +1,15 @@
 <template>
   <div>
-    <v-checkbox
-      :label="props.label"
-      v-model="checkbox1"
-      class="base"
-      hide-details
-    ></v-checkbox>
+    <v-checkbox v-model="checkbox1" :label="props.label" class="base" hide-details></v-checkbox>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-const checkbox1 = ref("false");
+import { ref } from 'vue'
+const checkbox1 = ref('false')
 const props = defineProps({
-  label: { type: String, default: "" },
-});
+  label: { type: String, default: '' }
+})
 </script>
 <style>
 .base.v-checkbox .v-selection-control {

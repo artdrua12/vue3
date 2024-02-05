@@ -1,10 +1,10 @@
 <template>
   <teleport to="#port">
-    <div class="modal-wrapper" v-if="isOpen">
+    <div v-if="isOpen" class="modal-wrapper" >
       <div class="modal">
         <div class="modal-title">
           <p><v-icon icon="mdi-tune-variant"></v-icon> {{ props.title }}</p>
-          <v-btn icon="mdi-window-close" @click="close" variant="text"> </v-btn>
+          <v-btn icon="mdi-window-close"  variant="text" @click="close"> </v-btn>
         </div>
         <div class="modal-content">
           <slot></slot>
