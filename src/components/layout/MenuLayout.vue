@@ -2,67 +2,61 @@
   <div class="baseLayout">
     <base-panel class="baseSearch" elevation="3" props-panel="1">
       <template #title>Реестр ОТТС</template>
-      <template #content>
-        <div class="baseLayoutForm">
-          <component
-            :is="item.type"
-            v-for="(item, index) in searchMain"
-            :key="index"
-            :style="{
-              'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
-            }"
-            :label="item.label"
-            :data-slot="item.dataSlot"
-          ></component>
+      <div class="baseLayoutForm">
+        <component
+          :is="item.type"
+          v-for="(item, index) in searchMain"
+          :key="index"
+          :style="{
+            'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
+          }"
+          :label="item.label"
+          :data-slot="item.dataSlot"
+        ></component>
 
-          <base-panel class="fullWidth" elevation="3">
-            <template #content>
-              <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="">
-                <div class="baseLayoutForm mt-3">
-                  <component
-                    :is="item.type"
-                    v-for="(item, index) in searchAdditionally"
-                    :key="index + 2"
-                    :style="{
-                      'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
-                    }"
-                    :label="item.label"
-                    val="asd"
-                  ></component>
-                </div>
-              </div>
-            </template>
-          </base-panel>
-        </div>
-        <div class="fullWidth base-button">
-          <v-btn
-            prepend-icon="mdi-close-circle"
-            color="red"
-            size="small"
-            variant="text"
-            class="rounded-0"
-          >
-            Очистить форму
-          </v-btn>
-          <v-btn
-            append-icon="mdi-magnify"
-            width="120px"
-            color="#3f3c3c"
-            size="small"
-            elevation="3"
-            class="rounded-0"
-          >
-            Поиск
-          </v-btn>
-        </div>
-      </template>
+        <base-panel class="fullWidth" elevation="3">
+          <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="">
+            <div class="baseLayoutForm mt-3">
+              <component
+                :is="item.type"
+                v-for="(item, index) in searchAdditionally"
+                :key="index + 2"
+                :style="{
+                  'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
+                }"
+                :label="item.label"
+                val="asd"
+              ></component>
+            </div>
+          </div>
+        </base-panel>
+      </div>
+      <div class="fullWidth base-button">
+        <v-btn
+          prepend-icon="mdi-close-circle"
+          color="red"
+          size="small"
+          variant="text"
+          class="rounded-0"
+        >
+          Очистить форму
+        </v-btn>
+        <v-btn
+          append-icon="mdi-magnify"
+          width="120px"
+          color="#3f3c3c"
+          size="small"
+          elevation="3"
+          class="rounded-0"
+        >
+          Поиск
+        </v-btn>
+      </div>
     </base-panel>
     <div class="base-action elevation-5">
       <base-panel props-panel="1">
         <template #title>Выбор действия</template>
-        <template #content>
-          <base-threeview :selection="selection"></base-threeview>
-        </template>
+        <base-threeview :selection="selection"></base-threeview>
       </base-panel>
     </div>
     <base-table class="base-table" @choise="setSelection"></base-table>

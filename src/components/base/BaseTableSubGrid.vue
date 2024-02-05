@@ -5,7 +5,7 @@
         <div class="fixPos">
           <span class="cell">
             <v-tooltip text="Настройки" location="top">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
                   icon="mdi-tune-variant"

@@ -1,10 +1,10 @@
 <template>
   <teleport to="#port">
-    <div v-if="isOpen" class="modal-wrapper" >
+    <div v-if="isOpen" class="modal-wrapper">
       <div class="modal">
         <div class="modal-title">
-          <p><v-icon icon="mdi-tune-variant"></v-icon> {{ props.title }}</p>
-          <v-btn icon="mdi-window-close"  variant="text" @click="close"> </v-btn>
+          <p> <v-icon :icon="props.icon"></v-icon> &nbsp;{{ props.title }}  </p>
+          <v-btn icon="mdi-window-close" variant="text" @click="close"> </v-btn>
         </div>
         <div class="modal-content">
           <slot></slot>
@@ -33,6 +33,10 @@ const props = defineProps({
   isOpen: {
     type: Boolean,
     default: false
+  },
+  icon:{
+    type: String,
+    default: 'mdi-tune-variant'
   }
 })
 const emit = defineEmits(['update:isOpen'])
@@ -62,8 +66,8 @@ function close() {
   width: auto;
   height: auto;
   background-color: white;
-  /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12); */
+  /* box-shadow: 0 11px 15px -7px rgba(245, 242, 242, 0.2), 0 24px 38px 3px rgba(252, 251, 251, 0.14), 0 9px 46px 8px rgba(247, 245, 245, 0.12); */
+  border-radius: 4px;
 }
 .modal-title {
   min-height: 40px;
@@ -73,7 +77,8 @@ function close() {
   align-items: center;
   color: white;
   font-size: 18px;
-  padding: 7px 0px 7px 10px;
+  padding: 7px 0px 7px 12px;
+  border-radius: 4px 4px 0 0;
 }
 .modal-content {
   padding: 20px;
@@ -81,6 +86,7 @@ function close() {
 .modal-button {
   width: 100%;
   display: flex;
+  justify-content: space-between;
 }
 .modal p {
   font-size: 20px;

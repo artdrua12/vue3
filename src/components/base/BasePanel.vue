@@ -10,7 +10,7 @@
         <slot name="title"></slot>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
-        <slot name="content"></slot>
+        <slot></slot>
       </v-expansion-panel-text>
       <slot name="bottom"></slot>
     </v-expansion-panel>
