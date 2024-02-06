@@ -62,6 +62,7 @@
       v-model:isOpen="isOpen"
       title="Основание оформления электронного паспорта"
       icon="mdi-firebase"
+      ok-title="Создать"
     >
       <div class="modals">
         <v-tabs v-model="tab" color="green" align-tabs="title">
@@ -71,18 +72,21 @@
           <v-tab value="2"><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab>
         </v-tabs>
 
-        <v-radio-group v-model="tab2" class="mt-7">
+        <v-radio-group v-model="radioTab" density="comfortable">
           <v-radio
             label="изготовление транспортного средства (шасси транспортного средства, самоходной машины или другого вида техники)"
             value="3"
+            class="mt-3"
           ></v-radio>
           <v-radio
             label="ввоз транспортного средства (шасси транспортного средства, самоходной машины или другого вида техники) на таможенную территорию Евразийского экономического союза из государства, не являющегося членом Евразийского экономического союза"
             value="4"
+            class="mt-3"
           ></v-radio>
           <v-radio
             label="оформление электронного паспорта на транспортное средство (шасси транспортного средства, самоходную машину или другой вид техники) на иных основаниях"
             value="5"
+            class="mt-3"
           ></v-radio>
 
           <v-window v-model="tab">
@@ -97,38 +101,48 @@
         </v-radio-group>
 
         <!-- <h2>Сведения о документе, подтверждающем соответствие требованиям безопасности</h2> -->
-        <fieldset style="padding: 0px 20px 20px 20px ">
-          <legend style="padding:0px 10px; font-size: 18px;">
+        <fieldset style="padding: 10px 20px 5px 20px">
+          <legend style="padding: 0px 10px; font-size: 18px">
             Сведения о документе, подтверждающем соответствие требованиям безопасности
           </legend>
+          <v-expand-transition>
+            <div v-if="!isDocument" class="grid2">
+              <base-check-box
+                v-model:value="isDocument"
+                label="Документ отсутсвует"
+                class="full"
+              ></base-check-box>
+              <base-autocomplite label="Вид документа"></base-autocomplite>
+              <base-autocomplite label="Номер документа(ОТТС)"></base-autocomplite>
+            </div>
 
-          <div v-if="tab2 == '3'" class="it">
-            <base-autocomplite label="Вид документа"></base-autocomplite>
-            <base-autocomplite label="Номер документа(ОТТС)"></base-autocomplite>
-          </div>
+            <div v-else class="grid2">
+              <base-check-box
+                v-model:value="isDocument"
+                label="Документ отсутсвует"
+              ></base-check-box>
 
-          <div v-else class="it">
-            <v-window v-model="tab">
-              <v-window-item value="1" style="height: 30px"> </v-window-item>
-              <v-window-item value="2">
-                <base-check-box label="Документ отсутсвует"></base-check-box>
-              </v-window-item>
-            </v-window>
+              <h3 class="full">
+                Сведения об основаниях отсутствия документа, подтверждающего соответствие*
+              </h3>
 
-            <h3>Сведения об основаниях отсутствия документа, подтверждающего соответствие*</h3>
-            <base-autocomplite
-              label="Сведения об основаниях отсутствия документа, подтверждающего соответствие*"
-            ></base-autocomplite>
-            <h3>
-              Сведения о документе, подтвержающем оформление электронного паспорта без документа,
-              подтверждающего соответствие
-            </h3>
-            <base-autocomplite label="Наименование документа*"></base-autocomplite>
-            <base-text-fiel label="Номер документа*"></base-text-fiel>
-            <base-text-fiel label="Дата документа*"></base-text-fiel>
-            <base-text-fiel label="Кем выдано"></base-text-fiel>
-            <base-text-fiel label="Количество листов"></base-text-fiel>
-          </div>
+              <base-autocomplite
+                label="Сведения об основаниях отсутствия документа, подтверждающего соответствие*"
+                class="full"
+              ></base-autocomplite>
+
+              <h5 class="full">
+                Сведения о документе, подтвержающем оформление электронного паспорта без документа,
+                подтверждающего соответствие
+              </h5>
+
+              <base-autocomplite label="Наименование документа*" class="full"></base-autocomplite>
+              <base-text-fiel label="Номер документа*" class="full"></base-text-fiel>
+              <base-text-fiel label="Дата документа*" class="full"></base-text-fiel>
+              <base-text-fiel label="Кем выдано" class="col"></base-text-fiel>
+              <base-text-fiel label="Количество листов" class="col"></base-text-fiel>
+            </div>
+          </v-expand-transition>
         </fieldset>
       </div>
     </base-modal>
@@ -141,9 +155,10 @@ import BaseAutocomplite from '../base/BaseAutocomplite.vue'
 import BaseTextFiel from '../base/BaseTextField.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import { ref } from 'vue'
+const isDocument = ref(false)
 const isOpen = ref(false)
 const tab = ref('1')
-const tab2 = ref('3')
+const radioTab = ref('3')
 function toId(id) {
   let elem = document.getElementById(id)
   elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -159,9 +174,15 @@ const data = [
 </script>
 
 <style scoped>
+@import '../../assets/main.css';
+
 .modals {
   max-width: 850px;
-  min-height: 82vh;
+}
+.modals-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .panel-layot {
   display: grid;
@@ -187,7 +208,16 @@ const data = [
   gap: 20px;
   margin: 20px;
 }
-h2 {
-  text-align: center;
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px 20px;
+}
+.full {
+  grid-column: 1/-1;
+}
+.col {
+  grid-column: span;
 }
 </style>

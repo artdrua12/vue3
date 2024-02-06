@@ -3,15 +3,14 @@
     <div v-if="isOpen" class="modal-wrapper">
       <div class="modal">
         <div class="modal-title">
-          <p> <v-icon :icon="props.icon"></v-icon> &nbsp;{{ props.title }}  </p>
+          <p><v-icon :icon="props.icon"></v-icon> &nbsp;{{ props.title }}</p>
           <v-btn icon="mdi-window-close" variant="text" @click="close"> </v-btn>
         </div>
         <div class="modal-content">
           <slot></slot>
         </div>
         <div class="modal-button">
-          <slot name="button"></slot>
-          <v-btn variant="text">Снять все выделения </v-btn>
+          <v-btn variant="text" @click="close">{{ props.cancelTitle }} </v-btn>
           <v-btn color="#3f3c3c" class="rounded-0" @click="close">{{ props.okTitle }}</v-btn>
         </div>
       </div>
@@ -30,11 +29,15 @@ const props = defineProps({
     type: String,
     default: 'OK'
   },
+  cancelTitle: {
+    type: String,
+    default: 'Закрыть'
+  },
   isOpen: {
     type: Boolean,
     default: false
   },
-  icon:{
+  icon: {
     type: String,
     default: 'mdi-tune-variant'
   }
@@ -64,24 +67,25 @@ function close() {
   display: flex;
   flex-direction: column;
   width: auto;
-  height: auto;
   background-color: white;
-  /* box-shadow: 0 11px 15px -7px rgba(245, 242, 242, 0.2), 0 24px 38px 3px rgba(252, 251, 251, 0.14), 0 9px 46px 8px rgba(247, 245, 245, 0.12); */
+  box-shadow: 0 -5px 15px -3px rgba(245, 242, 242, 0.2), 0 -10px 15px -2px rgba(252, 251, 251, 0.14);
   border-radius: 4px;
 }
 .modal-title {
-  min-height: 40px;
+  min-height: 30px;
   background-color: #3f3c3c;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
   font-size: 18px;
-  padding: 7px 0px 7px 12px;
+  padding: 0px 0px 0px 12px;
   border-radius: 4px 4px 0 0;
 }
 .modal-content {
   padding: 20px;
+  max-height: 800px;
+  transition: height 1.4s;
 }
 .modal-button {
   width: 100%;

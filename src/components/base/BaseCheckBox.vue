@@ -1,15 +1,30 @@
 <template>
   <div>
-    <v-checkbox v-model="checkbox1" :label="props.label" class="base" hide-details></v-checkbox>
+    <v-checkbox
+      v-model="checkbox"
+      :label="props.label"
+      class="base"
+      hide-details
+      @change="onChange"
+    ></v-checkbox>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-const checkbox1 = ref('false')
+import { defineEmits } from 'vue'
 const props = defineProps({
-  label: { type: String, default: '' }
+  label: { type: String, default: '' },
+  value: {
+    type: Boolean,
+    default: false
+  }
 })
+const checkbox = ref(props.value)
+const emit = defineEmits(['update:value'])
+function onChange() {
+  emit('update:value', checkbox.value)
+}
 </script>
 <style>
 .base.v-checkbox .v-selection-control {
