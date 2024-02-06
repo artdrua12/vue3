@@ -85,12 +85,12 @@ function close() {
 .modal-content {
   padding: 20px;
   max-height: 800px;
-  transition: height 1.4s;
 }
 .modal-button {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 5px;
 }
 .modal p {
   font-size: 20px;

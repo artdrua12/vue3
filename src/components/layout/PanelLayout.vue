@@ -58,6 +58,7 @@
         </div>
       </base-panel>
     </div>
+
     <base-modal
       v-model:isOpen="isOpen"
       title="Основание оформления электронного паспорта"
@@ -67,8 +68,12 @@
       <div class="modals">
         <v-tabs v-model="tab" color="green" align-tabs="title">
           <v-toolbar-title class="mt-3">Вид субъекта права:</v-toolbar-title>
-          <v-tab value="1"><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab>
-          <v-tab value="2"><v-icon icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab>
+          <v-tab value="1" @click="radioTab = '1'"
+            ><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab
+          >
+          <v-tab value="2" @click="toIndividual"
+            ><v-icon icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab
+          >
         </v-tabs>
 
         <v-radio-group v-model="radioTab" density="comfortable">
@@ -105,23 +110,21 @@
           <legend>
             Сведения о документе, подтверждающем соответствие требованиям безопасности
           </legend>
+
+          <base-check-box
+            v-model:value="isMissingDoc"
+            label="Документ отсутсвует"
+            class="full mb-1"
+            :disabled="tab == '2'"
+          ></base-check-box>
+
           <v-expand-transition>
-            <div v-if="!isDocument" class="grid2">
-              <base-check-box
-                v-model:value="isDocument"
-                label="Документ отсутсвует"
-                class="full"
-              ></base-check-box>
+            <div v-if="!isMissingDoc || (tab == '2' && radioTab == '1')" class="grid2">
               <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
               <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
             </div>
 
             <div v-else class="grid2">
-              <base-check-box
-                v-model:value="isDocument"
-                label="Документ отсутсвует"
-              ></base-check-box>
-
               <h3 class="full">
                 Сведения об основаниях отсутствия документа, подтверждающего соответствие*
               </h3>
@@ -131,10 +134,10 @@
                 class="full"
               ></base-autocomplite>
 
-              <h5 class="full">
+              <h3 class="full" style="text-align: center;">
                 Сведения о документе, подтвержающем оформление электронного паспорта без документа,
                 подтверждающего соответствие
-              </h5>
+              </h3>
 
               <base-autocomplite label="Наименование документа*" class="full"></base-autocomplite>
               <base-text-fiel label="Номер документа*" class="full"></base-text-fiel>
@@ -155,14 +158,17 @@ import BaseAutocomplite from '../base/BaseAutocomplite.vue'
 import BaseTextFiel from '../base/BaseTextField.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import { ref } from 'vue'
-const isDocument = ref(false)
+const isMissingDoc = ref(false)
 const isOpen = ref(false)
 const tab = ref('1')
-const radioTab = ref('3')
+const radioTab = ref('1')
 function toId(id) {
   let elem = document.getElementById(id)
   elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  console.log(id)
+}
+function toIndividual() {
+  isMissingDoc.value = true
+  radioTab.value = '1'
 }
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
@@ -177,7 +183,8 @@ const data = [
 @import '../../assets/main.css';
 
 .modals {
-  max-width: 850px;
+  width: 850px;
+  height: auto;
 }
 .modals-radio {
   display: flex;
@@ -221,11 +228,14 @@ const data = [
   grid-column: span;
 }
 fieldset {
-  padding: 10px 20px 5px 20px;
-  border-radius: 12px;
+  padding: 0px 20px 10px 20px;
+  border-radius: 10px;
 }
 legend {
   padding: 0px 10px;
   font-size: 18px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
