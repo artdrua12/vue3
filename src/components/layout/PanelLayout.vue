@@ -67,42 +67,42 @@
       <div class="modals">
         <v-tabs v-model="tab" color="green" align-tabs="title">
           <v-toolbar-title class="mt-3">Вид субъекта права:</v-toolbar-title>
-
-          <v-tab value="1"><v-icon icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab>
-          <v-tab value="2"><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab>
+          <v-tab value="1"><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab>
+          <v-tab value="2"><v-icon icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab>
         </v-tabs>
 
         <v-radio-group v-model="radioTab" density="comfortable">
           <v-radio
             label="изготовление транспортного средства (шасси транспортного средства, самоходной машины или другого вида техники)"
-            value="3"
+            value="1"
             class="mt-3"
           ></v-radio>
           <v-radio
             label="ввоз транспортного средства (шасси транспортного средства, самоходной машины или другого вида техники) на таможенную территорию Евразийского экономического союза из государства, не являющегося членом Евразийского экономического союза"
-            value="4"
+            value="2"
             class="mt-3"
           ></v-radio>
           <v-radio
             label="оформление электронного паспорта на транспортное средство (шасси транспортного средства, самоходную машину или другой вид техники) на иных основаниях"
-            value="5"
+            value="3"
             class="mt-3"
           ></v-radio>
 
           <v-window v-model="tab">
-            <v-window-item value="1" style="height: 48px"> </v-window-item>
-            <v-window-item value="2">
+            <v-window-item value="2" style="height: 20px"> </v-window-item>
+            <v-window-item value="1">
               <v-radio
                 label="оформление электронного паспорта на транспортное средство (шасси транспортного средства, самоходную машину или другой вид техники) на иных основаниях"
-                value="6"
+                value="4"
+                class="mt-3"
               ></v-radio>
             </v-window-item>
           </v-window>
         </v-radio-group>
 
         <!-- <h2>Сведения о документе, подтверждающем соответствие требованиям безопасности</h2> -->
-        <fieldset style="padding: 10px 20px 5px 20px">
-          <legend style="padding: 0px 10px; font-size: 18px">
+        <fieldset>
+          <legend>
             Сведения о документе, подтверждающем соответствие требованиям безопасности
           </legend>
           <v-expand-transition>
@@ -112,8 +112,8 @@
                 label="Документ отсутсвует"
                 class="full"
               ></base-check-box>
-              <base-autocomplite label="Вид документа"></base-autocomplite>
-              <base-autocomplite label="Номер документа(ОТТС)"></base-autocomplite>
+              <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
+              <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
             </div>
 
             <div v-else class="grid2">
@@ -219,5 +219,13 @@ const data = [
 }
 .col {
   grid-column: span;
+}
+fieldset {
+  padding: 10px 20px 5px 20px;
+  border-radius: 12px;
+}
+legend {
+  padding: 0px 10px;
+  font-size: 18px;
 }
 </style>
