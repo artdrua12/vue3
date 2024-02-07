@@ -4,6 +4,7 @@
     :label="props.label"
     class="base"
     hide-details
+    :disabled="props.disabled"
     @change="onChange"
   ></v-checkbox>
 </template>
@@ -14,6 +15,10 @@ import { defineEmits } from 'vue'
 const props = defineProps({
   label: { type: String, default: '' },
   value: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   }
@@ -30,6 +35,7 @@ function onChange() {
   emit('update:value', checkbox.value)
 }
 </script>
+
 <style>
 .base.v-checkbox .v-selection-control {
   min-height: 20px;

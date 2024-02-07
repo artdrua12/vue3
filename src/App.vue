@@ -108,11 +108,12 @@ const items = [
 ]
 </script>
 
-<style scoped>
+<style>
 #app {
   width: 100%;
   height: 100vh;
   padding: 0px;
+  --test: red;
 }
 .app {
   width: 100%;

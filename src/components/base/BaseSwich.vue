@@ -1,23 +1,45 @@
 <template>
   <div>
     <v-switch
-      v-model="checkbox1"
-      color="#10a410"
+      v-model="checkbox"
+      color="#7097c0"
       :label="props.label"
       class="base"
       hide-details
+      :disabled="props.disabled"
+      @change="onChange"
     ></v-switch>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const checkbox1 = ref('false')
+import { ref, watch } from 'vue'
+import { defineEmits } from 'vue'
 const props = defineProps({
-  label: { type: String, default: '' }
+  label: { type: String, default: '' },
+  value: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 })
+const checkbox = ref(props.value)
+watch(
+  () => props.value,
+  (newVal) => {
+    checkbox.value = newVal
+  }
+)
+const emit = defineEmits(['update:value'])
+function onChange() {
+  emit('update:value', checkbox.value)
+}
 </script>
-<style>
+
+<style scoped>
 .base.v-switch .v-selection-control {
   min-height: 20px;
   height: 30px;

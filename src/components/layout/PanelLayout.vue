@@ -66,7 +66,7 @@
       ok-title="Создать"
     >
       <div class="modals">
-        <v-tabs v-model="tab" color="green" align-tabs="title">
+        <v-tabs v-model="tab" align-tabs="title" selected-class="actv">
           <v-toolbar-title class="mt-3">Вид субъекта права:</v-toolbar-title>
           <v-tab value="1" @click="radioTab = '1'"
             ><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab
@@ -105,36 +105,46 @@
           </v-window>
         </v-radio-group>
 
-        <!-- <h2>Сведения о документе, подтверждающем соответствие требованиям безопасности</h2> -->
+        <div class="document">
+          <h3>Документ, подтверждающий соответствие требованиям безопасности</h3>
+          <base-swich
+            v-model:value="isDoc"
+            label="присутсвует"
+            :disabled="tab == '2'"
+            class="ml-4"
+          ></base-swich>
+        </div>
+
         <fieldset>
           <legend>
-            Сведения о документе, подтверждающем соответствие требованиям безопасности
+            <v-icon
+              v-if="!isDoc && tab == '1'"
+              icon="mdi-text-box-remove"
+              size="large"
+              color="red"
+            />
+            <v-icon
+              v-if="isDoc && tab == '1'"
+              icon="mdi-text-box-check"
+              size="large"
+              color="green"
+            />
+            <v-icon v-if="tab == '2'" icon="mdi-text-box" size="large" />
           </legend>
 
-          <base-check-box
-            v-model:value="isMissingDoc"
-            label="Документ отсутсвует"
-            class="full mb-1"
-            :disabled="tab == '2'"
-          ></base-check-box>
-
           <v-expand-transition>
-            <div v-if="!isMissingDoc || (tab == '2' && radioTab == '1')" class="grid2">
+            <div v-if="isDoc || (tab == '2' && radioTab == '1')" class="grid2">
               <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
               <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
             </div>
 
             <div v-else class="grid2">
-              <h3 class="full">
-                Сведения об основаниях отсутствия документа, подтверждающего соответствие*
-              </h3>
-
               <base-autocomplite
                 label="Сведения об основаниях отсутствия документа, подтверждающего соответствие*"
                 class="full"
               ></base-autocomplite>
 
-              <h3 class="full" style="text-align: center;">
+              <h3 class="full" style="text-align: center">
                 Сведения о документе, подтвержающем оформление электронного паспорта без документа,
                 подтверждающего соответствие
               </h3>
@@ -156,9 +166,10 @@ import BasePanel from '../base/BasePanel.vue'
 import BaseModal from '../base/BaseModal.vue'
 import BaseAutocomplite from '../base/BaseAutocomplite.vue'
 import BaseTextFiel from '../base/BaseTextField.vue'
-import BaseCheckBox from '../base/BaseCheckBox.vue'
+// import BaseCheckBox from '../base/BaseCheckBox.vue'
+import BaseSwich from '../base/BaseSwich.vue'
 import { ref } from 'vue'
-const isMissingDoc = ref(false)
+const isDoc = ref(false)
 const isOpen = ref(false)
 const tab = ref('1')
 const radioTab = ref('1')
@@ -167,7 +178,7 @@ function toId(id) {
   elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 function toIndividual() {
-  isMissingDoc.value = true
+  isDoc.value = false
   radioTab.value = '1'
 }
 const data = [
@@ -180,11 +191,19 @@ const data = [
 </script>
 
 <style scoped>
-@import '../../assets/main.css';
+.actv {
+  background-color: #efefef;
+}
 
 .modals {
   width: 850px;
   height: auto;
+}
+.document {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 .modals-radio {
   display: flex;
@@ -228,11 +247,11 @@ const data = [
   grid-column: span;
 }
 fieldset {
-  padding: 0px 20px 10px 20px;
-  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  border-radius: 7px;
 }
 legend {
-  padding: 0px 10px;
+  padding: 0px 5px;
   font-size: 18px;
   line-height: 1.5;
   text-overflow: ellipsis;
