@@ -56,7 +56,7 @@
     <div class="base-action elevation-5">
       <base-panel props-panel="1">
         <template #title>Выбор действия</template>
-        <base-threeview :selection="selection"></base-threeview>
+        <base-threeview :selection="selection" :array="sortArray"></base-threeview>
       </base-panel>
     </div>
     <base-table class="base-table" @choise="setSelection"></base-table>
@@ -72,7 +72,7 @@ import BaseTextField from '../base/BaseTextField.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseSlot from '../base/BaseSlot.vue'
 import BasePanel from '../base/BasePanel.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 
 export default {
   components: {
@@ -162,6 +162,223 @@ export default {
         }
       }
     })
+    const isFilled = computed(() => {
+      return Boolean(selection.value)
+    })
+    const arrayChoise = reactive([
+      {
+        name: 'Оформить электронный паспорт',
+        enabled: true,
+        children: [
+          {
+            name: 'ЭПТС',
+            icon: 'mdi-file-plus-outline',
+            enabled: true
+          },
+          {
+            name: 'ЭПШТС',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Ввод ЭПШТС из АИС СЭП ЕАЭС',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'ЭПТС на основе ЭПШТС',
+            icon: 'mdi-file-plus-outline',
+            enabled: true
+          }
+        ]
+      },
+      {
+        name: 'Редактировать',
+        icon: 'mdi-file-document-edit-outline',
+        enabled: isFilled
+      },
+      {
+        name: 'Внесение изменений НО в ЭПТС в статусе «Действующий»',
+        icon: 'mdi-file-document-edit-outline',
+        enabled: isFilled
+      },
+      {
+        name: 'Внесение изменений НО в ЭПТС в статусе «На аннулировании»',
+        icon: 'mdi-file-document-edit-outline',
+        enabled: isFilled
+      },
+      {
+        name: 'Внесение изменений НО в ЭПТС в статусе "Аннулированный"',
+        icon: 'mdi-file-document-edit-outline',
+        enabled: isFilled
+      },
+      {
+        name: 'Просмотреть',
+        icon: 'mdi-file-eye-outline',
+        enabled: true
+      },
+      {
+        name: 'Создать шаблон',
+        icon: 'mdi-content-copy',
+        enabled: isFilled
+      },
+      {
+        name: 'Удалить',
+        icon: 'mdi-delete-outline',
+        enabled: true
+      },
+      {
+        name: 'Создать заявление',
+        enabled: true,
+        children: [
+          {
+            name: 'Заявление на исполнение гарантийных обязательств',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение сведений собственника ТС',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Смена собственника',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Залог',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Переуступка залога',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Снятие залога',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Лизинг',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Сублизинг',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Прекращение лизинга',
+            enabled: isFilled,
+            icon: 'mdi-file-plus-outline'
+          },
+          {
+            name: 'Заявление на получение регистрационных знаков ТРАНЗИТ',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            icon: 'mdi-file-plus-outline',
+            name: 'Заявление на внесение сведений об осуществленных регистрационных действиях',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений собственника',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений об ограничениях (обременениях)',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о снятии ограничений (обременений)',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о проведении технического обслуживания',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о проведении ремонтных работ',
+            icon: 'mdi-file-plus-outline',
+            enabled: true
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о страховании',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о дорожно-транспортном происшествии',
+            icon: 'mdi-file-plus-outline',
+            enabled: true
+          },
+          {
+            name: 'Заявление на внесение в электронный паспорт сведений о страховых случаях',
+            icon: 'mdi-file-plus-outline',
+            enabled: isFilled
+          }
+        ]
+      },
+      {
+        name: 'Загрузить сведения о ТС (шасси)',
+        enabled: true,
+        icon: 'mdi-file-upload-outline'
+      },
+      {
+        name: 'Выписка',
+        enabled: isFilled,
+        icon: 'mdi-file-pdf-outline'
+      },
+      {
+        name: 'Выгрузка',
+        icon: 'mdi-xml',
+        enabled: isFilled
+      },
+      {
+        name: 'Внести сведения в электронный паспорт',
+        enabled: true,
+        children: [
+          {
+            name: 'Внести сведения в электронный паспорт об утилизационном сборе и сведения о выпуске',
+            icon: 'mdi-file-document-edit-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Информация об ограничениях',
+            icon: 'mdi-file-document-edit-outline',
+            enabled: isFilled
+          },
+          {
+            name: 'Сведения об исполнении гарантийных обязательств',
+            icon: 'mdi-file-document-edit-outline',
+            enabled: true
+          }
+        ]
+      }
+    ])
+    const sortArray = computed(() => {
+      const sort = JSON.parse(JSON.stringify(arrayChoise))
+      return filt(sort)
+    })
+
+    function filt(array) {
+      return array.filter((item) => {
+        if (item.children) {
+          item.children = filt(item.children)
+        }
+        return item.enabled
+      })
+    }
+
     const searchAdditionally = reactive({
       vehicleMakeName: {
         width: '6',
@@ -248,7 +465,8 @@ export default {
       searchAdditionally,
       isOpen,
       selection,
-      setSelection
+      setSelection,
+      sortArray
     }
   }
 }
