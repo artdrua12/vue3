@@ -53,7 +53,6 @@
         <span class="bold">{{ item.name }}</span>
       </div>
     </div>
-    <v-btn @click="test">TEST</v-btn>
   </div>
 </template>
 
@@ -63,9 +62,6 @@ const props = defineProps({
   selection: { type: Object },
   array: { type: Array, required: true, default: [] }
 })
-function test() {
-  console.log('array', props.array)
-}
 </script>
 
 <style scoped>
