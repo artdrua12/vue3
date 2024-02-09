@@ -66,17 +66,19 @@
       ok-title="Создать"
     >
       <div class="modals">
-        <v-tabs v-model="tab" align-tabs="title" selected-class="actv">
-          <v-toolbar-title class="mt-3">Вид субъекта права:</v-toolbar-title>
+        <v-tabs v-model="tab" align-tabs="title" selected-class="actv" color="#546e7a">
+          <v-toolbar-title class="mt-3"
+            ><p style="color: #354a54">Вид субъекта права:</p></v-toolbar-title
+          >
           <v-tab value="1" @click="radioTab = '1'"
-            ><v-icon icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab
+            ><v-icon color="#546e7a" icon="mdi-briefcase"></v-icon>&nbsp; Юридическое лицо</v-tab
           >
           <v-tab value="2" @click="toIndividual"
-            ><v-icon icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab
+            ><v-icon color="#546e7a" icon="mdi-account-tie"></v-icon>&nbsp; Физическое лицо</v-tab
           >
         </v-tabs>
 
-        <v-radio-group v-model="radioTab" density="comfortable">
+        <v-radio-group v-model="radioTab" color="#546e7a">
           <v-radio
             label="изготовление транспортного средства (шасси транспортного средства, самоходной машины или другого вида техники)"
             value="1"
@@ -119,17 +121,19 @@
           <legend>
             <v-icon
               v-if="!isDoc && tab == '1'"
-              icon="mdi-text-box-remove"
-              size="large"
-              color="red"
+              icon=" mdi-close-circle"
+              color="#f23f3f"
+              class="legendIcon"
+              size="15"
             />
             <v-icon
               v-if="isDoc && tab == '1'"
-              icon="mdi-text-box-check"
-              size="large"
+              icon="mdi-check-circle"
               color="green"
+              class="legendIcon"
+              size="15"
             />
-            <v-icon v-if="tab == '2'" icon="mdi-text-box" size="large" />
+            <v-icon icon="mdi-text-box" size="large" color="#546e7a" />
           </legend>
 
           <v-expand-transition>
@@ -192,12 +196,18 @@ const data = [
 
 <style scoped>
 .actv {
-  background-color: #efefef;
+  background-color: #dbdbdb;
 }
-
+.legendIcon {
+  position: absolute;
+  top: 15px;
+  right: 5px;
+  z-index: 2;
+  background-color: #efefef;
+  border-radius: 100%;
+}
 .modals {
   width: 850px;
-  height: auto;
 }
 .document {
   display: flex;
@@ -244,11 +254,13 @@ const data = [
   grid-column: 1/-1;
 }
 .col {
-  grid-column: span;
+  grid-column: span 1;
 }
 fieldset {
   padding: 10px 20px 10px 20px;
   border-radius: 7px;
+  padding-bottom: 20px;
+  border-color: #546e7a;
 }
 legend {
   padding: 0px 5px;
@@ -256,5 +268,10 @@ legend {
   line-height: 1.5;
   text-overflow: ellipsis;
   white-space: nowrap;
+  position: relative;
+}
+h3 {
+  font-weight: 500;
+  color: #546e7a;
 }
 </style>

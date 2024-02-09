@@ -4,7 +4,7 @@
     :label="props.label"
     class="base"
     hide-details
-    :disabled="props.disabled"
+    :disabled="props.disabled"  
     @change="onChange"
   ></v-checkbox>
 </template>

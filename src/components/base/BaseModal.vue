@@ -11,7 +11,7 @@
         </div>
         <div class="modal-button">
           <v-btn
-            color="#7097c0"
+            color="#546e7a"
             class="rounded-0"
             variant="tonal"
             density="comfortable"
@@ -19,7 +19,7 @@
             >{{ props.cancelTitle }}
           </v-btn>
           <v-btn
-            color="#003e80"
+            color="#546e7a"
             :disabled="okDisable"
             class="rounded-0"
             density="comfortable"
@@ -85,16 +85,17 @@ function close() {
   display: flex;
   flex-direction: column;
   width: auto;
-  background-color: white;
+  background-color: #efefef;
   box-shadow:
     0 11px 15px -7px rgba(0, 0, 0, 0.2),
     0 24px 38px 3px rgba(0, 0, 0, 0.14),
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   border-radius: 5px;
+  color: black;
 }
 .modal-title {
   min-height: 30px;
-  background-color: #003e80;
+  background-color: #546e7a;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,13 +106,11 @@ function close() {
 }
 .modal-content {
   padding: 20px;
-  max-height: 800px;
 }
 .modal-button {
   width: 100%;
   display: flex;
   justify-content: space-between;
-
   gap: 15px;
 }
 .modal p {

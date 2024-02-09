@@ -2,7 +2,7 @@
   <div>
     <v-switch
       v-model="checkbox"
-      color="#7097c0"
+      color="#546e7a"
       :label="props.label"
       class="base"
       hide-details
