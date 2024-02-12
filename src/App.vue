@@ -133,7 +133,7 @@ const items = [
 }
 .app-top {
   height: 40px;
-  background-color: #3f3c3c;
+  background-color: #2c4957;
   display: flex;
   align-items: center;
   color: white;
@@ -147,7 +147,7 @@ const items = [
 }
 .app-footer {
   height: 30px;
-  background-color: #3f3c3c;
+  background-color: #2c4957;
   color: white;
   display: flex;
 }

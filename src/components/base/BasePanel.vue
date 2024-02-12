@@ -23,7 +23,7 @@ const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
   propsPanel: { type: String, default: '' }, //1-панель будет открыта при отрисовке
   bgColor: { type: String, default: '#fff3e4' }, // фон панели заголовка
-  tColor: { type: String, default: '#3f3c3c' } // цвет панели заголовка
+  tColor: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
 const panel = ref('')
 panel.value = props.propsPanel
