@@ -2,9 +2,10 @@
   <div class="panel-layot">
     <div class="panel-menu">
       <v-btn icon="mdi-tune-variant" variant="text" @click="isOpen = true"></v-btn>
-      <div v-for="item in data" :key="item.title">
+      <!-- <base-panel elevation="5" t-color="#bdbdbf" bg-color="none" :propsPanel="data"></base-panel> -->
+      <!-- <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
-          <base-panel :id="item" elevation="5" t-color="#bdbdbf" bg-color="none">
+          <base-panel :id="item" elevation="5" t-color="#bdbdbf" bg-color="none" :propsPanel="data">
             <template #title>{{ item.title }}</template>
             <div>
               <v-btn
@@ -21,7 +22,8 @@
         <v-btn v-else block class="menu-button rounded-0" @click="toId(item.title)">{{
           item.title
         }}</v-btn>
-      </div>
+      </div> -->
+      <BasePanelAcordions t-color="#bdbdbf" :props-panel="data" bg-color="none"></BasePanelAcordions>
     </div>
 
     <div class="panels">
@@ -58,18 +60,15 @@
         </div>
       </base-panel>
     </div>
-    <menu-registration v-model:isOpen="isOpen"></menu-registration> 
+    <menu-registration v-model:isOpen="isOpen"></menu-registration>
   </div>
 </template>
 <script setup>
 import BasePanel from '../base/BasePanel.vue'
 import MenuRegistration from '../MenuRegistration.vue'
+import BasePanelAcordions from '../base/BasePanelAcordions.vue'
 import { ref } from 'vue'
 const isOpen = ref(false)
-function toId(id) {
-  let elem = document.getElementById(id)
-  elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
-}
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
   { title: 'панель2' },
@@ -77,6 +76,11 @@ const data = [
   { panels: ['children41', 'children42'], title: 'панель4' },
   { title: 'панель5' }
 ]
+function toId(id) {
+  let elem = document.getElementById(id)
+  elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
 </script>
 
 <style scoped>
@@ -104,5 +108,4 @@ const data = [
   gap: 20px;
   margin: 20px;
 }
-
 </style>

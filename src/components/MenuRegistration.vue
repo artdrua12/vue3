@@ -6,7 +6,7 @@
     ok-title="Создать"
   >
     <div class="modals">
-      <v-tabs v-model="tab" align-tabs="title" selected-class="actv" color="#546e7a">
+      <v-tabs v-model="tab" align-tabs="title" selected-class="selected" color="#546e7a">
         <v-toolbar-title class="mt-3"
           ><h3 style="color: #354a54">Вид субъекта права:</h3></v-toolbar-title
         >
@@ -76,7 +76,7 @@
           <v-icon icon="mdi-text-box" size="large" color="#546e7a" />
         </legend>
 
-        <v-expand-transition>
+        <v-expand-transition > 
           <div v-if="isDoc || (tab == '2' && radioTab == '1')" class="grid2">
             <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
             <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
@@ -126,7 +126,7 @@ function toIndividual() {
 </script>
 
 <style scoped>
-.actv {
+.selected {
   background-color: #dbdbdb;
 }
 .legendIcon {
