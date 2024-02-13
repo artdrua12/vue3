@@ -77,7 +77,7 @@ function close() {
   left: 0px;
   width: 100vw;
   height: 100%;
-  z-index: 10;
+  z-index: 5;
   background-color: rgba(33, 33, 33, 0.33);
 }
 
