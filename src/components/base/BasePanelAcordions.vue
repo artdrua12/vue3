@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels  style="gap: 7px" class="base">
+  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
     <v-expansion-panel
       v-for="item in panel"
       :id="item"
@@ -9,7 +9,7 @@
       color="#2c4957"
       :hide-actions="!item.panels"
       bg-color="red"
-      static
+      class="rounded-0"
       @click="toId(item.title)"
     >
       <v-expansion-panel-text v-if="item.panels" elevation="0">
@@ -43,18 +43,10 @@ function toId(id) {
 </script>
 
 <style scoped>
-.base.v-expansion-panel--active > .v-expansion-panel-title:not(.v-expansion-panel-title--static) {
-  min-height: 30px;
-}
-.base .v-expansion-panel-title {
-  min-height: 30px;
-}
 ::v-deep .v-expansion-panel-text__wrapper {
   padding: 0px 0px 0px 0px;
 }
 ::v-deep .v-expansion-panel-title--active {
-  /* background-color: white !important;
-  color: #628a9e !important; */
   font-weight: bolder;
   font-size: 18px;
 }

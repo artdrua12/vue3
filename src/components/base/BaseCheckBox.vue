@@ -6,6 +6,7 @@
     hide-details
     :disabled="props.disabled"  
     @change="onChange"
+    color="#546e7a"
   ></v-checkbox>
 </template>
 

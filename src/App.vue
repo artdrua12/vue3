@@ -113,14 +113,13 @@ const items = [
   width: 100%;
   height: 100vh;
   padding: 0px;
-  --test: red;
 }
 .app {
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background-color: #fff3e4;
+  background-color: #ebebeb;
   /* filter: saturate(1); */
 }
 .app-tiple {

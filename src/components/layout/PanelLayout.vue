@@ -76,11 +76,6 @@ const data = [
   { panels: ['children41', 'children42'], title: 'панель4' },
   { title: 'панель5' }
 ]
-function toId(id) {
-  let elem = document.getElementById(id)
-  elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
-}
-
 </script>
 
 <style scoped>

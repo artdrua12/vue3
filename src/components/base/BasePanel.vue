@@ -22,7 +22,7 @@ import { ref } from 'vue'
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
   propsPanel: { type: String, default: '' }, //1-панель будет открыта при отрисовке
-  bgColor: { type: String, default: '#fff3e4' }, // фон панели заголовка
+  bgColor: { type: String, default: '#ededed' }, // фон панели заголовка
   tColor: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
 const panel = ref('')

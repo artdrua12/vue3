@@ -1,6 +1,6 @@
 <template>
   <div class="baseLayout">
-    <base-panel class="baseSearch" elevation="3" props-panel="1">
+    <base-panel class="baseSearch" elevation="3" props-panel="1" bg-color="#ebebeb">
       <template #title>Реестр ОТТС</template>
       <div class="baseLayoutForm">
         <component
@@ -36,15 +36,15 @@
           prepend-icon="mdi-close-circle"
           color="red"
           size="small"
-          variant="text"
           class="rounded-0"
+          variant="tonal"
         >
           Очистить форму
         </v-btn>
         <v-btn
           append-icon="mdi-magnify"
           width="120px"
-          color="#3f3c3c"
+          color="#546e7a"
           size="small"
           elevation="3"
           class="rounded-0"
@@ -479,7 +479,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 400px;
   grid-template-rows: auto 1fr;
-  gap: 0px 20px;
+  gap: 5px 20px;
   padding: 10px 5px 15px 20px;
   align-items: flex-start;
   align-content: flex-start;
@@ -506,7 +506,6 @@ export default {
 .base-button {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
 }
 .fullWidth {
   grid-column: 1/-1;

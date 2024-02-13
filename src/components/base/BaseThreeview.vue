@@ -81,7 +81,7 @@ const props = defineProps({
   user-select: none;
   cursor: pointer;
   gap: 7px;
-  /* background-color: #f7e6d2; */
+  color: #2c4957;
 
   font-size: 14px;
   padding: 5px 0px 5px 22px;

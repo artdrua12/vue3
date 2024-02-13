@@ -460,7 +460,7 @@ function onChangeSelect(index) {
   content: '';
   width: calc(100% + 2px);
   height: 16px;
-  background-color: #fff3e4;
+  background-color: #ebebeb;
   border-bottom: 1px solid;
   position: absolute;
   z-index: 1;
@@ -510,7 +510,7 @@ function onChangeSelect(index) {
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: subgrid;
-  background-color: rgb(237, 237, 237);
+  background-color: #dbdbdb;
 }
 .pin {
   width: 35px;
@@ -540,7 +540,7 @@ function onChangeSelect(index) {
 }
 .row:hover,
 .selection {
-  background-color: bisque;
+  background-color: #dbdbdb;
 }
 
 .fixPos {
@@ -551,7 +551,7 @@ function onChangeSelect(index) {
   position: sticky;
   left: 0px;
   z-index: 3;
-  background-color: rgb(237, 237, 237);
+  background-color: #dbdbdb;
   border-right: 1px solid;
 }
 
@@ -602,7 +602,7 @@ input[type='checkbox']:checked + svg {
   padding: 0px 5px;
   justify-content: flex-end;
   align-items: center;
-  background-color: rgb(237, 237, 237);
+  background-color: #dbdbdb;
   font-size: 15px;
   font-weight: 450;
   user-select: none;
