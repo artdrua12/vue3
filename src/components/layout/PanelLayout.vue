@@ -23,7 +23,12 @@
           item.title
         }}</v-btn>
       </div> -->
-      <BasePanelAcordions t-color="#bdbdbf" :props-panel="data" bg-color="none"></BasePanelAcordions>
+      <BasePanelAcordions
+        t-color="#bdbdbf"
+        :props-panel="data"
+        bg-color="none"
+      ></BasePanelAcordions>
+      <v-btn @click="test">TEST SNACKBAR</v-btn>
     </div>
 
     <div class="panels">
@@ -68,6 +73,8 @@ import BasePanel from '../base/BasePanel.vue'
 import MenuRegistration from '../MenuRegistration.vue'
 import BasePanelAcordions from '../base/BasePanelAcordions.vue'
 import { ref } from 'vue'
+import { useSnackbarStore } from '@/stores/counter'
+const store = useSnackbarStore()
 const isOpen = ref(false)
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
@@ -76,6 +83,11 @@ const data = [
   { panels: ['children41', 'children42'], title: 'панель4' },
   { title: 'панель5' }
 ]
+function test() {
+  console.log('store', store.snack)
+  store.snack.push({ text: 'Столбец зафиксирован', color: 'snackInfo' });
+  // this.setSnack({ text: 'Столбец зафиксирован', color: 'snackInfo' })
+}
 </script>
 
 <style scoped>

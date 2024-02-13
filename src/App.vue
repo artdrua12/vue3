@@ -22,12 +22,42 @@
     <div class="app-footer">
       <span>@2024 </span>
     </div>
+
+    <div class="info-wrapper">
+      <transition-group name="slide" >
+        <div v-for="item in snack" :key="item.id" class="info" :class="item.color">
+          <svg
+            v-if="item.color == 'snackInfo'"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
+          </svg>
+
+          <svg
+            v-if="item.color == 'snackInfo2'"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M8,6.2V4H7V2H17V4H16V12L18,14V16H17.8L14,12.2V4H10V8.2L8,6.2M20,20.7L18.7,22L12.8,16.1V22H11.2V16H6V14L8,12V11.3L2,5.3L3.3,4L20,20.7M8.8,14H10.6L9.7,13.1L8.8,14Z"
+            />
+          </svg>
+
+          <span>{{ item.text }}</span>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { useSnackbarStore } from './stores/counter'
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
+import { storeToRefs } from 'pinia'
+const store = useSnackbarStore()
+const { snack } = storeToRefs(store)
 const items = [
   {
     icon: 'mdi-file-document-check-outline',
@@ -149,5 +179,51 @@ const items = [
   background-color: #2c4957;
   color: white;
   display: flex;
+}
+
+/* info */
+.info-wrapper {
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 20px;
+  z-index: 7;
+}
+.info {
+  width: 300px;
+  z-index: 7;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  gap: 7px;
+  color: white;
+  padding: 10px 20px 10px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  transition: transform 0.33s;
+  box-shadow: 7px -7px 12px 5px rgba(0, 0, 0, 0.2);
+}
+.info svg {
+  width: 35px;
+  height: 35px;
+  fill: white;
+}
+.snackInfo,
+.snackInfo2 {
+  background-color: #455a64;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(120%);
+}
+
+.slide-leave-active {
+  position: absolute;
 }
 </style>

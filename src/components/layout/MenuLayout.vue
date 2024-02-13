@@ -15,7 +15,7 @@
         ></component>
 
         <base-panel class="fullWidth" elevation="3">
-          <div v-if="JSON.stringify(searchAdditionally) !== '{}'" color="">
+          <div v-if="JSON.stringify(searchAdditionally) !== '{}'" >
             <div class="baseLayoutForm mt-3">
               <component
                 :is="item.type"

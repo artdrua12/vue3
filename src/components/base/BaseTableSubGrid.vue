@@ -449,6 +449,7 @@ function onChangeSelect(index) {
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  border-color: #2c4957;
   border: 1px solid;
   border-top: none;
   border-radius: 5px;
