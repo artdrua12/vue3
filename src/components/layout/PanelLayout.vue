@@ -84,9 +84,8 @@ const data = [
   { title: 'панель5' }
 ]
 function test() {
-  console.log('store', store.snack)
-  store.snack.push({ text: 'Столбец зафиксирован', color: 'snackInfo' });
-  // this.setSnack({ text: 'Столбец зафиксирован', color: 'snackInfo' })
+  // store.snack.push({ text: 'Столбец зафиксирован', color: 'snackInfo' });
+  store.setSnack()
 }
 </script>
 
