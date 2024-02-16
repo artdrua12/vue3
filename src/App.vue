@@ -23,36 +23,34 @@
       <span>@2024 </span>
     </div>
 
-    <div class="snackbar-wrapper">
-      <transition-group name="slide">
-        <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.color">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            v-if="item.color == 'snackInfo'"
-          >
-            <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
-          </svg>
+    <transition-group name="slide" tag="div" class="snackbar-wrapper">
+      <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.color">
+        <svg
+          v-if="item.color == 'snackInfo'"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
+        </svg>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            v-if="item.color == 'snackInfo2'"
-          >
-            <path
-              d="M8,6.2V4H7V2H17V4H16V12L18,14V16H17.8L14,12.2V4H10V8.2L8,6.2M20,20.7L18.7,22L12.8,16.1V22H11.2V16H6V14L8,12V11.3L2,5.3L3.3,4L20,20.7M8.8,14H10.6L9.7,13.1L8.8,14Z"
-            />
-          </svg>
+        <svg
+          v-if="item.color == 'snackInfo2'"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M8,6.2V4H7V2H17V4H16V12L18,14V16H17.8L14,12.2V4H10V8.2L8,6.2M20,20.7L18.7,22L12.8,16.1V22H11.2V16H6V14L8,12V11.3L2,5.3L3.3,4L20,20.7M8.8,14H10.6L9.7,13.1L8.8,14Z"
+          />
+        </svg>
 
-          <span>{{ item.text }}</span>
-        </div>
-      </transition-group>
-    </div>
+        <span>{{ item.text }}</span>
+      </div>
+    </transition-group>
   </div>
 </template>
 
 <script setup>
-import { useSnackbarStore } from './stores/counter'
+import { useSnackbarStore } from './stores/snackStore';
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
 import { storeToRefs } from 'pinia'
@@ -145,7 +143,7 @@ const items = [
   right: 20px;
   bottom: 50px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 20px;
   z-index: 7;
 }
@@ -176,13 +174,30 @@ const items = [
   background-color: #455a64;
 }
 
-.slide-enter,
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  transform: translateX(110%);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
+}
+
+.slide-enter-from,
 .slide-leave-to {
   transform: translateX(120%);
 }
 
 .slide-leave-active {
-  position: relative;
+  position: absolute;
 }
 
 #app {

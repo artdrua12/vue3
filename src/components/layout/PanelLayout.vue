@@ -73,7 +73,7 @@ import BasePanel from '../base/BasePanel.vue'
 import MenuRegistration from '../MenuRegistration.vue'
 import BasePanelAcordions from '../base/BasePanelAcordions.vue'
 import { ref } from 'vue'
-import { useSnackbarStore } from '@/stores/counter'
+import { useSnackbarStore } from '@/stores/snackStore'
 const store = useSnackbarStore()
 const isOpen = ref(false)
 const data = [
