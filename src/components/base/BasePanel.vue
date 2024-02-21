@@ -6,7 +6,7 @@
       :bg-color="props.bgColor"
       value="1"
     >
-      <v-expansion-panel-title :color="props.tColor">
+      <v-expansion-panel-title :color="props.color">
         <slot name="title"></slot>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
@@ -22,8 +22,8 @@ import { ref } from 'vue'
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
   propsPanel: { type: String, default: '' }, //1-панель будет открыта при отрисовке
-  bgColor: { type: String, default: '#ededed' }, // фон панели заголовка
-  tColor: { type: String, default: '#546e7a' } // цвет панели заголовка
+  bgColor: { type: String, default: '#e7e7e7' }, // фон панели заголовка
+  color: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
 const panel = ref('')
 panel.value = props.propsPanel

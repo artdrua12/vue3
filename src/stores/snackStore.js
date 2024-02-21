@@ -4,9 +4,10 @@ import { defineStore } from 'pinia'
 export const useSnackbarStore = defineStore('alert', () => {
   const snack = reactive([])
 
-  function setSnack() {
-    snack.push({ id: getId(), text: 'Столбец зафиксирован', color: 'snackInfo' });
-    removeFirstElement();
+  function setSnack(obj) {
+    const newObj = { ...obj, id: getId() }
+    snack.push(newObj)
+    removeFirstElement()
   }
   function removeFirstElement() {
     setTimeout(() => {

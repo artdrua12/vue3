@@ -2,10 +2,10 @@
   <div class="panel-layot">
     <div class="panel-menu">
       <v-btn icon="mdi-tune-variant" variant="text" @click="isOpen = true"></v-btn>
-      <!-- <base-panel elevation="5" t-color="#bdbdbf" bg-color="none" :propsPanel="data"></base-panel> -->
+      <!-- <base-panel elevation="5" color="#bdbdbf" bg-color="none" :propsPanel="data"></base-panel> -->
       <!-- <div v-for="item in data" :key="item.title">
         <template v-if="item.panels">
-          <base-panel :id="item" elevation="5" t-color="#bdbdbf" bg-color="none" :propsPanel="data">
+          <base-panel :id="item" elevation="5" color="#bdbdbf" bg-color="none" :propsPanel="data">
             <template #title>{{ item.title }}</template>
             <div>
               <v-btn
@@ -24,9 +24,7 @@
         }}</v-btn>
       </div> -->
       <BasePanelAcordions
-        t-color="#bdbdbf"
         :props-panel="data"
-        bg-color="none"
       ></BasePanelAcordions>
       <v-btn @click="test">TEST SNACKBAR</v-btn>
     </div>
@@ -38,6 +36,7 @@
         :key="item.title"
         elevation="5"
         props-panel="1"
+        bg-color="#ebebeb"
       >
         <template #title>Panel Title {{ item.title }}</template>
         <div
@@ -50,7 +49,8 @@
             :key="itm"
             elevation="2"
             props-panel="1"
-            t-color="gray"
+            color="#2c4957"
+            bg-color="#dbdbdb"
           >
             <template #title>Title Children</template>
             <h1>{{ itm }}</h1>
@@ -84,8 +84,7 @@ const data = [
   { title: 'панель5' }
 ]
 function test() {
-  // store.snack.push({ text: 'Столбец зафиксирован', color: 'snackInfo' });
-  store.setSnack()
+  store.setSnack({ text: 'Столбец зафиксирован '})
 }
 </script>
 

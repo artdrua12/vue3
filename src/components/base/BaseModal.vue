@@ -85,7 +85,7 @@ function close() {
   display: flex;
   flex-direction: column;
   width: auto;
-  background-color: #efefef;
+  background-color: #ebebeb;
   box-shadow:
     0 11px 15px -7px rgba(0, 0, 0, 0.2),
     0 24px 38px 3px rgba(0, 0, 0, 0.14),

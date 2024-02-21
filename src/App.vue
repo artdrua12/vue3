@@ -25,24 +25,7 @@
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.color">
-        <svg
-          v-if="item.color == 'snackInfo'"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
-        </svg>
-
-        <svg
-          v-if="item.color == 'snackInfo2'"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M8,6.2V4H7V2H17V4H16V12L18,14V16H17.8L14,12.2V4H10V8.2L8,6.2M20,20.7L18.7,22L12.8,16.1V22H11.2V16H6V14L8,12V11.3L2,5.3L3.3,4L20,20.7M8.8,14H10.6L9.7,13.1L8.8,14Z"
-          />
-        </svg>
-
+        <v-icon  icon="mdi-briefcase" class="snack-icon"></v-icon>
         <span>{{ item.text }}</span>
       </div>
     </transition-group>
@@ -50,7 +33,7 @@
 </template>
 
 <script setup>
-import { useSnackbarStore } from './stores/snackStore';
+import { useSnackbarStore } from './stores/snackStore'
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
 import { storeToRefs } from 'pinia'
@@ -155,40 +138,21 @@ const items = [
   align-items: center;
   gap: 7px;
   color: white;
-  padding: 10px 20px 10px 10px;
+  padding: 15px 12px 15px 12px;
   border-radius: 4px;
   font-size: 16px;
   line-height: 20px;
   font-family: sans-serif;
   letter-spacing: 1px;
-  transition: transform 0.33s;
+  transition: transform 0.35s;
   box-shadow: 7px -7px 12px 5px rgba(0, 0, 0, 0.2);
+  background-color: #455a64;
+
 }
-.snackbar svg {
+.snack-icon{
   width: 35px;
   height: 35px;
-  fill: white;
-}
-.snackInfo,
-.snackInfo2 {
-  background-color: #455a64;
-}
-
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-  transition: transform 0.3s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  transform: translateX(110%);
-}
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-  position: absolute;
+  color: white;
 }
 
 .slide-enter-from,
@@ -210,7 +174,7 @@ const items = [
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background-color: #ebebeb;
+  background-color: #f9f9f9;
   /* filter: saturate(1); */
 }
 .app-tiple {

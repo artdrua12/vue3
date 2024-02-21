@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
+  <v-expansion-panels style="gap: 1px" class="base" variant="popout" >
     <v-expansion-panel
       v-for="item in panel"
       :id="item"
@@ -8,11 +8,10 @@
       :title="item.title"
       color="#2c4957"
       :hide-actions="!item.panels"
-      bg-color="red"
-      class="rounded-0"
+      bg-color="#ebebeb"
       @click="toId(item.title)"
     >
-      <v-expansion-panel-text v-if="item.panels" elevation="0">
+      <v-expansion-panel-text v-if="item.panels"  class="elevetion-0">
         <v-btn
           v-for="itm in item.panels"
           :key="itm"

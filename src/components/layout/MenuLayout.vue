@@ -1,6 +1,6 @@
 <template>
   <div class="baseLayout">
-    <base-panel class="baseSearch" elevation="3" props-panel="1" bg-color="#ebebeb">
+    <base-panel class="baseSearch" elevation="3" props-panel="1" >
       <template #title>Реестр ОТТС</template>
       <div class="baseLayoutForm">
         <component
