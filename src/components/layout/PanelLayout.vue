@@ -29,6 +29,9 @@
     </div>
 
     <div class="panels">
+      <div class="test">
+        <div class="testc"></div>
+      </div>
       <base-panel
         v-for="item in data"
         :id="item.title"
@@ -91,6 +94,23 @@ function testRed() {
 </script>
 
 <style scoped>
+.test {
+  width: 100%;
+  height: 200px;
+  container-type: inline-size;
+}
+.testc {
+  width: 400px;
+  height: 200px;
+  background-color: red;
+  margin: auto;
+}
+
+@container (min-width: 750px) {
+  .testc {
+    background-color: yellowgreen;
+  }
+}
 .panel-layot {
   display: grid;
   grid-template-columns: 400px 1fr;

@@ -79,6 +79,8 @@ function close() {
   height: 100%;
   z-index: 5;
   background-color: rgba(33, 33, 33, 0.33);
+
+  backdrop-filter: grayscale(1)  blur(1px);
 }
 
 .modal {

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="swichWrapper">
     <v-switch
       v-model="checkbox"
-      color="#546e7a"
+      :color="props.color"
       :label="props.label"
       class="base"
       hide-details
@@ -24,6 +24,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  color: {
+    type: String,
+    default: '#546e7a'
   }
 })
 const checkbox = ref(props.value)
@@ -40,6 +44,9 @@ function onChange() {
 </script>
 
 <style scoped>
+.swichWrapper {
+  border: 1px;
+}
 .base.v-switch .v-selection-control {
   min-height: 20px;
   height: 30px;

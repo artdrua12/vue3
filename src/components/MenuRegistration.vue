@@ -49,12 +49,19 @@
 
       <div class="document">
         <h3>Документ, подтверждающий соответствие требованиям безопасности</h3>
-        <base-swich
-          v-model:value="isDoc"
-          label="присутсвует"
-          :disabled="tab == '2'"
-          class="ml-4"
-        ></base-swich>
+
+        <div class="document">
+          <div class="document">
+            <span v-if="isDoc && tab == '1'" @click="isDoc = !isDoc">присутствует</span>
+            <span v-if="!isDoc && tab == '1'" style="" @click="isDoc = !isDoc">отсутствует</span>
+          </div>
+          <base-swich
+            v-model:value="isDoc"
+            :disabled="tab == '2'"
+            color="green"
+            class="ml-2 mt-1"
+          ></base-swich>
+        </div>
       </div>
 
       <fieldset>
@@ -76,7 +83,7 @@
           <v-icon icon="mdi-text-box" size="large" color="#546e7a" />
         </legend>
 
-        <v-expand-transition > 
+        <v-expand-transition>
           <div v-if="isDoc || (tab == '2' && radioTab == '1')" class="grid2">
             <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
             <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
