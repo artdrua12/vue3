@@ -5,8 +5,8 @@
     class="base"
     hide-details
     :disabled="props.disabled"  
-    @change="onChange"
     color="#546e7a"
+    @change="onChange"
   ></v-checkbox>
 </template>
 
@@ -42,5 +42,9 @@ function onChange() {
   min-height: 20px;
   height: 30px;
   margin-left: -10px;
+}
+.base .v-selection-control .v-label {
+  font-weight: 600;
+  color: #031f2d;
 }
 </style>

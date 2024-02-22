@@ -461,7 +461,7 @@ function onChangeSelect(index) {
   content: '';
   width: calc(100% + 2px);
   height: 16px;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   border-bottom: 1px solid;
   position: absolute;
   z-index: 1;

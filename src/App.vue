@@ -25,7 +25,7 @@
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
-        <v-icon v-if="item.type == 'info'" size="35" icon="mdi-information-slab-box"></v-icon>
+        <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-bell-ring"></v-icon>
         <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
 
         <span>{{ item.text }}</span>
@@ -181,7 +181,7 @@ const items = [
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   /* filter: saturate(1); */
 }
 .app-tiple {

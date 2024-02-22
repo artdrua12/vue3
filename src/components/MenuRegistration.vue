@@ -127,7 +127,7 @@ function toIndividual() {
 
 <style scoped>
 .selected {
-  background-color: #dbdbdb;
+  background-color: #e2e2e2;
 }
 .legendIcon {
   position: absolute;
