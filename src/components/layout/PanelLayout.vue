@@ -31,6 +31,7 @@
     <div class="panels">
       <div class="test">
         <div class="testc"></div>
+        <div class="testc2"></div>
       </div>
       <base-panel
         v-for="item in data"
@@ -96,14 +97,27 @@ function testRed() {
 <style scoped>
 .test {
   width: 100%;
-  height: 200px;
   container-type: inline-size;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
 .testc {
-  width: 400px;
-  height: 200px;
+  grid-area: 1/1/-1/-1;
+  width: 700px;
+  height: 400px;
   background-color: red;
   margin: auto;
+}
+.testc2 {
+  grid-area: 1/1/-1/-1;
+  width: 700px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.411);
+  margin: auto;
+}
+.testc2:hover {
+  clip-path: inset(20px 20px 20px 100px round 15px);
 }
 
 @container (min-width: 750px) {
