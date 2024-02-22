@@ -1,5 +1,5 @@
 <template>
-  <transition-group tag="div" name="list" class="wrapper">
+  <div tag="div" name="list" class="wrapper">
     <div v-for="item in props.array" :key="item.name" >
       <div v-if="item.children">
         <input :id="item.name" type="checkbox" :value="item.name" />
@@ -53,7 +53,7 @@
         <span class="bold">{{ item.name }}</span>
       </div>
     </div>
-  </transition-group>
+  </div>
 </template>
 
 <script setup>
@@ -65,23 +65,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.25s ease-out;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(300%);
-}
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-  position: relative;
-}
 
 .wrapper {
   max-height: 90vh;

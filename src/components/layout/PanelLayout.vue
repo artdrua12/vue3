@@ -23,10 +23,9 @@
           item.title
         }}</v-btn>
       </div> -->
-      <BasePanelAcordions
-        :props-panel="data"
-      ></BasePanelAcordions>
-      <v-btn @click="test">TEST SNACKBAR</v-btn>
+      <BasePanelAcordions :props-panel="data"></BasePanelAcordions>
+      <v-btn @click="testGreen">TEST green</v-btn>
+      <v-btn @click="testRed">TEST red</v-btn>
     </div>
 
     <div class="panels">
@@ -83,8 +82,11 @@ const data = [
   { panels: ['children41', 'children42'], title: 'панель4' },
   { title: 'панель5' }
 ]
-function test() {
-  store.setSnack({ text: 'Столбец зафиксирован '})
+function testGreen() {
+  store.setSnack({ text: 'Много текста Много текста Много текста Много текста ', type: 'info' })
+}
+function testRed() {
+  store.setSnack({ text: 'Ошибка загрузки', type: 'error' })
 }
 </script>
 

@@ -24,8 +24,10 @@
     </div>
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
-      <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.color">
-        <v-icon  icon="mdi-briefcase" class="snack-icon"></v-icon>
+      <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
+        <v-icon v-if="item.type == 'info'" size="35" icon="mdi-information-slab-box"></v-icon>
+        <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
+
         <span>{{ item.text }}</span>
       </div>
     </transition-group>
@@ -123,36 +125,41 @@ const items = [
 /* snackbar */
 .snackbar-wrapper {
   position: fixed;
-  right: 20px;
-  bottom: 50px;
+  right: 25px;
+  bottom: 45px;
   display: flex;
   flex-direction: column-reverse;
-  gap: 20px;
+  gap: 25px;
   z-index: 7;
 }
 .snackbar {
   width: 300px;
   z-index: 7;
   display: grid;
+  gap: 7px;
   grid-template-columns: 35px 1fr;
   align-items: center;
-  gap: 7px;
   color: white;
-  padding: 15px 12px 15px 12px;
-  border-radius: 4px;
+  padding: 10px 12px 10px 10px;
   font-size: 16px;
-  line-height: 20px;
   font-family: sans-serif;
   letter-spacing: 1px;
   transition: transform 0.35s;
-  box-shadow: 7px -7px 12px 5px rgba(0, 0, 0, 0.2);
-  background-color: #455a64;
-
+  box-shadow: 0px 0px 7px -3px #2c4957;
+  border: 1px solid white;
+  border-radius: 7px;
 }
-.snack-icon{
+.info {
+  background-color: green;
+}
+.error {
+  background-color: #c10000;
+}
+.snack-icon {
+  display: block;
+  color: white;
   width: 35px;
   height: 35px;
-  color: white;
 }
 
 .slide-enter-from,
