@@ -30,8 +30,24 @@
 
     <div class="panels">
       <div class="test">
-        <div class="testc"></div>
-        <div class="testc2"></div>
+        <div class="testc2" :class="{ onmenu: onmenu }">
+          <h2 style="color: white; position: absolute; top: -55px; left: -100px">
+            Система электронных паспортов РБ
+          </h2>
+          <h3 style="color: white; position: absolute; bottom: -30px; right: 20px">2024</h3>
+          <h3 style="color: white; position: absolute; top: 30px; left: -100px">Один</h3>
+          <h3 style="color: white; position: absolute; top: 60px; left: -100px">Два</h3>
+          <h3 style="color: white; position: absolute; top: 90px; left: -100px">Три</h3>
+          <h3 style="color: white; position: absolute; top: 120px; left: -100px">Четыре</h3>
+          <h3 style="color: white; position: absolute; top: 150px; left: -100px">Пять</h3>
+          <h3 style="color: white; position: absolute; top: 180px; left: -100px">Шесть</h3>
+          <h3 style="color: white; position: absolute; top: 210px; left: -100px">Семь</h3>
+        </div>
+        <div class="testc">
+          <v-btn icon="mdi-menu" variant="text" @click="onmenu = !onmenu"></v-btn>
+          <h2 style="margin-left: 40px;">Какойто текст</h2>
+          <v-text-field label="Label" variant="outlined"></v-text-field>
+        </div>
       </div>
       <base-panel
         v-for="item in data"
@@ -79,6 +95,7 @@ import { ref } from 'vue'
 import { useSnackbarStore } from '@/stores/snackStore'
 const store = useSnackbarStore()
 const isOpen = ref(false)
+const onmenu = ref(false)
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
   { title: 'панель2' },
@@ -113,11 +130,19 @@ function testRed() {
   grid-area: 1/1/-1/-1;
   width: 700px;
   height: 400px;
-  background-color: rgba(0, 0, 0, 0.411);
   margin: auto;
+  /* transition: clip-path .5s ease-out;
+  clip-path: inset(0px 0px 0px 0px round 0px); */
+  box-shadow: -100px 0px 0px 150px rgba(4, 4, 25, 0.7);
+  transition: all 0.35s ease-out;
+  position: relative;
+  z-index: 0;
 }
-.testc2:hover {
-  clip-path: inset(20px 20px 20px 100px round 15px);
+.onmenu {
+  /* clip-path: inset(40px 0px 20px 100px round 15px 0px 0px 75px); */
+  transform: scale(0.8) translate(87px, 20px);
+  border-radius: 0px 0px 0px 70px;
+  z-index: 1;
 }
 
 @container (min-width: 750px) {
