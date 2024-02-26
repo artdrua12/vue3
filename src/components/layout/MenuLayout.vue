@@ -496,7 +496,7 @@ export default {
   max-height: 90vh;
   z-index: 1;
   position: fixed;
-  right: 22px;
+  right: 10px;
   width: 400px;
 }
 .base-table {

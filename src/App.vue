@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <!-- <div class="app">
     <div class="app-top">
       <p class="app-tiple">Системы электронных паспортов РБ</p>
       <svg
@@ -31,14 +31,60 @@
         <span>{{ item.text }}</span>
       </div>
     </transition-group>
+  </div> -->
+
+  <div class="newApp">
+    <div class="newApp-menu" :class="{ onmenu: onmenu }">
+      <h2 style="position: relative; top: -50px; left: -280px; color: white">
+        Системы электронных паспортов РБ
+      </h2>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="40"
+        height="30"
+        fill="white"
+        style="position: absolute; top: -50px; right: 390px; "
+      >
+        <path
+          d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+        />
+      </svg>
+      <h3 style="position: absolute; top: -50px; right: 270px; color: white">USEREB45CD61</h3>
+      <base-menu-new :items="items" class="newApp-newMenu"></base-menu-new>
+      <div style="position: absolute; bottom: -35px; right: 270px; color: white">
+        <h3>@2024</h3>
+      </div>
+    </div>
+    <RouterView class="newApp-content" />
+
+    <v-icon
+      size="35"
+      icon="mdi mdi-menu"
+      :color="onmenu ? 'white' : 'black'"
+      style="position: fixed; top: 10px; left: 10px; z-index: 7"
+      @click="onmenu = !onmenu"
+    ></v-icon>
   </div>
+
+  <transition-group name="slide" tag="div" class="snackbar-wrapper">
+    <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
+      <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-bell-ring"></v-icon>
+      <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
+
+      <span>{{ item.text }}</span>
+    </div>
+  </transition-group>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useSnackbarStore } from './stores/snackStore'
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
+import BaseMenuNew from './components/base/BaseMenuNew.vue'
 import { storeToRefs } from 'pinia'
+const onmenu = ref(false)
 const store = useSnackbarStore()
 const { snack } = storeToRefs(store)
 const items = [
@@ -122,6 +168,36 @@ const items = [
 </script>
 
 <style>
+.newApp {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: #f7f7f7;
+}
+.newApp-menu,
+.newApp-content {
+  width: 100%;
+  grid-area: 1/1/-1/-1;
+  z-index: 1;
+}
+.newApp-menu {
+  /* transform: perspective(100px) translate3d(300px,10px,-9px); */
+  width: 100vw;
+  height: 100vh;
+  box-shadow: -300px 0px 0px 300px rgba(4, 4, 25, 0.8);
+  position: fixed;
+  transition: all 0.35s ease-out;
+}
+.newApp-newMenu {
+  position: relative;
+  left: -360px;
+}
+.onmenu {
+  transform: scale(0.9) translate(285px, 10px);
+  border-radius: 10px 0px 0px 70px;
+  background-color: rgba(0, 255, 255, 0.22);
+  z-index: 6;
+}
+
 /* snackbar */
 .snackbar-wrapper {
   position: fixed;
