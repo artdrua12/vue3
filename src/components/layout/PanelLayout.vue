@@ -1,54 +1,18 @@
 <template>
   <div class="panel-layot">
+    <v-btn
+      icon="mdi-tune-variant"
+      variant="text"
+      style="display: fixed; top: -10px; left: 380px; z-index: 100;"
+      @click="isOpen = true"
+    ></v-btn>
     <div class="panel-menu">
-      <v-btn icon="mdi-tune-variant" variant="text" @click="isOpen = true"></v-btn>
-      <!-- <base-panel elevation="5" color="#bdbdbf" bg-color="none" :propsPanel="data"></base-panel> -->
-      <!-- <div v-for="item in data" :key="item.title">
-        <template v-if="item.panels">
-          <base-panel :id="item" elevation="5" color="#bdbdbf" bg-color="none" :propsPanel="data">
-            <template #title>{{ item.title }}</template>
-            <div>
-              <v-btn
-                v-for="itm in item.panels"
-                :key="itm"
-                class="menu-button rounded-0"
-                block
-                @click="toId(itm)"
-                >{{ itm }}</v-btn
-              >
-            </div>
-          </base-panel>
-        </template>
-        <v-btn v-else block class="menu-button rounded-0" @click="toId(item.title)">{{
-          item.title
-        }}</v-btn>
-      </div> -->
       <BasePanelAcordions :props-panel="data"></BasePanelAcordions>
       <v-btn @click="testGreen">TEST green</v-btn>
       <v-btn @click="testRed">TEST red</v-btn>
     </div>
 
     <div class="panels">
-      <div class="test">
-        <div class="testc2" :class="{ onmenu: onmenu }">
-          <h2 style="color: white; position: absolute; top: -55px; left: -100px">
-            Система электронных паспортов РБ
-          </h2>
-          <h3 style="color: white; position: absolute; bottom: -30px; right: 20px">2024</h3>
-          <h3 style="color: white; position: absolute; top: 30px; left: -100px">Один</h3>
-          <h3 style="color: white; position: absolute; top: 60px; left: -100px">Два</h3>
-          <h3 style="color: white; position: absolute; top: 90px; left: -100px">Три</h3>
-          <h3 style="color: white; position: absolute; top: 120px; left: -100px">Четыре</h3>
-          <h3 style="color: white; position: absolute; top: 150px; left: -100px">Пять</h3>
-          <h3 style="color: white; position: absolute; top: 180px; left: -100px">Шесть</h3>
-          <h3 style="color: white; position: absolute; top: 210px; left: -100px">Семь</h3>
-        </div>
-        <div class="testc">
-          <v-btn icon="mdi-menu" variant="text" @click="onmenu = !onmenu"></v-btn>
-          <h2 style="margin-left: 40px;">Какойто текст</h2>
-          <v-text-field label="Label" variant="outlined"></v-text-field>
-        </div>
-      </div>
       <base-panel
         v-for="item in data"
         :id="item.title"
@@ -95,7 +59,6 @@ import { ref } from 'vue'
 import { useSnackbarStore } from '@/stores/snackStore'
 const store = useSnackbarStore()
 const isOpen = ref(false)
-const onmenu = ref(false)
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
   { title: 'панель2' },
@@ -112,44 +75,6 @@ function testRed() {
 </script>
 
 <style scoped>
-.test {
-  width: 100%;
-  container-type: inline-size;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-}
-.testc {
-  grid-area: 1/1/-1/-1;
-  width: 700px;
-  height: 400px;
-  background-color: red;
-  margin: auto;
-}
-.testc2 {
-  grid-area: 1/1/-1/-1;
-  width: 700px;
-  height: 400px;
-  margin: auto;
-  /* transition: clip-path .5s ease-out;
-  clip-path: inset(0px 0px 0px 0px round 0px); */
-  box-shadow: -100px 0px 0px 150px rgba(4, 4, 25, 0.7);
-  transition: all 0.35s ease-out;
-  position: relative;
-  z-index: 0;
-}
-.onmenu {
-  /* clip-path: inset(40px 0px 20px 100px round 15px 0px 0px 75px); */
-  transform: scale(0.8) translate(87px, 20px);
-  border-radius: 0px 0px 0px 70px;
-  z-index: 1;
-}
-
-@container (min-width: 750px) {
-  .testc {
-    background-color: yellowgreen;
-  }
-}
 .panel-layot {
   display: grid;
   grid-template-columns: 400px 1fr;
