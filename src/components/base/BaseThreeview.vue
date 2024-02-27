@@ -1,6 +1,6 @@
 <template>
   <div tag="div" name="list" class="wrapper">
-    <div v-for="item in props.array" :key="item.name" >
+    <div v-for="item in props.array" :key="item.name">
       <div v-if="item.children">
         <input :id="item.name" type="checkbox" :value="item.name" />
         <label :for="item.name" class="bold threeTitle mainTitle">
@@ -65,7 +65,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
 .wrapper {
   max-height: 90vh;
   overflow: auto;
