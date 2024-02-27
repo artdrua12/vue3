@@ -33,4 +33,7 @@ const props = defineProps({
   min-height: 10px;
   padding-top: 2px;
 }
+.base .v-field--focused input{
+  
+}
 </style>
