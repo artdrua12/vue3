@@ -27,6 +27,7 @@ const props = defineProps({
 .base .v-field__input {
   min-height: 25px;
   height: 30px;
+  padding-top: 3px;
 }
 .base .v-input__details {
   min-height: 10px;
