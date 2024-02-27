@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import MenuLayout from '../components/layout/MenuLayout.vue'
+import LayoutMenu from '../components/layout/LayoutMenu.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,12 +7,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: MenuLayout
+      component: LayoutMenu
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../components/layout/PanelLayout.vue')
+      component: () => import('../components/layout/LayoutPanel.vue')
     }
   ]
 })

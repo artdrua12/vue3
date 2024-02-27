@@ -402,6 +402,17 @@ const tableData = reactive([
     f7: 's7',
     f8: 's8',
     f9: 's9'
+  },
+  {
+    f1: 't1',
+    f2: 't2',
+    f3: 't3',
+    f4: 't4',
+    f5: 't5',
+    f6: 't6',
+    f7: 't7',
+    f8: 't8',
+    f9: 't9'
   }
 ])
 function addFixed(index) {
@@ -499,6 +510,7 @@ function onChangeSelect(index) {
   grid-template-columns: 42px repeat(9, minmax(min-content, 400px));
   padding-top: 16px;
   overflow: auto;
+  scrollbar-width: thin;
 }
 
 .fixPosHead {

@@ -1,6 +1,6 @@
 <template>
   <div class="baseLayout">
-    <base-panel class="baseSearch" elevation="3" props-panel="1" >
+    <base-panel class="baseSearch" elevation="3" props-panel="1">
       <template #title>Реестр ОТТС</template>
       <div class="baseLayoutForm">
         <component
@@ -15,7 +15,7 @@
         ></component>
 
         <base-panel class="fullWidth" elevation="3">
-          <div v-if="JSON.stringify(searchAdditionally) !== '{}'" >
+          <div v-if="JSON.stringify(searchAdditionally) !== '{}'">
             <div class="baseLayoutForm mt-3">
               <component
                 :is="item.type"
@@ -475,7 +475,7 @@ export default {
 <style scoped>
 .baseLayout {
   width: 100%;
-  height: calc(100% - 10px);
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 400px;
   grid-template-rows: auto 1fr;
@@ -495,7 +495,7 @@ export default {
   overflow: hidden;
   max-height: 90vh;
   z-index: 1;
-  position: fixed;
+  position: absolute;
   right: 23px;
   width: 400px;
 }

@@ -15,10 +15,10 @@
       </svg>
       <h4>USEREB45CD61</h4>
     </div>
-    <div class="app-content">
-      <base-menu :items="items"></base-menu>
-      <RouterView />
-    </div>
+
+    <base-menu :items="items"></base-menu>
+    <RouterView class="app-content" />
+
     <div class="app-footer">
       <span>@2024 </span>
     </div>
@@ -32,15 +32,6 @@
       </div>
     </transition-group>
   </div>
-
-  <transition-group name="slide" tag="div" class="snackbar-wrapper">
-    <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
-      <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-bell-ring"></v-icon>
-      <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
-
-      <span>{{ item.text }}</span>
-    </div>
-  </transition-group>
 </template>
 
 <script setup>
@@ -131,37 +122,51 @@ const items = [
 </script>
 
 <style>
-.newApp {
+/* snackbar */
+
+/* #app {
+  width: 100%;
+  height: 100vh;
+  padding: 0px;
+} */
+.app {
+  width: 100%;
+  height: 100%;
   display: grid;
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   background-color: #f7f7f7;
 }
-.newApp-menu,
-.newApp-content {
-  width: 100%;
-  grid-area: 1/1/-1/-1;
+.app-tiple {
+  justify-self: flex-start;
+  margin-right: auto;
+  margin-left: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-top {
+  height: 40px;
+  background-color: #2c4957;
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 0px 20px;
+}
+.app-content {
   z-index: 1;
+  overflow: auto;
+  height: 100%;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
 }
-.newApp-menu {
-  /* transform: perspective(100px) translate3d(300px,10px,-9px); */
-  width: 100vw;
-  height: 100vh;
-  box-shadow: -300px 0px 0px 300px rgba(4, 4, 25, 0.8);
-  position: fixed;
-  transition: all 0.35s ease-out;
-}
-.newApp-newMenu {
-  position: relative;
-  left: -360px;
-}
-.onmenu {
-  transform: scale(0.9) translate(285px, 10px);
-  border-radius: 10px 0px 0px 70px;
-  background-color: rgba(0, 255, 255, 0.22);
-  z-index: 6;
+.app-footer {
+  height: 30px;
+  background-color: #2c4957;
+  color: white;
+  display: flex;
 }
 
-/* snackbar */
 .snackbar-wrapper {
   position: fixed;
   right: 25px;
@@ -208,47 +213,5 @@ const items = [
 
 .slide-leave-active {
   position: absolute;
-}
-
-#app {
-  width: 100%;
-  height: 100vh;
-  padding: 0px;
-}
-.app {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  background-color: #f7f7f7;
-  /* filter: saturate(1); */
-}
-.app-tiple {
-  justify-self: flex-start;
-  margin-right: auto;
-  margin-left: 30px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.app-top {
-  height: 40px;
-  background-color: #2c4957;
-  display: flex;
-  align-items: center;
-  color: white;
-  padding: 0px 20px;
-}
-.app-content {
-  z-index: 1;
-  overflow: auto;
-  height: 100%;
-  scrollbar-gutter: stable;
-}
-.app-footer {
-  height: 30px;
-  background-color: #2c4957;
-  color: white;
-  display: flex;
 }
 </style>
