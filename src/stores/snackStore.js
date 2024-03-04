@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useSnackbarStore = defineStore('alert', () => {
+export const useSnackStore = defineStore('alert', () => {
   const snack = reactive([])
 
   function setSnack(obj) {

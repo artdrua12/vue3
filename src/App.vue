@@ -17,7 +17,15 @@
     </div>
 
     <base-menu :items="items"></base-menu>
-    <RouterView class="app-content" />
+    <!-- <transition name="fade">
+      <RouterView class="app-content" />
+    </transition> -->
+
+    <router-view v-slot="{ Component, route }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" :key="route.path" class="app-content" />
+      </transition>
+    </router-view>
 
     <div class="app-footer">
       <span>@2024 </span>
@@ -35,11 +43,12 @@
 </template>
 
 <script setup>
-import { useSnackbarStore } from './stores/snackStore'
+import { useSnackStore } from './stores/snackStore'
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
 import { storeToRefs } from 'pinia'
-const store = useSnackbarStore()
+
+const store = useSnackStore()
 const { snack } = storeToRefs(store)
 const items = [
   {
@@ -122,13 +131,23 @@ const items = [
 </script>
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /* snackbar */
 
-/* #app {
+#app {
   width: 100%;
   height: 100vh;
   padding: 0px;
-} */
+}
 .app {
   width: 100%;
   height: 100%;
@@ -174,18 +193,18 @@ const items = [
   display: flex;
   flex-direction: column-reverse;
   gap: 25px;
-  z-index: 7;
+  z-index: 11;
 }
 .snackbar {
-  width: 300px;
-  z-index: 7;
+  width: 320px;
+  z-index: 11;
   display: grid;
   gap: 7px;
   grid-template-columns: 35px 1fr;
   align-items: center;
   color: white;
   padding: 10px 12px 10px 10px;
-  font-size: 16px;
+  font-size: 14px;
   font-family: sans-serif;
   letter-spacing: 1px;
   transition: transform 0.35s;
@@ -208,7 +227,7 @@ const items = [
 
 .slide-enter-from,
 .slide-leave-to {
-  transform: translateX(120%);
+  transform: translateX(100%);
 }
 
 .slide-leave-active {

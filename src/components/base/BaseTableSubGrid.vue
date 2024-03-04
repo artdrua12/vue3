@@ -108,7 +108,7 @@
         <span>Строк на странице</span>
         <div class="pagination-select">
           <input :value="size" readonly class="pagination-select__input" @click="show = true" />
-          <div role="listbox" class="pagination-select__listbox" v-show="show">
+          <div v-show="show" role="listbox" class="pagination-select__listbox">
             <div
               v-for="item in 5"
               :key="item"

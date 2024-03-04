@@ -3,7 +3,7 @@
     <v-btn
       icon="mdi-tune-variant"
       variant="text"
-      style="display: fixed; top: -10px; left: 380px; z-index: 100;"
+      style="display: fixed; top: -10px; left: 380px; z-index: 100"
       @click="isOpen = true"
     ></v-btn>
     <div class="panel-menu">
@@ -56,8 +56,8 @@ import BasePanel from '../base/BasePanel.vue'
 import MenuRegistration from '../MenuRegistration.vue'
 import BasePanelAcordions from '../base/BasePanelAcordions.vue'
 import { ref } from 'vue'
-import { useSnackbarStore } from '@/stores/snackStore'
-const store = useSnackbarStore()
+import { useSnackStore } from '@/stores/snackStore'
+const snack = useSnackStore()
 const isOpen = ref(false)
 const data = [
   { panels: ['children11', 'children12', 'children13'], title: 'панель1' },
@@ -67,10 +67,10 @@ const data = [
   { title: 'панель5' }
 ]
 function testGreen() {
-  store.setSnack({ text: 'Много текста Много текста Много текста Много текста ', type: 'info' })
+  snack.setSnack({ text: 'Много текста Много текста Много текста Много текста ', type: 'info' })
 }
 function testRed() {
-  store.setSnack({ text: 'Ошибка загрузки', type: 'error' })
+  snack.setSnack({ text: 'Ошибка загрузки', type: 'error' })
 }
 </script>
 
