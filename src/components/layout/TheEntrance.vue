@@ -58,14 +58,16 @@ const snack = useSnackStore()
 // }
 
 async function checkLogin() {
-  const response = await requests.checkLogin(login.value, password.value)
+  const response = await requests.post('http://localhost:8080/api/authentication/login', {
+    login: login.value,
+    password: password.value
+  })
   console.log('response', response)
   if (response.successfully) {
     // если авторизация пройдена
     route.push('/main')
-    const referenceBooks = await requests.referenceBooks()
+    const referenceBooks = await requests.post('http://localhost:8080/nsi/directory/search', {})
     if (referenceBooks) {
-      indexDB.writingReferenceBooks(referenceBooks)
       console.log('referenceBooks', referenceBooks)
     }
   } else {
