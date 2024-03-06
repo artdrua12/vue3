@@ -20,9 +20,10 @@ export const useIndexDBStore = defineStore('indexDB', () => {
     request.onsuccess = function (event) {
       const database = event.target.result // обращаемся к базе данных
       // создаем транзакцию
-      const transaction = database.transaction([storage], 'readwrite')
+      const transaction = database.transaction(storage, 'readwrite')
       const catalogStore = transaction.objectStore(storage) // получаем хранилище
       const addRequest = catalogStore.put(value, key)
+
       addRequest.onerror = function () {
         console.log('Ошибка добавления в хранилище')
       }

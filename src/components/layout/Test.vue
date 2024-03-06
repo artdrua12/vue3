@@ -3,6 +3,7 @@
     <v-btn @click="test">TEST</v-btn>
     <v-btn @click="getData">getIDdatafromIndexDB</v-btn>
     <v-btn @click="getUser">Get</v-btn>
+    <v-btn @click="permissions">Get permissions</v-btn>
   </div>
 </template>
 
@@ -34,9 +35,12 @@ async function getData() {
 }
 async function getUser() {
   const getUser = await requests.get('http://localhost:8080/api/user/info')
-  console.log('get', getUser.permissions);
-  indexDB.setToDatabase('user', 'permissions', getUser.permissions);
+  // console.log('get', getUser.permissions)
+  indexDB.setToDatabase('user', 'permissions', getUser.permissions)
+}
+async function permissions() {
+  const permissions = await indexDB.getFromDatabase('user', 'permissions')
+  console.log('permissions', permissions)
 }
 </script>
-
 <style scoped></style>
