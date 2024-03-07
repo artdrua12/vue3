@@ -57,5 +57,16 @@ export const useIndexDBStore = defineStore('indexDB', () => {
     })
   }
 
-  return { getFromDatabase, setToDatabase }
+  function clearStoreFromDatabase(storage) {
+    const request = indexedDB.open('dataBase')
+
+    request.onsuccess = function (event) {
+      const database = event.target.result // получаем бд
+      const transaction = database.transaction(storage, 'readwrite')
+      const catalogStore = transaction.objectStore(storage) // получаем хранилище
+      catalogStore.clear()
+    }
+  }
+
+  return { getFromDatabase, setToDatabase, clearStoreFromDatabase }
 })

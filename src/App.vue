@@ -17,9 +17,6 @@
     </div>
 
     <base-menu></base-menu>
-    <!-- <transition name="fade">
-      <RouterView class="app-content" />
-    </transition> -->
 
     <router-view v-slot="{ Component, route }">
       <transition name="fade" mode="out-in">

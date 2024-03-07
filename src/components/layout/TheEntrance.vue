@@ -17,7 +17,7 @@
         variant="underlined"
       ></v-text-field>
 
-      <v-btn block class="rounded-0 mt-3" @click="checkLogin">Войти</v-btn>
+      <v-btn block class="rounded-0 mt-3" @click="entrance">Войти</v-btn>
     </div>
   </div>
 </template>
@@ -36,43 +36,58 @@ const indexDB = useIndexDBStore()
 const route = useRouter()
 const snack = useSnackStore()
 
-// function writingReferenceBooks() {
-//   const request = indexedDB.open('referenceBooks', 1)
+async function entrance() {
+  const login = await checkLogin()
+  if (!login) {
+    snack.setSnack({ text: 'Ошибка авторизации', type: 'error' })
+    return
+  }
+  // переходим в приложение
+  route.push('./test')
 
-//   request.onerror = function (event) {
-//     console.log('Проблема с открытием базы данных:', event)
-//   }
+  // получаем  user (name и permissions)
+  const user = await getUser()
+  if (!user) return
+  const permissionsSet = new Set(user.permissions)
+  permissionsSet.add('true')
+  //Записываем user (name и permissions) в хранилище user, indexDB
+  indexDB.setToDatabase('user', 'permissions', permissionsSet)
+  indexDB.setToDatabase('user', 'userName', user.name)
 
-//   request.onupgradeneeded = function () {
-//     let db = request.result
-//     const objectStore = db.createObjectStore('notes', { keyPath: 'id', autoIncrement: true })
-//     objectStore.createIndex('title', 'title', { unique: false })
-//     console.log('База данных и хранилище объектов созданы.')
-//   }
+  //получаем запрос search
+  const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
+  if (!search) return
 
-//   request.onsuccess = function () {
-//     console.log('event', request.result)
-//     let db = request.result
-//     console.log('База данных успешно открыта.')
-//   }
-// }
+  //получаем спарвочники из search
+  for (let itemSearch of search) {
+    const referenceBook = await requests.post(
+      'http://localhost:8080/nsi/record/line/search/auto-complete-dto',
+      {
+        recordValues: [],
+        directoryId: itemSearch.id
+      }
+    )
+
+    if (referenceBook) {
+      //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
+      indexDB.setToDatabase('catalog', itemSearch.code, referenceBook)
+    }
+  }
+}
 
 async function checkLogin() {
   const response = await requests.post('http://localhost:8080/api/authentication/login', {
     login: login.value,
     password: password.value
   })
-  console.log('response', response)
   if (response.successfully) {
-    // если авторизация пройдена
-    route.push('/main')
-    const referenceBooks = await requests.post('http://localhost:8080/nsi/directory/search', {})
-    if (referenceBooks) {
-      console.log('referenceBooks', referenceBooks)
-    }
-  } else {
-    snack.setSnack({ text: 'Ошибка авторизации', type: 'error' })
+    return response.message
   }
+  return null
+}
+
+async function getUser() {
+  return await requests.get('http://localhost:8080/api/user/info')
 }
 </script>
 
@@ -80,8 +95,6 @@ async function checkLogin() {
 .entrance {
   width: 100%;
   height: 100%;
-  /* background: rgb(231, 230, 228); */
-  /* background: linear-gradient(135deg, rgb(31, 31, 29) 0%, #ebeff0 100%); */
   z-index: 9;
   display: grid;
   grid-template-columns: 1fr auto 1fr;

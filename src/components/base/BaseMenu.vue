@@ -1,5 +1,5 @@
 <template>
-  <div v-if="permissions.length > 0" class="menu">
+  <div v-if="permissions" class="menu">
     <input id="close" type="radio" name="acordion" />
     <div class="openClose">
       <svg
@@ -12,11 +12,11 @@
         <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
       </svg>
     </div>
-    <div v-for="item in items" :key="item" class="item">
-      <input :id="item.text" type="radio" name="acordion" />
-      <label :for="item.text" class="item-text" @click="setHeight(item.items.length)">
+    <div v-for="item in sortItems" :key="item" class="item">
+      <input :id="item.title" type="radio" name="acordion" />
+      <label :for="item.title" class="item-text" @click="setHeight(item.children.length)">
         <v-icon :icon="item.icon" size="large" class="item-icon" />
-        <span>{{ item.text }}</span>
+        <span>{{ item.title }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -28,7 +28,7 @@
         </svg>
       </label>
       <div class="submenu">
-        <span v-for="text in item.items" :key="text" class="submenu-text">
+        <span v-for="text in item.children" :key="text" class="submenu-text">
           {{ text.title }}
         </span>
       </div>
@@ -37,161 +37,160 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore()
+const sortItems = ref([])
 
-// const props = defineProps({
-//   items: { type: Array, required: true }
-// })
-let permissions = reactive([])
+let permissions = new Set()
 const items = [
   {
     icon: 'mdi-file-document-outline',
     title: 'Документы, подтверждающие соответствие требованиям безопасности',
-    enabled: true,
-    items: [
+    permission: 'true',
+    children: [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр ОТТС (ОТШ)',
         to: '/conformities',
-        enabled: permissions.includes('Доступ к реестру ОТТС (осуществление поиска)')
+        permission: 'Доступ к реестру ОТТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр СБКТС',
         to: '/vehicle-safety-certificate',
-        enabled: permissions.includes('Доступ к реестру СБКТС (осуществление поиска)')
+        permission: 'Доступ к реестру СБКТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр сертификатов соответствия',
         to: '/powered-machines/certificates',
-        enabled: permissions.includes(
-          'Доступ к реестру сертификатов соответствия (осуществление поиска)'
-        )
+        permission: 'Доступ к реестру сертификатов соответствия (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр деклараций о соответствии',
         to: '/powered-machines/declarations',
-        enabled: permissions.includes(
-          'Доступ к реестру деклараций соответствия (осуществление поиска)'
-        )
+        permission: 'Доступ к реестру деклараций соответствия (осуществление поиска)'
       }
     ]
   },
   {
     icon: 'mdi-receipt',
     title: 'Реестры',
-    enabled: true,
-    items: [
+    permission: 'true',
+    children: [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов ТС',
         to: '/epassports',
-        enabled: permissions.includes(
-          'Доступ к реестру электронных паспортов ТС (осуществление поиска)'
-        )
+        permission: 'Доступ к реестру электронных паспортов ТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов CМ',
         to: '/powered-machines/epassports',
-        enabled: permissions.includes(
-          'Доступ к реестру электронных паспортов СМ (осуществление поиска)'
-        )
+        permission: 'Доступ к реестру электронных паспортов СМ (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений по получению сведений',
         to: '/application-request',
-        enabled: permissions.includes('Доступ к реестру заявлений по получению сведений')
+        permission: 'Доступ к реестру заявлений по получению сведений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений',
         to: '/application',
-        enabled: permissions.includes('Доступ к реестру заявлений')
+        permission: 'Доступ к реестру заявлений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр шаблонов',
         to: '/registry/templates',
-        enabled: !!permissions.find((e) => e.match('Доступ к реестру шаблонов'))
+        permission: 'Доступ к реестру шаблонов'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр НСИ',
         to: '/reference-information',
-        enabled: !!permissions.find((e) => e.match('Доступ к реестру справочников'))
+        permission: "Доступ к реестру справочников'"
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр уведомлений об отмене',
         to: '/cancellation-document',
-        enabled: true
+        permission: 'true'
       }
     ]
   },
   {
     icon: 'mdi-account-tie',
     title: 'Администрирование процессов',
-    enabled: permissions.includes('Доступ к администрированию процессов'),
-    items: [
+    permission: 'Доступ к администрированию процессов',
+    children: [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр ролей',
         to: '/registry-roles',
-        enabled: permissions.includes('Просмотр и редактирование реестра ролей')
+        permission: 'Просмотр и редактирование реестра ролей'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр процессов и версий',
         to: '/administrative-process',
-        enabled: !!permissions.find((e) => e.match('Доступ к реестру процессов и версий'))
+        permission: 'Доступ к реестру процессов и версий'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр бизнес процессов',
         to: '/business-process',
-        enabled: !!permissions.find((e) => e.match('Доступ к реестру бизнес процессов'))
+        permission: 'Доступ к реестру бизнес процессов'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр изготовителей ТС, ШТС, СМ и других видов техники',
         to: '/registry-manufacturers-process',
-        enabled: permissions.includes('Доступ к реестру изготовителей')
+        permission: 'Доступ к реестру изготовителей'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр отчётов',
         to: '/reports-registry',
-        enabled: true
+        permission: 'true'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр органов по сертификации и испытательных лабораторий',
         to: '/registry-certification-testlaboratories',
-        enabled: permissions.includes(
-          'Доступ к реестру органов по сертификации и испытательных лабораторий'
-        )
+        permission: 'Доступ к реестру органов по сертификации и испытательных лабораторий'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Система оповещения',
         to: '/registry-notification-system',
-        enabled: permissions.includes('Сервис сообщений о технологических работах')
+        permission: 'Сервис сообщений о технологических работах'
       }
     ]
   }
 ]
 
-async function getPermissions() {
-  const array = await indexDB.getFromDatabase('user', 'permissions')
-  permissions.splice(0, 0, ...array)
+function filt(array) {
+  return array.filter((item) => {
+    if (item.children) {
+      item.children = filt(item.children)
+    }
+    return permissions.has(item.permission)
+  })
+}
 
-  console.log('permissions mounted', permissions)
+async function getPermissions() {
+  const permissionsSet = await indexDB.getFromDatabase('user', 'permissions')
+  if (permissionsSet.size > 0) {
+    permissions = permissionsSet
+    const sort = filt(await JSON.parse(JSON.stringify(items)))
+    sortItems.value.splice(0, 0, ...sort)
+  }
 }
 
 function setHeight(item) {
