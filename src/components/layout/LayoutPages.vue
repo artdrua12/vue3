@@ -59,7 +59,11 @@
         <base-threeview :selection="selection" :array="sortArray"></base-threeview>
       </base-panel>
     </div>
-    <base-table class="base-table" @choise="setSelection"></base-table>
+    <base-table
+      class="base-table"
+      :table-headers="props.tableHeaders"
+      @choise="setSelection"
+    ></base-table>
   </div>
 </template>
 
@@ -85,6 +89,8 @@ export default {
     BaseSlot,
     BasePanel
   },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['tableHeaders'],
 
   setup() {
     const selection = reactive({})
@@ -483,6 +489,9 @@ export default {
   padding: 10px 5px 15px 20px;
   align-items: flex-start;
   align-content: flex-start;
+  overflow: auto;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
 }
 .baseForm {
   width: 100%;

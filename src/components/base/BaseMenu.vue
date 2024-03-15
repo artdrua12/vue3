@@ -1,5 +1,5 @@
 <template>
-  <div v-if="permissions" class="menu">
+  <div v-show="getUser" class="menu">
     <input id="close" type="radio" name="acordion" />
     <div class="openClose">
       <svg
@@ -28,26 +28,41 @@
         </svg>
       </label>
       <div class="submenu">
-        <span v-for="text in item.children" :key="text" class="submenu-text">
+        <router-link
+          v-for="text in item.children"
+          tag="a"
+          :key="text"
+          class="submenu-text"
+          :to="text.to"
+          >{{ text.title }}</router-link
+        >
+
+        <!-- <span v-for="text in item.children" :key="text" class="submenu-text">
           {{ text.title }}
-        </span>
+        </span> -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useIndexDBStore } from '@/stores/indexDBStore'
-const indexDB = useIndexDBStore()
-const sortItems = ref([])
+import { computed, onMounted } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+const currentUser = useUserStore()
 
-let permissions = new Set()
+const { getUser, getPermissions } = storeToRefs(currentUser)
+
+const sortItems = computed(() => {
+  const cloneItems = JSON.parse(JSON.stringify(items))
+  return filteringByPermissions(cloneItems)
+})
+
 const items = [
   {
     icon: 'mdi-file-document-outline',
     title: 'Документы, подтверждающие соответствие требованиям безопасности',
-    permission: 'true',
+    permission: true,
     children: [
       {
         icon: 'mdi-file-outline',
@@ -76,9 +91,9 @@ const items = [
     ]
   },
   {
-    icon: 'mdi-receipt',
+    icon: 'mdi-receipt-text',
     title: 'Реестры',
-    permission: 'true',
+    permission: true,
     children: [
       {
         icon: 'mdi-file-outline',
@@ -175,22 +190,13 @@ const items = [
   }
 ]
 
-function filt(array) {
+function filteringByPermissions(array) {
   return array.filter((item) => {
     if (item.children) {
-      item.children = filt(item.children)
+      item.children = filteringByPermissions(item.children)
     }
-    return permissions.has(item.permission)
+    return item.permission == true || getPermissions.value.has(item.permission)
   })
-}
-
-async function getPermissions() {
-  const permissionsSet = await indexDB.getFromDatabase('user', 'permissions')
-  if (permissionsSet.size > 0) {
-    permissions = permissionsSet
-    const sort = filt(await JSON.parse(JSON.stringify(items)))
-    sortItems.value.splice(0, 0, ...sort)
-  }
 }
 
 function setHeight(item) {
@@ -200,7 +206,6 @@ function setHeight(item) {
 }
 
 onMounted(() => {
-  getPermissions()
   const el = document.querySelector('.menu')
   if (el) {
     el.onmouseleave = function () {
@@ -228,7 +233,7 @@ onMounted(() => {
     inset 0px 11px 12px -10px rgba(0, 0, 0, 0.45);
   font-family: 'Open Sans', arial;
   font-weight: 400;
-  z-index: 9;
+  z-index: 3;
 }
 .menu:hover,
 .menu:hover .openClose {
@@ -239,7 +244,7 @@ onMounted(() => {
   width: 100%;
   padding: 6px;
   transform: translateX(100%);
-  top: -41px;
+  top: -43px;
   display: flex;
   transition: transform 0.4s;
 
@@ -301,9 +306,12 @@ input[type='radio']:checked ~ .submenu {
   height: var(--height);
 }
 input[type='radio']:checked ~ .item-text .item-bange {
-  transform: rotate(-90deg);
+  transform: rotate(-180deg);
 }
 input[type='radio'] {
   display: none;
+}
+a {
+  text-decoration: none;
 }
 </style>

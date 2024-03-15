@@ -1,52 +1,64 @@
 <template>
   <div class="app">
     <div class="app-top">
-      <p class="app-tiple">Системы электронных паспортов РБ</p>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="40"
-        height="30"
-        fill="white"
+      <p class="app-title">Системы электронных паспортов РБ</p>
+      <v-btn
+        prepend-icon="mdi-exit-to-app"
+        variant="text"
+        color="#f7f7f7"
+        @click="isOpen = !isOpen"
       >
-        <path
-          d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
-        />
-      </svg>
-      <h4>USEREB45CD61</h4>
+        Выход
+      </v-btn>
     </div>
 
     <base-menu></base-menu>
 
-    <router-view v-slot="{ Component, route }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" :key="route.path" class="app-content" />
-      </transition>
-    </router-view>
+    <div class="app-content">
+      <router-view v-slot="{ Component, route }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
+    </div>
 
     <div class="app-footer">
-      <span>@2024 </span>
+      <p>@2024 </p>
     </div>
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
         <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-bell-ring"></v-icon>
         <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
-
         <span>{{ item.text }}</span>
       </div>
     </transition-group>
+    <base-modal
+      v-model:isOpen="isOpen"
+      title="Выход "
+      icon="mdi-exit-to-app"
+      ok-title="Да"
+      cancel-title="отмена"
+      :ok-function="user.exitFromUser"
+    >
+      <span>Вы действительно хотите выйти?</span>
+    </base-modal>
   </div>
 </template>
 
 <script setup>
-import { useSnackStore } from './stores/snackStore'
+import { ref } from 'vue'
+import { useSnackStore } from '@/stores/snackStore'
 import { RouterView } from 'vue-router'
 import BaseMenu from './components/base/BaseMenu.vue'
-import { storeToRefs } from 'pinia'
+import BaseModal from './components/base/BaseModal.vue'
+import { storeToRefs } from 'pinia' // что бы объект был реактивным
+import { useUserStore } from './stores/userStore'
 
-const store = useSnackStore()
-const { snack } = storeToRefs(store)
+const isOpen = ref(false)
+const store = useSnackStore() // для работы с уведовлениями
+const user = useUserStore()
+const { snack } = storeToRefs(store) // для работы с уведомлениями что бы они были реактивны
 </script>
 
 <style>
@@ -60,28 +72,23 @@ const { snack } = storeToRefs(store)
   opacity: 0;
 }
 
-/* snackbar */
-
-#app {
-  width: 100%;
-  height: 100vh;
-  padding: 0px;
-}
 .app {
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 40px 1fr 30px;
   background-color: #f7f7f7;
 }
-.app-tiple {
+.app-title {
   justify-self: flex-start;
   margin-right: auto;
   margin-left: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 18px;
+  font-weight: 500;
 }
 .app-top {
   height: 40px;
@@ -89,23 +96,25 @@ const { snack } = storeToRefs(store)
   display: flex;
   align-items: center;
   color: white;
-  padding: 0px 20px;
+  padding: 0px 0px 0px 20px;
 }
 .app-content {
-  z-index: 1;
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
-  /* резервирует место под скролл */
-  scrollbar-gutter: stable;
 }
 .app-footer {
   height: 30px;
   background-color: #2c4957;
   color: white;
   display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px;
 }
 
+/* snackbar */
 .snackbar-wrapper {
+  grid-area: 1/1/-1/-1;
   position: fixed;
   right: 25px;
   bottom: 45px;
@@ -128,8 +137,7 @@ const { snack } = storeToRefs(store)
   letter-spacing: 1px;
   transition: transform 0.35s;
   box-shadow: 0px 0px 7px -3px #2c4957;
-  border: 1px solid white;
-  border-radius: 7px;
+  border-left: 2px solid white;
 }
 .info {
   background-color: green;

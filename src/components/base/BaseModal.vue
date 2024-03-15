@@ -23,7 +23,7 @@
             :disabled="okDisable"
             class="rounded-0"
             density="comfortable"
-            @click="close"
+            @click="ok"
             >{{ props.okTitle }}</v-btn
           >
         </div>
@@ -58,11 +58,19 @@ const props = defineProps({
   icon: {
     type: String,
     default: 'mdi-tune-variant'
+  },
+  okFunction: {
+    type: Function,
+    default: () => {}
   }
 })
 const emit = defineEmits(['update:isOpen'])
 function close() {
   emit('update:isOpen', false)
+}
+function ok() {
+  props.okFunction()
+  close()
 }
 </script>
 
@@ -80,7 +88,7 @@ function close() {
   z-index: 5;
   background-color: rgba(33, 33, 33, 0.33);
 
-  backdrop-filter: grayscale(1)  blur(1px);
+  backdrop-filter: grayscale(1) blur(1px);
 }
 
 .modal {

@@ -18,6 +18,7 @@
       ></v-text-field>
 
       <v-btn block class="rounded-0 mt-3" @click="entrance">Войти</v-btn>
+      <v-btn block class="rounded-0 mt-3" @click="entrance2">Войти c неполным меню</v-btn>
     </div>
   </div>
 </template>
@@ -28,6 +29,7 @@ import { useRouter } from 'vue-router'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useSnackStore } from '@/stores/snackStore'
+import { useUserStore } from '@/stores/userStore'
 
 const login = ref('bts')
 const password = ref('w6Zvb')
@@ -35,6 +37,13 @@ const requests = useRequestStore()
 const indexDB = useIndexDBStore()
 const route = useRouter()
 const snack = useSnackStore()
+const currentUser = useUserStore()
+
+async function entrance2() {
+  login.value = 'HiHHzyu3'
+  password.value = 'gI,7v$U7dkkn'
+  await entrance()
+}
 
 async function entrance() {
   const login = await checkLogin()
@@ -42,17 +51,14 @@ async function entrance() {
     snack.setSnack({ text: 'Ошибка авторизации', type: 'error' })
     return
   }
-  // переходим в приложение
-  route.push('./test')
+  // получаем  user (name и permissions) и в случае успеха переходим в приложение
+  const getUser = await currentUser.loadUser()
 
-  // получаем  user (name и permissions)
-  const user = await getUser()
-  if (!user) return
-  const permissionsSet = new Set(user.permissions)
-  permissionsSet.add('true')
-  //Записываем user (name и permissions) в хранилище user, indexDB
-  indexDB.setToDatabase('user', 'permissions', permissionsSet)
-  indexDB.setToDatabase('user', 'userName', user.name)
+  if (!getUser) {
+    return
+  }
+
+  route.push('./start')
 
   //получаем запрос search
   const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
@@ -86,9 +92,6 @@ async function checkLogin() {
   return null
 }
 
-async function getUser() {
-  return await requests.get('http://localhost:8080/api/user/info')
-}
 </script>
 
 <style scoped>

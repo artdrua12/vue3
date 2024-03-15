@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LayoutMenu from '../components/layout/LayoutMenu.vue'
 import TheEntrance from '../components/layout/TheEntrance.vue'
 
 const router = createRouter({
@@ -11,9 +10,14 @@ const router = createRouter({
       component: TheEntrance
     },
     {
-      path: '/main',
-      name: 'home',
-      component: LayoutMenu
+      path: '/start',
+      name: 'start',
+      component: () => import('../components/layout/TheStart.vue')
+    },
+    {
+      path: '/conformities',
+      name: 'conformities',
+      component: () => import('../components/conformities/conformitiesPage.vue')
     },
     {
       path: '/about',
