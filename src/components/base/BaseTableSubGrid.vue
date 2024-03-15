@@ -172,7 +172,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, defineEmits } from 'vue'
+import { reactive, ref, defineEmits, defineProps } from 'vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false)
@@ -192,6 +192,10 @@ const header = reactive([
   { text: 'field9', value: 'f9' }
 ])
 const emit = defineEmits(['choise'])
+
+const props = defineProps({
+  tableHeaders: { type: Array, default: '' }
+})
 
 const tableData = reactive([
   {

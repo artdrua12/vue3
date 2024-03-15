@@ -1,5 +1,5 @@
 <template>
-  <layout-pages :tableHeaders="tableHeaders"></layout-pages>
+  <layout-pages :table-headers="tableHeaders"></layout-pages>
 </template>
 
 <script>
