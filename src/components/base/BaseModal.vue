@@ -96,9 +96,7 @@ function ok() {
   flex-direction: column;
   width: auto;
   background-color: #f0f0f0;
-  box-shadow:
-    0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14),
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   border-radius: 5px;
 }
@@ -114,6 +112,9 @@ function ok() {
   border-radius: 4px 4px 0 0;
 }
 .modal-content {
+  max-height: 85vh;
+  overflow: auto;
+  scrollbar-width: thin;
   padding: 20px;
 }
 .modal-button {

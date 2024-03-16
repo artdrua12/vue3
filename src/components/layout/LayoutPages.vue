@@ -20,7 +20,7 @@
               <component
                 :is="item.type"
                 v-for="(item, index) in searchAdditionally"
-                :key="index + 2"
+                :key="index"
                 :style="{
                   'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
                 }"
@@ -59,11 +59,7 @@
         <base-threeview :selection="selection" :array="sortArray"></base-threeview>
       </base-panel>
     </div>
-    <base-table
-      class="base-table"
-      :table-headers="props.tableHeaders"
-      @choise="setSelection"
-    ></base-table>
+    <base-table class="base-table" @choise="setSelection"></base-table>
   </div>
 </template>
 
@@ -90,7 +86,6 @@ export default {
     BasePanel
   },
   // eslint-disable-next-line vue/require-prop-types
-  props: ['tableHeaders'],
 
   setup() {
     const selection = reactive({})
@@ -472,7 +467,7 @@ export default {
       isOpen,
       selection,
       setSelection,
-      sortArray
+      sortArray,
     }
   }
 }

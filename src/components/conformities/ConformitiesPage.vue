@@ -1,9 +1,9 @@
 <template>
-  <layout-pages :table-headers="tableHeaders"></layout-pages>
+  <layout-pages :table-header="tableHeader"></layout-pages>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 export default {
   components: { LayoutPages },
@@ -12,7 +12,7 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const selected = ref([])
     // eslint-disable-next-line no-unused-vars
-    const tableHeaders = [
+    const tableHeader = [
       { text: 'Номер  документа', value: 'docId' },
       { text: 'Тип  документа', value: 'conformityDocKindName' },
       { text: 'Дата изменения', value: 'tcInfo.lastModified' },
@@ -21,6 +21,7 @@ export default {
       { text: 'Статус', value: `conformityDocStatusDetails.docStatus` },
       { text: 'Документ подписан', value: 'cert.signer.fullName' }
     ]
+    provide('tableHeader', tableHeader)
     // eslint-disable-next-line no-unused-vars
     const tableSettingData = [
       { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
@@ -122,6 +123,7 @@ export default {
         model: false
       }
     ]
+    provide('tableSettingData', tableSettingData)
     // eslint-disable-next-line no-unused-vars
     const searchMain = ref({
       own: {
@@ -180,21 +182,18 @@ export default {
             value: '',
             type: 'base-text-field',
             placeholder: 'Фамилия',
-            width: '4'
           },
           singerName: {
             width: '4',
             value: '',
             type: 'base-text-field',
             placeholder: 'Имя',
-            width: '4'
           },
           singerPatronimic: {
             width: '4',
             value: '',
             type: 'base-text-field',
             placeholder: 'Отчество',
-            width: '4'
           }
         }
       }
@@ -277,7 +276,7 @@ export default {
         itemValue: 'key'
       }
     })
-    return { tableHeaders }
+    return { tableHeader }
   }
 }
 </script>

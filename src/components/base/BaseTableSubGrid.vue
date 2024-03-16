@@ -96,7 +96,7 @@
     <base-modal v-model:isOpen="isOpen" title="Настройки">
       <div>
         <base-check-box
-          v-for="(item, index) in header"
+          v-for="(item, index) in tableSettingData"
           :key="index"
           :label="item.text"
         ></base-check-box>
@@ -172,7 +172,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, defineEmits, defineProps } from 'vue'
+import { reactive, ref, defineEmits, inject,onMounted } from 'vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false)
@@ -180,22 +180,9 @@ const checkedElement = ref('')
 const show = ref(false)
 const size = ref(1)
 const fixHeader = reactive([])
-const header = reactive([
-  { text: 'field1 ', value: 'f1' },
-  { text: 'field2', value: 'f2' },
-  { text: 'field3 dfgasf dhf hasg ', value: 'f3' },
-  { text: 'field4', value: 'f4' },
-  { text: 'field5', value: 'f5' },
-  { text: 'field6', value: 'f6' },
-  { text: 'field7', value: 'f7' },
-  { text: 'field8', value: 'f8' },
-  { text: 'field9', value: 'f9' }
-])
+const header = inject('tableHeader')
+const tableSettingData = inject('tableSettingData')
 const emit = defineEmits(['choise'])
-
-const props = defineProps({
-  tableHeaders: { type: Array, default: '' }
-})
 
 const tableData = reactive([
   {
@@ -419,21 +406,22 @@ const tableData = reactive([
     f9: 't9'
   }
 ])
+
 function addFixed(index) {
   const del = header.splice(index, 1)
   fixHeader.push({ elem: del[0], index: index })
 
   const el = document.querySelector('.tableWrapper')
-  const a = getComputedStyle(el).getPropertyValue('--sdf')
-  el.style.setProperty('--sdf', +a + 1)
+  const cyrrentFixColumns = getComputedStyle(el).getPropertyValue('--countFixColumns')
+  el.style.setProperty('--countFixColumns', +cyrrentFixColumns + 1)
 }
 function removeFixed() {
   const removeElemet = fixHeader.pop()
   header.splice(removeElemet.index, 0, removeElemet.elem)
 
   const el = document.querySelector('.tableWrapper')
-  const a = getComputedStyle(el).getPropertyValue('--sdf')
-  el.style.setProperty('--sdf', +a - 1)
+  const cyrrentFixColumns = getComputedStyle(el).getPropertyValue('--countFixColumns')
+  el.style.setProperty('--countFixColumns', +cyrrentFixColumns - 1)
 }
 function choice(e, item) {
   if (checkedElement.value == e.target.id) {
@@ -455,6 +443,11 @@ function onChangeSelect(index) {
   size.value = index
   show.value = false
 }
+
+onMounted(()=>{
+  const el = document.querySelector('.tableWrapper')
+  el.style.setProperty('--countColumns', header.length)
+})
 </script>
 
 <style scoped>
@@ -509,9 +502,10 @@ function onChangeSelect(index) {
 }
 
 .tableWrapper {
-  --sdf: 2;
+  --countFixColumns: 2;
+  --countColumns: 8;
   display: grid;
-  grid-template-columns: 42px repeat(9, minmax(min-content, 400px));
+  grid-template-columns: 42px repeat(var(--countColumns), minmax(min-content, 400px));
   padding-top: 16px;
   overflow: auto;
   scrollbar-width: thin;
@@ -544,6 +538,7 @@ function onChangeSelect(index) {
   align-items: center;
   justify-items: center;
   justify-content: center;
+  min-height: 34px;
 }
 .cell:last-child,
 .headCell:last-child {
@@ -561,7 +556,7 @@ function onChangeSelect(index) {
 }
 
 .fixPos {
-  grid-column: 1 / var(--sdf);
+  grid-column: 1 / var(--countFixColumns);
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: subgrid;
@@ -658,9 +653,7 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow:
-    0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;

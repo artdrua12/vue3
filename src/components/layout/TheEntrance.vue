@@ -46,11 +46,11 @@ async function entrance2() {
 }
 
 async function entrance() {
-  const login = await checkLogin()
-  if (!login) {
-    snack.setSnack({ text: 'Ошибка авторизации', type: 'error' })
-    return
-  }
+  // const login = await checkLogin()
+  // if (!login) {
+  //   snack.setSnack({ text: 'Ошибка авторизации', type: 'error' })
+  //   return
+  // }
   // получаем  user (name и permissions) и в случае успеха переходим в приложение
   const getUser = await currentUser.loadUser()
 
@@ -86,7 +86,7 @@ async function checkLogin() {
     login: login.value,
     password: password.value
   })
-  if (response.successfully) {
+  if (response?.successfully) {
     return response.message
   }
   return null
