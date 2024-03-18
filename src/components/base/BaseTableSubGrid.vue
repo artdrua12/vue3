@@ -68,17 +68,17 @@
       <label
         v-for="(item, index) in tableData"
         :key="index"
-        :class="{ selection: item.f1 == checkedElement }"
+        :class="{ selection: item.id == checkedElement }"
         class="row"
       >
         <div class="fixPos">
           <div class="cell">
             <input
-              :id="item.f1"
+              :id="item.id"
               v-model="checkedElement"
               type="radio"
               name="choice"
-              :value="item.f1"
+              :value="item.id"
               @click="(e) => choice(e, item)"
             />
           </div>
@@ -172,7 +172,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, defineEmits, inject,onMounted } from 'vue'
+import { reactive, ref, defineEmits, inject, onMounted } from 'vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false)
@@ -184,7 +184,8 @@ const header = inject('tableHeader')
 const tableSettingData = inject('tableSettingData')
 const emit = defineEmits(['choise'])
 
-const tableData = reactive([
+let tableData = inject('tableData')
+const tableDataNotDataTEST = reactive([
   {
     f1: 'a1',
     f2: 'a2',
@@ -444,7 +445,7 @@ function onChangeSelect(index) {
   show.value = false
 }
 
-onMounted(()=>{
+onMounted(() => {
   const el = document.querySelector('.tableWrapper')
   el.style.setProperty('--countColumns', header.length)
 })
@@ -653,7 +654,9 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;

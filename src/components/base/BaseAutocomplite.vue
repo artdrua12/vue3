@@ -1,23 +1,30 @@
 <template>
   <v-autocomplete
-    label="Autocomplete"
     density="compact"
-    :items="[
-      'California',
-      'Colorado',
-      'Florida',
-      'Georgia',
-      'Texas',
-      'Wyoming',
-    ]"
+    :label="props.label"
+    :items="props.items"
+    :item-title="props.itemText"
+    :item-value="props.itemValue"
     variant="outlined"
     class="base"
     bg-color="white"
+    @keyup.enter="onEnter"
   ></v-autocomplete>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { defineProps, defineEmits } from 'vue'
+const emit = defineEmits(['update:enter'])
+
+const props = defineProps({
+  label: { type: String, default: '' },
+  itemValue: { type: String, default: '' },
+  itemText: { type: String, default: '' },
+  value: { type: String, default: '' }
+})
+function onEnter() {
+  emit('update:enter')
+}
 </script>
 
 <style></style>

@@ -9,18 +9,26 @@
     persistent-counter
     :rules="[rules.required]"
     bg-color="white"
+    :placeholder="props.placeholder"
+    dirty
+    @keyup.enter="onEnter"
   ></v-text-field>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
+const emit = defineEmits(['update:enter'])
 const rules = {
   required: (value) => !!value || 'Field is required'
 }
 const val = ref('')
 const props = defineProps({
-  label: { type: String, default: '' }
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' }
 })
+function onEnter() {
+  emit('update:enter')
+}
 </script>
 <!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplite и другие с классом base, родные vuetify не изменяются  -->
 <style>
@@ -33,7 +41,14 @@ const props = defineProps({
   min-height: 10px;
   padding-top: 2px;
 }
-.base .v-field--focused input{
+.base .v-field--focused input {
   padding-top: 4px;
+}
+
+.base .v-field--variant-outlined .v-label.v-field-label--floating {
+  transform: translateY(-70%);
+  color: #2c4957;
+  font-size: 14px;
+  font-weight: 600;
 }
 </style>

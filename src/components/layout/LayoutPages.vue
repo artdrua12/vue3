@@ -5,13 +5,19 @@
       <div class="baseLayoutForm">
         <component
           :is="item.type"
-          v-for="(item, index) in searchMain"
+          v-for="(item, index) in fieldsProps"
           :key="index"
+          v-model="item.value"
           :style="{
             'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
           }"
           :label="item.label"
           :data-slot="item.dataSlot"
+          :items="item.items"
+          :item-text="item.text"
+          :item-value="item.itemValue"
+          :placeholder="item.placeholder"
+          @update:enter="find"
         ></component>
 
         <base-panel class="fullWidth" elevation="3">
@@ -19,13 +25,19 @@
             <div class="baseLayoutForm mt-3">
               <component
                 :is="item.type"
-                v-for="(item, index) in searchAdditionally"
+                v-for="(item, index) in fieldsMoreProps"
                 :key="index"
+                v-model="item.value"
                 :style="{
                   'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
                 }"
                 :label="item.label"
-                val="asd"
+                :data-slot="item.dataSlot"
+                :items="item.items"
+                :item-text="item.text"
+                :item-value="item.itemValue"
+                :placeholder="item.placeholder"
+                @update:enter="find"
               ></component>
             </div>
           </div>
@@ -48,6 +60,7 @@
           size="small"
           elevation="3"
           class="rounded-0"
+          @click="find"
         >
           Поиск
         </v-btn>
@@ -59,7 +72,7 @@
         <base-threeview :selection="selection" :array="sortArray"></base-threeview>
       </base-panel>
     </div>
-    <base-table class="base-table" @choise="setSelection"></base-table>
+    <base-table class="base-table" @choise="setSelection" @find="undateAndFind"></base-table>
   </div>
 </template>
 
@@ -86,83 +99,23 @@ export default {
     BasePanel
   },
   // eslint-disable-next-line vue/require-prop-types
-
-  setup() {
+  props: {
+    fields: {
+      type: Object,
+      required: true
+    },
+    fieldsMore: {
+      type: Object,
+      required: true
+    }
+  },
+  emits: ['find'],
+  setup(props, contex) {
     const selection = reactive({})
-    const searchMain = reactive({
-      own: {
-        width: 'all',
-        label: 'Только свои',
-        value: false,
-        type: 'base-check-box'
-      },
-
-      docId: {
-        width: '6',
-        label: 'Номер документа',
-        value: '',
-        type: 'base-text-field'
-      },
-      startDateTime: {
-        width: '3',
-        label: 'Срок действия с',
-        value: '',
-        type: 'base-date-field'
-      },
-      endDateTime: {
-        width: '3',
-        label: 'Срок действия по',
-        value: '',
-        type: 'base-date-field'
-      },
-      docStatus: {
-        width: '6',
-        label: 'Статус',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/classifier/epassport/status-directory-otts',
-        text: 'value'
-      },
-      lastModifiedWith: {
-        width: '3',
-        label: 'Дата изменения с',
-        value: '',
-        type: 'base-date-field'
-      },
-      lastModifiedBy: {
-        width: '3',
-        label: 'Дата изменения по',
-        value: '',
-        type: 'base-date-field'
-      },
-      fullName: {
-        width: 'all',
-        value: '',
-        type: 'base-slot',
-        dataSlot: {
-          signerSurname: {
-            width: '4',
-            label: 'Документ подписан',
-            value: '',
-            type: 'base-text-field',
-            placeholder: 'Фамилия'
-          },
-          singerName: {
-            width: '4',
-            value: '',
-            type: 'base-text-field',
-            placeholder: 'Имя'
-          },
-          singerPatronimic: {
-            width: '4',
-            value: '',
-            type: 'base-text-field',
-            placeholder: 'Отчество'
-          }
-        }
-      }
-    })
+    const fieldsProps = props.fields
+    const fieldsMoreProps = props.fieldsMore
+    let size = ref(5)
+    let page = ref(0)
     const isFilled = computed(() => {
       return Boolean(selection.value)
     })
@@ -380,94 +333,29 @@ export default {
       })
     }
 
-    const searchAdditionally = reactive({
-      vehicleMakeName: {
-        width: '6',
-        label: 'Марка',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/classifier/epassport/vehicle-makes'
-      },
-      commercialName: {
-        width: '6',
-        label: 'Коммерческое наименование',
-        value: '',
-        type: 'base-text-field'
-      },
-      manufacturer: {
-        width: '6',
-        label: 'Изготовитель',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/manufacturer-registry/all',
-        text: 'businessEntityName',
-        itemValue: 'businessEntityName'
-      },
-      assemblyPlant: {
-        width: '6',
-        label: 'Сборочный завод',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/manufacturer-registry/all',
-        text: 'businessEntityName',
-        itemValue: 'businessEntityName'
-      },
-      certificationAgency: {
-        width: '6',
-        label: 'Орган по сертификации',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
-        text: 'certificationBodyNameBrief',
-        itemValue: 'certificationBodyNameBrief'
-      },
-      docType: {
-        width: '6',
-        label: 'Тип документа',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        // url: '/api/classifier/epassport/conformity-doc-kinds',
-        // filter: "filter(e =>['30', '35'].includes(e.key))",
-        text: 'value'
-      },
-      countryCode: {
-        width: '6',
-        label: 'Страна выдачи документа',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/classifier/epassport/countries',
-        text: 'value',
-        itemValue: 'key'
-      },
-      techCategory: {
-        width: '6',
-        label: 'Категория ТС',
-        value: '',
-        type: 'base-autocomplete',
-        items: [],
-        url: '/api/classifier/epassport/vehicle-tech-categories',
-        filter: 'filter(e => e.key.match(/L|M|N|O/))',
-        text: 'key',
-        itemValue: 'key'
-      }
-    })
     const isOpen = ref('false')
     const setSelection = function ($event) {
       selection.value = $event
     }
+    function find() {
+      contex.emit('find', { page: page.value, size: size.value })
+    }
+
+    function undateAndFind(obj) {
+      page.value = obj.page
+      size.value = obj.size
+      find()
+    }
+
     return {
-      searchMain,
-      searchAdditionally,
+      fieldsProps,
+      fieldsMoreProps,
       isOpen,
       selection,
       setSelection,
       sortArray,
+      find,
+      undateAndFind
     }
   }
 }
@@ -485,6 +373,7 @@ export default {
   align-items: flex-start;
   align-content: flex-start;
   overflow: auto;
+  overflow-x: hidden;
   /* резервирует место под скролл */
   scrollbar-gutter: stable;
 }

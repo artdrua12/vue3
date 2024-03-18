@@ -41,7 +41,7 @@
       cancel-title="отмена"
       :ok-function="user.exitFromUser"
     >
-      <span>Вы действительно хотите выйти?</span>
+      <p>Вы действительно хотите выйти?</p>
     </base-modal>
   </div>
 </template>
