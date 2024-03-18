@@ -45,7 +45,7 @@ function onEnter() {
   padding-top: 4px;
 }
 
-.base .v-field--variant-outlined .v-label.v-field-label--floating {
+.base .v-field--variant-outlined .v-field-label--floating {
   transform: translateY(-70%);
   color: #2c4957;
   font-size: 14px;

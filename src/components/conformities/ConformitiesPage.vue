@@ -193,7 +193,8 @@ const fields = reactive({
     width: 'all',
     label: 'Только свои',
     value: false,
-    type: 'base-check-box'
+    type: 'base-check-box',
+    class: 'mb-3'
   },
   docId: {
     width: '6',
@@ -345,7 +346,12 @@ async function getAutocompliteData(obj = {}) {
   for (const key in obj) {
     if (obj[key].url) {
       try {
-        obj[key].items = await requests.get('http://localhost:8080' + obj[key].url)
+        const data = await requests.get('http://localhost:8080' + obj[key].url)
+        if (!data) {
+          throw new Error()
+        }
+        obj[key].items = data
+
         // console.log('ДЛЯ ' + obj[key]?.label, obj[key].items)
       } catch (error) {
         console.log('Ошибка загрузки данных для ' + obj[key]?.label)

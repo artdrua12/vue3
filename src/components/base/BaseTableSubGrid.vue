@@ -65,6 +65,10 @@
         </div>
       </div>
 
+      <div v-if="tableData.length == 0" class="noData">
+        <v-icon icon="mdi-file-hidden" color="#546e7a" size="30"></v-icon>
+        Данные отсутствуют
+      </div>
       <label
         v-for="(item, index) in tableData"
         :key="index"
@@ -503,6 +507,7 @@ onMounted(() => {
 }
 
 .tableWrapper {
+  height: 100%;
   --countFixColumns: 2;
   --countColumns: 8;
   display: grid;
@@ -513,6 +518,7 @@ onMounted(() => {
 }
 
 .fixPosHead {
+  height: min-content;
   top: 0px;
   position: sticky;
   z-index: 2;
@@ -605,6 +611,14 @@ svg:hover {
 input[type='checkbox']:checked + svg {
   transform: rotate(-180deg);
 }
+.noData {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:#546e7a;
+  font-weight:500;
+}
 
 /* пагинация */
 .pagination {
@@ -654,9 +668,7 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow:
-    0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;

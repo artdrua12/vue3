@@ -11,6 +11,7 @@
           :style="{
             'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
           }"
+          :class="item.class"
           :label="item.label"
           :data-slot="item.dataSlot"
           :items="item.items"
@@ -21,7 +22,7 @@
         ></component>
 
         <base-panel class="fullWidth" elevation="3">
-          <div v-if="JSON.stringify(searchAdditionally) !== '{}'">
+          <div v-if="JSON.stringify(fieldsMoreProps) !== '{}'">
             <div class="baseLayoutForm mt-3">
               <component
                 :is="item.type"
