@@ -5,13 +5,12 @@
       <div class="baseLayoutForm">
         <component
           :is="item.type"
-          v-for="(item, index) in fieldsProps"
+          v-for="(item, index) in props.fields"
           :key="index"
           v-model="item.value"
           :style="{
             'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
           }"
-          :class="item.class"
           :label="item.label"
           :data-slot="item.dataSlot"
           :items="item.items"
@@ -22,11 +21,11 @@
         ></component>
 
         <base-panel class="fullWidth" elevation="3">
-          <div v-if="JSON.stringify(fieldsMoreProps) !== '{}'">
+          <div v-if="JSON.stringify(props.fieldsMore) !== '{}'">
             <div class="baseLayoutForm mt-3">
               <component
                 :is="item.type"
-                v-for="(item, index) in fieldsMoreProps"
+                v-for="(item, index) in props.fieldsMore"
                 :key="index"
                 v-model="item.value"
                 :style="{
@@ -70,10 +69,16 @@
     <div class="base-action elevation-5">
       <base-panel props-panel="1">
         <template #title>Выбор действия</template>
-        <base-threeview :selection="selection" :array="sortArray"></base-threeview>
+        <base-threeview :table-row-select="tableRowSelect" :actions="sortArray"></base-threeview>
       </base-panel>
     </div>
-    <base-table class="base-table" @choise="setSelection" @find="undateAndFind"></base-table>
+    <base-table
+      v-model:size="size"
+      v-model:page="page"
+      v-model:tableRowSelect="tableRowSelect"
+      class="base-table"
+      @find="find"
+    ></base-table>
   </div>
 </template>
 
@@ -99,26 +104,27 @@ export default {
     BaseSlot,
     BasePanel
   },
-  // eslint-disable-next-line vue/require-prop-types
   props: {
+    // поля для поиска (основные)
     fields: {
       type: Object,
       required: true
     },
+    // поля для поиска (дополнительные)
     fieldsMore: {
       type: Object,
       required: true
     }
   },
-  emits: ['find'],
+  emits: ['find'], // событие для запуска поиска
   setup(props, contex) {
-    const selection = reactive({})
-    const fieldsProps = props.fields
-    const fieldsMoreProps = props.fieldsMore
-    let size = ref(5)
-    let page = ref(0)
+    const tableRowSelect = reactive({}) // выбранная строка из таблицы
+    const isOpen = ref('false') // модальное окно "Настройки"
+    let size = ref(5) //количество строк на одной странице
+    let page = ref(0) // текущая страница в пагинации
+
     const isFilled = computed(() => {
-      return Boolean(selection.value)
+      return Boolean(tableRowSelect.value)
     })
     const arrayChoise = reactive([
       {
@@ -334,29 +340,18 @@ export default {
       })
     }
 
-    const isOpen = ref('false')
-    const setSelection = function ($event) {
-      selection.value = $event
-    }
     function find() {
       contex.emit('find', { page: page.value, size: size.value })
     }
 
-    function undateAndFind(obj) {
-      page.value = obj.page
-      size.value = obj.size
-      find()
-    }
-
     return {
-      fieldsProps,
-      fieldsMoreProps,
+      props,
       isOpen,
-      selection,
-      setSelection,
+      size,
+      page,
+      tableRowSelect,
       sortArray,
-      find,
-      undateAndFind
+      find
     }
   }
 }
@@ -408,7 +403,7 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: 5px 12px;
+  grid-gap: 12px 12px;
   padding: 12px 24px 10px 24px;
 }
 @media (max-width: 1200px) {

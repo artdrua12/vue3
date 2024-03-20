@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/conformities',
       name: 'conformities',
-      component: () => import('../components/conformities/conformitiesPage.vue')
+      component: () => import('../components/conformities/ConformitiesPage.vue')
     },
     {
       path: '/about',
@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/test',
       name: 'test',
-      component: () => import('../components/layout/Test.vue')
+      component: () => import('../components/layout/TestMy.vue')
     }
   ]
 })

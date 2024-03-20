@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
-    <div class="tableWrapper">
-      <div class="fixPosHead">
+    <div class="tableGrid">
+      <div class="tableFixHead">
         <div class="fixPos">
           <span class="cell">
             <v-tooltip text="Настройки" location="top">
@@ -26,7 +26,7 @@
             <label class="headSort">
               <input
                 type="checkbox"
-                name="choice"
+                name="selectingTableRow"
                 :value="index"
                 @click.self="(e) => sortf(fh, e.target)"
               />
@@ -54,7 +54,7 @@
           <label class="headSort">
             <input
               type="checkbox"
-              name="choice"
+              name="selectingTableRow"
               :value="index"
               @click.self="(e) => sortf(hh, e.target)"
             />
@@ -65,36 +65,39 @@
         </div>
       </div>
 
-      <div v-if="tableData.length == 0" class="noData">
-        <v-icon icon="mdi-file-hidden" color="#546e7a" size="30"></v-icon>
-        Данные отсутствуют
+      <div v-if="tableData.length == 0" class="tableNoData">
+        <v-icon size="30" icon="mdi-select-search"></v-icon>
+        <span> Данные отсутствуют</span>
       </div>
-      <label
-        v-for="(item, index) in tableData"
-        :key="index"
-        :class="{ selection: item.id == checkedElement }"
-        class="row"
-      >
-        <div class="fixPos">
-          <div class="cell">
-            <input
-              :id="item.id"
-              v-model="checkedElement"
-              type="radio"
-              name="choice"
-              :value="item.id"
-              @click="(e) => choice(e, item)"
-            />
-          </div>
-          <span v-for="f in fixHeader" :key="f.el" class="cell">
-            {{ item[f.elem.value] }}
-          </span>
-        </div>
 
-        <span v-for="h in header" :key="h" class="cell">
-          {{ item[h.value] }}
-        </span>
-      </label>
+      <div v-else class="tableContent">
+        <label
+          v-for="(item, index) in tableData"
+          :key="index"
+          :class="{ selection: item.id == tableRowSelectedID }"
+          class="row"
+        >
+          <div class="fixPos">
+            <div class="cell">
+              <input
+                :id="item.id"
+                v-model="tableRowSelectedID"
+                type="radio"
+                name="selectingTableRow"
+                :value="item.id"
+                @click="(e) => selectingTableRow(e, item)"
+              />
+            </div>
+            <span v-for="f in fixHeader" :key="f.el" class="cell">
+              {{ item[f.elem.value] }}
+            </span>
+          </div>
+
+          <span v-for="h in header" :key="h" class="cell">
+            {{ item[h.value] }}
+          </span>
+        </label>
+      </div>
     </div>
 
     <base-modal v-model:isOpen="isOpen" title="Настройки">
@@ -111,13 +114,19 @@
       <span class="itemBottom">
         <span>Строк на странице</span>
         <div class="pagination-select">
-          <input :value="size" readonly class="pagination-select__input" @click="show = true" />
+          <input
+            :value="props.size"
+            readonly
+            class="pagination-select__input"
+            @click="show = true"
+          />
           <div v-show="show" role="listbox" class="pagination-select__listbox">
             <div
-              v-for="item in 5"
+              v-for="item in sizes"
               :key="item"
               role="option"
               class="pagination-select__option"
+              :class="{ active: item == props.size }"
               @click="onChangeSelect(item)"
             >
               {{ item }}
@@ -126,297 +135,85 @@
         </div>
       </span>
 
-      <span v-if="2 > 0">1 из 5 </span>
+      <span v-if="tableData.length > 0">{{ page + 1 }} из {{ countPage }} </span>
       <span v-else> &mdash; </span>
       <span class="itemBottom">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="45"
-          height="30"
-          class="icon-pagination"
-          :fill="2 < 1 ? '#c6c6c6' : ''"
+        <v-btn
+          class="pagination-icon"
+          variant="tonal"
+          icon="mdi-chevron-double-left"
+          :disabled="page < 1"
+          @click="toStart"
         >
-          <path d="M18.41,16.59L13.82,12L18.41,7.41L17,6L11,12L17,18L18.41,16.59M6,6H8V18H6V6Z" />
-        </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="45"
-          height="30"
-          class="icon-pagination"
-          :fill="2 < 1 ? '#c6c6c6' : ''"
-        >
-          <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-        </svg>
+        </v-btn>
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="45"
-          height="30"
-          class="icon-pagination"
-          :fill="2 + 1 >= 3 ? '#c6c6c6' : ''"
+        <v-btn
+          class="pagination-icon"
+          variant="tonal"
+          icon="mdi-chevron-left"
+          :disabled="page < 1"
+          @click="toPrevious"
         >
-          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-        </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="45"
-          height="30"
-          class="icon-pagination"
-          :fill="2 + 1 >= 3 ? '#c6c6c6' : ''"
+        </v-btn>
+
+        <v-btn
+          class="pagination-icon"
+          variant="tonal"
+          icon="mdi-chevron-right"
+          :disabled="page + 1 >= countPage"
+          @click="toNext"
         >
-          <path d="M5.59,7.41L10.18,12L5.59,16.59L7,18L13,12L7,6L5.59,7.41M16,6H18V18H16V6Z" />
-        </svg>
+        </v-btn>
+
+        <v-btn
+          class="pagination-icon"
+          variant="tonal"
+          icon="mdi-chevron-double-right"
+          :disabled="page + 1 >= countPage"
+          @click="toEnd"
+        >
+        </v-btn>
       </span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, defineEmits, inject, onMounted } from 'vue'
+import { reactive, ref, defineEmits, inject, onMounted, defineProps, computed } from 'vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false)
-const checkedElement = ref('')
+const tableRowSelectedID = ref('')
 const show = ref(false)
-const size = ref(1)
+const sizes = [5, 10, 15, 20, 50]
 const fixHeader = reactive([])
-const header = inject('tableHeader')
-const tableSettingData = inject('tableSettingData')
-const emit = defineEmits(['choise'])
 
-let tableData = inject('tableData')
-const tableDataNotDataTEST = reactive([
-  {
-    f1: 'a1',
-    f2: 'a2',
-    f3: 'a3',
-    f4: 'a4',
-    f5: 'a5',
-    f6: 'a6',
-    f7: 'a7',
-    f8: 'a8',
-    f9: 'a9'
-  },
-  {
-    f1: 'b1',
-    f2: 'b2',
-    f3: 'b3',
-    f4: 'b4',
-    f5: 'b5dasf df as dfa sfasd fd asasasasasasasasasasasasas  adsffffffff adfsdfsdfsdfsdfsdfs',
-    f6: 'b6',
-    f7: 'b7',
-    f8: 'b8',
-    f9: 'b9'
-  },
-  {
-    f1: 'c1',
-    f2: 'c2',
-    f3: 'c3',
-    f4: 'c4',
-    f5: 'c5',
-    f6: 'c6',
-    f7: 'c7',
-    f8: 'c8',
-    f9: 'c9'
-  },
-  {
-    f1: 'd1',
-    f2: 'd2',
-    f3: 'd3',
-    f4: 'd4',
-    f5: 'd5',
-    f6: 'd6',
-    f7: 'd7',
-    f8: 'd8',
-    f9: 'd9'
-  },
-  {
-    f1: 'e1',
-    f2: 'e2',
-    f3: 'e3',
-    f4: 'e4',
-    f5: 'e5',
-    f6: 'e6',
-    f7: 'e7',
-    f8: 'e8',
-    f9: 'e9'
-  },
-  {
-    f1: 'f1',
-    f2: 'f2',
-    f3: 'f3',
-    f4: 'f4',
-    f5: 'f5',
-    f6: 'f6',
-    f7: 'f7',
-    f8: 'f8',
-    f9: 'f9'
-  },
-  {
-    f1: 'g1',
-    f2: 'g2',
-    f3: 'g3',
-    f4: 'g4',
-    f5: 'g5',
-    f6: 'g6',
-    f7: 'g7',
-    f8: 'g8',
-    f9: 'g9'
-  },
-  {
-    f1: 'h1',
-    f2: 'h2',
-    f3: 'h3',
-    f4: 'h4',
-    f5: 'h5',
-    f6: 'h6',
-    f7: 'h7',
-    f8: 'h8',
-    f9: 'h9'
-  },
-  {
-    f1: 'i1',
-    f2: 'i2',
-    f3: 'i3',
-    f4: 'i4',
-    f5: 'i5',
-    f6: 'i6',
-    f7: 'i7',
-    f8: 'i8',
-    f9: 'i9'
-  },
-  {
-    f1: 'j1',
-    f2: 'j2',
-    f3: 'j3',
-    f4: 'j4',
-    f5: 'j5',
-    f6: 'j6',
-    f7: 'j7',
-    f8: 'j8',
-    f9: 'j9'
-  },
-  {
-    f1: 'k1',
-    f2: 'k2',
-    f3: 'k3',
-    f4: 'k4',
-    f5: 'k5',
-    f6: 'k6',
-    f7: 'k7',
-    f8: 'k8',
-    f9: 'k9'
-  },
-  {
-    f1: 'l1',
-    f2: 'l2',
-    f3: 'l3',
-    f4: 'l4',
-    f5: 'l5',
-    f6: 'l6',
-    f7: 'l7',
-    f8: 'l8',
-    f9: 'l9'
-  },
-  {
-    f1: 'm1',
-    f2: 'm2',
-    f3: 'm3',
-    f4: 'm4',
-    f5: 'm5',
-    f6: 'm6',
-    f7: 'm7',
-    f8: 'm8',
-    f9: 'm9'
-  },
-  {
-    f1: 'n1',
-    f2: 'n2',
-    f3: 'n3',
-    f4: 'n4',
-    f5: 'n5',
-    f6: 'n6',
-    f7: 'n7',
-    f8: 'n8',
-    f9: 'n9'
-  },
-  {
-    f1: 'o1',
-    f2: 'o2',
-    f3: 'o3',
-    f4: 'o4',
-    f5: 'o5',
-    f6: 'o6',
-    f7: 'o7',
-    f8: 'o8',
-    f9: 'o9'
-  },
-  {
-    f1: 'p1',
-    f2: 'p2',
-    f3: 'p3',
-    f4: 'p4',
-    f5: 'p5',
-    f6: 'p6',
-    f7: 'p7',
-    f8: 'p8',
-    f9: 'p9'
-  },
-  {
-    f1: 'q1',
-    f2: 'q2',
-    f3: 'q3',
-    f4: 'q4',
-    f5: 'q5',
-    f6: 'q6',
-    f7: 'q7',
-    f8: 'q8',
-    f9: 'q9'
-  },
-  {
-    f1: 'r1',
-    f2: 'r2',
-    f3: 'r3',
-    f4: 'r4',
-    f5: 'r5',
-    f6: 'r6',
-    f7: 'r7',
-    f8: 'r8',
-    f9: 'r9'
-  },
-  {
-    f1: 's1',
-    f2: 's2',
-    f3: 's3',
-    f4: 's4',
-    f5: 's5',
-    f6: 's6',
-    f7: 's7',
-    f8: 's8',
-    f9: 's9'
-  },
-  {
-    f1: 't1',
-    f2: 't2',
-    f3: 't3',
-    f4: 't4',
-    f5: 't5',
-    f6: 't6',
-    f7: 't7',
-    f8: 't8',
-    f9: 't9'
-  }
-])
+const tableSettingData = inject('tableSettingData')
+const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
+
+const props = defineProps({
+  size: { type: Number, required: true }, //количество строк на одной странице
+  page: { type: Number, required: true }, // текущая страница
+  tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
+})
+
+const header = inject('tableHeader')
+let tableDataFromResponse = inject('tableDataFromResponse')
+
+let countPage = computed(() => {
+  const totalCount = tableDataFromResponse.value.totalCount || 0
+  return Math.ceil(totalCount / props.size)
+})
+
+let tableData = computed(() => {
+  return tableDataFromResponse.value.result || []
+})
 
 function addFixed(index) {
   const del = header.splice(index, 1)
   fixHeader.push({ elem: del[0], index: index })
 
-  const el = document.querySelector('.tableWrapper')
+  const el = document.querySelector('.tableGrid')
   const cyrrentFixColumns = getComputedStyle(el).getPropertyValue('--countFixColumns')
   el.style.setProperty('--countFixColumns', +cyrrentFixColumns + 1)
 }
@@ -424,17 +221,17 @@ function removeFixed() {
   const removeElemet = fixHeader.pop()
   header.splice(removeElemet.index, 0, removeElemet.elem)
 
-  const el = document.querySelector('.tableWrapper')
+  const el = document.querySelector('.tableGrid')
   const cyrrentFixColumns = getComputedStyle(el).getPropertyValue('--countFixColumns')
   el.style.setProperty('--countFixColumns', +cyrrentFixColumns - 1)
 }
-function choice(e, item) {
-  if (checkedElement.value == e.target.id) {
+function selectingTableRow(e, item) {
+  if (tableRowSelectedID.value == e.target.id) {
     e.target.checked = false
-    checkedElement.value = ''
-    emit('choise', null)
+    tableRowSelectedID.value = ''
+    emit('update:tableRowSelect', null)
   } else {
-    emit('choise', item)
+    emit('update:tableRowSelect', item)
   }
 }
 function sortf(item, t) {
@@ -445,14 +242,43 @@ function sortf(item, t) {
   }
 }
 function onChangeSelect(index) {
-  size.value = index
   show.value = false
+  emit('update:size', index)
+  emit('find')
 }
 
 onMounted(() => {
-  const el = document.querySelector('.tableWrapper')
+  const el = document.querySelector('.tableGrid')
   el.style.setProperty('--countColumns', header.length)
 })
+function toNext() {
+  if (props.page < countPage.value - 1) {
+    emit('update:page', props.page + 1)
+    emit('find')
+    // scrollToFirstElement();
+  }
+}
+function toPrevious() {
+  if (props.page > 0) {
+    emit('update:page', props.page - 1)
+    emit('find')
+    // scrollToFirstElement();
+  }
+}
+function toStart() {
+  if (props.page > 0) {
+    emit('update:page', 0)
+    emit('find')
+    // scrollToFirstElement();
+  }
+}
+function toEnd() {
+  if (props.page < countPage.value - 1) {
+    emit('update:page', countPage.value - 1)
+    emit('find')
+    // scrollToFirstElement();
+  }
+}
 </script>
 
 <style scoped>
@@ -465,10 +291,8 @@ onMounted(() => {
   border-color: #2c4957;
   border: 1px solid;
   border-top: none;
-  border-radius: 5px;
-  /* min-height: 470px; */
   height: 100%;
-  max-height: 86vh;
+  max-height: calc(85vh + 3px);
 }
 .wrapper::after {
   content: '';
@@ -506,19 +330,19 @@ onMounted(() => {
   border-bottom: 1px solid;
 }
 
-.tableWrapper {
+.tableGrid {
   height: 100%;
   --countFixColumns: 2;
   --countColumns: 8;
   display: grid;
   grid-template-columns: 42px repeat(var(--countColumns), minmax(min-content, 400px));
+  grid-template-rows: auto 1fr;
   padding-top: 16px;
   overflow: auto;
   scrollbar-width: thin;
 }
 
-.fixPosHead {
-  height: min-content;
+.tableFixHead {
   top: 0px;
   position: sticky;
   z-index: 2;
@@ -530,6 +354,17 @@ onMounted(() => {
   grid-template-columns: subgrid;
   background-color: #dbdbdb;
 }
+.tableContent {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-content: flex-start;
+}
+.tableNoData {
+  grid-column: 1/-1;
+  justify-self: center;
+  align-self: center;
+}
 .pin {
   width: 35px;
   margin: -15px 0px 0px -10px;
@@ -540,7 +375,7 @@ onMounted(() => {
 .cell {
   border-bottom: 1px solid;
   border-right: 1px solid;
-  padding: 5px;
+  padding: 0px 5px;
   display: flex;
   align-items: center;
   justify-items: center;
@@ -611,14 +446,6 @@ svg:hover {
 input[type='checkbox']:checked + svg {
   transform: rotate(-180deg);
 }
-.noData {
-  grid-column: 1/-1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color:#546e7a;
-  font-weight:500;
-}
 
 /* пагинация */
 .pagination {
@@ -634,12 +461,13 @@ input[type='checkbox']:checked + svg {
   font-weight: 450;
   user-select: none;
   color: rgba(0, 0, 0, 0.75);
-  border-radius: 0 0 5px 5px;
   border-top: 1px solid;
 }
-.icon-pagination {
-  /* background-color: #ededed; */
-  background-color: #eb8484;
+.pagination-icon {
+  width: 40px;
+  height: 30px;
+  background-color: #546e7a;
+  color: #dbdbdb;
   border-radius: 4px;
 }
 .itemBottom {
@@ -668,7 +496,9 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;
@@ -680,6 +510,12 @@ input[type='checkbox']:checked + svg {
   color: #546e7a;
 }
 .pagination-select__option:hover {
+  background-color: #e7e7e7;
+}
+.active {
+  color: #000000;
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
   background-color: #e7e7e7;
 }
 

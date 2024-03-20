@@ -28,18 +28,9 @@
         </svg>
       </label>
       <div class="submenu">
-        <router-link
-          v-for="text in item.children"
-          tag="a"
-          :key="text"
-          class="submenu-text"
-          :to="text.to"
-          >{{ text.title }}</router-link
-        >
-
-        <!-- <span v-for="text in item.children" :key="text" class="submenu-text">
-          {{ text.title }}
-        </span> -->
+        <router-link v-for="text in item.children" :key="text" class="submenu-text" :to="text.to">{{
+          text.title
+        }}</router-link>
       </div>
     </div>
   </div>

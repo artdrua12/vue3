@@ -61,24 +61,24 @@ async function entrance() {
   route.push('./start')
 
   //получаем запрос search
-  const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
-  if (!search) return
+  // const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
+  // if (!search) return
 
   //получаем спарвочники из search
-  for (let itemSearch of search) {
-    const referenceBook = await requests.post(
-      'http://localhost:8080/nsi/record/line/search/auto-complete-dto',
-      {
-        recordValues: [],
-        directoryId: itemSearch.id
-      }
-    )
+  // for (let itemSearch of search) {
+  //   const referenceBook = await requests.post(
+  //     'http://localhost:8080/nsi/record/line/search/auto-complete-dto',
+  //     {
+  //       recordValues: [],
+  //       directoryId: itemSearch.id
+  //     }
+  //   )
 
-    if (referenceBook) {
-      //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
-      indexDB.setToDatabase('catalog', itemSearch.code, referenceBook)
-    }
-  }
+  //   if (referenceBook) {
+  //     //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
+  //     indexDB.setToDatabase('catalog', itemSearch.code, referenceBook)
+  //   }
+  // }
 }
 
 async function checkLogin() {
@@ -111,7 +111,6 @@ async function checkLogin() {
   grid-area: 2/2/3/3;
   padding: 40px 50px;
   border: 1px solid rgba(223, 64, 90, 1);
-  background-image: url(@/assets/PD-007.jpg);
   background-color: rgba(231, 230, 228, 0.603);
   border-radius: 20px;
   background: linear-gradient(120deg, rgba(30, 29, 31, 1) 0%, rgba(223, 64, 90, 1) 100%);

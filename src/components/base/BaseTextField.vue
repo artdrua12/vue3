@@ -34,16 +34,17 @@ function onEnter() {
 <style>
 .base .v-field__input {
   min-height: 25px;
-  height: 30px;
-  padding-top: 3px;
+  height: 27px;
+  padding-top: 1px;
+  padding-bottom: 3px;
 }
 .base .v-input__details {
   min-height: 10px;
+  padding-top: 0px;
+}
+/* .base .v-field--focused input {
   padding-top: 2px;
-}
-.base .v-field--focused input {
-  padding-top: 4px;
-}
+} */
 
 .base .v-field--variant-outlined .v-field-label--floating {
   transform: translateY(-70%);

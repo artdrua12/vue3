@@ -3,12 +3,11 @@
 </template>
 
 <script setup>
-import { reactive, provide, ref } from 'vue'
+import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
 
 const requests = useRequestStore() // для работы с запросами
-// const selected = ref([])
 const tableHeader = [
   { text: 'Номер  документа', value: 'docId' },
   { text: 'Тип  документа', value: 'conformityDocKindName' },
@@ -18,9 +17,6 @@ const tableHeader = [
   { text: 'Статус', value: `conformityDocStatusDetails.docStatus` },
   { text: 'Документ подписан', value: 'cert.signer.fullName' }
 ]
-const tableData = ref([])
-provide('tableData', tableData)
-provide('tableHeader', tableHeader)
 const tableSettingData = [
   { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
   { text: 'Сформирован на основании', value: 'conformityDocKindName', id: 2, model: false },
@@ -121,80 +117,13 @@ const tableSettingData = [
     model: false
   }
 ]
-provide('tableSettingData', tableSettingData)
-
-async function find(obj) {
-  const body = {
-    isOwn: fields.own.value,
-    isRegexSearch: true,
-    query: {
-      ['docId']: fields.docId.value,
-      ['docStartDate']: fields.startDateTime.value + 'to',
-      ['docValidityDate']: 'to' + fields.endDateTime.value,
-      ['conformityDocStatusDetails.docStatus']: fields.docStatus.value,
-      ['unifiedCountryCode.value']: fieldsMore.countryCode.value,
-      ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
-      ['cert.signer.surname']: fields.fullName.dataSlot.signerSurname.value,
-      ['cert.signer.name']: fieldsMore.namePartonimic,
-      ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
-      ['conformityAuthorityInformationDetails.businessEntityBriefName']:
-        fieldsMore.certificationAgency.value,
-      ['vehicleTypeDetails.vehicleMakeName']: fieldsMore.vehicleMakeName.value,
-      ['vehicleTypeDetails.vehicleCommercialName']: fieldsMore.commercialName.value,
-      ['vehicleTypeDetails.vehicleTechCategoryCode']: fieldsMore.techCategory.value,
-      ['conformityDocKindName']: fieldsMore.docType.value
-    },
-    fields: [
-      'docId',
-      'conformityDocKindName',
-      'tcInfo.lastModified',
-      'vehicleManufacturerDetails',
-      'applicantDetails.businessEntityName',
-      'conformityDocStatusDetails.docStatus',
-      'unifiedCountryCode.value',
-      'conformityDocKindName',
-      'vehicleTypeDetails.vehicleCommercialName',
-      'vehicleTypeDetails.vehicleTypeIdZ',
-      'vehicleVariantDetails.vehicleTypeVariantId',
-      'vehicleTypeDetails.vehicleTechCategoryCode',
-      'vehicleVariantDetails.vehicleEcoClassCode',
-      'docStartDate',
-      'docValidityDate',
-      'conformityAuthorityInformationDetails.businessEntityBriefName',
-      'vehicleVariantDetails.vehicleRunningGearDetails.vehicleTransmissionText',
-      'vehicleVariantDetails.engineType',
-      'vehicleVariantDetails.vehicleRunningGearDetails.vehicleWheelFormula',
-      'vehicleVariantDetails.vehicleBodyworkDetails.vehicleBodyworkType',
-      'vehicleVariantDetails.fuelFeedDetails',
-      'vehicleVariantDetails.vehicleIgnitionDetails',
-      'vehicleVariantDetails.exhaustDetails',
-      'vehicleTypeDetails.vehicleMakeName',
-      'vehicleVariantDetails.vehicleOverallDimensionDetails.lengthMeasure.valueMin',
-      'vehicleVariantDetails.vehicleOverallDimensionDetails.widthMeasure.valueMin',
-      'vehicleVariantDetails.vehicleOverallDimensionDetails.heightMeasure.valueMin',
-      'cert.signer.surname',
-      'cert.signer.name'
-    ],
-    pageAndSort: {
-      page: obj.page,
-      size: obj.size
-    }
-  }
-  const res = await requests.post(
-    'http://localhost:8080/api/otts/docDetails/modification/search',
-    body
-  )
-  tableData.value = res.result
-  console.log('tableData.value', tableData.value)
-}
-
+let tableDataFromResponse = ref({})
 const fields = reactive({
   own: {
     width: 'all',
     label: 'Только свои',
     value: false,
-    type: 'base-check-box',
-    class: 'mb-3'
+    type: 'base-check-box'
   },
   docId: {
     width: '6',
@@ -262,7 +191,6 @@ const fields = reactive({
     }
   }
 })
-
 const fieldsMore = reactive({
   vehicleMakeName: {
     width: '6',
@@ -270,7 +198,9 @@ const fieldsMore = reactive({
     value: '',
     type: 'base-autocomplete',
     items: [],
-    url: '/api/classifier/epassport/vehicle-makes'
+    url: '/api/classifier/epassport/vehicle-makes',
+    text: 'value',
+    itemValue: 'value'
   },
   commercialName: {
     width: '6',
@@ -317,7 +247,8 @@ const fieldsMore = reactive({
     //conformityDocKind отправляем в экшены
     url: '/api/classifier/epassport/conformity-doc-kinds',
     filter: "filter(e =>['30', '35'].includes(e.key))",
-    text: 'value'
+    text: 'value',
+    itemValue: 'value'
   },
   countryCode: {
     width: '6',
@@ -341,6 +272,237 @@ const fieldsMore = reactive({
     itemValue: 'key'
   }
 })
+const actionsArray = [
+  {
+    name: 'Создать документ',
+    enabled: true,
+    children: [
+      {
+        name: 'ОТТС',
+        key: 'createOTTS',
+        icon: 'mdi-file-plus-outline',
+        enabled: true
+        // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
+      },
+      {
+        name: 'ОТШ',
+        key: 'createOTCH',
+        icon: 'mdi-file-plus-outline',
+        enabled: true
+        // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
+      }
+    ]
+  },
+  {
+    key: '1',
+    name: 'Создать шаблон',
+    enabled: false,
+    children: [
+      {
+        key: '9',
+        name: 'Единичный шаблон',
+        enabled: false,
+        icon: 'mdi-file-plus-outline'
+      },
+      {
+        key: '10',
+        name: 'Набор шаблонов',
+        enabled: false,
+        icon: 'mdi-file-plus-outline'
+      }
+    ]
+  },
+  {
+    key: 'edit',
+    name: 'Редактировать',
+    icon: 'mdi-file-document-edit-outline',
+    enabled: true
+    // this.hasSelected &&
+    // this.permissions.includes('Редактировать документ ОТТС (ОТШ)') &&
+    // this.selected[0].conformityDocStatusDetails.docStatus === 'Черновик'
+  },
+  // решение до реализации заявлений!!
+  {
+    key: 'edit',
+    name: 'Внесение изменений НО в ОТТС в статусе «Действующий»',
+    icon: 'mdi-file-document-edit-outline',
+    enabled: true
+    // this.hasSelected &&
+    // this.permissions.includes('Утвердить документ ОТТС (ОТШ)') &&
+    // this.selected[0].conformityDocStatusDetails.docStatus === 'Действующий'
+  },
+  {
+    key: 'look',
+    name: 'Просмотреть',
+    icon: 'mdi-file-eye-outline',
+    enabled: true
+    // enabled: this.hasSelected && this.permissions.includes('Просмотреть документ ОТТС (ОТШ)')
+  },
+  {
+    key: 'copy',
+    name: 'Копировать',
+    icon: 'mdi-content-copy',
+    enabled: true
+    // enabled:
+    //   this.hasSelected &&
+    //   this.selected[0].conformityDocStatusDetails.docStatus === 'Действующий' &&
+    //   this.permissions.includes('Копировать документ ОТТС (ОТШ)')
+  },
+  {
+    key: '4',
+    name: 'Аннулировать',
+    enabled: false,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  { key: '5', name: 'Вернуть', enabled: false, icon: 'mdi-file-document-edit-outline' },
+  {
+    key: '6',
+    name: 'Приостановить',
+    enabled: true,
+    // enabled: this.isEnabledSuspenseButton,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  { key: '7', name: 'Продлить', enabled: false, icon: 'mdi-file-document-edit-outline' },
+  {
+    key: '8',
+    name: 'Возобновить',
+    enabled: true,
+    // enabled: this.isEnabledResume,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  {
+    key: 'xml',
+    name: 'Выгрузка',
+    icon: 'mdi-xml',
+    enabled: false
+    /* this.hasSelected && this.permissions.includes('Выгрузка документа ОТТС (ОТШ)') */
+  },
+  {
+    key: '9',
+    name: 'Пересмотреть',
+    enabled: false,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  {
+    key: '10',
+    name: 'Корректировать',
+    enabled: true,
+    // enabled: this.isEnabledCorrectionButton,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  {
+    key: '11',
+    name: 'Прекратить действие',
+    enabled: false,
+    icon: 'mdi-file-document-edit-outline'
+  },
+  {
+    key: 'delete',
+    name: 'Удалить',
+    icon: 'mdi-delete-outline',
+    enabled: true
+    // enabled:
+    //   this.hasSelected &&
+    //   this.selected[0].conformityDocStatusDetails.docStatus === 'Черновик' &&
+    //   this.permissions.includes('Удалить документ ОТТС (ОТШ)')
+  }
+]
+
+provide('tableDataFromResponse', tableDataFromResponse)
+provide('tableSettingData', tableSettingData)
+provide('tableHeader', tableHeader)
+provide('actionsArray', actionsArray)
+
+async function find(obj) {
+  const body = {
+    isOwn: fields.own.value,
+    isRegexSearch: true,
+    query: {
+      ['docId']: fields.docId.value,
+      ['docStartDate']: fields.startDateTime.value + 'to',
+      ['docValidityDate']: 'to' + fields.endDateTime.value,
+      ['conformityDocStatusDetails.docStatus']: fields.docStatus.value,
+      ['unifiedCountryCode.value']: fieldsMore.countryCode.value,
+      ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
+      ['cert.signer.surname']: fields.fullName.dataSlot.signerSurname.value,
+      ['cert.signer.name']: fieldsMore.namePartonimic,
+      ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
+      ['conformityAuthorityInformationDetails.businessEntityBriefName']:
+        fieldsMore.certificationAgency.value,
+      ['vehicleTypeDetails.vehicleMakeName']: fieldsMore.vehicleMakeName.value,
+      ['vehicleTypeDetails.vehicleCommercialName']: fieldsMore.commercialName.value,
+      ['vehicleTypeDetails.vehicleTechCategoryCode']: fieldsMore.techCategory.value,
+      ['conformityDocKindName']: fieldsMore.docType.value
+    },
+    fields: [
+      'docId',
+      'conformityDocKindName',
+      'tcInfo.lastModified',
+      'vehicleManufacturerDetails',
+      'applicantDetails.businessEntityName',
+      'conformityDocStatusDetails.docStatus',
+      'unifiedCountryCode.value',
+      'conformityDocKindName',
+      'vehicleTypeDetails.vehicleCommercialName',
+      'vehicleTypeDetails.vehicleTypeIdZ',
+      'vehicleVariantDetails.vehicleTypeVariantId',
+      'vehicleTypeDetails.vehicleTechCategoryCode',
+      'vehicleVariantDetails.vehicleEcoClassCode',
+      'docStartDate',
+      'docValidityDate',
+      'conformityAuthorityInformationDetails.businessEntityBriefName',
+      'vehicleVariantDetails.vehicleRunningGearDetails.vehicleTransmissionText',
+      'vehicleVariantDetails.engineType',
+      'vehicleVariantDetails.vehicleRunningGearDetails.vehicleWheelFormula',
+      'vehicleVariantDetails.vehicleBodyworkDetails.vehicleBodyworkType',
+      'vehicleVariantDetails.fuelFeedDetails',
+      'vehicleVariantDetails.vehicleIgnitionDetails',
+      'vehicleVariantDetails.exhaustDetails',
+      'vehicleTypeDetails.vehicleMakeName',
+      'vehicleVariantDetails.vehicleOverallDimensionDetails.lengthMeasure.valueMin',
+      'vehicleVariantDetails.vehicleOverallDimensionDetails.widthMeasure.valueMin',
+      'vehicleVariantDetails.vehicleOverallDimensionDetails.heightMeasure.valueMin',
+      'cert.signer.surname',
+      'cert.signer.name'
+    ],
+    pageAndSort: {
+      page: obj.page,
+      size: obj.size
+    }
+  }
+  const res = await requests.post(
+    'http://localhost:8080/api/otts/docDetails/modification/search',
+    body
+  )
+
+  const noData = {
+    currentPage: 0,
+    result: [
+      {
+        docId: 'test',
+        conformityDocKindName: 'test',
+        tcInfo: {
+          lastModified: 'test'
+        },
+        manufacturerBusinessEntityName: 'test',
+        applicantDetails: 'test',
+        conformityDocStatusDetails: {
+          docStatus: 'test'
+        },
+        cert: {
+          signer: {
+            fullName: 'test'
+          }
+        }
+      }
+    ],
+    totalCount: 1
+  }
+
+  console.log('res', res)
+
+  tableDataFromResponse.value = res || noData
+}
 
 async function getAutocompliteData(obj = {}) {
   for (const key in obj) {
@@ -351,8 +513,6 @@ async function getAutocompliteData(obj = {}) {
           throw new Error()
         }
         obj[key].items = data
-
-        // console.log('ДЛЯ ' + obj[key]?.label, obj[key].items)
       } catch (error) {
         console.log('Ошибка загрузки данных для ' + obj[key]?.label)
       }
@@ -362,6 +522,7 @@ async function getAutocompliteData(obj = {}) {
     }
   }
 }
+
 getAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 

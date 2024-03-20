@@ -26,5 +26,3 @@ function onEnter() {
   emit('update:enter')
 }
 </script>
-
-<style></style>

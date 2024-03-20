@@ -1,6 +1,6 @@
 <template>
   <div tag="div" name="list" class="wrapper">
-    <div v-for="item in props.array" :key="item.name">
+    <div v-for="item in actionsArray" :key="item.name">
       <div v-if="item.children">
         <input :id="item.name" type="checkbox" :value="item.name" />
         <label :for="item.name" class="bold threeTitle mainTitle">
@@ -41,7 +41,7 @@
           {{ item.name }}
         </label>
         <div class="threeChield">
-          <div class="threeTitle threeTitle--padding" v-for="itm in item.children" :key="itm.name">
+          <div v-for="itm in item.children" :key="itm.name" class="threeTitle threeTitle--padding">
             <v-icon size="25px" class="icon">{{ itm.icon }}</v-icon>
             <span class="">{{ itm.name }}</span>
           </div>
@@ -57,11 +57,11 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, inject } from 'vue'
 const props = defineProps({
-  selection: { type: Object },
-  array: { type: Array, required: true, default: [] }
+  tableRowSelect: { type: Object, required: true, default: {} } // выбранная строка из таблицы
 })
+let actionsArray = inject('actionsArray') // объект всех действий
 </script>
 
 <style scoped>
