@@ -1,5 +1,6 @@
 <template>
   <div tag="div" name="list" class="wrapper">
+    <v-btn @click="test">TEST</v-btn>
     <div v-for="item in actionsArray" :key="item.name">
       <div v-if="item.children">
         <input :id="item.name" type="checkbox" :value="item.name" />
@@ -57,11 +58,21 @@
 </template>
 
 <script setup>
-import { defineProps, inject } from 'vue'
+import { defineProps, inject, computed } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+
+const currentUser = useUserStore() //получение permissions
 const props = defineProps({
-  tableRowSelect: { type: Object, required: true, default: {} } // выбранная строка из таблицы
+  tableRowSelect: { type: Object, required: true } // выбранная строка из таблицы
 })
-let actionsArray = inject('actionsArray') // объект всех действий
+let actionsArray = inject('actionsArray') // все действия
+let permissions = currentUser.getPermissions
+let isTableRowSelect = computed(() => {
+  return Object.keys(props.tableRowSelect).length == 0
+})
+function test() {
+  console.log('isEmpty', isTableRowSelect.value, 'tableRowSelect', props.tableRowSelect)
+}
 </script>
 
 <style scoped>

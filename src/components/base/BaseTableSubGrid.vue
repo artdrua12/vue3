@@ -229,7 +229,7 @@ function selectingTableRow(e, item) {
   if (tableRowSelectedID.value == e.target.id) {
     e.target.checked = false
     tableRowSelectedID.value = ''
-    emit('update:tableRowSelect', null)
+    emit('update:tableRowSelect', {})
   } else {
     emit('update:tableRowSelect', item)
   }
@@ -246,11 +246,6 @@ function onChangeSelect(index) {
   emit('update:size', index)
   emit('find')
 }
-
-onMounted(() => {
-  const el = document.querySelector('.tableGrid')
-  el.style.setProperty('--countColumns', header.length)
-})
 function toNext() {
   if (props.page < countPage.value - 1) {
     emit('update:page', props.page + 1)
@@ -279,6 +274,11 @@ function toEnd() {
     // scrollToFirstElement();
   }
 }
+
+onMounted(() => {
+  const el = document.querySelector('.tableGrid')
+  el.style.setProperty('--countColumns', header.length)
+})
 </script>
 
 <style scoped>
@@ -496,9 +496,7 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow:
-    0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;

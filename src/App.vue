@@ -140,10 +140,10 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   border-left: 2px solid white;
 }
 .info {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.9);
 }
 .error {
-  background-color: #c10000;
+  background-color: rgba(194, 0, 0, 0.9);
 }
 .snack-icon {
   display: block;

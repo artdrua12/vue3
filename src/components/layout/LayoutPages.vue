@@ -69,7 +69,7 @@
     <div class="base-action elevation-5">
       <base-panel props-panel="1">
         <template #title>Выбор действия</template>
-        <base-threeview :table-row-select="tableRowSelect" :actions="sortArray"></base-threeview>
+        <base-threeview :table-row-select="tableRowSelect" ></base-threeview>
       </base-panel>
     </div>
     <base-table
@@ -118,7 +118,7 @@ export default {
   },
   emits: ['find'], // событие для запуска поиска
   setup(props, contex) {
-    const tableRowSelect = reactive({}) // выбранная строка из таблицы
+    const tableRowSelect = ref({}) // выбранная строка из таблицы
     const isOpen = ref('false') // модальное окно "Настройки"
     let size = ref(5) //количество строк на одной странице
     let page = ref(0) // текущая страница в пагинации

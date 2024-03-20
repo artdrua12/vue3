@@ -281,14 +281,14 @@ const actionsArray = [
         name: 'ОТТС',
         key: 'createOTTS',
         icon: 'mdi-file-plus-outline',
-        enabled: true
+        enabled: { permission: 'Создать документ ОТТС (ОТШ)' }
         // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
       },
       {
         name: 'ОТШ',
         key: 'createOTCH',
         icon: 'mdi-file-plus-outline',
-        enabled: true
+        enabled: { permission: 'Создать документ ОТТС (ОТШ)' }
         // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
       }
     ]
@@ -316,7 +316,7 @@ const actionsArray = [
     key: 'edit',
     name: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
-    enabled: true
+    enabled: { isTableRowSelect: 'true', permission: 'Редактировать документ ОТТС (ОТШ)' }
     // this.hasSelected &&
     // this.permissions.includes('Редактировать документ ОТТС (ОТШ)') &&
     // this.selected[0].conformityDocStatusDetails.docStatus === 'Черновик'
@@ -479,7 +479,80 @@ async function find(obj) {
     currentPage: 0,
     result: [
       {
+        id: 1,
         docId: 'test',
+        conformityDocKindName: 'test',
+        tcInfo: {
+          lastModified: 'test'
+        },
+        manufacturerBusinessEntityName: 'test',
+        applicantDetails: 'test',
+        conformityDocStatusDetails: {
+          docStatus: 'test'
+        },
+        cert: {
+          signer: {
+            fullName: 'test'
+          }
+        }
+      },
+      {
+        id: 2,
+        docId: 'test2',
+        conformityDocKindName: 'test',
+        tcInfo: {
+          lastModified: 'test'
+        },
+        manufacturerBusinessEntityName: 'test',
+        applicantDetails: 'test',
+        conformityDocStatusDetails: {
+          docStatus: 'test'
+        },
+        cert: {
+          signer: {
+            fullName: 'test'
+          }
+        }
+      },
+      {
+        id: 3,
+        docId: 'test3',
+        conformityDocKindName: 'test',
+        tcInfo: {
+          lastModified: 'test'
+        },
+        manufacturerBusinessEntityName: 'test',
+        applicantDetails: 'test',
+        conformityDocStatusDetails: {
+          docStatus: 'test'
+        },
+        cert: {
+          signer: {
+            fullName: 'test'
+          }
+        }
+      },
+      {
+        id: 4,
+        docId: 'test4',
+        conformityDocKindName: 'test',
+        tcInfo: {
+          lastModified: 'test'
+        },
+        manufacturerBusinessEntityName: 'test',
+        applicantDetails: 'test',
+        conformityDocStatusDetails: {
+          docStatus: 'test'
+        },
+        cert: {
+          signer: {
+            fullName: 'test'
+          }
+        }
+      },
+      {
+        id: 5,
+        docId: 'test5',
         conformityDocKindName: 'test',
         tcInfo: {
           lastModified: 'test'
@@ -496,7 +569,7 @@ async function find(obj) {
         }
       }
     ],
-    totalCount: 1
+    totalCount: 7
   }
 
   console.log('res', res)
