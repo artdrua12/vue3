@@ -1,10 +1,9 @@
 <template>
   <div tag="div" name="list" class="wrapper">
-    <v-btn @click="test">TEST</v-btn>
-    <div v-for="item in actionsArray" :key="item.name">
+    <div v-for="item in actionsFilter" :key="item.text">
       <div v-if="item.children">
-        <input :id="item.name" type="checkbox" :value="item.name" />
-        <label :for="item.name" class="bold threeTitle mainTitle">
+        <input :id="item.text" type="checkbox" :value="item.text" />
+        <label :for="item.text" class="bold threeTitle mainTitle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -39,19 +38,19 @@
               d="M6.1,10L4,18V8H21A2,2 0 0,0 19,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H19C19.9,20 20.7,19.4 20.9,18.5L23.2,10H6.1M19,18H6L7.6,12H20.6L19,18Z"
             />
           </svg>
-          {{ item.name }}
+          {{ item.text }}
         </label>
         <div class="threeChield">
-          <div v-for="itm in item.children" :key="itm.name" class="threeTitle threeTitle--padding">
+          <div v-for="itm in item.children" :key="itm.text" class="threeTitle threeTitle--padding">
             <v-icon size="25px" class="icon">{{ itm.icon }}</v-icon>
-            <span class="">{{ itm.name }}</span>
+            <span class="">{{ itm.text }}</span>
           </div>
         </div>
       </div>
 
       <div v-else class="threeTitle">
         <v-icon size="25px" class="icon">{{ item.icon }}</v-icon>
-        <span class="bold">{{ item.name }}</span>
+        <span class="bold">{{ item.text }}</span>
       </div>
     </div>
   </div>
@@ -60,18 +59,51 @@
 <script setup>
 import { defineProps, inject, computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
-
+import { storeToRefs } from 'pinia'
 const currentUser = useUserStore() //получение permissions
+const { getPermissions } = storeToRefs(currentUser)
+
 const props = defineProps({
-  tableRowSelect: { type: Object, required: true } // выбранная строка из таблицы
+  selected: { type: Object, required: true } // выбранная строка из таблицы
 })
-let actionsArray = inject('actionsArray') // все действия
-let permissions = currentUser.getPermissions
-let isTableRowSelect = computed(() => {
-  return Object.keys(props.tableRowSelect).length == 0
+let actions = inject('actions') // все действия
+const pathToStatus = inject('pathToStatus') //путь к статусу
+let isSelected = computed(() => Object.keys(props.selected).length > 0)
+let actionsFilter = computed(() => {
+  const cloneActions = JSON.parse(JSON.stringify(actions))
+  return filteringByEnabled(cloneActions)
 })
-function test() {
-  console.log('isEmpty', isTableRowSelect.value, 'tableRowSelect', props.tableRowSelect)
+
+function filteringByEnabled(array) {
+  return array.filter((item) => {
+    if (item.children) {
+      item.children = filteringByEnabled(item.children)
+    }
+    return typeof item.enabled === 'object' ? checkObj(item.enabled) : item.enabled
+  })
+}
+function checkObj(obj) {
+  let isTrue = true
+  for (let key in obj) {
+    if (key === 'notEmpty') {
+      isTrue = isSelected.value
+    } else if (key === 'permission') {
+      isTrue = getPermissions.value.has(obj[key])
+    } else if (key === 'notEmptyAndStatus') {
+      if (!isSelected.value) return false //проверка что не пустой
+      try {
+        const evalVal = eval(`props.selected.${pathToStatus}`) || ''
+        isTrue = obj[key].includes(evalVal)
+      } catch {
+        isTrue = false
+      }
+    }
+
+    if (!isTrue) {
+      return false
+    }
+  }
+  return isTrue
 }
 </script>
 

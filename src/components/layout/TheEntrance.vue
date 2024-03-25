@@ -60,6 +60,11 @@ async function entrance() {
 
   route.push('./start')
 
+  const referenceBook = await requests.post(
+    'http://localhost:8080/api/classifiers/get-full-records',
+    {}
+  )
+  console.log('referenceBook', referenceBook)
   //получаем запрос search
   // const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
   // if (!search) return
@@ -91,7 +96,6 @@ async function checkLogin() {
   }
   return null
 }
-
 </script>
 
 <style scoped>

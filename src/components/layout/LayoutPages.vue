@@ -1,7 +1,7 @@
 <template>
   <div class="baseLayout">
     <base-panel class="baseSearch" elevation="3" props-panel="1">
-      <template #title>Реестр ОТТС</template>
+      <template #title>{{ props.title }}</template>
       <div class="baseLayoutForm">
         <component
           :is="item.type"
@@ -69,7 +69,7 @@
     <div class="base-action elevation-5">
       <base-panel props-panel="1">
         <template #title>Выбор действия</template>
-        <base-threeview :table-row-select="tableRowSelect" ></base-threeview>
+        <base-threeview :selected="tableRowSelect"></base-threeview>
       </base-panel>
     </div>
     <base-table
@@ -105,6 +105,7 @@ export default {
     BasePanel
   },
   props: {
+    title: { type: String, required: true },
     // поля для поиска (основные)
     fields: {
       type: Object,

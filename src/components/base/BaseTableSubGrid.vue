@@ -1,21 +1,30 @@
 <template>
   <div class="wrapper">
     <div class="tableGrid">
-      <div class="tableFixHead">
+      <div :key="tableHeaderKey" class="tableFixHead">
         <div class="fixPos">
-          <span class="cell">
-            <v-tooltip text="Настройки" location="top">
-              <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  icon="mdi-tune-variant"
-                  variant="text"
-                  size="auto"
-                  @click="isOpen = true"
-                ></v-btn>
-              </template>
-            </v-tooltip>
-          </span>
+          <v-tooltip text="Настройки таблицы" location="top">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                icon="mdi-tune-variant"
+                variant="icon"
+                rounded="0"
+                height="100%"
+                class="cell"
+                @click="isOpen = true"
+              ></v-btn>
+            </template>
+          </v-tooltip>
+          <!-- <v-btn
+            icon="mdi-tune-variant"
+            variant="icon"
+            class="cell"
+            rounded="0"
+            height="100%"
+            @click="isOpen = true"
+          ></v-btn> -->
+
           <div v-for="(fh, index) in fixHeader" :key="fh.elem.text" class="headCell">
             <div class="headPin">
               <img src="@/assets/png1.png" width="40" class="pin" @click="removeFixed(index)" />
@@ -28,7 +37,7 @@
                 type="checkbox"
                 name="selectingTableRow"
                 :value="index"
-                @click.self="(e) => sortf(fh, e.target)"
+                @click.self="(e) => sorting(fh, e.target)"
               />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
@@ -56,7 +65,7 @@
               type="checkbox"
               name="selectingTableRow"
               :value="index"
-              @click.self="(e) => sortf(hh, e.target)"
+              @click.self="(e) => sorting(hh, e.target)"
             />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M14,20H10V11L6.5,14.5L4.08,12.08L12,4.16L19.92,12.08L17.5,14.5L14,11V20Z" />
@@ -88,29 +97,46 @@
                 @click="(e) => selectingTableRow(e, item)"
               />
             </div>
-            <span v-for="f in fixHeader" :key="f.el" class="cell">
-              {{ item[f.elem.value] }}
+            <span v-for="fixHeaderItem in fixHeader" :key="fixHeaderItem.el" class="cell">
+              <!-- {{ item[fixHeaderItem.elem.value] }} -->
+              {{ valueFromPatch(item, fixHeaderItem.elem.value) }}
             </span>
           </div>
 
-          <span v-for="h in header" :key="h" class="cell">
-            {{ item[h.value] }}
+          <span v-for="headerItem in header" :key="headerItem.value" class="cell">
+            <!-- {{ item[headerItem.value] }} -->
+            {{ valueFromPatch(item, headerItem.value) }}
           </span>
         </label>
       </div>
     </div>
 
-    <base-modal v-model:isOpen="isOpen" title="Настройки">
+    <base-modal v-model:isOpen="isOpen" ok-title="применить" title="Настройки">
+      <v-btn
+        class="pa-0 mb-2"
+        variant="tonal"
+        color="red"
+        block
+        rounded="0"
+        prepend-icon="mdi-checkbox-blank-off-outline"
+        append-icon="mdi-checkbox-blank-off-outline"
+        @click="removingAllSelections"
+      >
+        Снять все выделения</v-btn
+      >
       <div>
         <base-check-box
-          v-for="(item, index) in tableSettingData"
+          v-for="(item, index) in additionalTableHeaders"
           :key="index"
+          v-model:value="item.model"
           :label="item.text"
+          @update:value="addRemoveColumnsTable(item)"
         ></base-check-box>
       </div>
     </base-modal>
 
     <div class="pagination">
+      <v-btn @click="test">TEST</v-btn>
       <span class="itemBottom">
         <span>Строк на странице</span>
         <div class="pagination-select">
@@ -127,7 +153,7 @@
               role="option"
               class="pagination-select__option"
               :class="{ active: item == props.size }"
-              @click="onChangeSelect(item)"
+              @click="modificationSize(item)"
             >
               {{ item }}
             </div>
@@ -143,7 +169,7 @@
           variant="tonal"
           icon="mdi-chevron-double-left"
           :disabled="page < 1"
-          @click="toStart"
+          @click="clicksPagination(0)"
         >
         </v-btn>
 
@@ -152,7 +178,7 @@
           variant="tonal"
           icon="mdi-chevron-left"
           :disabled="page < 1"
-          @click="toPrevious"
+          @click="clicksPagination(props.page - 1)"
         >
         </v-btn>
 
@@ -161,7 +187,7 @@
           variant="tonal"
           icon="mdi-chevron-right"
           :disabled="page + 1 >= countPage"
-          @click="toNext"
+          @click="clicksPagination(props.page + 1)"
         >
         </v-btn>
 
@@ -170,7 +196,7 @@
           variant="tonal"
           icon="mdi-chevron-double-right"
           :disabled="page + 1 >= countPage"
-          @click="toEnd"
+          @click="clicksPagination(countPage - 1)"
         >
         </v-btn>
       </span>
@@ -188,16 +214,17 @@ const show = ref(false)
 const sizes = [5, 10, 15, 20, 50]
 const fixHeader = reactive([])
 
-const tableSettingData = inject('tableSettingData')
+const additionalTableHeaders = inject('additionalTableHeaders')
 const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
-
+const tableHeaderKey = ref(0) // ключ который меняется для перерисовки заголовка таблицы
+const pathToStatus = inject('pathToStatus') //путь к статусу
 const props = defineProps({
   size: { type: Number, required: true }, //количество строк на одной странице
   page: { type: Number, required: true }, // текущая страница
   tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
 })
 
-const header = inject('tableHeader')
+let header = inject('tableHeaders')
 let tableDataFromResponse = inject('tableDataFromResponse')
 
 let countPage = computed(() => {
@@ -234,45 +261,80 @@ function selectingTableRow(e, item) {
     emit('update:tableRowSelect', item)
   }
 }
-function sortf(item, t) {
-  if (t.checked) {
-    console.log('Down', item)
+function sorting(item, e) {
+  if (e.checked) {
+    tableData.value.sort(function (a, b) {
+      const valueA = eval(`a.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
+      const valueB = eval(`b.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
+      return valueA == valueB ? 0 : valueA > valueB ? 1 : -1
+    })
   } else {
-    console.log('UP', item)
+    tableData.value.sort(function (a, b) {
+      const valueA = eval(`a.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
+      const valueB = eval(`b.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
+      return valueA == valueB ? 0 : valueA < valueB ? 1 : -1
+    })
   }
 }
-function onChangeSelect(index) {
+function modificationSize(index) {
   show.value = false
   emit('update:size', index)
   emit('find')
 }
-function toNext() {
-  if (props.page < countPage.value - 1) {
-    emit('update:page', props.page + 1)
-    emit('find')
-    // scrollToFirstElement();
+
+function clicksPagination(newPage) {
+  tableRowSelectedID.value = ''
+  emit('update:tableRowSelect', {})
+  emit('update:page', newPage)
+  emit('find')
+}
+function valueFromPatch(item, patch) {
+  let value = '' //возвращаемое значение
+
+  if (Array.isArray(patch)) {
+    patch.forEach((patchItem) => {
+      value = value + ' ' + valueUseEval(item, patchItem)
+    })
+  } else {
+    value = valueUseEval(item, patch)
+  }
+
+  //Если рузультирующее значение массив
+  if (Array.isArray(value)) {
+    const str = value.join()
+    return str.replace(/,/gi, ', ')
+  }
+  return value.trim()
+}
+
+function valueUseEval(item, patch) {
+  try {
+    return eval(`item.${patch}`) || ''
+  } catch {
+    return ''
   }
 }
-function toPrevious() {
-  if (props.page > 0) {
-    emit('update:page', props.page - 1)
-    emit('find')
-    // scrollToFirstElement();
+
+function addRemoveColumnsTable(item) {
+  const el = document.querySelector('.tableGrid')
+  if (item.model) {
+    header.push(item)
+  } else {
+    header = header.filter((i) => i.id !== item.id)
+  }
+  const length = header.length
+  el.style.setProperty('--countColumns', length)
+  tableHeaderKey.value = length // для перерисовки таблицы
+}
+
+function removingAllSelections() {
+  for (let i = 0; i < additionalTableHeaders.length; i++) {
+    additionalTableHeaders[i].model = false
+    addRemoveColumnsTable(additionalTableHeaders[i])
   }
 }
-function toStart() {
-  if (props.page > 0) {
-    emit('update:page', 0)
-    emit('find')
-    // scrollToFirstElement();
-  }
-}
-function toEnd() {
-  if (props.page < countPage.value - 1) {
-    emit('update:page', countPage.value - 1)
-    emit('find')
-    // scrollToFirstElement();
-  }
+function test() {
+  console.log('tableData', tableData.value)
 }
 
 onMounted(() => {
@@ -496,7 +558,9 @@ input[type='checkbox']:checked + svg {
   bottom: 5px;
   position: absolute;
   contain: content;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: white;
@@ -516,7 +580,16 @@ input[type='checkbox']:checked + svg {
   border-bottom: 1px solid #000000;
   background-color: #e7e7e7;
 }
-
+/* строки таблицы с зависимости от статуса */
+.greenText {
+  color: #2d6111;
+}
+.orangeText {
+  color: #b29154;
+}
+.blueText {
+  color: #647da7;
+}
 @keyframes fade2 {
   from {
     transform: translate3d(0%, 0px, 0);

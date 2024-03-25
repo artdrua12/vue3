@@ -1,23 +1,30 @@
 <template>
-  <layout-pages :fields="fields" :fields-more="fieldsMore" @find="find"></layout-pages>
+  <layout-pages
+    :fields="fields"
+    :fields-more="fieldsMore"
+    title="Реестр ОТТС"
+    @find="find"
+  ></layout-pages>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
+const route = useRouter()
 
 const requests = useRequestStore() // для работы с запросами
-const tableHeader = [
-  { text: 'Номер  документа', value: 'docId' },
-  { text: 'Тип  документа', value: 'conformityDocKindName' },
-  { text: 'Дата изменения', value: 'tcInfo.lastModified' },
-  { text: 'Изготовитель', value: 'manufacturerBusinessEntityName' },
-  { text: 'Заявитель', value: 'applicantDetails.businessEntityName' },
-  { text: 'Статус', value: `conformityDocStatusDetails.docStatus` },
-  { text: 'Документ подписан', value: 'cert.signer.fullName' }
+const tableHeaders = [
+  { text: 'Номер  документа', value: 'docId', id: 'h1' },
+  { text: 'Тип  документа', value: 'conformityDocKindName', id: 'h2' },
+  { text: 'Дата изменения', value: 'tcInfo.lastModified', id: 'h3' },
+  { text: 'Изготовитель', value: 'vehicleManufacturerDetails[0].businessEntityName', id: 'h4' },
+  { text: 'Заявитель', value: 'applicantDetails.businessEntityName', id: 'h5' },
+  { text: 'Статус', value: `conformityDocStatusDetails.docStatus`, id: 'h6' },
+  { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h7' }
 ]
-const tableSettingData = [
+const additionalTableHeaders = [
   { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
   { text: 'Сформирован на основании', value: 'conformityDocKindName', id: 2, model: false },
   {
@@ -272,146 +279,152 @@ const fieldsMore = reactive({
     itemValue: 'key'
   }
 })
-const actionsArray = [
+const actions = [
   {
-    name: 'Создать документ',
+    text: 'Создать документ',
     enabled: true,
     children: [
       {
-        name: 'ОТТС',
-        key: 'createOTTS',
+        text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: 'Создать документ ОТТС (ОТШ)' }
-        // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
+        enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
+        action: () => {
+          route.push('/test')
+        }
       },
       {
-        name: 'ОТШ',
-        key: 'createOTCH',
+        text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: 'Создать документ ОТТС (ОТШ)' }
-        // enabled: this.permissions.includes('Создать документ ОТТС (ОТШ)')
+        enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
+        action: () => {
+          console.log('from parent')
+        }
+      },
+      {
+        text: 'test',
+        icon: 'mdi-file-plus-outline',
+        enabled: true,
+        action: () => {
+          console.log('from parent')
+        }
       }
     ]
   },
   {
-    key: '1',
-    name: 'Создать шаблон',
+    text: 'test2',
+    icon: 'mdi-file-plus-outline',
+    enabled: true,
+    action: function() {
+      console.log('from parent')
+    }
+  },
+  {
+    text: 'Создать шаблон',
     enabled: false,
     children: [
       {
-        key: '9',
-        name: 'Единичный шаблон',
+        text: 'Единичный шаблон',
         enabled: false,
         icon: 'mdi-file-plus-outline'
       },
       {
-        key: '10',
-        name: 'Набор шаблонов',
+        text: 'Набор шаблонов',
         enabled: false,
         icon: 'mdi-file-plus-outline'
       }
     ]
   },
   {
-    key: 'edit',
-    name: 'Редактировать',
+    text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
-    enabled: { isTableRowSelect: 'true', permission: 'Редактировать документ ОТТС (ОТШ)' }
-    // this.hasSelected &&
-    // this.permissions.includes('Редактировать документ ОТТС (ОТШ)') &&
-    // this.selected[0].conformityDocStatusDetails.docStatus === 'Черновик'
+    enabled: {
+      notEmptyAndStatus: ['Черновик'],
+      permission: 'Редактировать документ ОТТС (ОТШ)'
+    }
   },
   // решение до реализации заявлений!!
   {
-    key: 'edit',
-    name: 'Внесение изменений НО в ОТТС в статусе «Действующий»',
+    text: 'Внесение изменений НО в ОТТС в статусе «Действующий»',
     icon: 'mdi-file-document-edit-outline',
-    enabled: true
-    // this.hasSelected &&
-    // this.permissions.includes('Утвердить документ ОТТС (ОТШ)') &&
-    // this.selected[0].conformityDocStatusDetails.docStatus === 'Действующий'
+    enabled: {
+      notEmptyAndStatus: ['Действующий'],
+      permission: 'Утвердить документ ОТТС (ОТШ)'
+    }
   },
   {
-    key: 'look',
-    name: 'Просмотреть',
+    text: 'Просмотреть',
     icon: 'mdi-file-eye-outline',
-    enabled: true
-    // enabled: this.hasSelected && this.permissions.includes('Просмотреть документ ОТТС (ОТШ)')
+    enabled: {
+      notEmpty: 'true',
+      permission: 'Просмотреть документ ОТТС (ОТШ)'
+    }
   },
   {
-    key: 'copy',
-    name: 'Копировать',
+    text: 'Копировать',
     icon: 'mdi-content-copy',
-    enabled: true
-    // enabled:
-    //   this.hasSelected &&
-    //   this.selected[0].conformityDocStatusDetails.docStatus === 'Действующий' &&
-    //   this.permissions.includes('Копировать документ ОТТС (ОТШ)')
+    enabled: {
+      notEmptyAndStatus: ['Действующий'],
+      permission: 'Копировать документ ОТТС (ОТШ)'
+    }
   },
   {
-    key: '4',
-    name: 'Аннулировать',
+    text: 'Аннулировать',
     enabled: false,
     icon: 'mdi-file-document-edit-outline'
   },
-  { key: '5', name: 'Вернуть', enabled: false, icon: 'mdi-file-document-edit-outline' },
+  { text: 'Вернуть', enabled: false, icon: 'mdi-file-document-edit-outline' },
   {
-    key: '6',
-    name: 'Приостановить',
-    enabled: true,
-    // enabled: this.isEnabledSuspenseButton,
+    text: 'Приостановить',
+    enabled: {
+      notEmptyAndStatus: ['Действующий']
+    },
     icon: 'mdi-file-document-edit-outline'
   },
-  { key: '7', name: 'Продлить', enabled: false, icon: 'mdi-file-document-edit-outline' },
+  { text: 'Продлить', enabled: false, icon: 'mdi-file-document-edit-outline' },
   {
-    key: '8',
-    name: 'Возобновить',
-    enabled: true,
-    // enabled: this.isEnabledResume,
+    text: 'Возобновить',
+    enabled: {
+      notEmptyAndStatus: ['Приостановлен', 'Отменен в СЭП', 'Прекращен']
+    },
     icon: 'mdi-file-document-edit-outline'
   },
   {
-    key: 'xml',
-    name: 'Выгрузка',
+    text: 'Выгрузка',
     icon: 'mdi-xml',
     enabled: false
-    /* this.hasSelected && this.permissions.includes('Выгрузка документа ОТТС (ОТШ)') */
   },
   {
-    key: '9',
-    name: 'Пересмотреть',
+    text: 'Пересмотреть',
     enabled: false,
     icon: 'mdi-file-document-edit-outline'
   },
   {
-    key: '10',
-    name: 'Корректировать',
-    enabled: true,
-    // enabled: this.isEnabledCorrectionButton,
+    text: 'Корректировать',
+    enabled: {
+      notEmptyAndStatus: ['Действующий', 'Утвержден', 'Приостановлен', 'Прекращен']
+    },
     icon: 'mdi-file-document-edit-outline'
   },
   {
-    key: '11',
-    name: 'Прекратить действие',
+    text: 'Прекратить действие',
     enabled: false,
     icon: 'mdi-file-document-edit-outline'
   },
   {
-    key: 'delete',
-    name: 'Удалить',
+    text: 'Удалить',
     icon: 'mdi-delete-outline',
-    enabled: true
-    // enabled:
-    //   this.hasSelected &&
-    //   this.selected[0].conformityDocStatusDetails.docStatus === 'Черновик' &&
-    //   this.permissions.includes('Удалить документ ОТТС (ОТШ)')
+    enabled: {
+      notEmptyAndStatus: ['Черновик'],
+      permission: 'Удалить документ ОТТС (ОТШ)'
+    }
   }
 ]
 
 provide('tableDataFromResponse', tableDataFromResponse)
-provide('tableSettingData', tableSettingData)
-provide('tableHeader', tableHeader)
-provide('actionsArray', actionsArray)
+provide('additionalTableHeaders', additionalTableHeaders)
+provide('tableHeaders', tableHeaders)
+provide('actions', actions)
+provide('pathToStatus', 'conformityDocStatusDetails.docStatus') // путь для статуса, используется в table и в action
 
 async function find(obj) {
   const body = {
@@ -432,7 +445,8 @@ async function find(obj) {
       ['vehicleTypeDetails.vehicleMakeName']: fieldsMore.vehicleMakeName.value,
       ['vehicleTypeDetails.vehicleCommercialName']: fieldsMore.commercialName.value,
       ['vehicleTypeDetails.vehicleTechCategoryCode']: fieldsMore.techCategory.value,
-      ['conformityDocKindName']: fieldsMore.docType.value
+      ['conformityDocKindName']: fieldsMore.docType.value,
+      ['vehicleManufacturerDetails.vehicleManufacturerKindCode']: '05'
     },
     fields: [
       'docId',
@@ -462,8 +476,7 @@ async function find(obj) {
       'vehicleVariantDetails.vehicleOverallDimensionDetails.lengthMeasure.valueMin',
       'vehicleVariantDetails.vehicleOverallDimensionDetails.widthMeasure.valueMin',
       'vehicleVariantDetails.vehicleOverallDimensionDetails.heightMeasure.valueMin',
-      'cert.signer.surname',
-      'cert.signer.name'
+      'cert.signer'
     ],
     pageAndSort: {
       page: obj.page,
@@ -571,8 +584,6 @@ async function find(obj) {
     ],
     totalCount: 7
   }
-
-  console.log('res', res)
 
   tableDataFromResponse.value = res || noData
 }

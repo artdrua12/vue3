@@ -17,7 +17,22 @@ const router = createRouter({
     {
       path: '/conformities',
       name: 'conformities',
-      component: () => import('../components/conformities/ConformitiesPage.vue')
+      component: () => import('../components/mainPages/ConformitiesPage.vue')
+    },
+    {
+      path: '/vehicle-safety-certificate',
+      name: 'vehicleSafetyCertificate',
+      component: () => import('../components/mainPages/VehicleSafetyCertificatePage.vue')
+    },
+    {
+      path: '/powered-machines-certificates',
+      name: 'PoweredMachinesCertificates',
+      component: () => import('../components/mainPages/PoweredMachinesCertificatesPage.vue')
+    },
+    {
+      path: '/powered-machines-declarations',
+      name: 'PoweredMachinesDeclarationsPage',
+      component: () => import('../components/mainPages/PoweredMachinesDeclarationsPage.vue')
     },
     {
       path: '/about',

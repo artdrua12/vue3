@@ -70,13 +70,13 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр сертификатов соответствия',
-        to: '/powered-machines/certificates',
+        to: '/powered-machines-certificates',
         permission: 'Доступ к реестру сертификатов соответствия (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр деклараций о соответствии',
-        to: '/powered-machines/declarations',
+        to: '/powered-machines-declarations',
         permission: 'Доступ к реестру деклараций соответствия (осуществление поиска)'
       }
     ]
