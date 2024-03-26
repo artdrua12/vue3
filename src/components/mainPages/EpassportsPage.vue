@@ -165,11 +165,13 @@ const fields = reactive({
     type: 'base-slot',
     dataSlot: {
       own: {
+        width: 3,
         label: 'Только свои',
         value: false,
         type: 'base-check-box'
       },
       copy: {
+        width: 3,
         label: 'Шаблоны',
         value: false,
         type: `${
@@ -400,7 +402,7 @@ const actions = [
         text: 'ЭПТС',
         icon: 'mdi-file-plus-outline',
         enabled: {
-          permission: 'Оформить паспорт'
+          permission: ['Оформить паспорт']
         }
       },
       {
@@ -413,7 +415,7 @@ const actions = [
         text: 'ЭПШТС',
         icon: 'mdi-file-plus-outline',
         enabled: {
-          permission: 'Оформить паспорт'
+          permission: ['Оформить паспорт']
         }
       },
       {
@@ -426,7 +428,7 @@ const actions = [
         text: 'ЭПТС на основе ЭПШТС',
         icon: 'mdi-file-plus-outline',
         enabled: {
-          permission: 'Оформить паспорт'
+          permission: ['Оформить паспорт']
         }
       }
     ]
@@ -436,7 +438,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Редактировать паспорт ТС'
+      permission: ['Редактировать паспорт ТС']
     }
   },
   {
@@ -444,7 +446,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Утвердить паспорт'
+      permission: ['Утвердить паспорт']
     }
   },
   {
@@ -452,7 +454,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['На аннулировании'],
-      permission: 'Аннулировать паспорт'
+      permission: ['Аннулировать паспорт']
     }
   },
   {
@@ -460,8 +462,9 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Аннулированный'],
-      permission:
+      permission: [
         'Изменение статуса ЭПТС на «Действующий» по устранению причин, послуживших основанием для присвоения электронному паспорту статуса «Аннулированный»'
+      ]
     }
   },
   {
@@ -469,14 +472,15 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: true,
-      permission: 'Просмотреть паспорт ТС'
+      permission: ['Просмотреть паспорт ТС']
     }
   },
   {
     text: 'Создать шаблон',
     icon: 'mdi-content-copy',
     enabled: {
-      notEmptyAndStatus: ['Действующий']
+      notEmptyAndStatus: ['Действующий'],
+      notEqual: { legalPersonType: ['10'], externalSystemLoadCode: ['9', '10', '11'] }
     }
     // enabled:
     //   this.hasSelected &&
@@ -489,7 +493,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Удалить паспорт ТС'
+      permission: ['Удалить паспорт ТС']
     }
   },
   {
@@ -501,7 +505,7 @@ const actions = [
         icon: 'mdi-file-plus-outline',
         enabled: {
           notEmptyAndStatus: ['Действующий', 'Незавершенный'],
-          permission: 'Удалить паспорт ТС'
+          permission: ['Удалить паспорт ТС']
         }
       },
       {
@@ -539,7 +543,8 @@ const actions = [
         text: 'Заявление на изменение сведений о базовом ТС',
         icon: 'mdi-file-plus-outline',
         enabled: {
-          notEmptyAndStatus: ['Действующий', 'Незавершенный', 'Аннулированный']
+          notEmptyAndStatus: ['Действующий', 'Незавершенный', 'Аннулированный'],
+          notEqual: { vehicleEPassportKindCode: ['2'], vehicleEPassportBaseCode: ['03'] }
         }
         // enabled:
         //   this.hasSelected === 1 &&
@@ -662,7 +667,7 @@ const actions = [
     icon: 'mdi-xml',
     enabled: {
       notEmpty: true,
-      permission: 'Осуществить выгрузку паспорта'
+      permission: ['Осуществить выгрузку паспорта']
     }
   },
   {
@@ -675,8 +680,10 @@ const actions = [
         icon: 'mdi-file-document-edit-outline',
         enabled: {
           notEmptyAndStatus: ['Незавершенный'],
-          permission: 'Внести сведения об утилизационном сборе',
-          permission2: 'Внести сведения о таможенных операциях'
+          permission: [
+            'Внести сведения об утилизационном сборе',
+            'Внести сведения о таможенных операциях'
+          ]
         }
         // enabled:
         //   this.hasSelected &&

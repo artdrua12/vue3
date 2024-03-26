@@ -200,14 +200,14 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: 'Создать сертификат соответствия' }
+    enabled: { permission: [ 'Создать сертификат соответствия'] }
   },
   {
     text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Редактировать сертификат соответствия'
+      permission: [ 'Редактировать сертификат соответствия']
     }
   },
   {
@@ -215,7 +215,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Утвердить сертификат соответствия'
+      permission: [ 'Утвердить сертификат соответствия']
     }
   },
   {
@@ -223,7 +223,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: 'Просмотреть сертификат соответствия'
+      permission: [ 'Просмотреть сертификат соответствия']
     }
   },
   {
@@ -231,7 +231,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Копировать сертификат соответствия'
+      permission: [ 'Копировать сертификат соответствия']
     }
   },
   {
@@ -276,7 +276,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Удалить сертификат соответствия'
+      permission: [ 'Удалить сертификат соответствия']
     }
   }
 ]

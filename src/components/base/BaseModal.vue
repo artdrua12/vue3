@@ -62,7 +62,12 @@ const props = defineProps({
   //fun - функция которая вызывается, isCloseAfterClick - закрывать ли модальное окно после вызова функции
   okFunction: {
     type: Object,
-    default: { fun: () => {}, isCloseAfterClick: true }
+    default() {
+      return {
+        fun: null,
+        isCloseAfterClick: true
+      }
+    }
   }
 })
 const emit = defineEmits(['update:isOpen'])
@@ -70,7 +75,9 @@ function close() {
   emit('update:isOpen', false)
 }
 function ok() {
-  props.okFunction.fun()
+  if (props.okFunction.fun) {
+    props.okFunction.fun()
+  }
   if (props.okFunction.isCloseAfterClick) {
     close()
   }
@@ -99,9 +106,7 @@ function ok() {
   flex-direction: column;
   width: auto;
   background-color: #f0f0f0;
-  box-shadow:
-    0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14),
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   border-radius: 5px;
 }

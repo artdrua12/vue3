@@ -182,14 +182,14 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: 'Создать документ СБКТС' }
+    enabled: { permission: [ 'Создать документ СБКТС'] }
   },
   {
     text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Редактировать документ СБКТС'
+      permission: [ 'Редактировать документ СБКТС']
     }
   },
   // решение до реализации заявлений!!
@@ -198,7 +198,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Утвердить документ СБКТС'
+      permission: [ 'Утвердить документ СБКТС']
     }
   },
   {
@@ -206,7 +206,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: 'Утвердить документ СБКТС'
+      permission: [ 'Утвердить документ СБКТС']
     }
   },
   {
@@ -214,7 +214,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Копировать документ СБКТС'
+      permission: [ 'Копировать документ СБКТС']
     }
   },
   {
@@ -238,7 +238,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Удалить документ СБКТС'
+      permission: [ 'Удалить документ СБКТС']
     }
   }
 ]

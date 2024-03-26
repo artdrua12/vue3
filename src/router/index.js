@@ -37,7 +37,7 @@ const router = createRouter({
     {
       path: '/epassports',
       name: 'epassports',
-      component: () => import('../components/mainPages/EpassportssPage.vue')
+      component: () => import('../components/mainPages/EpassportsPage.vue')
     },
     {
       path: '/about',

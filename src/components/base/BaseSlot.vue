@@ -43,7 +43,7 @@ export default {
 .slot {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(12, auto);
   grid-gap: 0px 12px;
 }
 </style>

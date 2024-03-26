@@ -104,14 +104,24 @@ function checkObj(obj) {
     if (key === 'notEmpty') {
       isTrue = isSelected.value
     } else if (key === 'permission') {
-      isTrue = getPermissions.value.has(obj[key])
+      const arr = obj[key]
+      for (let i = 0; i < arr.length; i++) {
+        if (!getPermissions.value.has(arr[i])) return false
+      }
     } else if (key === 'notEmptyAndStatus') {
       if (!isSelected.value) return false //проверка что не пустой
       try {
         const evalVal = eval(`props.selected.${pathToStatus}`) || ''
         isTrue = obj[key].includes(evalVal)
       } catch {
-        isTrue = false
+        return false
+      }
+    } else if (key === 'notEqual') {
+      const subObj = obj[key]
+      for (let subKey in subObj) {
+        let arr = subObj[subKey]
+        let val = props.selected.subKey
+        if (arr.includes(val)) return false
       }
     }
 

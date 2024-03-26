@@ -189,14 +189,14 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: 'Создать декларацию соответствия' }
+    enabled: { permission: [ 'Создать декларацию соответствия'] }
   },
   {
     text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Редактировать декларацию соответствия'
+      permission: [ 'Редактировать декларацию соответствия']
     }
   },
   {
@@ -204,7 +204,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Утвердить декларацию соответствия'
+      permission: [ 'Утвердить декларацию соответствия']
     }
   },
   {
@@ -212,7 +212,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: 'Просмотреть декларацию соответствия'
+      permission: [ 'Просмотреть декларацию соответствия']
     }
   },
   {
@@ -220,7 +220,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Копировать декларацию соответствия'
+      permission: [ 'Копировать декларацию соответствия']
     }
   },
   {
@@ -265,7 +265,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Удалить декларацию соответствия'
+      permission: [ 'Удалить декларацию соответствия']
     }
   }
 ]

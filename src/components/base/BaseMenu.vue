@@ -120,7 +120,7 @@ const items = [
         icon: 'mdi-file-outline',
         title: 'Реестр НСИ',
         to: '/reference-information',
-        permission: "Доступ к реестру справочников'"
+        permission: "Доступ к реестру справочников"
       },
       {
         icon: 'mdi-file-outline',

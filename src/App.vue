@@ -23,7 +23,7 @@
     </div>
 
     <div class="app-footer">
-      <p>@2024 </p>
+      <p>@2024</p>
     </div>
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
@@ -39,7 +39,7 @@
       icon="mdi-exit-to-app"
       ok-title="Да"
       cancel-title="отмена"
-      :ok-function="user.exitFromUser"
+      :ok-function="{ fun: user.exitFromUser, isCloseAfterClick: true }"
     >
       <p>Вы действительно хотите выйти?</p>
     </base-modal>

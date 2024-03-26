@@ -287,13 +287,13 @@ const actions = [
       {
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
+        enabled: { permission: [ 'Создать документ ОТТС (ОТШ)'] },
         action: () => route.push('/test')
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
+        enabled: { permission: [ 'Создать документ ОТТС (ОТШ)'] },
         action: () => console.log('from parent')
       }
     ]
@@ -319,7 +319,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Редактировать документ ОТТС (ОТШ)'
+      permission: [ 'Редактировать документ ОТТС (ОТШ)']
     }
   },
   // решение до реализации заявлений!!
@@ -328,7 +328,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Утвердить документ ОТТС (ОТШ)'
+      permission: [ 'Утвердить документ ОТТС (ОТШ)']
     }
   },
   {
@@ -336,7 +336,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: 'Просмотреть документ ОТТС (ОТШ)'
+      permission: [ 'Просмотреть документ ОТТС (ОТШ)']
     }
   },
   {
@@ -344,7 +344,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: 'Копировать документ ОТТС (ОТШ)'
+      permission: [ 'Копировать документ ОТТС (ОТШ)']
     }
   },
   {
@@ -395,7 +395,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: 'Удалить документ ОТТС (ОТШ)'
+      permission: [ 'Удалить документ ОТТС (ОТШ)']
     }
   }
 ]
