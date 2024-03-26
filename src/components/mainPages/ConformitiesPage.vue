@@ -288,35 +288,15 @@ const actions = [
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
-        action: () => {
-          route.push('/test')
-        }
+        action: () => route.push('/test')
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: 'Создать документ ОТТС (ОТШ)' },
-        action: () => {
-          console.log('from parent')
-        }
-      },
-      {
-        text: 'test',
-        icon: 'mdi-file-plus-outline',
-        enabled: true,
-        action: () => {
-          console.log('from parent')
-        }
+        action: () => console.log('from parent')
       }
     ]
-  },
-  {
-    text: 'test2',
-    icon: 'mdi-file-plus-outline',
-    enabled: true,
-    action: function() {
-      console.log('from parent')
-    }
   },
   {
     text: 'Создать шаблон',

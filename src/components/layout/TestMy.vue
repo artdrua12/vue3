@@ -23,6 +23,7 @@ async function test() {
     'http://localhost:8080/api/classifiers/get-full-records',
     {}
   )
+  console.log('referenceBook', referenceBook)
 }
 </script>
 <style scoped></style>

@@ -8,11 +8,9 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
-const route = useRouter()
 
 const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
@@ -293,8 +291,7 @@ async function find(obj) {
         '' + ' ' + fields.fullName.dataSlot.singerPatronimic.value ||
         ''
       ).trim(),
-      ['tcInfo.lastModified']:
-        fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
+      ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
       ['unifiedCountryCode.value']: fields.countryCode.value,
       /* ['conformityAuthorityInformationDetails.authority']: this.search.certificationAgency, */
       ['vehicleTypeDetails.vehicleMakeName']: fields.makeName.value,

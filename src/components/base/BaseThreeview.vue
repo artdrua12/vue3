@@ -1,6 +1,6 @@
 <template>
   <div tag="div" name="list" class="wrapper">
-    <div v-for="item in actionsFilter" :key="item.text">
+    <div v-for="item in actionsFiltered" :key="item.text">
       <div v-if="item.children">
         <input :id="item.text" type="checkbox" :value="item.text" />
         <label :for="item.text" class="bold threeTitle mainTitle">
@@ -41,14 +41,19 @@
           {{ item.text }}
         </label>
         <div class="threeChield">
-          <div v-for="itm in item.children" :key="itm.text" class="threeTitle threeTitle--padding">
+          <div
+            v-for="itm in item.childrenFiltered"
+            :key="itm.text"
+            class="threeTitle threeTitle--padding"
+            @click="runAction(itm)"
+          >
             <v-icon size="25px" class="icon">{{ itm.icon }}</v-icon>
             <span class="">{{ itm.text }}</span>
           </div>
         </div>
       </div>
 
-      <div v-else class="threeTitle">
+      <div v-else class="threeTitle" @click="runAction(item)">
         <v-icon size="25px" class="icon">{{ item.icon }}</v-icon>
         <span class="bold">{{ item.text }}</span>
       </div>
@@ -58,26 +63,37 @@
 
 <script setup>
 import { defineProps, inject, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 const currentUser = useUserStore() //получение permissions
 const { getPermissions } = storeToRefs(currentUser)
 
+const route = useRouter()
+console.log(route.currentRoute)
 const props = defineProps({
   selected: { type: Object, required: true } // выбранная строка из таблицы
 })
-let actions = inject('actions') // все действия
+const actions = inject('actions') // все действия
 const pathToStatus = inject('pathToStatus') //путь к статусу
 let isSelected = computed(() => Object.keys(props.selected).length > 0)
-let actionsFilter = computed(() => {
-  const cloneActions = JSON.parse(JSON.stringify(actions))
-  return filteringByEnabled(cloneActions)
+let actionsFiltered = computed(() => {
+  return filteringByEnabled(actions)
 })
+
+function runAction(item) {
+  try {
+    const funActions = item.action
+    funActions()
+  } catch {
+    console.log('Ошибка при выполнении действия')
+  }
+}
 
 function filteringByEnabled(array) {
   return array.filter((item) => {
     if (item.children) {
-      item.children = filteringByEnabled(item.children)
+      item.childrenFiltered = filteringByEnabled(item.children)
     }
     return typeof item.enabled === 'object' ? checkObj(item.enabled) : item.enabled
   })

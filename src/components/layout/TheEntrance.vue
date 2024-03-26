@@ -27,14 +27,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRequestStore } from '@/stores/requestStore'
-import { useIndexDBStore } from '@/stores/indexDBStore'
+// import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useSnackStore } from '@/stores/snackStore'
 import { useUserStore } from '@/stores/userStore'
 
 const login = ref('bts')
 const password = ref('w6Zvb')
 const requests = useRequestStore()
-const indexDB = useIndexDBStore()
+// const indexDB = useIndexDBStore()
 const route = useRouter()
 const snack = useSnackStore()
 const currentUser = useUserStore()

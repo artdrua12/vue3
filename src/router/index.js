@@ -26,13 +26,18 @@ const router = createRouter({
     },
     {
       path: '/powered-machines-certificates',
-      name: 'PoweredMachinesCertificates',
+      name: 'poweredMachinesCertificates',
       component: () => import('../components/mainPages/PoweredMachinesCertificatesPage.vue')
     },
     {
       path: '/powered-machines-declarations',
-      name: 'PoweredMachinesDeclarationsPage',
+      name: 'poweredMachinesDeclarationsPage',
       component: () => import('../components/mainPages/PoweredMachinesDeclarationsPage.vue')
+    },
+    {
+      path: '/epassports',
+      name: 'epassports',
+      component: () => import('../components/mainPages/EpassportssPage.vue')
     },
     {
       path: '/about',

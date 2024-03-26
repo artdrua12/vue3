@@ -16,14 +16,6 @@
               ></v-btn>
             </template>
           </v-tooltip>
-          <!-- <v-btn
-            icon="mdi-tune-variant"
-            variant="icon"
-            class="cell"
-            rounded="0"
-            height="100%"
-            @click="isOpen = true"
-          ></v-btn> -->
 
           <div v-for="(fh, index) in fixHeader" :key="fh.elem.text" class="headCell">
             <div class="headPin">
@@ -111,26 +103,20 @@
       </div>
     </div>
 
-    <base-modal v-model:isOpen="isOpen" ok-title="применить" title="Настройки">
-      <v-btn
-        class="pa-0 mb-2"
-        variant="tonal"
-        color="red"
-        block
-        rounded="0"
-        prepend-icon="mdi-checkbox-blank-off-outline"
-        append-icon="mdi-checkbox-blank-off-outline"
-        @click="removingAllSelections"
-      >
-        Снять все выделения</v-btn
-      >
+    <base-modal
+      v-model:isOpen="isOpen"
+      title="Настройки"
+      ok-title="Снять все выделения"
+      :ok-function="{ fun: removeActiveCheckboxes, isCloseAfterClick: false }"
+      cancel-title="применить"
+    >
       <div>
         <base-check-box
           v-for="(item, index) in additionalTableHeaders"
           :key="index"
           v-model:value="item.model"
           :label="item.text"
-          @update:value="addRemoveColumnsTable(item)"
+          @update:value="modifateColumnsTable(item)"
         ></base-check-box>
       </div>
     </base-modal>
@@ -217,14 +203,15 @@ const fixHeader = reactive([])
 const additionalTableHeaders = inject('additionalTableHeaders')
 const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
 const tableHeaderKey = ref(0) // ключ который меняется для перерисовки заголовка таблицы
-const pathToStatus = inject('pathToStatus') //путь к статусу
+// const pathToStatus = inject('pathToStatus') //путь к статусу
 const props = defineProps({
   size: { type: Number, required: true }, //количество строк на одной странице
   page: { type: Number, required: true }, // текущая страница
   tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
 })
 
-let header = inject('tableHeaders')
+const tableHeaders = inject('tableHeaders')
+let header = reactive(JSON.parse(JSON.stringify(tableHeaders)))
 let tableDataFromResponse = inject('tableDataFromResponse')
 
 let countPage = computed(() => {
@@ -264,12 +251,14 @@ function selectingTableRow(e, item) {
 function sorting(item, e) {
   if (e.checked) {
     tableData.value.sort(function (a, b) {
+      console.log(a, b)
       const valueA = eval(`a.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
       const valueB = eval(`b.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
       return valueA == valueB ? 0 : valueA > valueB ? 1 : -1
     })
   } else {
     tableData.value.sort(function (a, b) {
+      console.log(a, b)
       const valueA = eval(`a.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
       const valueB = eval(`b.${Array.isArray(item.value) ? item.value[0] : item.value}`) || ''
       return valueA == valueB ? 0 : valueA < valueB ? 1 : -1
@@ -315,26 +304,28 @@ function valueUseEval(item, patch) {
   }
 }
 
-function addRemoveColumnsTable(item) {
+function modifateColumnsTable(item) {
   const el = document.querySelector('.tableGrid')
   if (item.model) {
     header.push(item)
   } else {
+    console.log('item', item)
     header = header.filter((i) => i.id !== item.id)
   }
-  const length = header.length
+  const length = header.length + fixHeader.length
+
   el.style.setProperty('--countColumns', length)
   tableHeaderKey.value = length // для перерисовки таблицы
 }
 
-function removingAllSelections() {
+function removeActiveCheckboxes() {
   for (let i = 0; i < additionalTableHeaders.length; i++) {
     additionalTableHeaders[i].model = false
-    addRemoveColumnsTable(additionalTableHeaders[i])
+    modifateColumnsTable(additionalTableHeaders[i])
   }
 }
 function test() {
-  console.log('tableData', tableData.value)
+  console.log('________________test_____________________')
 }
 
 onMounted(() => {
