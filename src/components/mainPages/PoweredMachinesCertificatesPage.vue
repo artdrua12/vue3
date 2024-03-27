@@ -200,14 +200,14 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: [ 'Создать сертификат соответствия'] }
+    enabled: { permission: ['Создать сертификат соответствия'] }
   },
   {
     text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: [ 'Редактировать сертификат соответствия']
+      permission: ['Редактировать сертификат соответствия']
     }
   },
   {
@@ -215,7 +215,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: [ 'Утвердить сертификат соответствия']
+      permission: ['Утвердить сертификат соответствия']
     }
   },
   {
@@ -223,7 +223,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: [ 'Просмотреть сертификат соответствия']
+      permission: ['Просмотреть сертификат соответствия']
     }
   },
   {
@@ -231,7 +231,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: [ 'Копировать сертификат соответствия']
+      permission: ['Копировать сертификат соответствия']
     }
   },
   {
@@ -276,7 +276,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: [ 'Удалить сертификат соответствия']
+      permission: ['Удалить сертификат соответствия']
     }
   }
 ]
@@ -338,10 +338,7 @@ async function find(obj) {
       size: obj.size
     }
   }
-  const res = await requests.post(
-    'http://localhost:8080/api/powered-machines/certificate/modification/search',
-    body
-  )
+  const res = await requests.post('/api/powered-machines/certificate/modification/search', body)
   tableDataFromResponse.value = res
 }
 
@@ -349,7 +346,7 @@ async function getAutocompliteData(obj = {}) {
   for (const key in obj) {
     if (obj[key].url) {
       try {
-        const data = await requests.get('http://localhost:8080' + obj[key].url)
+        const data = await requests.get(obj[key].url)
         if (!data) {
           throw new Error()
         }

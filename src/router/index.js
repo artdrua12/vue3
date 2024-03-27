@@ -31,13 +31,28 @@ const router = createRouter({
     },
     {
       path: '/powered-machines-declarations',
-      name: 'poweredMachinesDeclarationsPage',
+      name: 'poweredMachinesDeclarations',
       component: () => import('../components/mainPages/PoweredMachinesDeclarationsPage.vue')
     },
     {
       path: '/epassports',
       name: 'epassports',
       component: () => import('../components/mainPages/EpassportsPage.vue')
+    },
+    {
+      path: '/powered-machines-epassports',
+      name: 'poweredMachinesEpassports',
+      component: () => import('../components/mainPages/PoweredMachinesEpassportsPage.vue')
+    },
+    {
+      path: '/application-request',
+      name: 'applicationRequest',
+      component: () => import('../components/mainPages/ApplicationRequestPage.vue')
+    },
+    {
+      path: '/application',
+      name: 'application',
+      component: () => import('../components/mainPages/ApplicationPage.vue')
     },
     {
       path: '/about',

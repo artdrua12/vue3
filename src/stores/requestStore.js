@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { useSnackStore } from './snackStore'
+const BASE_URL = import.meta.env.VITE_VUE_APP_API_ENDPOINT
 
 export const useRequestStore = defineStore('request', () => {
   async function get(url) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(BASE_URL + url, {
         credentials: 'include' // credentials - возвращает куки на сервер, без этого придет пустой запрос
         // headers: {
         //   Accept: 'application/json',
@@ -27,7 +28,7 @@ export const useRequestStore = defineStore('request', () => {
 
   async function post(url, body) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(BASE_URL + url, {
         method: 'POST',
         mode: 'cors',
         headers: {

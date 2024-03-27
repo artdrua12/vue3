@@ -19,11 +19,11 @@ import { useRequestStore } from '@/stores/requestStore'
 const requests = useRequestStore()
 
 async function test() {
-  const referenceBook = await requests.post(
-    'http://localhost:8080/api/classifiers/get-full-records',
-    {}
-  )
-  console.log('referenceBook', referenceBook)
+  // const referenceBook = await requests.post(
+  //   'http://localhost:8080/api/classifiers/get-full-records',
+  //   {}
+  // )
+  console.log('referenceBook', import.meta.env.VITE_VUE_APP_API_ENDPOINT)
 }
 </script>
 <style scoped></style>

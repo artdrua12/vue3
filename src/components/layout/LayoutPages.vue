@@ -17,29 +17,33 @@
           :item-text="item.text"
           :item-value="item.itemValue"
           :placeholder="item.placeholder"
+          :disabled="item.disabled"
           @update:enter="find"
         ></component>
 
-        <base-panel class="fullWidth" elevation="3">
-          <div v-if="JSON.stringify(props.fieldsMore) !== '{}'">
-            <div class="baseLayoutForm mt-3">
-              <component
-                :is="item.type"
-                v-for="(item, index) in props.fieldsMore"
-                :key="index"
-                v-model="item.value"
-                :style="{
-                  'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
-                }"
-                :label="item.label"
-                :data-slot="item.dataSlot"
-                :items="item.items"
-                :item-text="item.text"
-                :item-value="item.itemValue"
-                :placeholder="item.placeholder"
-                @update:enter="find"
-              ></component>
-            </div>
+        <base-panel
+          v-if="JSON.stringify(props.fieldsMore) !== '{}'"
+          class="fullWidth"
+          elevation="3"
+        >
+          <div class="baseLayoutForm mt-3">
+            <component
+              :is="item.type"
+              v-for="(item, index) in props.fieldsMore"
+              :key="index"
+              v-model="item.value"
+              :style="{
+                'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
+              }"
+              :label="item.label"
+              :data-slot="item.dataSlot"
+              :items="item.items"
+              :item-text="item.text"
+              :item-value="item.itemValue"
+              :placeholder="item.placeholder"
+              :disabled="item.disabled"
+              @update:enter="find"
+            ></component>
           </div>
         </base-panel>
       </div>
@@ -114,7 +118,8 @@ export default {
     // поля для поиска (дополнительные)
     fieldsMore: {
       type: Object,
-      required: true
+      required: true,
+      default: {}
     }
   },
   emits: ['find'], // событие для запуска поиска

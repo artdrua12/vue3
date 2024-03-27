@@ -325,7 +325,7 @@ function removeActiveCheckboxes() {
   }
 }
 function test() {
-  console.log('________________test_____________________')
+  console.log('________________test_____________________',[undefined,null].includes(null))
 }
 
 onMounted(() => {
@@ -359,24 +359,27 @@ onMounted(() => {
   top: 0px;
 }
 
-.headPin {
+.headPin,
+.headSort {
   width: 22px;
   height: 22px;
+  position: relative;
+  left: -2px;
 }
 .headText {
   grid-area: 1/2/-1/-1;
   margin-right: 5px;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
 }
 
 .headSort {
-  width: 22px;
-  height: 22px;
   align-self: flex-end;
 }
 .headCell {
   display: grid;
-  grid-template-columns: 20px 1fr;
+  grid-template-columns: 17px 1fr;
   grid-template-rows: 25px 1fr;
   align-items: center;
   border-right: 1px solid;
@@ -388,7 +391,7 @@ onMounted(() => {
   --countFixColumns: 2;
   --countColumns: 8;
   display: grid;
-  grid-template-columns: 42px repeat(var(--countColumns), minmax(min-content, 400px));
+  grid-template-columns: 42px repeat(var(--countColumns), auto);
   grid-template-rows: auto 1fr;
   padding-top: 16px;
   overflow: auto;

@@ -95,7 +95,7 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов CМ',
-        to: '/powered-machines/epassports',
+        to: '/powered-machines-epassports',
         permission: 'Доступ к реестру электронных паспортов СМ (осуществление поиска)'
       },
       {

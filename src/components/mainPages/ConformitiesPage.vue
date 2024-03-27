@@ -287,13 +287,13 @@ const actions = [
       {
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: [ 'Создать документ ОТТС (ОТШ)'] },
+        enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
         action: () => route.push('/test')
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
-        enabled: { permission: [ 'Создать документ ОТТС (ОТШ)'] },
+        enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
         action: () => console.log('from parent')
       }
     ]
@@ -319,7 +319,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: [ 'Редактировать документ ОТТС (ОТШ)']
+      permission: ['Редактировать документ ОТТС (ОТШ)']
     }
   },
   // решение до реализации заявлений!!
@@ -328,7 +328,7 @@ const actions = [
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: [ 'Утвердить документ ОТТС (ОТШ)']
+      permission: ['Утвердить документ ОТТС (ОТШ)']
     }
   },
   {
@@ -336,7 +336,7 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: 'true',
-      permission: [ 'Просмотреть документ ОТТС (ОТШ)']
+      permission: ['Просмотреть документ ОТТС (ОТШ)']
     }
   },
   {
@@ -344,7 +344,7 @@ const actions = [
     icon: 'mdi-content-copy',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: [ 'Копировать документ ОТТС (ОТШ)']
+      permission: ['Копировать документ ОТТС (ОТШ)']
     }
   },
   {
@@ -395,7 +395,7 @@ const actions = [
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: [ 'Удалить документ ОТТС (ОТШ)']
+      permission: ['Удалить документ ОТТС (ОТШ)']
     }
   }
 ]
@@ -463,116 +463,16 @@ async function find(obj) {
       size: obj.size
     }
   }
-  const res = await requests.post(
-    'http://localhost:8080/api/otts/docDetails/modification/search',
-    body
-  )
+  const res = await requests.post('/api/otts/docDetails/modification/search', body)
 
-  const noData = {
-    currentPage: 0,
-    result: [
-      {
-        id: 1,
-        docId: 'test',
-        conformityDocKindName: 'test',
-        tcInfo: {
-          lastModified: 'test'
-        },
-        manufacturerBusinessEntityName: 'test',
-        applicantDetails: 'test',
-        conformityDocStatusDetails: {
-          docStatus: 'test'
-        },
-        cert: {
-          signer: {
-            fullName: 'test'
-          }
-        }
-      },
-      {
-        id: 2,
-        docId: 'test2',
-        conformityDocKindName: 'test',
-        tcInfo: {
-          lastModified: 'test'
-        },
-        manufacturerBusinessEntityName: 'test',
-        applicantDetails: 'test',
-        conformityDocStatusDetails: {
-          docStatus: 'test'
-        },
-        cert: {
-          signer: {
-            fullName: 'test'
-          }
-        }
-      },
-      {
-        id: 3,
-        docId: 'test3',
-        conformityDocKindName: 'test',
-        tcInfo: {
-          lastModified: 'test'
-        },
-        manufacturerBusinessEntityName: 'test',
-        applicantDetails: 'test',
-        conformityDocStatusDetails: {
-          docStatus: 'test'
-        },
-        cert: {
-          signer: {
-            fullName: 'test'
-          }
-        }
-      },
-      {
-        id: 4,
-        docId: 'test4',
-        conformityDocKindName: 'test',
-        tcInfo: {
-          lastModified: 'test'
-        },
-        manufacturerBusinessEntityName: 'test',
-        applicantDetails: 'test',
-        conformityDocStatusDetails: {
-          docStatus: 'test'
-        },
-        cert: {
-          signer: {
-            fullName: 'test'
-          }
-        }
-      },
-      {
-        id: 5,
-        docId: 'test5',
-        conformityDocKindName: 'test',
-        tcInfo: {
-          lastModified: 'test'
-        },
-        manufacturerBusinessEntityName: 'test',
-        applicantDetails: 'test',
-        conformityDocStatusDetails: {
-          docStatus: 'test'
-        },
-        cert: {
-          signer: {
-            fullName: 'test'
-          }
-        }
-      }
-    ],
-    totalCount: 7
-  }
-
-  tableDataFromResponse.value = res || noData
+  tableDataFromResponse.value = res
 }
 
 async function getAutocompliteData(obj = {}) {
   for (const key in obj) {
     if (obj[key].url) {
       try {
-        const data = await requests.get('http://localhost:8080' + obj[key].url)
+        const data = await requests.get(obj[key].url)
         if (!data) {
           throw new Error()
         }

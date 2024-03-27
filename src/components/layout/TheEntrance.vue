@@ -60,10 +60,7 @@ async function entrance() {
 
   route.push('./start')
 
-  const referenceBook = await requests.post(
-    'http://localhost:8080/api/classifiers/get-full-records',
-    {}
-  )
+  const referenceBook = await requests.post('/api/classifiers/get-full-records', {})
   console.log('referenceBook', referenceBook)
   //получаем запрос search
   // const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
@@ -87,7 +84,7 @@ async function entrance() {
 }
 
 async function checkLogin() {
-  const response = await requests.post('http://localhost:8080/api/authentication/login', {
+  const response = await requests.post('/api/authentication/login', {
     login: login.value,
     password: password.value
   })

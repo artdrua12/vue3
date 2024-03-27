@@ -2,7 +2,7 @@
   <layout-pages
     :fields="fields"
     :fields-more="fieldsMore"
-    title="Реестр электронных паспортов "
+    title=" Реестр электронных паспортов СМ"
     @find="find"
   ></layout-pages>
 </template>
@@ -41,14 +41,19 @@ const tableHeaders = [
   },
   { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h9' },
   {
+    text: 'Заводской номер',
+    value: 'vehicleDetails.vehicleIdInfoDetails.vehicleIdDetails.vehicleFactoryNumberId',
+    id: 'h10'
+  },
+  {
     text: 'Номер бумажного паспорта базового ТС (шасси)',
     value: 'vehicleVariantDetails.baseVehicleDetails.docId',
-    id: 'h10'
+    id: 'h11'
   },
   {
     text: 'Номер электронного паспорта базового ТС (шасси)',
     value: 'vehicleVariantDetails.baseVehicleDetails.vehicleEPassportId',
-    id: 'h11'
+    id: 'h12'
   }
 ]
 const additionalTableHeaders = [
@@ -63,13 +68,13 @@ const additionalTableHeaders = [
   },
   {
     text: 'Категория в соответствии с Конвенцией',
-    value: 'vehicleDetails.vehicleCategoryCode',
+    value: 'vehicleDetails.machineCategoryCode',
     id: 5,
     model: false
   },
   {
     text: 'Категория в соответствии с ТР ТС',
-    value: 'vehicleTypeDetails.vehicleTechCategoryCode',
+    value: 'vehicleTypeDetails.machineTechCategoryCode',
     id: 6,
     model: false
   },
@@ -80,67 +85,60 @@ const additionalTableHeaders = [
     model: false
   },
   {
-    text: 'Номер шасси (рамы)',
-    value: 'vehicleDetails.vehicleIdInfoDetails.vehicleFrameIdDetails.vehicleIdentityNumberId',
+    text: 'Номер основного ведущего моста',
+    value:
+      'vehicleDetails.vehicleIdInfoDetails.mainPoweredAxleIdDetails[0].vehicleIdentityNumberId',
     id: 8,
     model: false
   },
   {
     text: 'Номер кузова (кабины, прицепа)',
-    value: 'vehicleDetails.vehicleIdInfoDetails.vehicleBodyIdDetails.vehicleIdentityNumberId',
+    value: 'vehicleDetails.vehicleIdInfoDetails.machineBodyIdDetails.vehicleIdentityNumberId',
     id: 9,
     model: false
   },
   {
     text: 'Цвет кузова (кабины, прицепа)',
-    value: 'vehicleDetails.vehicleBodyColourCode',
+    value: 'vehicleDetails.vehicleBodyColourName',
     id: 10,
     model: false
   },
   { text: 'Год изготовления', value: 'vehicleDetails.manufactureYear', id: 11, model: false },
   {
-    text: 'Марка двигателя',
-    value: 'vehicleVariantDetails.engineDetails[0].vehicleComponentMakeName',
+    text: 'Тип движителя',
+    value: 'vehicleTypeDetails.propulsionKindName',
     id: 12,
     model: false
   },
-  { text: 'Тип двигателя', value: 'vehicleVariantDetails.engineType', id: 13, model: false },
   {
-    text: 'Рабочий объем цилиндров',
-    value: 'vehicleVariantDetails.engineDetails[0].engineCapacityMeasure.value',
-    id: 14,
-    model: false
-  },
-  {
-    text: 'Максимальная мощность',
-    value:
-      'vehicleVariantDetails.engineDetails[0].engineMaxPowerDetails.engineMaxPowerMeasure.value',
-    id: 15,
-    model: false
-  },
-  {
-    text: 'Экологический класс',
-    value: 'vehicleVariantDetails.vehicleEcoClassCode',
-    id: 16,
+    text: 'Максимальная скорость',
+    value: 'vehicleVariantDetails.vehicleMaxSpeedMeasure[0].value',
+    id: 13,
     model: false
   },
   {
     text: 'Технически допустимая максимальная масса (кг)',
     value:
       'vehicleVariantDetails.vehicleRunningGearDetails.vehicleAxleDetails[0].vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value',
-    id: 17,
+    id: 14,
     model: false
   },
   {
     text: 'Юр.лицо/физ.лицо',
     value: 'legalPersonTypeForTable',
-    id: 18,
+    id: 15,
+    model: false
+  },
+  {
+    text: 'Модификация',
+    value: 'vehicleVariantDetails.vehicleTypeVariantId',
+    id: 16,
     model: false
   },
   {
     text: 'Номер ЭП, на основе которого создан шаблон',
     value: 'originalVehicleEPassportId',
-    id: 19,
+    id: 17,
     model: false
   },
   {
@@ -165,19 +163,17 @@ const fields = reactive({
     type: 'base-slot',
     dataSlot: {
       own: {
-        width: 3,
         label: 'Только свои',
         value: false,
         type: 'base-check-box'
       },
       copy: {
-        width: 3,
         label: 'Шаблоны',
         value: false,
         type: `${
-          ['НО АДМ', 'ОАО ЦНИИТУ', 'Национальный оператор «ОАО ЦНИИТУ»'].includes('test') //state.account.user.companyName
+          ['НО АДМ', 'ОАО ЦНИИТУ', 'Национальный оператор «ОАО ЦНИИТУ»'].includes('test')
             ? ''
-            : 'base-check-box'
+            : 'base-checkbox'
         }`
       }
     }
@@ -191,7 +187,7 @@ const fields = reactive({
     url: '/api/classifier/epassport/vehicle-passport-kinds',
     text: 'value',
     itemValue: 'key',
-    filter: `filter(i => ['1', '2'].includes(i.key))`
+    filter: `filter(i => ['3'].includes(i.key))`
   },
   docStatus: {
     width: '6',
@@ -208,17 +204,11 @@ const fields = reactive({
     value: '',
     type: 'base-text-field'
   },
-  createWith: {
-    width: '3',
-    label: 'Период изготовления с',
+  vehicleFactoryNumberId: {
+    width: '6',
+    label: 'Заводской номер',
     value: '',
-    type: 'base-date-field'
-  },
-  createBy: {
-    width: '3',
-    label: 'Период изготовления по',
-    value: '',
-    type: 'base-date-field'
+    type: 'base-text-field'
   },
   identityNumber: {
     width: '6',
@@ -287,9 +277,9 @@ const fieldsMore = reactive({
     value: '',
     type: 'base-text-field'
   },
-  frameId: {
+  mainPoweredAxleId: {
     width: '6',
-    label: 'Номер шасси (рамы)',
+    label: 'Номер основного ведущего моста',
     value: '',
     type: 'base-text-field'
   },
@@ -299,11 +289,14 @@ const fieldsMore = reactive({
     value: '',
     type: 'base-text-field'
   },
-  commercialName: {
+  mover: {
     width: '6',
-    label: 'Коммерческое наименование',
+    label: 'Тип движителя',
     value: '',
-    type: 'base-text-field'
+    type: 'base-autocomplete',
+    items: [],
+    url: '/api/classifier/epassport/propulsion-kinds',
+    text: 'value'
   },
   infoId: {
     width: 'all',
@@ -311,25 +304,24 @@ const fieldsMore = reactive({
     value: '',
     type: 'base-text-field'
   },
-  componentName: {
+  commercialName: {
     width: '6',
-    label: 'Марка двигателя',
+    label: 'Коммерческое наименование',
     value: '',
     type: 'base-text-field'
   },
   techCategoryCode: {
     width: '6',
-    label: 'Категория в соответствии с ТР ТС',
+    label: 'Категория ТС, СМ по ТР ТС 010/2011, ТР ТС 018/2011, ТР ТС 031/2012',
     value: '',
     type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-tech-categories',
-    text: 'key',
-    itemValue: 'key',
-    filter: `filter(e => e.key.match(/L|M|N|O/))`
+    text: 'title',
+    itemValue: 'key'
   },
   manufacturer: {
-    width: '6',
+    width: 'all',
     label: 'Изготовитель',
     value: '',
     type: 'base-autocomplete',
@@ -337,18 +329,6 @@ const fieldsMore = reactive({
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
     itemValue: 'businessEntityName'
-  },
-  startDate: {
-    width: '3',
-    label: 'Период создания ЭП с',
-    value: '',
-    type: 'base-date-field'
-  },
-  validityDate: {
-    width: '3',
-    label: 'Период создания ЭП по',
-    value: '',
-    type: 'base-date-field'
   },
   countryCode: {
     width: '6',
@@ -368,22 +348,23 @@ const fieldsMore = reactive({
   },
   docKindCode: {
     width: '6',
-    label: 'Вид документа о соответствии',
+    label: 'Вид документа ',
     value: '',
     type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/conformity-doc-kinds',
-    text: 'value'
+    text: 'value',
+    itemValue: 'key'
   },
   docId: {
     width: '6',
-    label: 'Номер документа  о соответствии',
+    label: 'Номер документа ',
     value: '',
     type: 'base-text-field'
   },
   basisRegistration: {
     width: '6',
-    label: 'Основание оформления ЭПТС',
+    label: 'Основание оформления ЭПСМ',
     value: '',
     type: 'base-autocomplete',
     items: [],
@@ -395,58 +376,32 @@ const fieldsMore = reactive({
 
 const actions = [
   {
-    text: 'Оформить электронный паспорт',
-    enabled: true,
-    children: [
-      {
-        text: 'ЭПТС',
-        icon: 'mdi-file-plus-outline',
-        enabled: {
-          permission: ['Оформить паспорт']
-        }
-      },
-      {
-        text: 'Ввод ЭПТС из АИС СЭП ЕАЭС',
-        icon: 'mdi-file-plus-outline',
-        enabled: true
-        // enabled: this.permissions.includes('Ввод ЭПТС из АИС СЭП ЕАЭС'),
-      },
-      {
-        text: 'ЭПШТС',
-        icon: 'mdi-file-plus-outline',
-        enabled: {
-          permission: ['Оформить паспорт']
-        }
-      },
-      {
-        text: 'Ввод ЭПШТС из АИС СЭП ЕАЭС',
-        icon: 'mdi-file-plus-outline',
-        enabled: true
-        // enabled: this.permissions.includes('Ввод ЭПШТС из АИС СЭП ЕАЭС'),
-      },
-      {
-        text: 'ЭПТС на основе ЭПШТС',
-        icon: 'mdi-file-plus-outline',
-        enabled: {
-          permission: ['Оформить паспорт']
-        }
-      }
-    ]
+    text: 'Оформить электронный паспорт СМ',
+    icon: 'mdi-file-plus-outline',
+    enabled: {
+      permission: ['Оформить паспорт СМ']
+    }
+  },
+  {
+    text: 'Ввод ЭПСМ из АИС СЭП ЕАЭС',
+    icon: 'mdi-file-plus-outline',
+    enabled: true
+    // enabled: this.permissions.includes('Ввод ЭПСМ из АИС СЭП ЕАЭС'),
   },
   {
     text: 'Редактировать',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: ['Редактировать паспорт ТС']
+      permission: ['Редактировать паспорт СМ']
     }
   },
   {
-    text: 'Внесение изменений НО в ЭПТС в статусе «Действующий»',
+    text: 'Внесение изменений НО в ЭПСМ в статусе "Действующий"',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Действующий'],
-      permission: ['Утвердить паспорт']
+      permission: ['Утвердить паспорт СМ']
     }
   },
   {
@@ -458,12 +413,12 @@ const actions = [
     }
   },
   {
-    text: 'Внесение изменений НО в ЭПТС в статусе "Аннулированный"',
+    text: 'Внесение изменений НО в ЭПСМ в статусе "Аннулированный"',
     icon: 'mdi-file-document-edit-outline',
     enabled: {
       notEmptyAndStatus: ['Аннулированный'],
       permission: [
-        'Изменение статуса ЭПТС на «Действующий» по устранению причин, послуживших основанием для присвоения электронному паспорту статуса «Аннулированный»'
+        'Изменение статуса ЭПСМ на «Действующий» по устранению причин, послуживших основанием для присвоения электронному паспорту статуса «Аннулированный»'
       ]
     }
   },
@@ -472,28 +427,36 @@ const actions = [
     icon: 'mdi-file-eye-outline',
     enabled: {
       notEmpty: true,
-      permission: ['Просмотреть паспорт ТС']
+      permission: ['Просмотреть паспорт СМ']
     }
   },
   {
     text: 'Создать шаблон',
     icon: 'mdi-content-copy',
     enabled: {
-      notEmptyAndStatus: ['Действующий'],
-      notEqual: { legalPersonType: ['10'], externalSystemLoadCode: ['9', '10', '11'] }
+      notEmptyAndStatus: ['Действующий', 'Незавершенный'],
+      notEqual: { legalPersonType: ['10'], externalSystemLoadCode: ['9', '10', '11', '12'] }
     }
-    // enabled:
-    //   this.hasSelected &&
-    //   this.selected[0].documentStatus === 'Действующий' &&
-    //   this.selected[0].legalPersonType !== '10' &&
-    //   !['9', '10', '11'].includes(this.selected[0].externalSystemLoadCode)
   },
   {
     text: 'Удалить',
     icon: 'mdi-delete-outline',
     enabled: {
       notEmptyAndStatus: ['Черновик'],
-      permission: ['Удалить паспорт ТС']
+      permission: ['Удалить паспорт СМ']
+    }
+  },
+  {
+    text: 'Выписка',
+    icon: 'mdi-file-pdf-outline',
+    enabled: { notEmpty: true }
+  },
+  {
+    text: 'Выгрузка',
+    icon: 'mdi-xml',
+    enabled: {
+      notEmpty: true,
+      permission: ['Осуществить выгрузку паспорта СМ']
     }
   },
   {
@@ -503,10 +466,7 @@ const actions = [
       {
         text: 'Заявление на внесение изменений в электронный паспорт (Корректировка технических ошибок)',
         icon: 'mdi-file-plus-outline',
-        enabled: {
-          notEmptyAndStatus: ['Действующий', 'Незавершенный'],
-          permission: ['Удалить паспорт ТС']
-        }
+        enabled: false
       },
       {
         text: 'Заявление на исполнение гарантийных обязательств',
@@ -514,11 +474,9 @@ const actions = [
         enabled: false
       },
       {
-        text: 'Заявление на внесение сведений собственника ТС',
-        icon: 'mdi-file-plus-outline',
-        enabled: {
-          notEmptyAndStatus: ['Действующий']
-        }
+        text: 'Новый собственник',
+        enabled: false,
+        icon: 'mdi-file-plus-outline'
       },
       {
         text: 'Смена собственника',
@@ -540,24 +498,15 @@ const actions = [
         icon: 'mdi-file-plus-outline'
       },
       {
-        text: 'Заявление на изменение сведений о базовом ТС',
+        text: 'Заявление на изменение сведений о базовом ТС (шасси ТС)',
         icon: 'mdi-file-plus-outline',
-        enabled: {
-          notEmptyAndStatus: ['Действующий', 'Незавершенный', 'Аннулированный'],
-          notEqual: { vehicleEPassportKindCode: ['2'], vehicleEPassportBaseCode: ['03'] }
-        }
-        // enabled:
-        //   this.hasSelected === 1 &&
-        //   ['Действующий', 'Незавершенный', 'Аннулированный'].includes(
-        //     this.selected[0].documentStatus
-        //   ) &&
-        //   this.selected[0].vehicleEPassportKindCode !== '2' &&
-        //   this.selected[0].vehicleEPassportBaseCode !== '03'
+        enabled: false
       },
       {
-        text: 'Заявление на присвоение электронному паспорту статуса «Аннулированный» на основании сведений от организации – изготовителя, уполномоченного органа (организации)',
+        text: `Заявление на присвоение электронному паспорту статуса «Аннулированный» на основании
+                        сведений от организации – изготовителя, уполномоченного органа (организации)`,
         icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
+        enabled: { notEmpty: true }
       },
       {
         text: 'Заявление на получение регистрационных знаков ТРАНЗИТ',
@@ -565,29 +514,30 @@ const actions = [
         enabled: false
       },
       {
-        text: 'Заявление на внесение сведений об утилизации ТС',
+        text: 'Заявление на внесение сведений об утилизации ТС (шасси ТС)',
         icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
+        enabled: false
       },
       {
         text: 'Заявление на внесение в электронный паспорт сведений об отзыве утилизации',
         icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Утилизированный'] }
+        enabled: false
       },
       {
-        text: 'Заявление на присвоение статуса ЭП «Аннулированный» на основании сведений от организаций, исключая изготовителя',
+        text: `Заявление на присвоение электронному паспорту статуса «Аннулированный» на основании
+                    сведений от государственных и иных органов и организаций, исключая изготовителей»`,
         icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
+        enabled: { notEmpty: true }
       },
       {
-        icon: 'mdi-file-plus-outline',
         text: 'Заявление на внесение сведений об осуществленных регистрационных действиях',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
+        icon: 'mdi-file-plus-outline',
+        enabled: false
       },
       {
-        text: 'Заявление на создание электронного паспорта транспортного средства',
+        text: 'Заявление на создание электронного паспорта',
         icon: 'mdi-file-plus-outline',
-        enabled: true
+        enabled: { notEmpty: true }
       },
       {
         text: 'Заявление на внесение в электронный паспорт сведений собственника',
@@ -617,7 +567,7 @@ const actions = [
       {
         text: 'Заявление на внесение в электронный паспорт сведений о проведении технического осмотра',
         icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
+        enabled: false
       },
       {
         text: 'Заявление на внесение в электронный паспорт сведений о страховании',
@@ -633,45 +583,10 @@ const actions = [
         text: 'Заявление на внесение в электронный паспорт сведений о страховых случаях',
         icon: 'mdi-file-plus-outline',
         enabled: false
-      },
-      {
-        text: 'Заявление на отмену основания, послужившего причиной присвоения ЭП статуса Аннулированный',
-        icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Аннулированный'] }
-      },
-      {
-        text: 'Заявление на изменение статуса электронного паспорта на «Погашенный»',
-        icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Действующий'] }
-      },
-      {
-        key: '38',
-        text: 'Заявление на изменение статуса электронного паспорта с «Погашенный» на иной',
-        icon: 'mdi-file-plus-outline',
-        enabled: { notEmptyAndStatus: ['Погашенный'] }
       }
     ]
   },
   {
-    text: 'Загрузить сведения о ТС (шасси)',
-    enabled: false,
-    icon: 'mdi-file-upload-outline'
-  },
-  {
-    text: 'Выписка',
-    enabled: { notEmpty: true },
-    icon: 'mdi-file-pdf-outline'
-  },
-  {
-    text: 'Выгрузка',
-    icon: 'mdi-xml',
-    enabled: {
-      notEmpty: true,
-      permission: ['Осуществить выгрузку паспорта']
-    }
-  },
-  {
-    key: '6',
     text: 'Внести сведения в электронный паспорт',
     enabled: true,
     children: [
@@ -681,23 +596,10 @@ const actions = [
         enabled: {
           notEmptyAndStatus: ['Незавершенный'],
           permission: [
-            'Внести сведения об утилизационном сборе',
-            'Внести сведения о таможенных операциях'
+            'Внести сведения об утилизационном сборе СМ',
+            'Внести сведения о таможенных операциях СМ'
           ]
         }
-        // enabled:
-        //   this.hasSelected &&
-        //   this.permissions.includes('Внести сведения об утилизационном сборе') &&
-        //   this.permissions.includes('Внести сведения о таможенных операциях') &&
-        //   this.selected[0].documentStatus === 'Незавершенный'
-      },
-      {
-        text: 'Информация об ограничениях',
-        icon: 'mdi-file-document-edit-outline',
-        enabled: false
-        /*    this.hasSelected &&
-                    this.permissions.includes('Заявление на внесение сведений собственника ТС') &&
-                    this.selected[0].documentStatus === 'Действующий' */
       },
       {
         text: 'Сведения об исполнении гарантийных обязательств',
@@ -738,33 +640,33 @@ async function find(obj) {
       ).trim(),
       ['vehicleDetails.vehicleIdInfoDetails.vehicleEngineIdDetails.vehicleIdentityNumberId']:
         fieldsMore.engineId.value,
-      ['vehicleDetails.vehicleIdInfoDetails.vehicleFrameIdDetails.vehicleIdentityNumberId']:
-        fieldsMore.frameId.value,
-      ['vehicleDetails.vehicleIdInfoDetails.vehicleBodyIdDetails.vehicleIdentityNumberId']:
+      ['vehicleDetails.vehicleIdInfoDetails.mainPoweredAxleIdDetails.vehicleIdentityNumberId']:
+        fieldsMore.mainPoweredAxleId.value,
+      ['vehicleDetails.vehicleIdInfoDetails.machineBodyIdDetails.vehicleIdentityNumberId']:
         fieldsMore.bodyId.value,
       ['vehicleDetails.vehicleIdInfoDetails.vehicleEmergencyCallDeviceIdDetails.vehicleIdentityNumberId']:
         fieldsMore.infoId.value,
       ['vehicleTypeDetails.vehicleCommercialName']: fieldsMore.commercialName.value,
-      ['vehicleVariantDetails.engineDetails.vehicleComponentMakeName']:
-        fieldsMore.componentName.value,
-      ['vehicleTypeDetails.vehicleTechCategoryCode']: fieldsMore.techCategoryCode.value,
+      ['vehicleTypeDetails.machineTechCategoryCode']: fieldsMore.techCategoryCode.value,
       ['vehicleCountryCode']: fieldsMore.countryCode.value,
-      ['documentDetails.docKindName']: fieldsMore.docKindCode.value,
+      ['documentDetails.docKindCode.value']: fieldsMore.docKindCode.value,
       ['documentDetails.docId']: fieldsMore.docId.value,
+      ['vehicleTypeDetails.propulsionKindName']: fieldsMore.mover.value,
       ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
-      ['eDocDateTime']: fieldsMore.startDate.value + 'to' + fieldsMore.validityDate.value,
-      ['vehicleDetails.manufactureYear']: fields.createWith.value + 'to' + fields.createBy.value,
       ['cert.signer.organization']: fieldsMore.authorityName.value,
+      ['vehicleDetails.vehicleIdInfoDetails.vehicleIdDetails.vehicleFactoryNumberId']:
+        fields.vehicleFactoryNumberId.value,
       ['externalSystemLoadCode']: fields.checkboxes.dataSlot.copy.value ? '6' : '',
       ['vehicleEPassportBaseCode']: fieldsMore.basisRegistration.value
     },
     fields: [
       'tcInfo',
-      'epassportBtoIndicator',
       'vehicleEPassportKindCode',
       'vehicleDetails.vehicleCharacteristicsName',
       'vehicleVariantDetails.engineType',
       'extSysLoading',
+      'vehicleTypeDetails.propulsionKindName',
+      'vehicleVariantDetails.vehicleMaxSpeedMeasure.value',
       'vehicleEPassportId',
       'documentDetails.docId',
       'vehicleDetails.vehicleIdInfoDetails.vehicleIdDetails.vehicleIdentityNumberId',
@@ -774,37 +676,37 @@ async function find(obj) {
       'vehicleDetails.recyclingDutyPaidDetails.recyclingDutyNotPayIndicator',
       'vehicleDetails.recyclingDutyPaidDetails.recyclingDutyPaydIndicator',
       'docCreationDate',
-      'vehicleDetails.vehicleCategoryCode',
-      'vehicleTypeDetails.vehicleTechCategoryCode',
+      'vehicleDetails.machineCategoryCode',
+      'vehicleTypeDetails.machineTechCategoryCode',
       'vehicleDetails.vehicleIdInfoDetails.vehicleEngineIdDetails.vehicleIdentityNumberId',
-      'vehicleDetails.vehicleIdInfoDetails.vehicleFrameIdDetails.vehicleIdentityNumberId',
-      'vehicleDetails.vehicleIdInfoDetails.vehicleBodyIdDetails.vehicleIdentityNumberId',
-      'vehicleDetails.vehicleBodyColourCode',
+      'vehicleDetails.vehicleIdInfoDetails.mainPoweredAxleIdDetails.vehicleIdentityNumberId',
+      'vehicleDetails.vehicleIdInfoDetails.machineBodyIdDetails.vehicleIdentityNumberId',
+      'vehicleDetails.vehicleBodyColourName',
       'vehicleDetails.manufactureYear',
       'vehicleVariantDetails.engineDetails.vehicleComponentMakeName',
       'vehicleVariantDetails.engineDetails.engineCapacityMeasure.value',
       'vehicleVariantDetails.engineDetails.engineMaxPowerDetails.engineMaxPowerMeasure.value',
       'vehicleVariantDetails.vehicleEcoClassCode',
       'vehicleVariantDetails.vehicleRunningGearDetails.vehicleAxleDetails.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value',
-      'vehicleManufacturerDetails.businessEntityName',
       'cert.signer.surname',
       'cert.signer.name',
-      'vehicleEPassportBaseCode',
+      'vehicleDetails.vehicleIdInfoDetails.vehicleIdDetails.vehicleFactoryNumberId',
+      'vehicleManufacturerDetails.businessEntityName',
       'vehicleVariantDetails.baseVehicleDetails.docId',
       'vehicleVariantDetails.baseVehicleDetails.vehicleEPassportId',
       'vehicleVariantDetails.baseVehicleDetails.documentStatus',
+      'vehicleEPassportBaseCode',
       'externalSystemLoadCode',
       'legalPersonType',
-      'originalVehicleEPassportId',
-      'vehicleManufacturerDetails.vehicleManufacturerKindCode',
-      'vehicleManufacturerDetails.businessEntityName'
+      'vehicleVariantDetails.vehicleTypeVariantId',
+      'originalVehicleEPassportId'
     ],
     pageAndSort: {
       page: obj.page,
       size: obj.size
     }
   }
-  const res = await requests.post('/api/powered-machines/certificate/modification/search', body)
+  const res = await requests.post('/api/powered-machines/passport/modification/search', body)
   tableDataFromResponse.value = res
 }
 
