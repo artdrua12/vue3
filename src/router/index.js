@@ -55,6 +55,11 @@ const router = createRouter({
       component: () => import('../components/mainPages/ApplicationPage.vue')
     },
     {
+      path: '/registry-templates',
+      name: 'registryTemplates',
+      component: () => import('../components/mainPages/RegistryTemplatesPage.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('../components/layout/LayoutPanel.vue')

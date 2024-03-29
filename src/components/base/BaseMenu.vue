@@ -113,7 +113,7 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр шаблонов',
-        to: '/registry/templates',
+        to: '/registry-templates',
         permission: 'Доступ к реестру шаблонов'
       },
       {

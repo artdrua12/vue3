@@ -11,6 +11,8 @@
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
+import { useUserStore } from '@/stores/userStore'
+const currentUser = useUserStore()
 
 const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
@@ -175,7 +177,9 @@ const fields = reactive({
         label: 'Шаблоны',
         value: false,
         type: `${
-          ['НО АДМ', 'ОАО ЦНИИТУ', 'Национальный оператор «ОАО ЦНИИТУ»'].includes('test') //state.account.user.companyName
+          ['НО АДМ', 'ОАО ЦНИИТУ', 'Национальный оператор «ОАО ЦНИИТУ»'].includes(
+            currentUser.getUser.value?.companyName
+          )
             ? ''
             : 'base-check-box'
         }`
@@ -232,7 +236,8 @@ const fields = reactive({
     value: '',
     type: 'base-autocomplete',
     items: [],
-    url: '/api/classifier/epassport/vehicle-makes'
+    url: '/api/classifier/epassport/vehicle-makes',
+    text: 'value'
   },
   statusModifiedWith: {
     width: '3',

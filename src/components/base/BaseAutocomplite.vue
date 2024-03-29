@@ -8,8 +8,14 @@
     variant="outlined"
     class="base"
     bg-color="white"
+    :menu-props="{
+      width: 100,
+      offset: 2,
+      contentClass: 'dropdown'
+    }"
     @keyup.enter="onEnter"
-  ></v-autocomplete>
+  >
+  </v-autocomplete>
 </template>
 
 <script setup>
@@ -26,3 +32,9 @@ function onEnter() {
   emit('update:enter')
 }
 </script>
+
+<style>
+.v-list-item-title {
+  white-space: pre-wrap;
+}
+</style>

@@ -2,28 +2,26 @@
   <div>
     <v-btn @click="test">Все справочники</v-btn>
     <h1>Страница в разработке...</h1>
+    <div>
+      <base-date-field></base-date-field>
+    </div>
   </div>
 </template>
 
 <script setup>
-// import { useIndexDBStore } from '@/stores/indexDBStore'
+import { ref } from 'vue'
+import { useDate } from 'vuetify'
 import { useRequestStore } from '@/stores/requestStore'
-// import { useUserStore } from '@/stores/userStore'
-// import { storeToRefs } from 'pinia'
-
-// const { getUser } = storeToRefs(currentUser)
-
-// const currentUser = useUserStore()
-// const user = useUserStore()
-// const indexDB = useIndexDBStore()
+import BaseDateField from '../base/BaseDateField.vue'
 const requests = useRequestStore()
+const date = useDate()
 
 async function test() {
   // const referenceBook = await requests.post(
   //   'http://localhost:8080/api/classifiers/get-full-records',
   //   {}
   // )
-  console.log('referenceBook', import.meta.env.VITE_VUE_APP_API_ENDPOINT)
+  console.log('referenceBook')
 }
 </script>
 <style scoped></style>
