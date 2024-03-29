@@ -95,7 +95,12 @@
             </span>
           </div>
 
-          <span v-for="headerItem in header" :key="headerItem.value" class="cell">
+          <span
+            v-for="headerItem in header"
+            :key="headerItem.value"
+            class="cell"
+            :class="checkClass(item)"
+          >
             <!-- {{ item[headerItem.value] }} -->
             {{ valueFromPatch(item, headerItem.value) }}
           </span>
@@ -203,7 +208,7 @@ const fixHeader = reactive([])
 const additionalTableHeaders = inject('additionalTableHeaders')
 const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
 const tableHeaderKey = ref(0) // ключ который меняется для перерисовки заголовка таблицы
-// const pathToStatus = inject('pathToStatus') //путь к статусу
+const pathToStatus = inject('pathToStatus') //путь к статусу
 const props = defineProps({
   size: { type: Number, required: true }, //количество строк на одной странице
   page: { type: Number, required: true }, // текущая страница
@@ -324,8 +329,16 @@ function removeActiveCheckboxes() {
     modifateColumnsTable(additionalTableHeaders[i])
   }
 }
+function checkClass(item) {
+  console.log('item', item)
+  if (!pathToStatus) return ''
+  const status = eval(`item.${pathToStatus}`)
+  if (status === 'Действующий') return 'greenText'
+  else if (status === 'На утверждении') return 'orangeText'
+  else if (status === 'Незавершенный') return 'blueText'
+}
 function test() {
-  console.log('________________test_____________________',[undefined,null].includes(null))
+  console.log('________________test_____________________', [undefined, null].includes(null))
 }
 
 onMounted(() => {
