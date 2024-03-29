@@ -589,13 +589,13 @@ input[type='checkbox']:checked + svg {
 }
 /* строки таблицы с зависимости от статуса */
 .greenText {
-  color: #2d6111;
+  color: #459e15;
 }
 .orangeText {
-  color: #b29154;
+  color: #d18007;
 }
 .blueText {
-  color: #647da7;
+  color: #5c89d6;
 }
 @keyframes fade2 {
   from {
