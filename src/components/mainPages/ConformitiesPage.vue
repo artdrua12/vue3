@@ -1,7 +1,7 @@
 <template>
   <layout-pages
-    :fields="fields"
-    :fields-more="fieldsMore"
+    v-model:fields="fields"
+    v-mode:fields-more="fieldsMore"
     title="Реестр ОТТС"
     @find="find"
   ></layout-pages>
@@ -288,13 +288,13 @@ const actions = [
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () => route.push('/test')
+        action: () => route.push('/layoutPanelTabs')
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () => console.log('from parent')
+        action: () => route.push('/layoutPanel')
       }
     ]
   },
@@ -399,7 +399,6 @@ const actions = [
     }
   }
 ]
-
 provide('tableDataFromResponse', tableDataFromResponse)
 provide('additionalTableHeaders', additionalTableHeaders)
 provide('tableHeaders', tableHeaders)

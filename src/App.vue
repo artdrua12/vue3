@@ -28,7 +28,7 @@
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
-        <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-bell-ring"></v-icon>
+        <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-message-processing"></v-icon>
         <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
         <span>{{ item.text }}</span>
       </div>
@@ -137,7 +137,7 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   letter-spacing: 1px;
   transition: transform 0.35s;
   box-shadow: 0px 0px 7px -3px #2c4957;
-  border-left: 2px solid white;
+  border-left: 3px solid white;
 }
 .info {
   background-color: rgba(0, 128, 0, 0.9);

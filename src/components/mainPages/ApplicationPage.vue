@@ -1,7 +1,7 @@
 <template>
   <layout-pages
-    :fields="fields"
-    :fields-more="fieldsMore"
+    v-model:fields="fields"
+    v-mode:fields-more="fieldsMore"
     title="Реестр заявлений"
     @find="find"
   ></layout-pages>

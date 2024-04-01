@@ -67,7 +67,7 @@ const data = [
   { title: 'панель5' }
 ]
 function testGreen() {
-  snack.setSnack({ text: 'Много текста Много текста Много текста Много текста ', type: 'info' })
+  snack.setSnack({ text: 'Текст ', type: 'info' })
 }
 function testRed() {
   snack.setSnack({ text: 'Ошибка загрузки', type: 'error' })
@@ -79,6 +79,8 @@ function testRed() {
   display: grid;
   grid-template-columns: 400px 1fr;
   gap: 12px;
+  overflow: auto;
+  height: 100%;
 }
 .menu-button {
   display: flex;

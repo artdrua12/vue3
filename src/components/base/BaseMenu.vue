@@ -15,7 +15,7 @@
     <div v-for="item in sortItems" :key="item" class="item">
       <input :id="item.title" type="radio" name="acordion" />
       <label :for="item.title" class="item-text" @click="setHeight(item.children.length)">
-        <v-icon :icon="item.icon" size="large" class="item-icon" />
+        <v-icon :icon="item.icon" size="34" class="item-icon" />
         <span>{{ item.title }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,6 +23,7 @@
           height="25"
           class="item-bange"
           viewBox="0 0 24 24"
+          fill="#2c4957"
         >
           <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
         </svg>
@@ -120,7 +121,7 @@ const items = [
         icon: 'mdi-file-outline',
         title: 'Реестр НСИ',
         to: '/reference-information',
-        permission: "Доступ к реестру справочников"
+        permission: 'Доступ к реестру справочников'
       },
       {
         icon: 'mdi-file-outline',
@@ -209,6 +210,7 @@ onMounted(() => {
 
 <style scoped>
 .menu {
+  padding-top: 15px;
   top: 40px;
   position: fixed;
   width: 350px;
@@ -216,14 +218,13 @@ onMounted(() => {
   transition: transform 0.4s;
   transform: translateX(-100%);
   --height: 0px;
-  background-color: #f7f7f7;
+  background-color: #dbdbdb;
   user-select: none;
   cursor: pointer;
   box-shadow:
     3px 0px 15px 5px rgba(0, 0, 0, 0.12),
     inset 0px 11px 12px -10px rgba(0, 0, 0, 0.45);
   font-family: 'Open Sans', arial;
-  font-weight: 400;
   z-index: 3;
 }
 .menu:hover,
@@ -243,7 +244,7 @@ onMounted(() => {
 }
 .item-icon {
   justify-self: center;
-  color: #3f3c3c;
+  color: #2c4957;
 }
 .item-text {
   display: grid;
@@ -253,9 +254,9 @@ onMounted(() => {
   padding: 10px 0px;
   border-bottom: 1px solid #cabfb3;
   cursor: pointer;
-  color: #575656;
-  font-size: 18px;
-  font-style: oblique;
+  color: #2c4957;
+  font-size: 17px;
+  font-weight: 570;
   line-height: 18px;
 }
 .item-bange {
@@ -269,24 +270,27 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   height: 0px;
-  padding-left: 10px;
   box-shadow:
     inset 0px 5px 5px -4px rgba(50, 50, 50, 0.55),
     inset 0px -5px 5px -4px rgba(50, 50, 50, 0.55);
   overflow: hidden;
   transition: height 0.3s;
-  background-color: #ededed;
+  background-color: #f7f7f7;
   cursor: pointer;
   color: #3f3e3e;
   /* box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white; */
 }
+.router-link-active,
+.submenu-text:hover {
+  background-color: #dbdbdb;
+}
 .submenu-text {
   display: flex;
   height: 50px;
+  padding-left: 10px;
   align-items: center;
-  border-bottom: 1px solid #f7f7f7;
+  border-bottom: 1px solid #e7e7e7;
   font-size: 16px;
-  font-style: italic;
   line-height: 16px;
 }
 .submenu-text:last-child {
@@ -304,5 +308,6 @@ input[type='radio'] {
 }
 a {
   text-decoration: none;
+  color: #2c4957;
 }
 </style>

@@ -60,9 +60,14 @@ const router = createRouter({
       component: () => import('../components/mainPages/RegistryTemplatesPage.vue')
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/layoutPanel',
+      name: 'layoutPanel',
       component: () => import('../components/layout/LayoutPanel.vue')
+    },
+    {
+      path: '/layoutPanelTabs',
+      name: 'layoutPanelTabs',
+      component: () => import('../components/layout/LayoutPanelTabs.vue')
     },
     {
       path: '/test',

@@ -127,7 +127,6 @@
     </base-modal>
 
     <div class="pagination">
-      <v-btn @click="test">TEST</v-btn>
       <span class="itemBottom">
         <span>Строк на странице</span>
         <div class="pagination-select">
@@ -336,9 +335,6 @@ function checkClass(item) {
   if (status === 'Действующий') return 'greenText'
   else if (status === 'На утверждении') return 'orangeText'
   else if (status === 'Незавершенный') return 'blueText'
-}
-function test() {
-  console.log('________________test_____________________', [undefined, null].includes(null))
 }
 
 onMounted(() => {

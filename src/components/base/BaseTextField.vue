@@ -1,6 +1,5 @@
 <template>
   <v-text-field
-    v-model="val"
     :label="props.label"
     clearable
     variant="outlined"
@@ -16,12 +15,11 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['update:enter'])
 const rules = {
   required: (value) => !!value || 'Field is required'
 }
-const val = ref('')
 const props = defineProps({
   label: { type: String, default: '' },
   placeholder: { type: String, default: '' }

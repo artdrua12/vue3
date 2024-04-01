@@ -1,10 +1,10 @@
 <template>
   <v-autocomplete
-    density="compact"
     :label="props.label"
     :items="props.items"
     :item-title="props.itemText"
     :item-value="props.itemValue"
+    density="compact"
     variant="outlined"
     class="base"
     bg-color="white"

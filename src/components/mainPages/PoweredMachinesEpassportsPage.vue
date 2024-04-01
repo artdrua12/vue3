@@ -1,7 +1,7 @@
 <template>
   <layout-pages
-    :fields="fields"
-    :fields-more="fieldsMore"
+    v-model:fields="fields"
+    v-mode:fields-more="fieldsMore"
     title=" Реестр электронных паспортов СМ"
     @find="find"
   ></layout-pages>
@@ -227,7 +227,7 @@ const fields = reactive({
     type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes',
-    text: 'value',
+    text: 'value'
   },
   statusModifiedWith: {
     width: '3',
