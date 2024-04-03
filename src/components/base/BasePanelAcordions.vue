@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
+  <v-expansion-panels style="gap: 1px" class="base" variant="popout" >
     <v-expansion-panel
       v-for="item in panel"
       :id="item"
@@ -11,7 +11,7 @@
       bg-color="#ebebeb"
       @click="toId(item.title)"
     >
-      <v-expansion-panel-text v-if="item.items" class="elevetion-0">
+      <v-expansion-panel-text v-if="item.items" class="elevetion-0" >
         <v-btn
           v-for="itm in item.items"
           :key="itm"
@@ -27,7 +27,6 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
-import BaseAutocomplite from './BaseAutocomplite.vue';
 const emit = defineEmits(['update:tab'])
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень

@@ -26,8 +26,8 @@
         bg-color="#ebebeb"
       >
         <template #title>{{ item.title }} </template>
-        <div v-if="item.items" class="tabsWrapper">
-          <v-tabs v-model="tab" align-tabs="right" density="compact">
+        <div v-if="item.items" class="tabsWrapper" >
+          <v-tabs v-model="tab" align-tabs="right" density="compact" style="position: sticky; top: 0px; background-color: white; z-index: 2;">
             <v-tab v-for="itm in item.items" :key="itm" :value="itm.title"> {{ itm.title }} </v-tab>
           </v-tabs>
 
@@ -37,7 +37,7 @@
             </v-window-item>
           </v-window>
         </div>
-        <div v-else style="padding: 20px">
+        <div v-else style="padding: 20px" class="tabsWrapper">
           <p style="padding: 20px">{{ text }}</p>
         </div>
       </base-panel>
@@ -264,12 +264,13 @@ const data = [
 <style scoped>
 ::v-deep .v-btn__content {
   white-space: pre-wrap;
+  padding: 5px 0px;
 }
 .tabsWrapper {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
-  overflow: auto;
+  min-height: 85vh;
+  align-content: flex-start;
 }
 .panel-layot {
   display: grid;

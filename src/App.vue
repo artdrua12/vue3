@@ -76,7 +76,7 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100%;
   grid-template-rows: 40px 1fr 30px;
   background-color: #f7f7f7;
 }
