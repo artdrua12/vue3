@@ -54,7 +54,7 @@ const fields = reactive({
     width: '6',
     label: 'Организация',
     value: '',
-    type: 'base-autocomplete',
+    type: 'base-autocomplite',
     items: ['РУП "Белтаможсервис"'],
     text: 'value'
   },
@@ -69,7 +69,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'base-autocomplite',
     items: [
       {
         key: '90',

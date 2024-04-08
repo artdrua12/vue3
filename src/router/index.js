@@ -17,7 +17,21 @@ const router = createRouter({
     {
       path: '/conformities',
       name: 'conformities',
-      component: () => import('../components/mainPages/ConformitiesPage.vue')
+      children: [
+        {
+          path: '',
+          component: () => import('../components/mainPages/ConformitiesPage.vue')
+        },
+        {
+          path: 'forms',
+          component: () => import('@/components/forms/ConformityForms.vue'),
+          meta: [
+            { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
+            { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
+          ],
+          name: 'create'
+        }
+      ]
     },
     {
       path: '/vehicle-safety-certificate',

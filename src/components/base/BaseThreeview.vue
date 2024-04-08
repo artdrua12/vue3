@@ -138,7 +138,6 @@ function checkObj(obj) {
   max-height: 90vh;
   overflow: auto;
   scrollbar-width: none;
-  overflow: auto;
 }
 .wrapper::-webkit-scrollbar {
   width: 0;

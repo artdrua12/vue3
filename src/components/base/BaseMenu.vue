@@ -218,7 +218,8 @@ onMounted(() => {
   transition: transform 0.4s;
   transform: translateX(-100%);
   --height: 0px;
-  background-color: #dbdbdb;
+  background-color: rgba(219, 219, 219, 0.78);
+  backdrop-filter: blur(4px);
   user-select: none;
   cursor: pointer;
   box-shadow:
@@ -282,7 +283,7 @@ onMounted(() => {
 }
 .router-link-active,
 .submenu-text:hover {
-  background-color: #dbdbdb;
+  background-color: rgb(219, 219, 219);
 }
 .submenu-text {
   display: flex;

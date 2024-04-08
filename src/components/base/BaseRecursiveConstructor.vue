@@ -1,23 +1,16 @@
 <template>
   <div class="constructor">
     <fieldset v-for="(obj, indexObj) in fieldsArray" :key="indexObj + 100" class="adaptiveGrid">
-      <div class="button">
+      <div v-if="fieldsArray.length == indexObj + 1" class="button">
         <v-icon color="green" icon="mdi-plus-box" class="bt" @click="add"> </v-icon>
-        <v-icon
-          v-if="fieldsArray.length != 1"
-          color="red"
-          icon="mdi-delete"
-          class="ml-5 bt"
-          @click="remove"
-        >
-        </v-icon>
+        <v-icon color="red" icon="mdi-delete" class="ml-5 bt" @click="remove"> </v-icon>
       </div>
       <legend>
-        {{ fieldsArray.length == 1 ? props.label : props.label + ' ' + (indexObj + 1) }}
+        {{ props.label }}
       </legend>
 
       <component
-        :is="item.type"
+        :is="getComponent(item.type)"
         v-for="(item, index) in obj"
         :key="index"
         v-model="item.value"
@@ -32,61 +25,49 @@
         :placeholder="item.placeholder"
         :disabled="item.disabled"
         :fields="item.fields"
-        @update:enter="find"
+        @update:enter="emit('find')"
       ></component>
     </fieldset>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, defineProps, defineEmits } from 'vue'
 import BaseDateField from './BaseDateField.vue'
-import BaseAutocomplete from './BaseAutocomplite.vue'
+import BaseAutocomplite from './BaseAutocomplite.vue'
 import BaseTextField from './BaseTextField.vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseSlot from './BaseSlot.vue'
-import { ref } from 'vue'
-export default {
-  name: 'BaseRecursiveConstructor',
-  components: {
-    BaseDateField,
-    BaseAutocomplete,
-    BaseTextField,
-    BaseCheckBox,
-    BaseSlot
-  },
-  props: {
-    label: { type: String, required: true },
-    fields: {
-      type: Object,
-      required: true
-    }
-  },
-  emits: ['find'], // событие для запуска поиска
-
-  setup(props, contex) {
-    let fieldsArray = ref([])
-    add()
-
-    function find() {
-      contex.emit('find')
-    }
-    function add() {
-      console.log('add')
-      fieldsArray.value.push(JSON.parse(JSON.stringify(props.fields)))
-    }
-    function remove() {
-      console.log('remove')
-      fieldsArray.value.pop()
-    }
-    return {
-      fieldsArray,
-      contex,
-      props,
-      find,
-      add,
-      remove
-    }
+import BaseCombobox from '@/components/base/BaseCombobox.vue'
+const props = defineProps({
+  label: { type: String, required: true },
+  fields: {
+    type: Array,
+    required: true
   }
+})
+const emit = defineEmits(['find']) //событие для запуска поиска
+
+const allComponents = {
+  BaseDateField,
+  BaseAutocomplite,
+  BaseTextField,
+  BaseCheckBox,
+  BaseCombobox,
+  BaseSlot
+}
+
+let fieldsArray = ref(props.fields)
+
+function getComponent(type) {
+  return allComponents[type]
+}
+
+function add() {
+  fieldsArray.value.push(JSON.parse(JSON.stringify(fieldsArray.value[0])))
+}
+function remove() {
+  fieldsArray.value.pop()
 }
 </script>
 
@@ -104,12 +85,24 @@ export default {
   padding: 25px 24px 10px 24px;
   overflow: visible;
 }
+.adaptiveGrid:last-child > legend::before {
+  border: none;
+}
+.adaptiveGrid:first-child::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: #2c4957;
+  position: absolute;
+  left: -50px;
+  bottom: calc(100% + 12px);
+}
 .fullWidth {
   grid-column: 1/-1;
 }
 legend {
   padding: 0px 10px 5px 10px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 17px;
   color: #2c4957;
 }
@@ -138,10 +131,10 @@ legend:last-child {
 }
 fieldset {
   width: 100%;
-  border: 1px solid #2c4957;
-  border-radius: 0px;
+  border: 0px solid #2c4957;
+  border-left: 0px solid #2c4957;
   overflow: hidden;
-  background-color: rgba(233, 225, 191, 0.2);
+  background-color: rgba(105, 128, 138, 0.122);
   margin-bottom: 20px;
 }
 .button {
@@ -150,7 +143,7 @@ fieldset {
   top: -30px;
 }
 .bt {
-  background-color: #f7f7f7;
+  background-color: #ebebeb;
 }
 
 @media (max-width: 1200px) {

@@ -74,7 +74,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус шаблона',
     value: '',
-    type: 'base-autocomplete',
+    type: 'base-autocomplite',
     items: [],
     text: 'value'
   },
@@ -82,7 +82,7 @@ const fields = reactive({
     width: '3',
     label: 'Версия шаблона',
     value: '',
-    type: 'base-autocomplete',
+    type: 'base-autocomplite',
     items: [],
     text: 'value'
   },

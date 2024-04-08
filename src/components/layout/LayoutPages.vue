@@ -1,8 +1,8 @@
 <template>
-  <div class="baseLayout">
+  <div class="LayoutPages">
     <base-panel class="baseSearch" elevation="3" props-panel="1">
       <template #title>{{ props.title }}</template>
-      <div class="baseLayoutForm">
+      <div class="layoutPagesForm">
         <component
           :is="item.type"
           v-for="(item, index) in props.fields"
@@ -26,7 +26,7 @@
           class="fullWidth"
           elevation="3"
         >
-          <div class="baseLayoutForm mt-3">
+          <div class="layoutPagesForm mt-3">
             <component
               :is="item.type"
               v-for="(item, index) in props.fieldsMore"
@@ -90,7 +90,7 @@
 import BaseThreeview from '../base/BaseThreeview.vue'
 import BaseTable from '../base/BaseTableSubGrid.vue'
 import BaseDateField from '../base/BaseDateField.vue'
-import BaseAutocomplete from '../base/BaseAutocomplite.vue'
+import BaseAutocomplite from '../base/BaseAutocomplite.vue'
 import BaseTextField from '../base/BaseTextField.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseSlot from '../base/BaseSlot.vue'
@@ -102,7 +102,7 @@ export default {
     BaseThreeview,
     BaseTable,
     BaseDateField,
-    BaseAutocomplete,
+    BaseAutocomplite,
     BaseTextField,
     BaseCheckBox,
     BaseSlot,
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style scoped>
-.baseLayout {
+.LayoutPages {
   width: 100%;
   height: 100%;
   display: grid;
@@ -187,7 +187,7 @@ export default {
 .fullWidth {
   grid-column: 1/-1;
 }
-.baseLayoutForm {
+.layoutPagesForm {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -195,7 +195,7 @@ export default {
   padding: 12px 24px 10px 24px;
 }
 @media (max-width: 1200px) {
-  .baseLayoutForm {
+  .layoutPagesForm {
     grid-template-columns: repeat(6, 1fr);
   }
 }

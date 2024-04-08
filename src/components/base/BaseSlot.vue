@@ -13,6 +13,7 @@
       :item-text="item.text"
       :items="item.items"
       :placeholder="item.placeholder"
+      :disabled="item.disabled"
     ></component>
   </div>
 </template>
@@ -20,10 +21,13 @@
 <script>
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseTextField from './BaseTextField.vue'
+import BaseCombobox from '@/components/base/BaseCombobox.vue'
+
 export default {
   components: {
     BaseTextField,
-    BaseCheckBox
+    BaseCheckBox,
+    BaseCombobox
   },
   props: {
     dataSlot: {
@@ -43,7 +47,9 @@ export default {
 .slot {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(12, auto);
+  grid-template-columns: repeat(12, 1fr);
   grid-gap: 0px 12px;
 }
+
+
 </style>
