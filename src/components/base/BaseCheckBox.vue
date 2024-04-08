@@ -46,5 +46,6 @@ function onChange() {
 .base .v-selection-control .v-label {
   font-weight: 600;
   color: #031f2d;
+  font-size: 16px;
 }
 </style>

@@ -57,4 +57,8 @@ function updateTab(item) {
   padding: 10px 5px;
   text-align: left;
 }
+.v-btn.v-btn--density-default {
+  height: auto;
+  text-align: center;
+}
 </style>
