@@ -101,7 +101,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -110,7 +110,7 @@ const fields = reactive({
     width: '6',
     label: 'Страна выдачи документа',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value'
@@ -119,7 +119,7 @@ const fields = reactive({
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes'
   },
@@ -145,7 +145,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'base-slot',
-    dataSlot: {
+    additionData: {
       signerSurname: {
         label: 'Документ подписан',
         value: '',
@@ -168,7 +168,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -178,7 +178,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Заявитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -285,10 +285,10 @@ async function find(obj) {
       ['docStartDate']: fields.startDateTime.value + 'to',
       ['docValidityDate']: 'to' + fields.endDateTime.value,
       ['docStatus']: fields.docStatus.value,
-      ['cert.signer.surname']: fields.fullName.dataSlot.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
       ['cert.signer.name']: (
-        fields.fullName.dataSlot.singerName.value ||
-        '' + ' ' + fields.fullName.dataSlot.singerPatronimic.value ||
+        fields.fullName.additionData.singerName.value ||
+        '' + ' ' + fields.fullName.additionData.singerPatronimic.value ||
         ''
       ).trim(),
       ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,

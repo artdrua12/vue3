@@ -18,7 +18,7 @@
           'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
         }"
         :label="item.label"
-        :data-slot="item.dataSlot"
+        :addition-data="item.additionData"
         :items="item.items"
         :item-text="item.text"
         :item-value="item.itemValue"
@@ -34,14 +34,15 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
 import BaseDateField from './BaseDateField.vue'
-import BaseAutocomplite from './BaseAutocomplite.vue'
+import BaseAutocomplete from './BaseAutocomplete.vue'
 import BaseTextField from './BaseTextField.vue'
 import BaseCheckBox from './BaseCheckBox.vue'
 import BaseSlot from './BaseSlot.vue'
+import BaseTextarea from './BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 const props = defineProps({
   label: { type: String, required: true },
-  fields: {
+  additionData: {
     type: Array,
     required: true
   }
@@ -50,14 +51,15 @@ const emit = defineEmits(['find']) //событие для запуска пои
 
 const allComponents = {
   BaseDateField,
-  BaseAutocomplite,
+  BaseAutocomplete,
   BaseTextField,
   BaseCheckBox,
   BaseCombobox,
+  BaseTextarea,
   BaseSlot
 }
 
-let fieldsArray = ref(props.fields)
+let fieldsArray = ref(props.additionData)
 
 function getComponent(type) {
   return allComponents[type]
@@ -90,12 +92,12 @@ function remove() {
 }
 .adaptiveGrid:first-child::after {
   content: '';
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background-color: #2c4957;
   position: absolute;
   left: -50px;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% + 14px);
 }
 .fullWidth {
   grid-column: 1/-1;

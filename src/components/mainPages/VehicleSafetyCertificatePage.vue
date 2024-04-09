@@ -76,7 +76,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -85,7 +85,7 @@ const fields = reactive({
     width: '6',
     label: 'Страна выдачи документа',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value',
@@ -101,7 +101,7 @@ const fields = reactive({
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes',
     text: 'value'
@@ -128,7 +128,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'base-slot',
-    dataSlot: {
+    additionData: {
       signerSurname: {
         width: '4',
         label: 'Документ подписан',
@@ -151,7 +151,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -161,7 +161,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Заявитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -171,7 +171,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Испытательная лаборатория',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
     text: 'certificationBodyNameBrief',
@@ -262,10 +262,10 @@ async function find(obj) {
       ['vehicleTypeDetails.vehicleMakeName']: fields.makeName.value,
       ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
       ['vehicleTypeDetails.vehicleCommercialName']: fields.commercialName.value,
-      ['cert.signer.surname']: fields.fullName.dataSlot.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
       ['cert.signer.name']: (
-        fields.fullName.dataSlot.singerName.value ||
-        '' + ' ' + fields.fullName.dataSlot.singerPatronimic.value ||
+        fields.fullName.additionData.singerName.value ||
+        '' + ' ' + fields.fullName.additionData.singerPatronimic.value ||
         ''
       ).trim(),
 

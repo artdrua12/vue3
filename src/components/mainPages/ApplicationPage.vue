@@ -78,7 +78,7 @@ const fields = reactive({
     width: '3',
     label: 'Тип заявления',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     text: 'name',
     itemValue: 'type'
@@ -93,7 +93,7 @@ const fields = reactive({
     width: '3',
     label: 'Заявитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -108,7 +108,7 @@ const fields = reactive({
     width: '3',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'name',
@@ -118,7 +118,7 @@ const fields = reactive({
     width: '3',
     label: 'Организация заявителя',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'

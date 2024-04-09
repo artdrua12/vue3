@@ -85,22 +85,22 @@
 
         <v-expand-transition>
           <div v-if="isDoc || (tab == '2' && radioTab == '1')" class="grid2">
-            <base-autocomplite label="Вид документа" class="full"></base-autocomplite>
-            <base-autocomplite label="Номер документа(ОТТС)" class="full"></base-autocomplite>
+            <base-autocomplete label="Вид документа" class="full"></base-autocomplete>
+            <base-autocomplete label="Номер документа(ОТТС)" class="full"></base-autocomplete>
           </div>
 
           <div v-else class="grid2">
-            <base-autocomplite
+            <base-autocomplete
               label="Сведения об основаниях отсутствия документа, подтверждающего соответствие*"
               class="full"
-            ></base-autocomplite>
+            ></base-autocomplete>
 
             <h3 class="full" style="text-align: center">
               Сведения о документе, подтвержающем оформление электронного паспорта без документа,
               подтверждающего соответствие
             </h3>
 
-            <base-autocomplite label="Наименование документа*" class="full"></base-autocomplite>
+            <base-autocomplete label="Наименование документа*" class="full"></base-autocomplete>
             <base-text-fiel label="Номер документа*" class="full"></base-text-fiel>
             <base-text-fiel label="Дата документа*" class="full"></base-text-fiel>
             <base-text-fiel label="Кем выдано" class="col"></base-text-fiel>
@@ -114,7 +114,7 @@
 
 <script setup>
 import BaseModal from './base/BaseModal.vue'
-import BaseAutocomplite from './base/BaseAutocomplite.vue'
+import BaseAutocomplete from './base/BaseAutocomplete.vue'
 import BaseTextFiel from './base/BaseTextField.vue'
 import BaseSwich from './base/BaseSwich.vue'
 import { ref } from 'vue'

@@ -27,5 +27,5 @@ function onEnter() {
   emit('update:enter')
 }
 </script>
-<!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplite и другие с классом base, родные vuetify не изменяются  -->
+<!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplete и другие с классом base, родные vuetify не изменяются  -->
 <style scoped></style>

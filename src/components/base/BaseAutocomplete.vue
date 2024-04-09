@@ -8,6 +8,7 @@
     variant="outlined"
     class="base"
     bg-color="white"
+    dirty
     :menu-props="{
       width: 100,
       offset: 2,

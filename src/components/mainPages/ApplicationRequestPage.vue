@@ -42,7 +42,7 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'base-slot',
-    dataSlot: {}
+    additionData: {}
   },
   number: {
     width: '6',
@@ -54,7 +54,7 @@ const fields = reactive({
     width: '6',
     label: 'Организация',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: ['РУП "Белтаможсервис"'],
     text: 'value'
   },
@@ -69,7 +69,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [
       {
         key: '90',

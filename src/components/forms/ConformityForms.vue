@@ -19,7 +19,7 @@ const data = reactive([
               'Код страны, выдавшей документ об оценке соответствия колесных транспортных средств',
             width: '6',
             value: '',
-            type: 'BaseAutocomplite',
+            type: 'BaseAutocomplete',
             items: [],
             text: 'name',
             itemValue: 'type'
@@ -34,7 +34,7 @@ const data = reactive([
             label: 'Наименование вида документа об оценке соответствия',
             width: '6',
             value: '',
-            type: 'BaseAutocomplite',
+            type: 'BaseAutocomplete',
             items: [],
             text: 'name',
             itemValue: 'type'
@@ -73,7 +73,7 @@ const data = reactive([
             label: 'Приложение к документу',
             width: 'all',
             type: 'BaseRecursiveConstructor',
-            constructorFields: [
+            additionData: [
               {
                 objectOrdinal: {
                   label: 'Номер приложения',
@@ -154,14 +154,14 @@ const data = reactive([
             label: 'Марка*',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseCombobox'
+            additionData: 'BaseCombobox'
           },
 
           vehicleCommercialName: {
             label: 'Коммерческое наименование*',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseCombobox'
+            additionData: 'BaseCombobox'
           },
 
           vehicleTypeId: {
@@ -182,14 +182,14 @@ const data = reactive([
             label: 'Модификация транспортного средства',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseCombobox'
+            additionData: 'BaseCombobox'
           },
 
           modificationVirtual: {
             label: 'Виртуальная модификация*',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseTextField'
+            additionData: 'BaseTextField'
           },
           vehicleTechCategoryCode: {
             label: 'Категория ТС в соответствии с ТР ТС № 018/2011*',
@@ -202,34 +202,212 @@ const data = reactive([
             type: 'BaseCombobox'
           },
           vehicleEcoClassCode2: {
-            label:"Код ОКП*",
+            label: 'Код ОКП*',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseCombobox'
+            additionData: 'BaseCombobox'
           },
           vehicleEcoClassCode3: {
             label: 'Код ТН ВЭД*',
             width: '6',
             type: 'BaseIsMissing',
-            dataSlot: 'BaseCombobox'
+            additionData: 'BaseCombobox'
           }
         }
       },
       {
         title: 'Наименование органа, выдавшего документ',
-        id: '#vehicle-details-certification'
+        id: '#vehicle-details-certification',
+        fields: {
+          accreditationId: {
+            label: 'Организация*',
+            width: 'all',
+            type: 'BaseAutocomplete'
+          },
+          businessEntityName: {
+            label: 'Полное наименование органа по сертификации',
+            width: '6',
+            type: 'BaseTextarea'
+          },
+          businessEntityBriefName: {
+            label: 'Краткое наименование органа по сертификации',
+            width: '6',
+            type: 'BaseTextarea'
+          },
+          businessEntityId: {
+            label: 'Идентификатор хозяйствующего субъекта',
+            width: '6',
+            type: 'BaseTextField'
+          },
+          docId: {
+            label: 'Номер аттестата аккредитации',
+            width: '6',
+            type: 'BaseTextField'
+          },
+          docStartDate: {
+            label: 'Дата начала действия аттестата',
+            width: '6',
+            type: 'BaseDateField'
+          },
+          docValidityDate: {
+            label: 'Срок окончания действия аттестата',
+            width: '6',
+            type: 'BaseDateField'
+          },
+          title: {
+            label: 'Контактная информация',
+            width: 'all',
+            type: 'BaseSlot'
+          },
+          unifiedCommunicationChannelCode: {
+            label: 'Тип контактной информации',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          communicationChannelId: {
+            label: 'Контактные данные',
+            width: '6',
+            type: 'BaseCombobox'
+          },
+          fullName: {
+            label: 'ФИО руководителя хозяйствующего субъекта',
+            width: 'all',
+            type: 'BaseDateField'
+          }
+        }
       },
       {
         title: 'Заявитель и его адрес',
-        id: '#vehicle-details-applicant'
+        id: '#vehicle-details-applicant',
+        fields: {
+          businessEntityName: {
+            label: 'Организация*',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          unifiedCountryCode: {
+            label: 'Код страны',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          businessEntityTypeName: {
+            label: 'Наименование организационно-правовой формы',
+            width: 'all',
+            type: 'BaseAutocomplete'
+          },
+          businessEntityName4: {
+            label: 'Местонахождение',
+            width: 'all',
+            type: 'BaseTextarea'
+          },
+          title: {
+            label: 'Контактная информация',
+            width: 'all',
+            type: 'BaseSlot'
+          },
+          unifiedCommunicationChannelCode: {
+            label: 'Тип контактной информации',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          communicationChannelId: {
+            label: 'Контактные данные',
+            width: '6',
+            type: 'BaseCombobox'
+          }
+        }
       },
       {
         title: 'Изготовитель и его адрес',
-        id: '#vehicle-details-manufacturer'
+        id: '#vehicle-details-manufacturer',
+        fields: {
+          businessEntityName: {
+            label: 'Организация*',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          unifiedCountryCode: {
+            label: 'Код страны',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          businessEntityTypeName: {
+            label: 'Наименование организационно-правовой формы',
+            width: 'all',
+            type: 'BaseAutocomplete'
+          },
+          businessEntityName4: {
+            label: 'Местонахождение',
+            width: 'all',
+            type: 'BaseTextarea'
+          },
+          title: {
+            label: 'Контактная информация',
+            width: 'all',
+            type: 'BaseSlot'
+          },
+          unifiedCommunicationChannelCode: {
+            label: 'Тип контактной информации',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          communicationChannelId: {
+            label: 'Контактные данные',
+            width: '6',
+            type: 'BaseCombobox'
+          }
+        }
       },
       {
-        title: 'Представители изготовителя и их адрес',
-        id: '#vehicle-details-representatives'
+        title: 'Представители изготовителя и их адреса',
+        id: '#vehicle-details-representatives',
+        isMissing:false,
+        fields: {
+          adress: {
+            label: 'Представитель изготовителя и его адрес',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            additionData: [
+              {
+                businessEntityName: {
+                  label: 'Организация*',
+                  width: '6',
+                  type: 'BaseAutocomplete'
+                },
+                unifiedCountryCode: {
+                  label: 'Код страны',
+                  width: '6',
+                  type: 'BaseAutocomplete'
+                },
+                businessEntityTypeName: {
+                  label: 'Наименование организационно-правовой формы',
+                  width: 'all',
+                  type: 'BaseAutocomplete'
+                },
+                businessEntityName4: {
+                  label: 'Местонахождение',
+                  width: 'all',
+                  type: 'BaseTextarea'
+                },
+                title: {
+                  label: 'Контактная информация',
+                  width: 'all',
+                  type: 'BaseSlot'
+                },
+                unifiedCommunicationChannelCode: {
+                  label: 'Тип контактной информации',
+                  width: '6',
+                  type: 'BaseAutocomplete'
+                },
+                communicationChannelId: {
+                  label: 'Контактные данные',
+                  width: '6',
+                  type: 'BaseCombobox'
+                }
+              }
+            ]
+          }
+        }
       },
       {
         title: 'Сборочный завод и его адрес',

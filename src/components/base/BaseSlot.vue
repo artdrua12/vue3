@@ -1,8 +1,9 @@
 <template>
   <div class="slot">
+    <p v-if="props.label" class="slot-title">{{ props.label }}</p>
     <component
       :is="item.type"
-      v-for="(item, index) in props.dataSlot"
+      v-for="(item, index) in props.additionData"
       :key="index"
       v-model="item.value"
       :style="{
@@ -30,7 +31,8 @@ export default {
     BaseCombobox
   },
   props: {
-    dataSlot: {
+    label: { type: String, default: null },
+    additionData: {
       type: Object,
       required: true
     }
@@ -50,6 +52,11 @@ export default {
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 0px 12px;
 }
-
-
+.slot-title {
+  grid-column: 1/-1;
+  text-align: center;
+  font-size: 19px;
+  color: #546e7a;
+  margin: -5px 0px 2px 0px;
+}
 </style>

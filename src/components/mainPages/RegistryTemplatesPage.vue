@@ -56,7 +56,7 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'base-slot',
-    dataSlot: {}
+    additionData: {}
   },
   name: {
     width: '6',
@@ -74,7 +74,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус шаблона',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     text: 'value'
   },
@@ -82,7 +82,7 @@ const fields = reactive({
     width: '3',
     label: 'Версия шаблона',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     text: 'value'
   },

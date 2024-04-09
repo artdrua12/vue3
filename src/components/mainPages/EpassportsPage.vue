@@ -165,7 +165,7 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'base-slot',
-    dataSlot: {
+    additionData: {
       own: {
         width: 3,
         label: 'Только свои',
@@ -190,7 +190,7 @@ const fields = reactive({
     width: '6',
     label: 'Вид электронного паспорта',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-passport-kinds',
     text: 'value',
@@ -201,7 +201,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/status-kinds',
     text: 'value'
@@ -234,7 +234,7 @@ const fields = reactive({
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes',
     text: 'value'
@@ -267,7 +267,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'base-slot',
-    dataSlot: {
+    additionData: {
       signerSurname: {
         width: '4',
         label: 'Документ подписан',
@@ -326,7 +326,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Категория в соответствии с ТР ТС',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-tech-categories',
     text: 'key',
@@ -337,7 +337,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -359,7 +359,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Страна оформления паспорта',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value',
@@ -375,7 +375,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Вид документа о соответствии',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/conformity-doc-kinds',
     text: 'value'
@@ -390,7 +390,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Основание оформления ЭПТС',
     value: '',
-    type: 'base-autocomplite',
+    type: 'base-autocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-passport-bases',
     text: 'value',
@@ -723,7 +723,7 @@ provide('pathToStatus', 'documentStatus') // путь для статуса, и�
 
 async function find(obj) {
   const body = {
-    isOwn: fields.checkboxes.dataSlot.own.value,
+    isOwn: fields.checkboxes.additionData.own.value,
     isRegexSearch: true,
     query: {
       ['vehicleEPassportKindCode']: fields.kindCode.value,
@@ -735,10 +735,10 @@ async function find(obj) {
       ['tcInfo.statusModified']:
         fields.statusModifiedWith.value + 'to' + fields.statusModifiedBy.value,
       ['docCreationDate']: fields.docCreationDateWith.value + 'to' + fields.docCreationDateBy.value,
-      ['cert.signer.surname']: fields.fullName.dataSlot.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
       ['cert.signer.name']: (
-        fields.fullName.dataSlot.singerName.value ||
-        '' + ' ' + fields.fullName.dataSlot.singerPatronimic.value ||
+        fields.fullName.additionData.singerName.value ||
+        '' + ' ' + fields.fullName.additionData.singerPatronimic.value ||
         ''
       ).trim(),
       ['vehicleDetails.vehicleIdInfoDetails.vehicleEngineIdDetails.vehicleIdentityNumberId']:
@@ -760,7 +760,7 @@ async function find(obj) {
       ['eDocDateTime']: fieldsMore.startDate.value + 'to' + fieldsMore.validityDate.value,
       ['vehicleDetails.manufactureYear']: fields.createWith.value + 'to' + fields.createBy.value,
       ['cert.signer.organization']: fieldsMore.authorityName.value,
-      ['externalSystemLoadCode']: fields.checkboxes.dataSlot.copy.value ? '6' : '',
+      ['externalSystemLoadCode']: fields.checkboxes.additionData.copy.value ? '6' : '',
       ['vehicleEPassportBaseCode']: fieldsMore.basisRegistration.value
     },
     fields: [

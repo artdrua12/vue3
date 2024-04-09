@@ -1,4 +1,4 @@
-<template>
+<template function>
   <div class="layoutForms">
     <base-panel-acordions
       class="forms-menu"
@@ -23,6 +23,7 @@
             v-model="currentTab"
             align-tabs="right"
             density="compact"
+            mandatory
             style="position: sticky; top: 0px; background-color: white; z-index: 2"
           >
             <v-tab v-for="tab in item.tabs" :key="tab.id" :value="tab.title">
@@ -32,7 +33,13 @@
 
           <v-window v-model="currentTab">
             <v-window-item v-for="tab in item.tabs" :id="tab.id" :key="tab.id" :value="tab.title">
-              <div class="tabsPageForm">
+              <base-check-box
+                v-if="tab.hasOwnProperty('isMissing')"
+                v-model:value="tab.isMissing"
+                :label="`${tab.title} отсутствует`"
+                class="missing"
+              ></base-check-box>
+              <div v-if="!tab?.isMissing == true" class="tabsPageForm">
                 <component
                   :is="getComponent(i.type)"
                   v-for="(i, index) in tab.fields"
@@ -42,7 +49,7 @@
                     'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
                   }"
                   :label="i.label"
-                  :data-slot="i.dataSlot"
+                  :addition-data="i.additionData"
                   :items="i.items"
                   :item-text="i.text"
                   :item-value="i.itemValue"
@@ -51,6 +58,7 @@
                   :fields="i.constructorFields"
                   @update:enter="find"
                 ></component>
+                <v-btn @click="test">TEST</v-btn>
               </div>
             </v-window-item>
           </v-window>
@@ -67,7 +75,7 @@
 import BasePanel from '../base/BasePanel.vue'
 import BasePanelAcordions from '../base/BasePanelAcordions.vue'
 import BaseTextField from '../base/BaseTextField.vue'
-import BaseAutocomplite from '../base/BaseAutocomplite.vue'
+import BaseAutocomplete from '../base/BaseAutocomplete.vue'
 import BaseDateField from '../base/BaseDateField.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
@@ -81,7 +89,7 @@ const props = defineProps({
 })
 const allComponents = {
   BaseTextField,
-  BaseAutocomplite,
+  BaseAutocomplete,
   BaseDateField,
   BaseTextarea,
   BaseCheckBox,
@@ -93,6 +101,9 @@ const allComponents = {
 const currentTab = ref('')
 function getComponent(type) {
   return allComponents[type]
+}
+function test() {
+  console.log('test', $root)
 }
 </script>
 
@@ -138,12 +149,16 @@ function getComponent(type) {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-gap: 12px 32px;
-  padding: 35px 24px 10px 24px;
+  grid-gap: 12px 25px;
+  padding: 30px 24px 10px 24px;
 }
 @media (max-width: 1200px) {
   .tabsPageForm {
     grid-template-columns: repeat(6, 1fr);
   }
+}
+.missing {
+  grid-column: 1/-1;
+  padding: 30px 24px 10px 24px;
 }
 </style>

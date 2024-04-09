@@ -1,5 +1,5 @@
 <template>
-  <div class="LayoutPages">
+  <div class="layoutPages">
     <base-panel class="baseSearch" elevation="3" props-panel="1">
       <template #title>{{ props.title }}</template>
       <div class="layoutPagesForm">
@@ -12,7 +12,7 @@
             'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
           }"
           :label="item.label"
-          :data-slot="item.dataSlot"
+          :addition-data="item.additionData"
           :items="item.items"
           :item-text="item.text"
           :item-value="item.itemValue"
@@ -36,7 +36,7 @@
                 'grid-column': `${item.width == 'all' ? '1/-1' : 'span ' + item.width}`
               }"
               :label="item.label"
-              :data-slot="item.dataSlot"
+              :addition-data="item.additionData"
               :items="item.items"
               :item-text="item.text"
               :item-value="item.itemValue"
@@ -90,7 +90,7 @@
 import BaseThreeview from '../base/BaseThreeview.vue'
 import BaseTable from '../base/BaseTableSubGrid.vue'
 import BaseDateField from '../base/BaseDateField.vue'
-import BaseAutocomplite from '../base/BaseAutocomplite.vue'
+import BaseAutocomplete from '../base/BaseAutocomplete.vue'
 import BaseTextField from '../base/BaseTextField.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseSlot from '../base/BaseSlot.vue'
@@ -102,7 +102,7 @@ export default {
     BaseThreeview,
     BaseTable,
     BaseDateField,
-    BaseAutocomplite,
+    BaseAutocomplete,
     BaseTextField,
     BaseCheckBox,
     BaseSlot,
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style scoped>
-.LayoutPages {
+.layoutPages {
   width: 100%;
   height: 100%;
   display: grid;
@@ -191,7 +191,7 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: 12px 12px;
+  grid-gap: 12px 32px;
   padding: 12px 24px 10px 24px;
 }
 @media (max-width: 1200px) {

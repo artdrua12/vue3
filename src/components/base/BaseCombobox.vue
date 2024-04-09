@@ -7,7 +7,7 @@
     density="compact"
     variant="outlined"
     class="base"
-    prepend-inner-icon="mdi-checkbox-multiple-marked-circle"
+    prepend-inner-icon="mdi-checkbox-multiple-blank-outline"
     bg-color="white"
     :menu-props="{
       width: 100,
