@@ -60,13 +60,14 @@ const allComponents = {
 }
 
 let fieldsArray = ref(props.additionData)
+const defaultFields = JSON.parse(JSON.stringify(fieldsArray.value[0]))
 
 function getComponent(type) {
   return allComponents[type]
 }
 
 function add() {
-  fieldsArray.value.push(JSON.parse(JSON.stringify(fieldsArray.value[0])))
+  fieldsArray.value.push(defaultFields)
 }
 function remove() {
   fieldsArray.value.pop()

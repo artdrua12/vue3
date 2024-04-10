@@ -34,7 +34,7 @@ export default {
     label: { type: String, default: null },
     additionData: {
       type: Object,
-      required: true
+      default: {}
     }
   },
   setup(props) {

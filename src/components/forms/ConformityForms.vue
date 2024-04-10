@@ -362,8 +362,9 @@ const data = reactive([
         title: 'Представители изготовителя и их адреса',
         id: '#vehicle-details-representatives',
         isMissing:false,
+        items:[],
         fields: {
-          adress: {
+          manufacturerAddress : {
             label: 'Представитель изготовителя и его адрес',
             width: 'all',
             type: 'BaseRecursiveConstructor',

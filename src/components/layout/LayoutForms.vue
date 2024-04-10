@@ -1,6 +1,7 @@
-<template function>
+<template>
   <div class="layoutForms">
     <base-panel-acordions
+      ref="root"
       class="forms-menu"
       :data="props.data"
       :tab="currentTab"
@@ -32,12 +33,19 @@
           </v-tabs>
 
           <v-window v-model="currentTab">
-            <v-window-item v-for="tab in item.tabs" :id="tab.id" :key="tab.id" :value="tab.title">
+            <v-window-item
+              v-for="(tab, indexTab) in item.tabs"
+              :id="tab.id"
+              :key="tab.id"
+              :value="tab.title"
+            >
               <base-check-box
-                v-if="tab.hasOwnProperty('isMissing')"
-                v-model:value="tab.isMissing"
-                :label="`${tab.title} отсутствует`"
+                v-if="chekingIsMissing(tab, indexTab)"
+                ref="box"
+                v-model="tab.isMissing"
+                :label="`${tab.title} - отсутствует`"
                 class="missing"
+                @change="updateIsMissing(tab, indexTab)"
               ></base-check-box>
               <div v-if="!tab?.isMissing == true" class="tabsPageForm">
                 <component
@@ -56,7 +64,6 @@
                   :placeholder="i.placeholder"
                   :disabled="i.disabled"
                   :fields="i.constructorFields"
-                  @update:enter="find"
                 ></component>
                 <v-btn @click="test">TEST</v-btn>
               </div>
@@ -83,9 +90,9 @@ import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSlot from '../base/BaseSlot.vue'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
 const props = defineProps({
-  data: { type: Array, default: [] } //тень
+  data: { type: Array, default: [] }
 })
 const allComponents = {
   BaseTextField,
@@ -98,13 +105,32 @@ const allComponents = {
   BaseSlot,
   BaseRecursiveConstructor
 }
+const root = ref(null)
 const currentTab = ref('')
+const defaultFields = {} // сохраняем первоначальное значение табов, которые могут отсутствовать
 function getComponent(type) {
   return allComponents[type]
 }
-function test() {
-  console.log('test', $root)
+function chekingIsMissing(tab, indexTab) {
+  const existIsMissing = Object.prototype.hasOwnProperty.call(tab, 'isMissing')
+  if (existIsMissing) {
+    const filds = JSON.parse(JSON.stringify(tab.fields))
+    if (!defaultFields[indexTab]) {
+      defaultFields[indexTab] = filds
+    }
+  }
+  return existIsMissing
 }
+function updateIsMissing(tab, indexTab) {
+  if (tab.isMissing) {
+    tab.fields = JSON.parse(JSON.stringify(defaultFields[indexTab]))
+  }
+}
+function test() {
+  console.log('test', root)
+}
+const box = ref(null)
+onMounted(() => console.log(box.value))
 </script>
 
 <style scoped>
@@ -159,6 +185,6 @@ function test() {
 }
 .missing {
   grid-column: 1/-1;
-  padding: 30px 24px 10px 24px;
+  padding: 20px 24px 0px 24px;
 }
 </style>
