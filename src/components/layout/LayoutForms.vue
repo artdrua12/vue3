@@ -1,7 +1,6 @@
 <template>
   <div class="layoutForms">
     <base-panel-acordions
-      ref="root"
       class="forms-menu"
       :data="props.data"
       :tab="currentTab"
@@ -41,7 +40,6 @@
             >
               <base-check-box
                 v-if="chekingIsMissing(tab, indexTab)"
-                ref="box"
                 v-model="tab.isMissing"
                 :label="`${tab.title} - отсутствует`"
                 class="missing"
@@ -63,7 +61,7 @@
                   :item-value="i.itemValue"
                   :placeholder="i.placeholder"
                   :disabled="i.disabled"
-                  :fields="i.constructorFields"
+                  :fields="i.fields"
                 ></component>
                 <v-btn @click="test">TEST</v-btn>
               </div>
@@ -90,7 +88,7 @@ import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSlot from '../base/BaseSlot.vue'
-import { ref, defineProps, onMounted } from 'vue'
+import { ref, defineProps } from 'vue'
 const props = defineProps({
   data: { type: Array, default: [] }
 })
@@ -105,7 +103,6 @@ const allComponents = {
   BaseSlot,
   BaseRecursiveConstructor
 }
-const root = ref(null)
 const currentTab = ref('')
 const defaultFields = {} // сохраняем первоначальное значение табов, которые могут отсутствовать
 function getComponent(type) {
@@ -114,9 +111,9 @@ function getComponent(type) {
 function chekingIsMissing(tab, indexTab) {
   const existIsMissing = Object.prototype.hasOwnProperty.call(tab, 'isMissing')
   if (existIsMissing) {
-    const filds = JSON.parse(JSON.stringify(tab.fields))
+    const fields = JSON.parse(JSON.stringify(tab.fields))
     if (!defaultFields[indexTab]) {
-      defaultFields[indexTab] = filds
+      defaultFields[indexTab] = fields
     }
   }
   return existIsMissing
@@ -127,10 +124,8 @@ function updateIsMissing(tab, indexTab) {
   }
 }
 function test() {
-  console.log('test', root)
+  console.log('test')
 }
-const box = ref(null)
-onMounted(() => console.log(box.value))
 </script>
 
 <style scoped>

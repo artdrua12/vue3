@@ -42,7 +42,7 @@ import BaseTextarea from './BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 const props = defineProps({
   label: { type: String, required: true },
-  additionData: {
+  fields: {
     type: Array,
     required: true
   }
@@ -59,7 +59,7 @@ const allComponents = {
   BaseSlot
 }
 
-let fieldsArray = ref(props.additionData)
+let fieldsArray = ref(props.fields)
 const defaultFields = JSON.parse(JSON.stringify(fieldsArray.value[0]))
 
 function getComponent(type) {
@@ -67,7 +67,7 @@ function getComponent(type) {
 }
 
 function add() {
-  fieldsArray.value.push(defaultFields)
+  fieldsArray.value.push(JSON.parse(JSON.stringify(defaultFields)))
 }
 function remove() {
   fieldsArray.value.pop()
