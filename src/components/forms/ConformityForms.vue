@@ -73,7 +73,7 @@ const data = reactive([
             label: 'Приложение к документу',
             width: 'all',
             type: 'BaseRecursiveConstructor',
-            additionData: [
+            fields: [
               {
                 objectOrdinal: {
                   label: 'Номер приложения',
@@ -361,70 +361,281 @@ const data = reactive([
       {
         title: 'Представители изготовителя и их адреса',
         id: '#vehicle-details-representatives',
-        isMissing: false,
-        items: [],
         fields: {
-          manufacturerAddress: {
-            label: 'Представитель изготовителя и его адрес',
+          BaseIsMissingTab: {
             width: 'all',
-            type: 'BaseRecursiveConstructor',
-            fields: [
-              {
-                businessEntityName: {
-                  label: 'Организация*',
-                  width: '6',
-                  type: 'BaseAutocomplete'
-                },
-                unifiedCountryCode: {
-                  label: 'Код страны',
-                  width: '6',
-                  type: 'BaseAutocomplete'
-                },
-                businessEntityTypeName: {
-                  label: 'Наименование организационно-правовой формы',
-                  width: 'all',
-                  type: 'BaseAutocomplete'
-                },
-                businessEntityName4: {
-                  label: 'Местонахождение',
-                  width: 'all',
-                  type: 'BaseTextarea'
-                },
-                title: {
-                  label: 'Контактная информация',
-                  width: 'all',
-                  type: 'BaseSlot'
-                },
-                unifiedCommunicationChannelCode: {
-                  label: 'Тип контактной информации',
-                  width: '6',
-                  type: 'BaseAutocomplete'
-                },
-                communicationChannelId: {
-                  label: 'Контактные данные',
-                  width: '6',
-                  type: 'BaseCombobox'
-                }
+            type: 'BaseIsMissingTab',
+            label: 'Представители изготовителя и их адреса - отсутствует',
+            fields: {
+              manufacturerAddress: {
+                label: 'Представитель изготовителя и его адрес',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    businessEntityName: {
+                      label: 'Организация*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    unifiedCountryCode: {
+                      label: 'Код страны',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityTypeName: {
+                      label: 'Наименование организационно-правовой формы',
+                      width: 'all',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityName4: {
+                      label: 'Местонахождение',
+                      width: 'all',
+                      type: 'BaseTextarea'
+                    },
+                    title: {
+                      label: 'Контактная информация',
+                      width: 'all',
+                      type: 'BaseSlot'
+                    },
+                    unifiedCommunicationChannelCode: {
+                      label: 'Тип контактной информации',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    communicationChannelId: {
+                      label: 'Контактные данные',
+                      width: '6',
+                      type: 'BaseCombobox'
+                    }
+                  }
+                ]
               }
-            ]
+            }
           }
         }
       },
       {
         title: 'Сборочный завод и его адрес',
-        id: '#vehicle-details-factory'
+        id: '#vehicle-details-factory',
+        fields: {
+          BaseIsMissingTab: {
+            width: 'all',
+            type: 'BaseIsMissingTab',
+            label: 'Сборочный завод и его адрес - отсутствует',
+            fields: {
+              manufacturerAddress: {
+                label: 'Представитель изготовителя и его адрес',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    businessEntityName: {
+                      label: 'Организация*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    unifiedCountryCode: {
+                      label: 'Код страны',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityTypeName: {
+                      label: 'Наименование организационно-правовой формы',
+                      width: 'all',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityName4: {
+                      label: 'Местонахождение',
+                      width: 'all',
+                      type: 'BaseTextarea'
+                    },
+                    title: {
+                      label: 'Контактная информация',
+                      width: 'all',
+                      type: 'BaseSlot'
+                    },
+                    unifiedCommunicationChannelCode: {
+                      label: 'Тип контактной информации',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    communicationChannelId: {
+                      label: 'Контактные данные',
+                      width: '6',
+                      type: 'BaseCombobox'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Поставщик сборочных комплектов и его адрес',
-        id: '#vehicle-details-provider'
+        id: '#vehicle-details-provider',
+        fields: {
+          BaseIsMissingTab: {
+            width: 'all',
+            type: 'BaseIsMissingTab',
+            label: 'Поставщик сборочных комплектов и его адрес - отсутствует',
+            fields: {
+              manufacturerAddress: {
+                label: 'Представитель изготовителя и его адрес',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    businessEntityName: {
+                      label: 'Организация*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    unifiedCountryCode: {
+                      label: 'Код страны',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityTypeName: {
+                      label: 'Наименование организационно-правовой формы',
+                      width: 'all',
+                      type: 'BaseAutocomplete'
+                    },
+                    businessEntityName4: {
+                      label: 'Местонахождение',
+                      width: 'all',
+                      type: 'BaseTextarea'
+                    },
+                    title: {
+                      label: 'Контактная информация',
+                      width: 'all',
+                      type: 'BaseSlot'
+                    },
+                    unifiedCommunicationChannelCode: {
+                      label: 'Тип контактной информации',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    communicationChannelId: {
+                      label: 'Контактные данные',
+                      width: '6',
+                      type: 'BaseCombobox'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Вид распространения',
-        id: '#vehicle-details-view'
+        id: '#vehicle-details-view',
+        fields: {
+          BaseIsMissingTab: {
+            width: 'all',
+            label: 'На партию транспортных средств',
+            type: 'BaseIsMissingTab',
+            fields: {
+              businessEntityName: {
+                label: 'Количество штук в партии*',
+                width: '6',
+                type: 'BaseTextField'
+              },
+              unifiedCountryCode: {
+                width: '6',
+                label: 'Ед. измерения',
+                type: 'BaseAutocomplete'
+              },
+              BaseIsMissingTabIntro: {
+                width: 'all',
+                label: 'малая партия',
+                type: 'BaseIsMissingTab',
+                fields: {
+                  constant: {
+                    label: 'VIN (Постоянная часть)',
+                    width: 'all',
+                    type: 'BaseTextField'
+                  },
+                  numberWith: {
+                    label: 'VIN Производственный номер с',
+                    width: '6',
+                    type: 'BaseTextField'
+                  },
+                  numberBy: {
+                    label: 'VIN Производственный номер по',
+                    width: '6',
+                    type: 'BaseCombobox'
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       {
         title: 'Дополнительная информаци',
-        id: '#vehicle-details-additional'
+        id: '#vehicle-details-additional',
+        fields: {
+          clearVehicleUseRestrictionText: {
+            width: 'all',
+            label: 'Наличие ограничений использования ТС',
+            type: 'BaseIsMissingTab',
+            fields: {
+              vehicleUseRestrictionIndicator: {
+                label: 'Ограничения на возможность использования на дорогах общего пользования',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    label: 'Ограничения на возможность использования на дорогах общего пользования',
+                    width: 'all',
+                    type: 'BaseTextarea',
+                    value: ''
+                  }
+                ]
+              }
+            }
+          },
+          vehicleUseRestrictionShipping: {
+            label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
+                width: 'all',
+                value: '',
+                type: 'BaseTextarea'
+              }
+            ]
+          },
+          isAddInfoIndicator: {
+            width: 'all',
+            label: 'Признак обязательности оформления специального разрешения',
+            value: false,
+            type: 'BaseCheckBox'
+          },
+          preferentialManufacturingModeText: {
+            label: 'Сведения о производстве с применением льготного режима производства',
+            width: 'all',
+            type: 'BaseAutocomplete'
+          },
+          addInfo: {
+            label: 'Прочая информация',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                label: 'Прочая информация',
+                width: 'all',
+                value: '',
+                type: 'BaseTextarea'
+              }
+            ]
+          }
+        }
       }
     ]
   },

@@ -11,7 +11,7 @@
       :disabled="Boolean(valueCheckbox)"
       @update:enter="emit('find')"
     ></component>
-    <base-check-box v-model:value="valueCheckbox" label="Отсутствует"></base-check-box>
+    <base-check-box v-model="valueCheckbox" label="Отсутствует"></base-check-box>
   </div>
 </template>
 

@@ -12,7 +12,7 @@
     :label="props.label"
     class="base"
     hide-details
-    :disabled="props.disabled"  
+    :disabled="props.disabled"
     color="#546e7a"
   ></v-checkbox>
 </template>

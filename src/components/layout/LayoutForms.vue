@@ -1,10 +1,9 @@
 <template>
   <div class="layoutForms">
     <base-panel-acordions
+      v-model:tab="currentTab"
       class="forms-menu"
       :data="props.data"
-      :tab="currentTab"
-      @update:tab="currentTab = $event"
     ></base-panel-acordions>
 
     <div class="forms-data">
@@ -32,24 +31,13 @@
           </v-tabs>
 
           <v-window v-model="currentTab">
-            <v-window-item
-              v-for="(tab, indexTab) in item.tabs"
-              :id="tab.id"
-              :key="tab.id"
-              :value="tab.title"
-            >
-              <base-check-box
-                v-if="chekingIsMissing(tab, indexTab)"
-                v-model="tab.isMissing"
-                :label="`${tab.title} - отсутствует`"
-                class="missing"
-                @change="updateIsMissing(tab, indexTab)"
-              ></base-check-box>
-              <div v-if="!tab?.isMissing == true" class="tabsPageForm">
+            <v-window-item v-for="tab in item.tabs" :id="tab.id" :key="tab.id" :value="tab.title">
+              <div class="tabsPageForm">
                 <component
                   :is="getComponent(i.type)"
                   v-for="(i, index) in tab.fields"
                   :key="index"
+                  v-model:fields="i.fields"
                   v-model="i.value"
                   :style="{
                     'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
@@ -61,9 +49,7 @@
                   :item-value="i.itemValue"
                   :placeholder="i.placeholder"
                   :disabled="i.disabled"
-                  :fields="i.fields"
                 ></component>
-                <v-btn @click="test">TEST</v-btn>
               </div>
             </v-window-item>
           </v-window>
@@ -86,7 +72,9 @@ import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCheckBox from '../base/BaseCheckBox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import BaseIsMissingTab from '@/components/base/BaseIsMissingTab.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import BaseRadioButton from '@/components/base/BaseRadioButton.vue'
 import BaseSlot from '../base/BaseSlot.vue'
 import { ref, defineProps } from 'vue'
 const props = defineProps({
@@ -100,31 +88,14 @@ const allComponents = {
   BaseCheckBox,
   BaseCombobox,
   BaseIsMissing,
+  BaseIsMissingTab,
+  BaseRadioButton,
   BaseSlot,
   BaseRecursiveConstructor
 }
 const currentTab = ref('')
-const defaultFields = {} // сохраняем первоначальное значение табов, которые могут отсутствовать
 function getComponent(type) {
   return allComponents[type]
-}
-function chekingIsMissing(tab, indexTab) {
-  const existIsMissing = Object.prototype.hasOwnProperty.call(tab, 'isMissing')
-  if (existIsMissing) {
-    const fields = JSON.parse(JSON.stringify(tab.fields))
-    if (!defaultFields[indexTab]) {
-      defaultFields[indexTab] = fields
-    }
-  }
-  return existIsMissing
-}
-function updateIsMissing(tab, indexTab) {
-  if (tab.isMissing) {
-    tab.fields = JSON.parse(JSON.stringify(defaultFields[indexTab]))
-  }
-}
-function test() {
-  console.log('test')
 }
 </script>
 
@@ -177,9 +148,5 @@ function test() {
   .tabsPageForm {
     grid-template-columns: repeat(6, 1fr);
   }
-}
-.missing {
-  grid-column: 1/-1;
-  padding: 20px 24px 0px 24px;
 }
 </style>
