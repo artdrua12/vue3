@@ -78,7 +78,7 @@ import BaseRadioButton from '@/components/base/BaseRadioButton.vue'
 import BaseSlot from '../base/BaseSlot.vue'
 import { ref, defineProps } from 'vue'
 const props = defineProps({
-  data: { type: Array, default: [] }
+  data: { type: Array, required: true }
 })
 const allComponents = {
   BaseTextField,

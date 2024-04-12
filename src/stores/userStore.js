@@ -24,8 +24,11 @@ export const useUserStore = defineStore('user', () => {
 
   //action
   async function loadUser() {
-    const userData = await requests.get('/api/user/info') //получаем данные из запроса
-    // const userData = { name: "hometest", permissions: ['Доступ к реестру ОТТС (осуществление поиска)', 'Оформить паспорт', 'Доступ к реестру электронных паспортов ТС (осуществление поиска)'] }
+    // const userData = await requests.get('/api/user/info') //получаем данные из запроса
+    const userData = {
+      name: "hometest", permissions: ['Доступ к реестру ОТТС (осуществление поиска)',
+        'Оформить паспорт', 'Доступ к реестру электронных паспортов ТС (осуществление поиска)', 'Создать документ ОТТС (ОТШ)']
+    }
     if (!userData) {
       snack.setSnack({ text: 'Ошибка получения пользователя', type: 'error' })
       return null

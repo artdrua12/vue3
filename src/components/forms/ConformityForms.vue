@@ -589,25 +589,31 @@ const data = reactive([
                 type: 'BaseRecursiveConstructor',
                 fields: [
                   {
-                    label: 'Ограничения на возможность использования на дорогах общего пользования',
-                    width: 'all',
-                    type: 'BaseTextarea',
-                    value: ''
+                    abs: {
+                      label:
+                        'Ограничения на возможность использования на дорогах общего пользования',
+                      width: 'all',
+                      type: 'BaseTextarea',
+                      value: ''
+                    }
                   }
                 ]
               }
             }
           },
+
           vehicleUseRestrictionShipping: {
             label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
             width: 'all',
             type: 'BaseRecursiveConstructor',
             fields: [
               {
-                label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
-                width: 'all',
-                value: '',
-                type: 'BaseTextarea'
+                abs: {
+                  label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
+                  width: 'all',
+                  value: '',
+                  type: 'BaseTextarea'
+                }
               }
             ]
           },
@@ -628,10 +634,12 @@ const data = reactive([
             type: 'BaseRecursiveConstructor',
             fields: [
               {
-                label: 'Прочая информация',
-                width: 'all',
-                value: '',
-                type: 'BaseTextarea'
+                abs: {
+                  label: 'Прочая информация',
+                  width: 'all',
+                  value: '',
+                  type: 'BaseTextarea'
+                }
               }
             ]
           }
