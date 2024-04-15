@@ -3,10 +3,11 @@
     v-model="valueCheckbox"
     :label="props.label"
     style="grid-column: 1/-1"
+    :disabled="props.disabled"
     class="mb-5"
     @change="changingCheckbox"
   ></base-check-box>
-  <div v-if="!valueCheckbox" class="adaptiveGrid">
+  <div v-if="isReverce ? valueCheckbox : !valueCheckbox" class="adaptiveGrid">
     <component
       :is="getComponent(i.type)"
       v-for="(i, index) in fields"
@@ -28,6 +29,7 @@ import BaseAutocomplete from './BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseIsMissingTab from '@/components/base/BaseIsMissingTab.vue'
+import BaseSlot from '../base/BaseSlot.vue'
 import { ref, defineProps } from 'vue'
 const props = defineProps({
   label: { type: String, default: 'отсутствует' },
@@ -36,9 +38,16 @@ const props = defineProps({
     default() {
       return {}
     }
-  }
+  },
+  // что бы появлялся компонент когда сheckbox поставлен, если false - наоборот
+  additionData: {
+    type: Boolean,
+    default: true
+  },
+  disabled: { type: Boolean, default: false }
 })
-
+const isReverce = ref(props.additionData)
+console.log('props.additionData', props.additionData)
 let valueCheckbox = ref(false)
 const fields = ref(props.fields)
 const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов, которые могут отсутствовать
@@ -50,11 +59,11 @@ const allComponents = {
   BaseCheckBox,
   BaseCombobox,
   BaseRecursiveConstructor,
-  BaseIsMissingTab
+  BaseIsMissingTab,
+  BaseSlot
 }
 function changingCheckbox() {
   if (valueCheckbox.value) {
-    console.log('changingCheckbox true')
     fields.value = JSON.parse(JSON.stringify(defaultFields))
   }
 }

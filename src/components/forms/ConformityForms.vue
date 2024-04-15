@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import LayoutForms from '@/components/layout/LayoutForms.vue'
 const data = reactive([
   {
@@ -366,6 +366,7 @@ const data = reactive([
             width: 'all',
             type: 'BaseIsMissingTab',
             label: 'Представители изготовителя и их адреса - отсутствует',
+            additionData: false,
             fields: {
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
@@ -423,6 +424,7 @@ const data = reactive([
             width: 'all',
             type: 'BaseIsMissingTab',
             label: 'Сборочный завод и его адрес - отсутствует',
+            additionData: false,
             fields: {
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
@@ -480,6 +482,7 @@ const data = reactive([
             width: 'all',
             type: 'BaseIsMissingTab',
             label: 'Поставщик сборочных комплектов и его адрес - отсутствует',
+            additionData: false,
             fields: {
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
@@ -533,9 +536,16 @@ const data = reactive([
         title: 'Вид распространения',
         id: '#vehicle-details-view',
         fields: {
+          series: {
+            width: 'all',
+            label: 'На серийно выпускаемую продукцию',
+            type: 'BaseCheckBox',
+            value: false
+          },
           BaseIsMissingTab: {
             width: 'all',
             label: 'На партию транспортных средств',
+            disabled: computed(() => data[0].tabs[8].fields.series.value),
             type: 'BaseIsMissingTab',
             fields: {
               businessEntityName: {
@@ -553,6 +563,11 @@ const data = reactive([
                 label: 'малая партия',
                 type: 'BaseIsMissingTab',
                 fields: {
+                  title: {
+                    label: 'Диапазон VIN',
+                    width: 'all',
+                    type: 'BaseSlot'
+                  },
                   constant: {
                     label: 'VIN (Постоянная часть)',
                     width: 'all',
@@ -582,6 +597,7 @@ const data = reactive([
             width: 'all',
             label: 'Наличие ограничений использования ТС',
             type: 'BaseIsMissingTab',
+
             fields: {
               vehicleUseRestrictionIndicator: {
                 label: 'Ограничения на возможность использования на дорогах общего пользования',

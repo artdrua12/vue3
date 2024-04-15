@@ -6,7 +6,6 @@
     class="base"
     :rules="[rules.required]"
     bg-color="white"
-    rows="3"
     dirty
     auto-grow
     @keyup.enter="onEnter"
