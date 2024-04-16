@@ -540,11 +540,13 @@ const data = reactive([
             width: 'all',
             label: 'На серийно выпускаемую продукцию',
             type: 'BaseCheckBox',
+            disabled: computed(() => data[0].tabs[8].fields.BaseIsMissingTab.value),
             value: false
           },
           BaseIsMissingTab: {
             width: 'all',
             label: 'На партию транспортных средств',
+            value: false,
             disabled: computed(() => data[0].tabs[8].fields.series.value),
             type: 'BaseIsMissingTab',
             fields: {
@@ -597,7 +599,6 @@ const data = reactive([
             width: 'all',
             label: 'Наличие ограничений использования ТС',
             type: 'BaseIsMissingTab',
-
             fields: {
               vehicleUseRestrictionIndicator: {
                 label: 'Ограничения на возможность использования на дорогах общего пользования',
@@ -617,7 +618,6 @@ const data = reactive([
               }
             }
           },
-
           vehicleUseRestrictionShipping: {
             label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
             width: 'all',
@@ -637,6 +637,7 @@ const data = reactive([
             width: 'all',
             label: 'Признак обязательности оформления специального разрешения',
             value: false,
+            additionData: false,
             type: 'BaseCheckBox'
           },
           preferentialManufacturingModeText: {
@@ -655,6 +656,101 @@ const data = reactive([
                   width: 'all',
                   value: '',
                   type: 'BaseTextarea'
+                }
+              }
+            ]
+          },
+
+          test: {
+            label: 'Ограничения на возможность использования на дорогах общего пользования',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                abs: {
+                  label: 'Ограничения на возможность использования на дорогах общего пользования',
+                  width: '6',
+                  type: 'BaseTextField',
+                  value: ''
+                },
+                sba: {
+                  label: 'Ограничения на возможность использования на дорогах общего пользования',
+                  width: '6',
+                  type: 'BaseTextField',
+                  value: ''
+                },
+                test: {
+                  label: 'test1',
+                  width: 'all',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      abs: {
+                        label: 'Ограничения на возможность использования ',
+                        width: '6',
+                        type: 'BaseTextField',
+                        value: ''
+                      },
+                      sba: {
+                        label:
+                          'Ограничения на возможность использования на дорогах общего пользования',
+                        width: '6',
+                        type: 'BaseTextField',
+                        value: ''
+                      },
+                      test2: {
+                        label: 'test1',
+                        width: 'all',
+                        type: 'BaseRecursiveConstructor',
+                        fields: [
+                          {
+                            abs: {
+                              label: 'Ограничения на возможность использования ',
+                              width: '6',
+                              type: 'BaseTextField',
+                              value: ''
+                            },
+                            abs2: {
+                              label: 'Ttytcn  ',
+                              width: '6',
+                              type: 'BaseTextField',
+                              value: ''
+                            }
+                          }
+                        ]
+                      },
+                      test12: {
+                        label: 'test1',
+                        width: 'all',
+                        type: 'BaseRecursiveConstructor',
+                        fields: [
+                          {
+                            abs: {
+                              label: 'Ограничения на возможность использования ',
+                              width: 'all',
+                              type: 'BaseTextField',
+                              value: ''
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                test2: {
+                  label: 'test1',
+                  width: 'all',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      abs: {
+                        label: 'Ограничения на возможность использования ',
+                        width: 'all',
+                        type: 'BaseTextField',
+                        value: ''
+                      }
+                    }
+                  ]
                 }
               }
             ]

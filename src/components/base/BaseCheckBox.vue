@@ -11,7 +11,7 @@
   <v-checkbox
     :label="props.label"
     class="base"
-    hide-details
+    :hide-details="props.additionData"
     :disabled="props.disabled"
     color="#546e7a"
   ></v-checkbox>
@@ -29,7 +29,8 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
-  }
+  },
+  additionData: { type: Boolean, default: true }
 })
 // const checkbox = ref(props.value)
 // watch(

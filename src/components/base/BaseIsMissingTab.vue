@@ -30,7 +30,8 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseIsMissingTab from '@/components/base/BaseIsMissingTab.vue'
 import BaseSlot from '../base/BaseSlot.vue'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, defineModel } from 'vue'
+
 const props = defineProps({
   label: { type: String, default: 'отсутствует' },
   fields: {
@@ -44,11 +45,12 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
+  value: { type: Boolean, default: false }
 })
+const valueCheckbox = defineModel({ type: Boolean, default: false })
 const isReverce = ref(props.additionData)
 console.log('props.additionData', props.additionData)
-let valueCheckbox = ref(false)
 const fields = ref(props.fields)
 const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов, которые могут отсутствовать
 
@@ -63,6 +65,7 @@ const allComponents = {
   BaseSlot
 }
 function changingCheckbox() {
+  emit('update:value', valueCheckbox.value)
   if (valueCheckbox.value) {
     fields.value = JSON.parse(JSON.stringify(defaultFields))
   }
