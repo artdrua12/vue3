@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fields-more="fieldsMore"
     title="Реестр деклараций о соответствии"
     @find="find"
   ></layout-pages>
@@ -77,31 +77,31 @@ const fields = reactive({
     width: 'all',
     label: 'Только свои',
     value: false,
-    type: 'base-check-box'
+    type: 'BaseCheckbox'
   },
   docId: {
     width: '6',
     label: 'Номер документа',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   startDateTime: {
     width: '3',
     label: 'Срок действия с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   endDateTime: {
     width: '3',
     label: 'Срок действия по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   docStatus: {
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -110,7 +110,7 @@ const fields = reactive({
     width: '6',
     label: 'Страна выдачи документа',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value'
@@ -119,7 +119,7 @@ const fields = reactive({
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes'
   },
@@ -127,36 +127,36 @@ const fields = reactive({
     width: '3',
     label: 'Дата изменения с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   lastModifiedBy: {
     width: '3',
     label: 'Дата изменения по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   commercialName: {
     width: 'all',
     label: 'Коммерческое наименование',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   fullName: {
     width: 'all',
     value: '',
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {
       signerSurname: {
         label: 'Документ подписан',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Фамилия',
         width: '4'
       },
-      singerName: { value: '', type: 'base-text-field', placeholder: 'Имя', width: '4' },
+      singerName: { value: '', type: 'BaseTextfield', placeholder: 'Имя', width: '4' },
       singerPatronimic: {
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Отчество',
         width: '4'
       }
@@ -168,7 +168,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -178,7 +178,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Заявитель',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',

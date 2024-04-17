@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fieldsMore="fieldsMore"
     title="Реестр ОТТС"
     @find="find"
   ></layout-pages>
@@ -130,31 +130,31 @@ const fields = reactive({
     width: 'all',
     label: 'Только свои',
     value: false,
-    type: 'base-check-box'
+    type: 'BaseCheckbox'
   },
   docId: {
     width: '6',
     label: 'Номер документа',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   startDateTime: {
     width: '3',
     label: 'Срок действия с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   endDateTime: {
     width: '3',
     label: 'Срок действия по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   docStatus: {
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -163,36 +163,36 @@ const fields = reactive({
     width: '3',
     label: 'Дата изменения с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   lastModifiedBy: {
     width: '3',
     label: 'Дата изменения по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   fullName: {
     width: 'all',
     value: '',
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {
       signerSurname: {
         label: 'Документ подписан',
         width: '4',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Фамилия'
       },
       singerName: {
         width: '4',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Имя'
       },
       singerPatronimic: {
         width: '4',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Отчество'
       }
     }
@@ -203,7 +203,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes',
     text: 'value',
@@ -213,13 +213,13 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Коммерческое наименование',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   manufacturer: {
     width: '6',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -229,7 +229,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Сборочный завод',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -239,7 +239,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Орган по сертификации',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
     text: 'certificationBodyNameBrief',
@@ -249,7 +249,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Тип документа',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     //conformityDocKind отправляем в экшены
     url: '/api/classifier/epassport/conformity-doc-kinds',
@@ -261,7 +261,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Страна выдачи документа',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value',
@@ -271,7 +271,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Категория ТС',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-tech-categories',
     filter: 'filter(e => e.key.match(/L|M|N|O/))',

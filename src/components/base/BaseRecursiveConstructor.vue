@@ -50,13 +50,14 @@
 
 <script setup>
 import { ref, defineProps, defineEmits, computed } from 'vue'
-import BaseDateField from './BaseDateField.vue'
+import BaseDatefield from './BaseDatefield.vue'
 import BaseAutocomplete from './BaseAutocomplete.vue'
-import BaseTextField from './BaseTextField.vue'
-import BaseCheckBox from './BaseCheckBox.vue'
+import BaseTextfield from './BaseTextfield.vue'
+import BaseCheckbox from './BaseCheckbox.vue'
 import BaseSlot from './BaseSlot.vue'
 import BaseTextarea from './BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 const props = defineProps({
   label: { type: String, required: true, default: '.' },
@@ -70,13 +71,14 @@ const isOne = computed(() => {
   return Object.keys(fieldsArray.value[0]).length == 1
 })
 const allComponents = {
-  BaseDateField,
+  BaseDatefield,
   BaseAutocomplete,
-  BaseTextField,
-  BaseCheckBox,
+  BaseTextfield,
+  BaseCheckbox,
   BaseCombobox,
   BaseTextarea,
   BaseRecursiveConstructor,
+  BaseIsMissingDisabled,
   BaseSlot
 }
 

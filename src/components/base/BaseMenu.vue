@@ -218,13 +218,12 @@ onMounted(() => {
   transition: transform 0.4s;
   transform: translateX(-100%);
   --height: 0px;
-  background: linear-gradient(90deg, rgba(240, 234, 234, 0.37) 88%, rgba(138, 124, 105, 0.281));
   background-color: rgba(219, 219, 219, 0.78);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
   user-select: none;
   cursor: pointer;
   box-shadow:
-  3px 0px 15px 5px rgba(0, 0, 0, 0.12),
+  3px 0px 15px 5px rgba(0, 0, 0, 0.32),
     inset 0px 11px 12px -10px rgba(0, 0, 0, 0.45);
   font-family: 'Open Sans', arial;
   z-index: 3;
@@ -254,7 +253,7 @@ onMounted(() => {
   align-items: center;
   min-height: 60px;
   padding: 10px 0px;
-  border-bottom: 1px solid #cabfb3;
+  border-bottom: 1px solid #817a73;
   cursor: pointer;
   color: #2c4957;
   font-size: 17px;
@@ -280,12 +279,12 @@ onMounted(() => {
   transition: height 0.3s;
   background-color: rgba(247, 247, 247, 0.829);
   cursor: pointer;
-  color: #3f3e3e;
   /* box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white; */
 }
 .router-link-active,
 .submenu-text:hover {
   background-color: rgb(219, 219, 219);
+  /* background: linear-gradient(90deg, rgb(219, 219, 219) 98%, rgba(189, 187, 186, 0.8)); */
 }
 .submenu-text {
   display: flex;

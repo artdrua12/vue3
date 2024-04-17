@@ -2,7 +2,7 @@
   <div class="slot">
     <p v-if="props.label" class="slot-title">{{ props.label }}</p>
     <component
-      :is="item.type"
+      :is="getComponent(item.type)"
       v-for="(item, index) in props.additionData"
       :key="index"
       v-model="item.value"
@@ -19,29 +19,32 @@
   </div>
 </template>
 
-<script>
-import BaseCheckBox from './BaseCheckBox.vue'
-import BaseTextField from './BaseTextField.vue'
+<script setup>
+import { defineProps } from 'vue'
+import BaseCheckbox from './BaseCheckbox.vue'
+import BaseTextfield from './BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import BaseTextarea from '@/components/base/BaseTextarea.vue'
+import BaseAutocomplete from './BaseAutocomplete.vue'
 
-export default {
-  components: {
-    BaseTextField,
-    BaseCheckBox,
-    BaseCombobox
-  },
-  props: {
-    label: { type: String, default: null },
-    additionData: {
-      type: Object,
-      default: {}
-    }
-  },
-  setup(props) {
-    return {
-      props
+const props = defineProps({
+  label: { type: String, default: null },
+  additionData: {
+    type: Object,
+    default() {
+      return {}
     }
   }
+})
+const allComponents = {
+  BaseTextfield,
+  BaseCheckbox,
+  BaseCombobox,
+  BaseTextarea,
+  BaseAutocomplete
+}
+function getComponent(type) {
+  return allComponents[type]
 }
 </script>
 

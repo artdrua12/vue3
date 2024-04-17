@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fields-more="fieldsMore"
     title=" Реестр электронных паспортов СМ"
     @find="find"
   ></layout-pages>
@@ -162,12 +162,12 @@ const fields = reactive({
   checkboxes: {
     width: 'all',
     value: false,
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {
       own: {
         label: 'Только свои',
         value: false,
-        type: 'base-check-box'
+        type: 'BaseCheckbox'
       },
       copy: {
         label: 'Шаблоны',
@@ -186,7 +186,7 @@ const fields = reactive({
     width: '6',
     label: 'Вид электронного паспорта',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-passport-kinds',
     text: 'value',
@@ -197,7 +197,7 @@ const fields = reactive({
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-kinds',
     text: 'value'
@@ -206,25 +206,25 @@ const fields = reactive({
     width: '6',
     label: 'Номер электронного паспорта',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   vehicleFactoryNumberId: {
     width: '6',
     label: 'Заводской номер',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   identityNumber: {
     width: '6',
     label: 'Идентификационный номер:',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   vehicleName: {
     width: '6',
     label: 'Марка',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-makes',
     text: 'value'
@@ -233,43 +233,43 @@ const fields = reactive({
     width: '3',
     label: 'Дата перевода в статус с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   statusModifiedBy: {
     width: '3',
     label: 'Дата перевода в статус по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   docCreationDateWith: {
     width: '3',
     label: 'Дата оформления с',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   docCreationDateBy: {
     width: '3',
     label: 'Дата оформления по',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   },
   fullName: {
     width: 'all',
     value: '',
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {
       signerSurname: {
         width: '4',
         label: 'Документ подписан',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Фамилия'
       },
-      singerName: { width: '4', value: '', type: 'base-text-field', placeholder: 'Имя' },
+      singerName: { width: '4', value: '', type: 'BaseTextfield', placeholder: 'Имя' },
       singerPatronimic: {
         width: '4',
         value: '',
-        type: 'base-text-field',
+        type: 'BaseTextfield',
         placeholder: 'Отчество'
       }
     }
@@ -280,25 +280,25 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Номер двигателя',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   mainPoweredAxleId: {
     width: '6',
     label: 'Номер основного ведущего моста',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   bodyId: {
     width: '6',
     label: 'Номер кузова (кабины, прицепа)',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   mover: {
     width: '6',
     label: 'Тип движителя',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/propulsion-kinds',
     text: 'value'
@@ -307,19 +307,19 @@ const fieldsMore = reactive({
     width: 'all',
     label: 'Сведения об идентификационном номере устройства вызова экстренных оперативных служб',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   commercialName: {
     width: '6',
     label: 'Коммерческое наименование',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   techCategoryCode: {
     width: '6',
     label: 'Категория ТС, СМ по ТР ТС 010/2011, ТР ТС 018/2011, ТР ТС 031/2012',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-tech-categories',
     text: 'title',
@@ -329,7 +329,7 @@ const fieldsMore = reactive({
     width: 'all',
     label: 'Изготовитель',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/manufacturer-registry/all',
     text: 'businessEntityName',
@@ -339,7 +339,7 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Страна оформления паспорта',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value',
@@ -349,13 +349,13 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Орган (организация), оформивший ЭП',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   docKindCode: {
     width: '6',
     label: 'Вид документа ',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/conformity-doc-kinds',
     text: 'value',
@@ -365,13 +365,13 @@ const fieldsMore = reactive({
     width: '6',
     label: 'Номер документа ',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   basisRegistration: {
     width: '6',
     label: 'Основание оформления ЭПСМ',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/vehicle-passport-bases',
     text: 'value',

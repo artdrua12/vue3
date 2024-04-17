@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fields-more="fieldsMore"
     title="Реестр заявлений по получению сведений"
     @find="find"
   ></layout-pages>
@@ -41,20 +41,20 @@ const fields = reactive({
   toIndentTopPage: {
     width: 'all',
     value: false,
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {}
   },
   number: {
     width: '6',
     label: 'Номер заявления',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   organization: {
     width: '6',
     label: 'Организация',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: ['РУП "Белтаможсервис"'],
     text: 'value'
   },
@@ -62,14 +62,14 @@ const fields = reactive({
     width: '6',
     label: 'Номер электронного паспорта',
     value: '',
-    type: 'base-text-field',
+    type: 'BaseTextfield',
     disabled: computed(() => Boolean(fields.bodyId.value))
   },
   docStatus: {
     width: '6',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [
       {
         key: '90',
@@ -88,7 +88,7 @@ const fields = reactive({
     width: '6',
     label: 'Идентификационный номер ТС',
     value: '',
-    type: 'base-text-field',
+    type: 'BaseTextfield',
     disabled: computed(() => Boolean(fields.epassportNumb.value))
   }
 })

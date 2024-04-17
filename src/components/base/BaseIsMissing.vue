@@ -1,59 +1,94 @@
 <template>
-  <div class="baseIsMissing">
+  <BaseCheckbox
+    v-model="valueCheckbox"
+    :label="props.label"
+    style="grid-column: 1/-1"
+    :disabled="props.disabled"
+    class="mb-5"
+    @change="changingCheckbox"
+  ></BaseCheckbox>
+  <div v-if="isReverce ? valueCheckbox : !valueCheckbox" class="adaptiveGrid">
     <component
-      :is="getComponent(props.additionData)"
+      :is="getComponent(i.type)"
+      v-for="(i, index) in fields"
       :key="index"
-      :label="props.label"
-      :array="props.array"
-      :item-text="props.text"
-      :items="props.propss"
-      :placeholder="props.placeholder"
-      :disabled="Boolean(valueCheckbox)"
-      @update:enter="emit('find')"
+      :style="{
+        'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
+      }"
+      :label="i.label"
+      :fields="i.fields"
     ></component>
-    <base-check-box v-model="valueCheckbox" label="Отсутствует"></base-check-box>
   </div>
 </template>
 
 <script setup>
-import BaseCheckBox from './BaseCheckBox.vue'
-import BaseTextField from './BaseTextField.vue'
+import BaseCheckbox from './BaseCheckbox.vue'
+import BaseTextfield from './BaseTextfield.vue'
+import BaseTextarea from './BaseTextarea.vue'
 import BaseAutocomplete from './BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseSwich from './BaseSwich.vue'
-import { ref, defineProps, defineEmits } from 'vue'
+import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import BaseSlot from './BaseSlot.vue'
+import { ref, defineProps, defineModel } from 'vue'
+
 const props = defineProps({
-  label: { type: String, default: '' },
-  itemValue: { type: String, default: '' },
-  itemText: { type: String, default: '' },
-  value: { type: String, default: '' },
-  additionData: { type: String, required: true }
+  label: { type: String, default: 'отсутствует' },
+  fields: {
+    type: Object,
+    default() {
+      return {}
+    }
+  },
+  // что бы появлялся компонент когда сheckbox поставлен, если false - наоборот
+  additionData: {
+    type: Boolean,
+    default: true
+  },
+  disabled: { type: Boolean, default: false },
+  value: { type: Boolean, default: false }
 })
-const emit = defineEmits(['find']) //событие для запуска поиска
-let valueCheckbox = ref(false)
+const valueCheckbox = defineModel({ type: Boolean, default: false })
+const isReverce = ref(props.additionData)
+console.log('props.additionData', props.additionData)
+const fields = ref(props.fields)
+const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов, которые могут отсутствовать
 
 const allComponents = {
   BaseAutocomplete,
-  BaseTextField,
-  BaseCheckBox,
+  BaseTextfield,
+  BaseTextarea,
+  BaseCheckbox,
   BaseCombobox,
-  BaseSwich
+  BaseRecursiveConstructor,
+  BaseIsMissing,
+  BaseSlot
 }
-
+function changingCheckbox() {
+  if (valueCheckbox.value) {
+    fields.value = JSON.parse(JSON.stringify(defaultFields))
+  }
+}
 function getComponent(type) {
+  console.log('type', type)
   return allComponents[type]
 }
 </script>
 
 <style scoped>
-.baseIsMissing {
+.adaptiveGrid {
+  grid-column: 1/-1;
+  position: relative;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 0px 12px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 12px 12px;
+  overflow: visible;
 }
-.btnr {
-  height: calc(100% - 14px);
-  color: orange;
+
+@media (max-width: 1200px) {
+  .adaptiveGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 </style>

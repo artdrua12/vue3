@@ -28,7 +28,7 @@ const data = reactive([
             label: 'Номер документа*',
             width: '6',
             value: '',
-            type: 'BaseTextField'
+            type: 'BaseTextfield'
           },
           conformityDocKindName: {
             label: 'Наименование вида документа об оценке соответствия',
@@ -43,31 +43,31 @@ const data = reactive([
             label: 'Дата оформления бумажного ОТТС',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           docStartDate: {
             label: 'Дата начала срока действия документа*',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           docValidityDate: {
             label: 'Дата истечения срока действия документа*',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           formNumberId: {
             label: 'Номер бланка документа',
             width: '6',
             value: '',
-            type: 'BaseTextField'
+            type: 'BaseTextfield'
           },
           formAdditionalNumberId: {
             label: 'Номер бланка дополнительного листа',
             width: '6',
             value: '',
-            type: 'BaseTextField'
+            type: 'BaseTextfield'
           },
           objectOrdinal: {
             label: 'Приложение к документу',
@@ -79,13 +79,13 @@ const data = reactive([
                   label: 'Номер приложения',
                   width: '3',
                   value: '',
-                  type: 'BaseTextField'
+                  type: 'BaseTextfield'
                 },
                 pageQuantity: {
                   width: '3',
                   label: 'Количество листов',
                   value: '',
-                  type: 'BaseTextField'
+                  type: 'BaseTextfield'
                 },
                 formNumberId: {
                   width: '6',
@@ -112,37 +112,37 @@ const data = reactive([
             label: 'Номер документа',
             width: '4',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           dateType: {
             label: 'Дата истечения срока действия документа*',
             width: '2',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           formNumberMain: {
             label: 'Номер бланка документа',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           startDate2: {
             label: 'Начальная дата',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           endDate2: {
             label: 'Конечная дата',
             width: '6',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           noteText: {
             label: 'Примечание',
             width: 'all',
             value: '',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           }
         }
       },
@@ -153,14 +153,14 @@ const data = reactive([
           vehicleMakeName: {
             label: 'Марка*',
             width: '6',
-            type: 'BaseIsMissing',
+            type: 'BaseIsMissingDisabled',
             additionData: 'BaseCombobox'
           },
 
           vehicleCommercialName: {
             label: 'Коммерческое наименование*',
             width: '6',
-            type: 'BaseIsMissing',
+            type: 'BaseIsMissingDisabled',
             additionData: 'BaseCombobox'
           },
 
@@ -181,15 +181,15 @@ const data = reactive([
           vehicleTypeVariantId: {
             label: 'Модификация транспортного средства',
             width: '6',
-            type: 'BaseIsMissing',
+            type: 'BaseIsMissingDisabled',
             additionData: 'BaseCombobox'
           },
 
           modificationVirtual: {
             label: 'Виртуальная модификация*',
             width: '6',
-            type: 'BaseIsMissing',
-            additionData: 'BaseTextField'
+            type: 'BaseIsMissingDisabled',
+            additionData: 'BaseTextfield'
           },
           vehicleTechCategoryCode: {
             label: 'Категория ТС в соответствии с ТР ТС № 018/2011*',
@@ -204,13 +204,13 @@ const data = reactive([
           vehicleEcoClassCode2: {
             label: 'Код ОКП*',
             width: '6',
-            type: 'BaseIsMissing',
+            type: 'BaseIsMissingDisabled',
             additionData: 'BaseCombobox'
           },
           vehicleEcoClassCode3: {
             label: 'Код ТН ВЭД*',
             width: '6',
-            type: 'BaseIsMissing',
+            type: 'BaseIsMissingDisabled',
             additionData: 'BaseCombobox'
           }
         }
@@ -237,22 +237,22 @@ const data = reactive([
           businessEntityId: {
             label: 'Идентификатор хозяйствующего субъекта',
             width: '6',
-            type: 'BaseTextField'
+            type: 'BaseTextfield'
           },
           docId: {
             label: 'Номер аттестата аккредитации',
             width: '6',
-            type: 'BaseTextField'
+            type: 'BaseTextfield'
           },
           docStartDate: {
             label: 'Дата начала действия аттестата',
             width: '6',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           docValidityDate: {
             label: 'Срок окончания действия аттестата',
             width: '6',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           },
           title: {
             label: 'Контактная информация',
@@ -272,7 +272,7 @@ const data = reactive([
           fullName: {
             label: 'ФИО руководителя хозяйствующего субъекта',
             width: 'all',
-            type: 'BaseDateField'
+            type: 'BaseDatefield'
           }
         }
       },
@@ -362,9 +362,9 @@ const data = reactive([
         title: 'Представители изготовителя и их адреса',
         id: '#vehicle-details-representatives',
         fields: {
-          BaseIsMissingTab: {
+          BaseIsMissing: {
             width: 'all',
-            type: 'BaseIsMissingTab',
+            type: 'BaseIsMissing',
             label: 'Представители изготовителя и их адреса - отсутствует',
             additionData: false,
             fields: {
@@ -420,9 +420,9 @@ const data = reactive([
         title: 'Сборочный завод и его адрес',
         id: '#vehicle-details-factory',
         fields: {
-          BaseIsMissingTab: {
+          BaseIsMissing: {
             width: 'all',
-            type: 'BaseIsMissingTab',
+            type: 'BaseIsMissing',
             label: 'Сборочный завод и его адрес - отсутствует',
             additionData: false,
             fields: {
@@ -478,9 +478,9 @@ const data = reactive([
         title: 'Поставщик сборочных комплектов и его адрес',
         id: '#vehicle-details-provider',
         fields: {
-          BaseIsMissingTab: {
+          BaseIsMissing: {
             width: 'all',
-            type: 'BaseIsMissingTab',
+            type: 'BaseIsMissing',
             label: 'Поставщик сборочных комплектов и его адрес - отсутствует',
             additionData: false,
             fields: {
@@ -539,21 +539,21 @@ const data = reactive([
           series: {
             width: 'all',
             label: 'На серийно выпускаемую продукцию',
-            type: 'BaseCheckBox',
-            disabled: computed(() => data[0].tabs[8].fields.BaseIsMissingTab.value),
+            type: 'BaseCheckbox',
+            disabled: computed(() => data[0].tabs[8].fields.BaseIsMissing.value),
             value: false
           },
-          BaseIsMissingTab: {
+          BaseIsMissing: {
             width: 'all',
             label: 'На партию транспортных средств',
             value: false,
             disabled: computed(() => data[0].tabs[8].fields.series.value),
-            type: 'BaseIsMissingTab',
+            type: 'BaseIsMissing',
             fields: {
               businessEntityName: {
                 label: 'Количество штук в партии*',
                 width: '6',
-                type: 'BaseTextField'
+                type: 'BaseTextfield'
               },
               unifiedCountryCode: {
                 width: '6',
@@ -563,7 +563,7 @@ const data = reactive([
               BaseIsMissingTabIntro: {
                 width: 'all',
                 label: 'малая партия',
-                type: 'BaseIsMissingTab',
+                type: 'BaseIsMissing',
                 fields: {
                   title: {
                     label: 'Диапазон VIN',
@@ -573,12 +573,12 @@ const data = reactive([
                   constant: {
                     label: 'VIN (Постоянная часть)',
                     width: 'all',
-                    type: 'BaseTextField'
+                    type: 'BaseTextfield'
                   },
                   numberWith: {
                     label: 'VIN Производственный номер с',
                     width: '6',
-                    type: 'BaseTextField'
+                    type: 'BaseTextfield'
                   },
                   numberBy: {
                     label: 'VIN Производственный номер по',
@@ -598,7 +598,7 @@ const data = reactive([
           clearVehicleUseRestrictionText: {
             width: 'all',
             label: 'Наличие ограничений использования ТС',
-            type: 'BaseIsMissingTab',
+            type: 'BaseIsMissing',
             fields: {
               vehicleUseRestrictionIndicator: {
                 label: 'Ограничения на возможность использования на дорогах общего пользования',
@@ -638,7 +638,7 @@ const data = reactive([
             label: 'Признак обязательности оформления специального разрешения',
             value: false,
             additionData: false,
-            type: 'BaseCheckBox'
+            type: 'BaseCheckbox'
           },
           preferentialManufacturingModeText: {
             label: 'Сведения о производстве с применением льготного режима производства',
@@ -670,13 +670,13 @@ const data = reactive([
                 abs: {
                   label: 'Ограничения на возможность использования на дорогах общего пользования',
                   width: '6',
-                  type: 'BaseTextField',
+                  type: 'BaseTextfield',
                   value: ''
                 },
                 sba: {
                   label: 'Ограничения на возможность использования на дорогах общего пользования',
                   width: '6',
-                  type: 'BaseTextField',
+                  type: 'BaseTextfield',
                   value: ''
                 },
                 test: {
@@ -688,14 +688,14 @@ const data = reactive([
                       abs: {
                         label: 'Ограничения на возможность использования ',
                         width: '6',
-                        type: 'BaseTextField',
+                        type: 'BaseTextfield',
                         value: ''
                       },
                       sba: {
                         label:
                           'Ограничения на возможность использования на дорогах общего пользования',
                         width: '6',
-                        type: 'BaseTextField',
+                        type: 'BaseTextfield',
                         value: ''
                       },
                       test2: {
@@ -707,13 +707,13 @@ const data = reactive([
                             abs: {
                               label: 'Ограничения на возможность использования ',
                               width: '6',
-                              type: 'BaseTextField',
+                              type: 'BaseTextfield',
                               value: ''
                             },
                             abs2: {
                               label: 'Ttytcn  ',
                               width: '6',
-                              type: 'BaseTextField',
+                              type: 'BaseTextfield',
                               value: ''
                             }
                           }
@@ -728,7 +728,7 @@ const data = reactive([
                             abs: {
                               label: 'Ограничения на возможность использования ',
                               width: 'all',
-                              type: 'BaseTextField',
+                              type: 'BaseTextfield',
                               value: ''
                             }
                           }
@@ -746,7 +746,7 @@ const data = reactive([
                       abs: {
                         label: 'Ограничения на возможность использования ',
                         width: 'all',
-                        type: 'BaseTextField',
+                        type: 'BaseTextfield',
                         value: ''
                       }
                     }
@@ -761,7 +761,52 @@ const data = reactive([
   },
   {
     title: 'Базовое ТС',
-    id: '#base-vehicle'
+    id: '#base-vehicle',
+    fields: {
+      BaseIsMissing: {
+        width: 'all',
+        type: 'BaseIsMissing',
+        label: 'Представители изготовителя и их адреса - отсутствует',
+        additionData: false,
+        fields: {
+          manufacturerAddress: {
+            label: 'Представитель изготовителя и его адрес',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleMakeName: {
+                  label: 'Марка*',
+                  width: 'all',
+                  type: 'BaseIsMissingDisabled',
+                  additionData: 'BaseAutocomplete'
+                },
+                vehicleTypeId: {
+                  label: 'Идентификатор типа*',
+                  width: '6',
+                  type: 'BaseTextfield'
+                },
+                vehicleCommercialName: {
+                  label: 'Коммерческое наименование транспортного средства',
+                  width: '6',
+                  type: 'BaseCombobox'
+                },
+                docId: {
+                  label: 'Номер бумажного паспорта базового ТС (шасси ТС)',
+                  width: '6',
+                  type: 'BaseTextfield'
+                },
+                docCreationDate: {
+                  label: 'Дата документа',
+                  width: '6',
+                  type: 'BaseDatefield'
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
   },
   {
     title: 'Общие характеристики транспортного средства (Шасси)',
@@ -769,15 +814,173 @@ const data = reactive([
     tabs: [
       {
         title: 'Компоновка транспортного средства',
-        id: '#vehicle-composition'
+        id: '#vehicle-composition',
+        fields: {
+          vehicleLayoutPatternText: {
+            label: 'Схема компоновки транспортного средства*',
+            width: 'all',
+            type: 'BaseCombobox'
+          },
+          BaseRecursiveConstructor: {
+            label: 'Представитель изготовителя и его адрес',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleEquipmentText: {
+                  label: 'Оборудование транспортного средства',
+                  width: 'all',
+                  type: 'BaseTextarea'
+                }
+              }
+            ]
+          },
+          vehicleComponentLocationText: {
+            label: 'Расположение двигателя*',
+            width: 'all',
+            type: 'BaseCombobox'
+          },
+          bodyCar: {
+            label: 'Кузов',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleBodyworkType: {
+                  label: 'Тип кузова*',
+                  width: '6',
+                  type: 'BaseAutocomplete'
+                },
+                vehicleDoorQuantity: {
+                  label: 'Количество дверей*',
+                  width: '3',
+                  type: 'BaseTextfield'
+                },
+                vehiclePassengerQuantity: {
+                  label: 'Пассажировместимость',
+                  width: '3',
+                  type: 'BaseTextfield'
+                },
+                vehicleComponentText: {
+                  width: '6',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      vehicleComponentText: {
+                        label: 'Конструктивные особенности (тип) кузова (кабины, шасси)',
+                        width: 'all',
+                        type: 'BaseTextarea'
+                      }
+                    }
+                  ]
+                },
+                vehicleBodyworkAppointment: {
+                  width: '6',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      vehicleBodyworkAppointment: {
+                        label: 'Назначение',
+                        width: 'all',
+                        type: 'BaseTextarea'
+                      }
+                    }
+                  ]
+                },
+                seatQuantity: {
+                  width: 'all',
+                  label: 'Количество мест для сидения',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      seatQuantity: {
+                        label: 'Количество мест для сидения',
+                        width: 'all',
+                        type: 'BaseTextfield'
+                      },
+                      vehicleSeatText: {
+                        label: 'Описание количества мест для сидения',
+                        width: 'all',
+                        type: 'BaseTextarea'
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
       },
       {
         title: 'Ходовая часть ТС',
-        id: '#numbers-vheels'
+        id: '#numbers-vheels',
+        fields: {
+          vehicleWheelFormula: {
+            label: 'Колесная формула*',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          poweredWheel: {
+            label: 'Ведущие колеса*',
+            width: '6',
+            type: 'BaseAutocomplete'
+          },
+          vehicleWheelLocation: {
+            label: 'Расположение колес',
+            width: '6',
+            type: 'BaseTextfield'
+          },
+          vehicleFrameText: {
+            label: 'Рама',
+            width: '6',
+            type: 'BaseTextfield'
+          }
+        }
       },
       {
         title: 'Ось транспортного средства',
-        id: '#vehicle-axis'
+        id: '#vehicle-axis',
+        fields: {
+          vehicleUseRestrictionIndicator: {
+            label: 'Ось транспортного средства',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleAxleOrdinal: {
+                  label: 'Порядковый номер оси транспортного средства',
+                  width: 'all',
+                  type: 'BaseTextarea',
+                  value: ''
+                },
+                title: {
+                  label: 'Технически допустимая максимальная масса на ось',
+                  width: 'all',
+                  type: 'BaseSlot',
+                  additionData: {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Максимально',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      additionData: 'BaseTextfield'
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseAutocomplete'
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
       {
         title: 'Габаритные размеры',

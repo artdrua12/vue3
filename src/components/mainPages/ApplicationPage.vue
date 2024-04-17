@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fields-more="fieldsMore"
     title="Реестр заявлений"
     @find="find"
   ></layout-pages>
@@ -72,13 +72,13 @@ const fields = reactive({
     width: 'all',
     label: 'Только свои',
     value: false,
-    type: 'base-check-box'
+    type: 'BaseCheckbox'
   },
   type: {
     width: '3',
     label: 'Тип заявления',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     text: 'name',
     itemValue: 'type'
@@ -87,13 +87,13 @@ const fields = reactive({
     width: '3',
     label: 'Номер заявления',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   applicant: {
     width: '3',
     label: 'Заявитель',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -102,13 +102,13 @@ const fields = reactive({
     width: '3',
     label: 'Номер электронного паспорта',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   docStatus: {
     width: '3',
     label: 'Статус',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'name',
@@ -118,7 +118,7 @@ const fields = reactive({
     width: '3',
     label: 'Организация заявителя',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
     text: 'value'
@@ -127,7 +127,7 @@ const fields = reactive({
     width: '6',
     label: 'Идентификационный номер ТС',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   }
 })
 const fieldsMore = reactive({
@@ -135,19 +135,19 @@ const fieldsMore = reactive({
     width: '3',
     label: 'Номер двигателя',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   frameId: {
     width: '3',
     label: 'Номер шасси',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   bodyId: {
     width: '6',
     label: 'Номер кузова(прицепа, рамы)',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   }
 })
 const actions = [

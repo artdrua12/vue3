@@ -4,7 +4,7 @@
       <template #title>{{ props.title }}</template>
       <div class="layoutPagesForm">
         <component
-          :is="item.type"
+          :is="getComponent(item.type)"
           v-for="(item, index) in props.fields"
           :key="index"
           v-model="item.value"
@@ -22,13 +22,13 @@
         ></component>
 
         <base-panel
-          v-if="JSON.stringify(props.fieldsMore) !== '{}'"
+          v-if="JSON.parse(JSON.stringify(props.fieldsMore)) !== '{}'"
           class="fullWidth"
           elevation="3"
         >
           <div class="layoutPagesForm mt-3">
             <component
-              :is="item.type"
+              :is="getComponent(item.type)"
               v-for="(item, index) in props.fieldsMore"
               :key="index"
               v-model="item.value"
@@ -86,62 +86,55 @@
   </div>
 </template>
 
-<script>
-import BaseThreeview from '../base/BaseThreeview.vue'
-import BaseTable from '../base/BaseTableSubGrid.vue'
-import BaseDateField from '../base/BaseDateField.vue'
-import BaseAutocomplete from '../base/BaseAutocomplete.vue'
-import BaseTextField from '../base/BaseTextField.vue'
-import BaseCheckBox from '../base/BaseCheckBox.vue'
-import BaseSlot from '../base/BaseSlot.vue'
-import BasePanel from '../base/BasePanel.vue'
-import { ref } from 'vue'
+<script setup>
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
+import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BaseSlot from '@/components/base/BaseSlot.vue'
+import BasePanel from '@/components/base/BasePanel.vue'
+import { ref, defineProps, defineEmits } from 'vue'
 
-export default {
-  components: {
-    BaseThreeview,
-    BaseTable,
-    BaseDateField,
-    BaseAutocomplete,
-    BaseTextField,
-    BaseCheckBox,
-    BaseSlot,
-    BasePanel
+const props = defineProps({
+  title: { type: String, required: true },
+  // поля для поиска (основные)
+  fields: {
+    type: Object,
+    required: true
   },
-  props: {
-    title: { type: String, required: true },
-    // поля для поиска (основные)
-    fields: {
-      type: Object,
-      required: true
-    },
-    // поля для поиска (дополнительные)
-    fieldsMore: {
-      type: Object,
-      required: true,
-      default: {}
-    }
-  },
-  emits: ['find'], // событие для запуска поиска
-  setup(props, contex) {
-    const tableRowSelect = ref({}) // выбранная строка из таблицы
-    const isOpen = ref('false') // модальное окно "Настройки"
-    let size = ref(5) //количество строк на одной странице
-    let page = ref(0) // текущая страница в пагинации
-
-    function find() {
-      contex.emit('find', { page: page.value, size: size.value })
-    }
-
-    return {
-      props,
-      isOpen,
-      size,
-      page,
-      tableRowSelect,
-      find
+  // поля для поиска (дополнительные)
+  fieldsMore: {
+    type: Object,
+    required: true,
+    default() {
+      return {}
     }
   }
+})
+const emit = defineEmits(['find']) // событие для запуска поиска
+
+const allComponents = {
+  BaseThreeview,
+  BaseTable,
+  BaseDatefield,
+  BaseAutocomplete,
+  BaseTextfield,
+  BaseCheckbox,
+  BaseSlot,
+  BasePanel
+}
+
+const tableRowSelect = ref({}) // выбранная строка из таблицы
+let size = ref(5) //количество строк на одной странице
+let page = ref(0) // текущая страница в пагинации
+
+function find() {
+  emit('find', { page: page.value, size: size.value })
+}
+function getComponent(type) {
+  return allComponents[type]
 }
 </script>
 
@@ -191,7 +184,7 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: 12px 32px;
+  grid-gap: 12px 22px;
   padding: 12px 24px 10px 24px;
 }
 @media (max-width: 1200px) {

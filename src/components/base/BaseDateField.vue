@@ -1,19 +1,19 @@
 <template>
   <div>
-    <!-- <base-text-field id="menu-activator" v-model="formatDate" color="primary"> </base-text-field>
+    <!-- <BaseTextfield id="menu-activator" v-model="formatDate" color="primary"> </BaseTextfield>
     <v-menu activator="#menu-activator">
       <v-date-picker v-model="date" color="#2c4957" show-adjacent-months></v-date-picker>
     </v-menu> -->
 
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <base-text-field
+        <BaseTextfield
           v-bind="props"
           v-model="formatDate"
           :label="propsParent.label"
           @update:enter="onEnter"
         >
-        </base-text-field>
+        </BaseTextfield>
       </template>
       <v-date-picker v-model="date" color="#2c4957" show-adjacent-months></v-date-picker>
     </v-menu>
@@ -23,7 +23,7 @@
 <script setup>
 import { ref, computed, defineProps, defineEmits } from 'vue'
 import { useDate } from 'vuetify'
-import BaseTextField from './BaseTextField.vue'
+import BaseTextfield from './BaseTextfield.vue'
 const propsParent = defineProps({
   label: { type: String, default: '' }
 })

@@ -1,7 +1,7 @@
 <template>
   <layout-pages
     v-model:fields="fields"
-    v-mode:fields-more="fieldsMore"
+    v-model:fields-more="fieldsMore"
     title="Реестр шаблонов"
     @find="find"
   ></layout-pages>
@@ -55,26 +55,26 @@ const fields = reactive({
   toIndentTopPage: {
     width: 'all',
     value: false,
-    type: 'base-slot',
+    type: 'BaseSlot',
     additionData: {}
   },
   name: {
     width: '6',
     label: 'Наименование шаблона',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   eDocId: {
     width: '6',
     label: 'Номер ОТТС(ОТШ)',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   },
   epStatus: {
     width: '6',
     label: 'Статус шаблона',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     text: 'value'
   },
@@ -82,7 +82,7 @@ const fields = reactive({
     width: '3',
     label: 'Версия шаблона',
     value: '',
-    type: 'base-autocomplete',
+    type: 'BaseAutocomplete',
     items: [],
     text: 'value'
   },
@@ -90,7 +90,7 @@ const fields = reactive({
     width: '3',
     label: 'Дата создания',
     value: '',
-    type: 'base-date-field'
+    type: 'BaseDatefield'
   }
 })
 const fieldsMore = reactive({})

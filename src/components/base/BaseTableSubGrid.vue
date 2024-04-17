@@ -116,13 +116,13 @@
       cancel-title="применить"
     >
       <div>
-        <base-check-box
+        <BaseCheckbox
           v-for="(item, index) in additionalTableHeaders"
           :key="index"
           v-model:value="item.model"
           :label="item.text"
           @update:value="modifateColumnsTable(item)"
-        ></base-check-box>
+        ></BaseCheckbox>
       </div>
     </base-modal>
 
@@ -196,9 +196,9 @@
 
 <script setup>
 import { reactive, ref, defineEmits, inject, onMounted, defineProps, computed } from 'vue'
-import BaseCheckBox from './BaseCheckBox.vue'
+import BaseCheckbox from './BaseCheckbox.vue'
 import BaseModal from './BaseModal.vue'
-const isOpen = ref(false)
+const isOpen = ref(false) // модальное окно "Настройки"
 const tableRowSelectedID = ref('')
 const show = ref(false)
 const sizes = [5, 10, 15, 20, 50]

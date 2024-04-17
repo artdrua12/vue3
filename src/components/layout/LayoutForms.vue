@@ -55,8 +55,24 @@
           </v-window>
         </div>
 
-        <div v-else style="padding: 20px" class="tabsWrapper">
-          <p>No TABS</p>
+        <div v-else class=" tabsWrapper tabsPageForm">
+          <component
+            :is="getComponent(i.type)"
+            v-for="(i, index) in item.fields"
+            :key="index"
+            v-model:fields="i.fields"
+            v-model="i.value"
+            :style="{
+              'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
+            }"
+            :label="i.label"
+            :addition-data="i.additionData"
+            :items="i.items"
+            :item-text="i.text"
+            :item-value="i.itemValue"
+            :placeholder="i.placeholder"
+            :disabled="i.disabled"
+          ></component>
         </div>
       </base-panel>
     </div>
@@ -65,15 +81,15 @@
 <script setup>
 import BasePanel from '../base/BasePanel.vue'
 import BasePanelAcordions from '../base/BasePanelAcordions.vue'
-import BaseTextField from '../base/BaseTextField.vue'
+import BaseTextfield from '../base/BaseTextfield.vue'
 import BaseAutocomplete from '../base/BaseAutocomplete.vue'
-import BaseDateField from '../base/BaseDateField.vue'
+import BaseDatefield from '../base/BaseDatefield.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
-import BaseCheckBox from '../base/BaseCheckBox.vue'
+import BaseCheckbox from '../base/BaseCheckbox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseIsMissingTab from '@/components/base/BaseIsMissingTab.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseRadioButton from '@/components/base/BaseRadioButton.vue'
 import BaseSlot from '../base/BaseSlot.vue'
 import { ref, defineProps } from 'vue'
@@ -81,14 +97,14 @@ const props = defineProps({
   data: { type: Array, required: true }
 })
 const allComponents = {
-  BaseTextField,
+  BaseTextfield,
   BaseAutocomplete,
-  BaseDateField,
+  BaseDatefield,
   BaseTextarea,
-  BaseCheckBox,
+  BaseCheckbox,
   BaseCombobox,
+  BaseIsMissingDisabled,
   BaseIsMissing,
-  BaseIsMissingTab,
   BaseRadioButton,
   BaseSlot,
   BaseRecursiveConstructor
@@ -106,6 +122,8 @@ function getComponent(type) {
   display: grid;
   grid-template-columns: 370px 1fr;
   overflow: auto;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 .menu-button {
   display: flex;

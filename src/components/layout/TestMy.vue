@@ -38,7 +38,7 @@ const fields2 = reactive({
     width: '3',
     label: 'Номер заявления',
     value: '',
-    type: 'base-text-field'
+    type: 'BaseTextfield'
   }
 })
 
@@ -48,7 +48,7 @@ const fields = reactive([
       width: '3',
       label: 'Тип заявления',
       value: '',
-      type: 'base-autocomplete',
+      type: 'BaseAutocomplete',
       items: [],
       text: 'name',
       itemValue: 'type'
@@ -57,13 +57,13 @@ const fields = reactive([
       width: '3',
       label: 'Номер заявления',
       value: '',
-      type: 'base-text-field'
+      type: 'BaseTextfield'
     },
     applicant: {
       width: '3',
       label: 'Заявитель',
       value: '',
-      type: 'base-autocomplete',
+      type: 'BaseAutocomplete',
       items: [],
       url: '/api/classifier/epassport/status-directory-otts',
       text: 'value'
@@ -72,13 +72,13 @@ const fields = reactive([
       width: '3',
       label: 'Номер электронного паспорта',
       value: '',
-      type: 'base-text-field'
+      type: 'BaseTextfield'
     },
     docStatus: {
       width: '3',
       label: 'Статус',
       value: '',
-      type: 'base-autocomplete',
+      type: 'BaseAutocomplete',
       items: [],
       url: '/api/classifier/epassport/status-directory-otts',
       text: 'name',
@@ -88,7 +88,7 @@ const fields = reactive([
       width: '6',
       label: 'Идентификационный номер ТС',
       value: '',
-      type: 'base-text-field'
+      type: 'BaseTextfield'
     },
     BaseRecursiveConstructor: {
       width: 'all',
@@ -102,13 +102,13 @@ const fields = reactive([
             width: '3',
             label: 'Номер заявления',
             value: '',
-            type: 'base-text-field'
+            type: 'BaseTextfield'
           },
           docStatus: {
             width: '3',
             label: 'Статус',
             value: '',
-            type: 'base-autocomplete',
+            type: 'BaseAutocomplete',
             items: [],
             url: '/api/classifier/epassport/status-directory-otts',
             text: 'name',
@@ -118,7 +118,7 @@ const fields = reactive([
             width: '6',
             label: 'Идентификационный номер ТС',
             value: '',
-            type: 'base-text-field'
+            type: 'BaseTextfield'
           }
         }
       ]
@@ -135,7 +135,7 @@ const fields = reactive([
             width: '6',
             label: 'Идентификационный номер ТС',
             value: '',
-            type: 'base-text-field'
+            type: 'BaseTextfield'
           }
         }
       ]
