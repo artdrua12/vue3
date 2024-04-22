@@ -677,7 +677,7 @@ const data = reactive([
             type: 'BaseRecursiveConstructor',
             fields: [
               {
-                abs: {
+                onher: {
                   label: 'Прочая информация',
                   width: 'all',
                   value: '',
