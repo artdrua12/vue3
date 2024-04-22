@@ -4,12 +4,12 @@
       <div :key="tableHeaderKey" class="tableFixHead">
         <div class="fixPos">
           <v-tooltip text="Настройки таблицы" location="top">
-            <template #activator="{ props }">
+            <template #activator="{ activatorProps  }">
               <v-btn
-                v-bind="props"
+                v-bind="activatorProps "
                 icon="mdi-tune-variant"
-                variant="icon"
                 rounded="0"
+                variant="text"
                 height="100%"
                 class="cell"
                 @click="isOpen = true"
@@ -116,13 +116,13 @@
       cancel-title="применить"
     >
       <div>
-        <BaseCheckbox
+        <base-checkbox
           v-for="(item, index) in additionalTableHeaders"
           :key="index"
-          v-model:value="item.model"
+          v-model="item.model"
           :label="item.text"
-          @update:value="modifateColumnsTable(item)"
-        ></BaseCheckbox>
+          @change="modifateColumnsTable(item)"
+        ></base-checkbox>
       </div>
     </base-modal>
 
@@ -196,7 +196,7 @@
 
 <script setup>
 import { reactive, ref, defineEmits, inject, onMounted, defineProps, computed } from 'vue'
-import BaseCheckbox from './BaseCheckbox.vue'
+import BaseCheckbox from './BaseCheckbox.vue';
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false) // модальное окно "Настройки"
 const tableRowSelectedID = ref('')
@@ -211,7 +211,7 @@ const pathToStatus = inject('pathToStatus') //путь к статусу
 const props = defineProps({
   size: { type: Number, required: true }, //количество строк на одной странице
   page: { type: Number, required: true }, // текущая страница
-  tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
+  // tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
 })
 
 const tableHeaders = inject('tableHeaders')
@@ -224,7 +224,7 @@ let countPage = computed(() => {
 })
 
 let tableData = computed(() => {
-  return tableDataFromResponse.value.result || []
+  return tableDataFromResponse.value?.result || []
 })
 
 function addFixed(index) {
@@ -313,7 +313,6 @@ function modifateColumnsTable(item) {
   if (item.model) {
     header.push(item)
   } else {
-    console.log('item', item)
     header = header.filter((i) => i.id !== item.id)
   }
   const length = header.length + fixHeader.length

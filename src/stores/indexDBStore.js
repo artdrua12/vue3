@@ -67,35 +67,6 @@ export const useIndexDBStore = defineStore('indexDB', () => {
     })
   }
 
-  async function getFromDatabase2(storage, key) {
-    const request = window.indexedDB.open('dataBase') // создание базы данных, request содержит события успешного и неуспешного открытия
-    request.onupgradeneeded = function (event) {
-      // если база отсутствует, создаем
-      const database = event.target.result //через свойство event.target.result мы можем получить базу данных
-      database.createObjectStore('catalog', { autoIncrement: false }) // создание хранилища для dataBase
-      database.createObjectStore('user', { autoIncrement: false }) // создание хранилища для dataBase
-    }
-
-    request.onsuccess = function (event) {
-      const database = event.target.result // получаем бд
-      const transaction = database.transaction(storage, 'readonly') // создаем транзакцию
-      transaction.onerror = function () {
-        console.log('ошибка чтения')
-      }
-      const store = transaction.objectStore(storage) // получаем хранилище
-
-      let requestData = store.get(key) // получаем объект
-      requestData.onsuccess = () => {
-        return requestData.result
-      }
-    }
-
-    request.onerror = function () {
-      console.log('ошибка с чтением данных из хранилища')
-      return null
-    }
-  }
-
   // function clearStoreFromDatabase(storage) {
   //   const request = indexedDB.open('dataBase')
 
@@ -115,9 +86,9 @@ export const useIndexDBStore = defineStore('indexDB', () => {
     }
 
     DBDeleteRequest.onerror = () => {
-      console.error('Ошибка удаления базыданных.')
+      console.error('Ошибка удаления базы данных.')
     }
   }
 
-  return { getFromDatabase, setToDatabase, deleteDatabase, getFromDatabase2 }
+  return { getFromDatabase, setToDatabase, deleteDatabase }
 })

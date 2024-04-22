@@ -112,11 +112,12 @@ function remove() {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 12px 12px;
+  grid-auto-flow: dense;
   border: none;
 }
 .adaptiveGrid--setting {
   overflow: visible;
-  background-color: rgba(105, 128, 138, 0.122);
+  background-color: rgba(246, 194, 160, 0.122);
   border: 1px solid #2c4957;
   border-radius: 4px;
   padding: 25px 24px 10px 24px;
@@ -126,10 +127,14 @@ legend {
   font-weight: 500;
   font-size: 17px;
   color: #2c4957;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding: 0px 5px;
+  line-height: 1;
+
+
+  -webkit-line-clamp: 2; /* Число отображаемых строк */
+  display: -webkit-box; /* Включаем флексбоксы */
+  -webkit-box-orient: vertical; /* Вертикальная ориентация */
+  overflow: hidden;
 }
 .adaptiveGrid::before {
   width: 40px;

@@ -79,19 +79,18 @@
   </div>
 </template>
 <script setup>
-import BasePanel from '../base/BasePanel.vue'
-import BasePanelAcordions from '../base/BasePanelAcordions.vue'
-import BaseTextfield from '../base/BaseTextfield.vue'
-import BaseAutocomplete from '../base/BaseAutocomplete.vue'
-import BaseDatefield from '../base/BaseDatefield.vue'
+import BasePanel from '@/components/base/BasePanel.vue'
+import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BaseDatefield from '@/components/base/BaseDatefield.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
-import BaseCheckbox from '../base/BaseCheckbox.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
-import BaseRadioButton from '@/components/base/BaseRadioButton.vue'
-import BaseSlot from '../base/BaseSlot.vue'
+import BaseSlot from '@/components/base/BaseSlot.vue'
 import { ref, defineProps } from 'vue'
 const props = defineProps({
   data: { type: Array, required: true }
@@ -105,7 +104,6 @@ const allComponents = {
   BaseCombobox,
   BaseIsMissingDisabled,
   BaseIsMissing,
-  BaseRadioButton,
   BaseSlot,
   BaseRecursiveConstructor
 }
@@ -131,7 +129,7 @@ function getComponent(type) {
 }
 .forms-menu {
   width: 370px;
-  max-height: 92vh;
+  max-height: calc(100vh - 90px);
   overflow: auto;
   scrollbar-width: none;
   position: fixed;

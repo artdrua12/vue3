@@ -88,14 +88,18 @@
 
 <script setup>
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseThreeview from '@/components/base/BaseThreeview.vue'
 import BaseTable from '@/components/base/BaseTableSubGrid.vue'
-import BaseDatefield from '@/components/base/BaseDatefield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseSlot from '@/components/base/BaseSlot.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
-import { ref, defineProps, defineEmits } from 'vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import { ref, defineProps, defineEmits, defineOptions } from 'vue'
+
+defineOptions({
+  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
+})
 
 const props = defineProps({
   title: { type: String, required: true },

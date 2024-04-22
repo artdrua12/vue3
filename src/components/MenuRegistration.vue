@@ -101,10 +101,10 @@
             </h3>
 
             <BaseAutocomplete label="Наименование документа*" class="full"></BaseAutocomplete>
-            <base-text-fiel label="Номер документа*" class="full"></base-text-fiel>
-            <base-text-fiel label="Дата документа*" class="full"></base-text-fiel>
-            <base-text-fiel label="Кем выдано" class="col"></base-text-fiel>
-            <base-text-fiel label="Количество листов" class="col"></base-text-fiel>
+            <base-textfield label="Номер документа*" class="full"></base-textfield>
+            <base-textfield label="Дата документа*" class="full"></base-textfield>
+            <base-textfield label="Кем выдано" class="col"></base-textfield>
+            <base-textfield label="Количество листов" class="col"></base-textfield>
           </div>
         </v-expand-transition>
       </fieldset>
@@ -113,10 +113,10 @@
 </template>
 
 <script setup>
-import BaseModal from './base/BaseModal.vue'
-import BaseAutocomplete from './base/BaseAutocomplete.vue'
-import BaseTextFiel from './base/BaseTextfield.vue'
-import BaseSwich from './base/BaseSwich.vue'
+import BaseModal from '@/components/base/BaseModal.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseSwich from '@/components/base/BaseSwich.vue'
 import { ref } from 'vue'
 const isDoc = ref(false)
 const isOpen = ref(false)

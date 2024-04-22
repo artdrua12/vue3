@@ -163,7 +163,7 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'BaseSlot',
-    additionData: {
+    fields: {
       own: {
         label: 'Только свои',
         value: false,
@@ -257,7 +257,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'BaseSlot',
-    additionData: {
+    fields: {
       signerSurname: {
         width: '4',
         label: 'Документ подписан',
@@ -625,7 +625,7 @@ provide('pathToStatus', 'documentStatus') // путь для статуса, и�
 
 async function find(obj) {
   const body = {
-    isOwn: fields.checkboxes.additionData.own.value,
+    isOwn: fields.checkboxes.fields.own.value,
     isRegexSearch: true,
     query: {
       ['vehicleEPassportKindCode']: fields.kindCode.value,
@@ -637,10 +637,10 @@ async function find(obj) {
       ['tcInfo.statusModified']:
         fields.statusModifiedWith.value + 'to' + fields.statusModifiedBy.value,
       ['docCreationDate']: fields.docCreationDateWith.value + 'to' + fields.docCreationDateBy.value,
-      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.fields.signerSurname.value,
       ['cert.signer.name']: (
-        fields.fullName.additionData.singerName.value ||
-        '' + ' ' + fields.fullName.additionData.singerPatronimic.value ||
+        fields.fullName.fields.singerName.value ||
+        '' + ' ' + fields.fullName.fields.singerPatronimic.value ||
         ''
       ).trim(),
       ['vehicleDetails.vehicleIdInfoDetails.vehicleEngineIdDetails.vehicleIdentityNumberId']:
@@ -661,7 +661,7 @@ async function find(obj) {
       ['cert.signer.organization']: fieldsMore.authorityName.value,
       ['vehicleDetails.vehicleIdInfoDetails.vehicleIdDetails.vehicleFactoryNumberId']:
         fields.vehicleFactoryNumberId.value,
-      ['externalSystemLoadCode']: fields.checkboxes.additionData.copy.value ? '6' : '',
+      ['externalSystemLoadCode']: fields.checkboxes.fields.copy.value ? '6' : '',
       ['vehicleEPassportBaseCode']: fieldsMore.basisRegistration.value
     },
     fields: [

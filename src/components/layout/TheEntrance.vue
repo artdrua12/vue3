@@ -27,14 +27,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRequestStore } from '@/stores/requestStore'
-// import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useSnackStore } from '@/stores/snackStore'
 import { useUserStore } from '@/stores/userStore'
 
 const login = ref('bts')
 const password = ref('w6Zvb')
 const requests = useRequestStore()
-// const indexDB = useIndexDBStore()
+const indexDB = useIndexDBStore()
 const route = useRouter()
 const snack = useSnackStore()
 const currentUser = useUserStore()
@@ -62,25 +62,13 @@ async function entrance() {
 
   const referenceBook = await requests.post('/api/classifiers/get-full-records', {})
   console.log('referenceBook', referenceBook)
-  //получаем запрос search
-  // const search = await requests.post('http://localhost:8080/nsi/directory/search', {})
-  // if (!search) return
-
-  //получаем спарвочники из search
-  // for (let itemSearch of search) {
-  //   const referenceBook = await requests.post(
-  //     'http://localhost:8080/nsi/record/line/search/auto-complete-dto',
-  //     {
-  //       recordValues: [],
-  //       directoryId: itemSearch.id
-  //     }
-  //   )
-
-  //   if (referenceBook) {
-  //     //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
-  //     indexDB.setToDatabase('catalog', itemSearch.code, referenceBook)
-  //   }
-  // }
+  //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
+  if (referenceBook?.length > 0) {
+    for (let i = 0; i < referenceBook.length; i++) {
+      indexDB.setToDatabase('catalog', referenceBook[i].codeNsi, referenceBook[i].recordLine)
+    }
+  }
+  console.log('referenceBook.length', referenceBook.length)
 }
 
 async function checkLogin() {

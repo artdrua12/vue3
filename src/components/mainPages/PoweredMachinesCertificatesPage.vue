@@ -146,7 +146,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'BaseSlot',
-    additionData: {
+    fields: {
       signerSurname: {
         width: '4',
         label: 'Документ подписан',
@@ -296,10 +296,10 @@ async function find(obj) {
       ['docStartDate']: fields.startDateTime.value + 'to',
       ['docValidityDate']: 'to' + fields.endDateTime.value,
       ['conformityDocStatus']: fields.docStatus.value,
-      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.fields.signerSurname.value,
       ['cert.signer.name']: (
-        fields.fullName.additionData.singerName.value ||
-        '' + ' ' + fields.fullName.additionData.singerPatronimic.value ||
+        fields.fullName.fields.singerName.value ||
+        '' + ' ' + fields.fullName.fields.singerPatronimic.value ||
         ''
       ).trim(),
       ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,

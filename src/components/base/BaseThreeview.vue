@@ -70,7 +70,7 @@ const currentUser = useUserStore() //получение permissions
 const { getPermissions } = storeToRefs(currentUser)
 
 const route = useRouter()
-console.log(route.currentRoute)
+console.log(route.listening)
 const props = defineProps({
   selected: { type: Object, required: true } // выбранная строка из таблицы
 })

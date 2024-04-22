@@ -42,7 +42,6 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'BaseSlot',
-    additionData: {}
   },
   number: {
     width: '6',

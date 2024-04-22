@@ -12,6 +12,8 @@ import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
+import { useIndexDBStore } from '@/stores/indexDBStore'
+const indexDB = useIndexDBStore()
 const route = useRouter()
 
 const requests = useRequestStore() // для работы с запросами
@@ -157,6 +159,7 @@ const fields = reactive({
     type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
+    catalog: 'NSI_003',
     text: 'value'
   },
   lastModifiedWith: {
@@ -175,7 +178,7 @@ const fields = reactive({
     width: 'all',
     value: '',
     type: 'BaseSlot',
-    additionData: {
+    fields: {
       signerSurname: {
         label: 'Документ подписан',
         width: '4',
@@ -416,7 +419,7 @@ async function find(obj) {
       ['conformityDocStatusDetails.docStatus']: fields.docStatus.value,
       ['unifiedCountryCode.value']: fieldsMore.countryCode.value,
       ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
-      ['cert.signer.surname']: fields.fullName.additionData.signerSurname.value,
+      ['cert.signer.surname']: fields.fullName.fields.signerSurname.value,
       ['cert.signer.name']: fieldsMore.namePartonimic,
       ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
       ['conformityAuthorityInformationDetails.businessEntityBriefName']:
@@ -469,7 +472,9 @@ async function find(obj) {
 
 async function getAutocompliteData(obj = {}) {
   for (const key in obj) {
-    if (obj[key].url) {
+    if (obj[key].catalog) {
+      obj[key].items = await getCatalog(obj[key].catalog)
+    } else if (obj[key].url) {
       try {
         const data = await requests.get(obj[key].url)
         if (!data) {
@@ -487,6 +492,11 @@ async function getAutocompliteData(obj = {}) {
 }
 
 getAutocompliteData({ ...fields, ...fieldsMore })
+
+async function getCatalog(catalog) {
+  console.log('i.catalog')
+  return await indexDB.getFromDatabase('catalog', catalog)
+}
 </script>
 
 <style scoped></style>

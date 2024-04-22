@@ -20,6 +20,7 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'page',
           component: () => import('../components/mainPages/ConformitiesPage.vue')
         },
         {

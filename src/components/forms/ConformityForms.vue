@@ -151,17 +151,27 @@ const data = reactive([
         id: '#vehicle-details-vehicle',
         fields: {
           vehicleMakeName: {
-            label: 'Марка*',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseCombobox'
+            fields: {
+              BaseCombobox: {
+                label: 'Марка*',
+                type: 'BaseCombobox',
+                value: ''
+              }
+            }
           },
 
           vehicleCommercialName: {
-            label: 'Коммерческое наименование*',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseCombobox'
+            fields: {
+              BaseCombobox: {
+                label: 'Коммерческое наименование*',
+                type: 'BaseCombobox',
+                value: ''
+              }
+            }
           },
 
           vehicleTypeId: {
@@ -179,17 +189,25 @@ const data = reactive([
             items: []
           },
           vehicleTypeVariantId: {
-            label: 'Модификация транспортного средства',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseCombobox'
+            fields: {
+              BaseCombobox: {
+                label: 'Модификация транспортного средства',
+                type: 'BaseCombobox'
+              }
+            }
           },
 
           modificationVirtual: {
-            label: 'Виртуальная модификация*',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseTextfield'
+            fields: {
+              BaseTextfield: {
+                label: 'Виртуальная модификация*',
+                type: 'BaseTextfield'
+              }
+            }
           },
           vehicleTechCategoryCode: {
             label: 'Категория ТС в соответствии с ТР ТС № 018/2011*',
@@ -202,16 +220,24 @@ const data = reactive([
             type: 'BaseCombobox'
           },
           vehicleEcoClassCode2: {
-            label: 'Код ОКП*',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseCombobox'
+            fields: {
+              BaseCombobox: {
+                label: 'Код ОКП*',
+                type: 'BaseCombobox'
+              }
+            }
           },
           vehicleEcoClassCode3: {
-            label: 'Код ТН ВЭД*',
             width: '6',
             type: 'BaseIsMissingDisabled',
-            additionData: 'BaseCombobox'
+            fields: {
+              BaseCombobox: {
+                label: 'Код ТН ВЭД*',
+                type: 'BaseCombobox'
+              }
+            }
           }
         }
       },
@@ -610,7 +636,7 @@ const data = reactive([
                       label:
                         'Ограничения на возможность использования на дорогах общего пользования',
                       width: 'all',
-                      type: 'BaseTextarea',
+                      type: 'BaseTextfield',
                       value: ''
                     }
                   }
@@ -770,16 +796,21 @@ const data = reactive([
         additionData: false,
         fields: {
           manufacturerAddress: {
-            label: 'Представитель изготовителя и его адрес',
+            label: 'Базовое ТС',
             width: 'all',
             type: 'BaseRecursiveConstructor',
             fields: [
               {
                 vehicleMakeName: {
-                  label: 'Марка*',
                   width: 'all',
                   type: 'BaseIsMissingDisabled',
-                  additionData: 'BaseAutocomplete'
+                  fields: {
+                    BaseAutocomplete: {
+                      label: 'Марка*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    }
+                  }
                 },
                 vehicleTypeId: {
                   label: 'Идентификатор типа*',
@@ -956,26 +987,113 @@ const data = reactive([
                 title: {
                   label: 'Технически допустимая максимальная масса на ось',
                   width: 'all',
-                  type: 'BaseSlot',
-                  additionData: {
-                    value: {
-                      label: 'Минимально',
-                      width: '3',
-                      type: 'BaseTextfield',
-                      value: ''
-                    },
+                  type: 'BaseSlot'
+                },
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
                     maxValue: {
                       label: 'Максимально',
-                      width: '6',
-                      type: 'BaseIsMissingDisabled',
-                      additionData: 'BaseTextfield'
-                    },
-                    measurementUnitCode: {
-                      label: 'Ед. измерения',
-                      width: '3',
-                      type: 'BaseAutocomplete'
+                      type: 'BaseTextfield',
+                      value: ''
                     }
-                  }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                },
+                dualTireAxleIndicator: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseCheckbox'
+                },
+                steeringAxleIndicator: {
+                  label: 'Признак управляемой оси',
+                  width: '6',
+                  type: 'BaseCheckbox'
+                },
+                drivingAxleIndicator: {
+                  label: 'Признак ведущей оси"',
+                  width: '6',
+                  type: 'BaseCheckbox'
+                },
+                brakingAxleIndicator: {
+                  label: 'Признак тормозной оси',
+                  width: '6',
+                  type: 'BaseCheckbox'
+                },
+                vehicleAxleSweptPathMeasure: {
+                  label: 'Величина колеи оси транспортного средства',
+                  width: 'all',
+                  type: 'BaseSlot'
+                },
+                value2: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue2: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode2: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                }
+              }
+            ]
+          },
+          RestrictionIndicator: {
+            label: 'Колесная база транспортного средства',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
                 }
               }
             ]
@@ -984,19 +1102,469 @@ const data = reactive([
       },
       {
         title: 'Габаритные размеры',
-        id: '#dimensions'
+        id: '#dimensions',
+        fields: {
+          length: {
+            label: 'Длина',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                }
+              }
+            ]
+          },
+          width: {
+            label: 'Ширина',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                }
+              }
+            ]
+          },
+          height: {
+            label: 'Высота',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                }
+              }
+            ]
+          },
+          heightInWorking: {
+            label: 'Высота в рабочем положении',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                value: {
+                  label: 'Минимально',
+                  width: '3',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                maxValue: {
+                  label: 'Признак интервала значений',
+                  width: '6',
+                  type: 'BaseIsMissingDisabled',
+                  fields: {
+                    maxValue: {
+                      label: 'Максимально',
+                      type: 'BaseTextfield',
+                      value: ''
+                    }
+                  },
+                  additionData: false
+                },
+                measurementUnitCode: {
+                  label: 'Ед. измерения',
+                  width: '3',
+                  type: 'BaseTextfield'
+                }
+              }
+            ]
+          },
+          BaseIsMissing: {
+            label: 'Дополнительные параметры для контейнеровоза',
+            width: 'all',
+            type: 'BaseIsMissing',
+            fields: {
+              loadingHeightMeasure: {
+                label: 'Высота (погрузочная)',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        maxValue: {
+                          label: 'Максимально',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              },
+              maxHeightMeasure: {
+                label: 'Высота (максимально допустимая',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        maxValue: {
+                          label: 'Максимально',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Масса',
-        id: '#weight'
+        id: '#weight',
+        fields: {
+          massView: {
+            label: 'Масса',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                mass: {
+                  label: 'Вид массы*',
+                  width: 'all',
+                  type: 'BaseAutocomplete',
+                  value: ''
+                },
+                massView: {
+                  label: 'Значение массы',
+                  width: 'all',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      value: {
+                        label: 'Минимально',
+                        width: '3',
+                        type: 'BaseTextfield',
+                        value: ''
+                      },
+                      maxValue: {
+                        label: 'Признак интервала значений',
+                        width: '6',
+                        type: 'BaseIsMissingDisabled',
+                        fields: {
+                          maxValue: {
+                            label: 'Максимально',
+                            type: 'BaseTextfield',
+                            value: ''
+                          }
+                        },
+                        additionData: false
+                      },
+                      measurementUnitCode: {
+                        label: 'Ед. измерения',
+                        width: '3',
+                        type: 'BaseTextfield'
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
       },
       {
         title: 'Масса буксируемого прицепа',
-        id: '#weight-towed-trailer'
+        id: '#weight-towed-trailer',
+        fields: {
+          notVehicleTrailerIndicator: {
+            width: 'all',
+            label: 'Буксировка прицепа',
+            type: 'BaseIsMissing',
+            fields: {
+              vehicleMaxUnbrakedTrailerWeightMeasure: {
+                label: 'Максимальная масса прицепа без тормозной системы',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        maxValue: {
+                          label: 'Максимально',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              },
+              vehicleMaxBrakedTrailerWeightMeasure: {
+                label: 'Максимальная масса прицепа с тормозной системой',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        maxValue: {
+                          label: 'Максимально',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              },
+              vehicleHitchLoadMeasure: {
+                label: 'Нагрузка на сцепное устройство транспортного средства',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    value: {
+                      label: 'Минимально',
+                      width: '3',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    maxValue: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        maxValue: {
+                          label: 'Максимально',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Двигатель',
-        id: '#engine'
+        id: '#engine',
+        fields: {
+          notVehicleTrailerIndicator: {
+            width: 'all',
+            label: 'Двигатель отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleHybrid: {
+                width: 'all',
+                label: 'Наличие гибридного транспортного средства',
+                type: 'BaseIsMissing',
+
+                fields: {
+                  model: {
+                    width: 'all',
+                    label: 'Описание гибридного транспортного средства',
+                    type: 'BaseCombobox'
+                  },
+
+                  vehicleElectricalMachineDetails: {
+                    label: 'Электродвигатель',
+                    width: 'all',
+                    type: 'BaseRecursiveConstructor',
+                    fields: [
+                      {
+                        electricalMachineKindCode: {
+                          label: 'Вид электромашины*',
+                          width: '6',
+                          type: 'BaseTextfield',
+                          value: ''
+                        },
+                        vehicleComponentMakeName: {
+                          label: 'Марка*',
+                          width: '6',
+                          type: 'BaseTextfield'
+                        },
+                        vehicleComponentText: {
+                          label: 'Тип электромашины',
+                          width: 'all',
+                          type: 'BaseTextfield'
+                        },
+                        electricalMachineVoltageMeasure: {
+                          label: 'Рабочее напряжение, B*',
+                          width: '4',
+                          type: 'BaseTextfield'
+                        },
+                        measurementUnitCode: {
+                          label: 'Ед.измерения*',
+                          width: '2',
+                          type: 'BaseAutocomplete'
+                        },
+                        electricMotorPowerMeasure: {
+                          label: 'Максимальная 30-минутная мощность',
+                          width: '4',
+                          type: 'BaseTextfield'
+                        },
+                        measurementUnitCode2: {
+                          label: 'Ед.измерения*',
+                          width: '2',
+                          type: 'BaseAutocomplete'
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+
+              engineQuantity: {
+                width: '6',
+                label: 'Количество двигателей внутреннего сгорания',
+                type: 'BaseTextfield'
+              },
+              engineType: {
+                width: '6',
+                label: 'Вид двигателя*',
+                type: 'BaseAutocomplete'
+              },
+              model: {
+                width: 'all',
+                label: '​Модель блока управления двигателем',
+                type: 'BaseAutocomplete'
+              }
+            }
+          }
+        }
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {

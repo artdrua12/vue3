@@ -39,6 +39,7 @@ function onEnter() {
 .base .v-input__details {
   min-height: 10px;
   padding-top: 0px;
+  white-space: nowrap;
 }
 /* .base .v-field--focused input {
   padding-top: 2px;

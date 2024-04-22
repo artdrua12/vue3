@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSnackStore } from './snackStore'
-const BASE_URL = import.meta.env.VITE_VUE_APP_API_ENDPOINT
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 export const useRequestStore = defineStore('request', () => {
   async function get(url) {

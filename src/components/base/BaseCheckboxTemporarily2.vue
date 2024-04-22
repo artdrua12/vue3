@@ -1,14 +1,18 @@
 <template>
-  <v-radio-group v-model="model"  inline  color="#546e7a" class="base">
-  <v-radio label="На серийно выпускаемую продукцию" value="one"></v-radio>
-  <v-radio label="На партию транспортных средств" value="two"></v-radio>
-</v-radio-group>
+  <v-checkbox
+    v-model="checkbox"
+    :label="props.label"
+    class="base"
+    hide-details
+    :disabled="props.disabled"
+    color="#546e7a"
+  ></v-checkbox>
 </template>
 
 <script setup>
+const checkbox = defineModel({ type: Boolean, default: false })
 const props = defineProps({
   label: { type: String, default: '' },
-
   disabled: {
     type: Boolean,
     default: false

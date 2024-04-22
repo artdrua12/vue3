@@ -1,23 +1,26 @@
 <template>
-  <BaseCheckbox
-    v-model="valueCheckbox"
-    :label="props.label"
-    style="grid-column: 1/-1"
-    :disabled="props.disabled"
-    class="mb-5"
-    @change="changingCheckbox"
-  ></BaseCheckbox>
-  <div v-if="isReverce ? valueCheckbox : !valueCheckbox" class="adaptiveGrid">
-    <component
-      :is="getComponent(i.type)"
-      v-for="(i, index) in fields"
-      :key="index"
-      :style="{
-        'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
-      }"
-      :label="i.label"
-      :fields="i.fields"
-    ></component>
+  <div>
+    <BaseCheckbox
+      v-model="valueCheckbox"
+      :label="props.label"
+      style="grid-column: 1/-1"
+      :disabled="props.disabled"
+      class="mb-5"
+      @change="changingCheckbox"
+    ></BaseCheckbox>
+    <div v-if="props.additionData ? valueCheckbox : !valueCheckbox" class="adaptiveGrid">
+      <component
+        :is="getComponent(i.type)"
+        v-for="(i, index) in fields"
+        :key="index"
+        :style="{
+          'grid-column': `${i.width == 'all' ? '1/-1' : 'span ' + i.width}`
+        }"
+        :label="i.label"
+        :addition-data="i.additionData"
+        :fields="i.fields"
+      ></component>
+    </div>
   </div>
 </template>
 
@@ -30,6 +33,7 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSlot from './BaseSlot.vue'
+import BaseIsMissingDisabled from './BaseIsMissingDisabled.vue'
 import { ref, defineProps, defineModel } from 'vue'
 
 const props = defineProps({
@@ -49,8 +53,6 @@ const props = defineProps({
   value: { type: Boolean, default: false }
 })
 const valueCheckbox = defineModel({ type: Boolean, default: false })
-const isReverce = ref(props.additionData)
-console.log('props.additionData', props.additionData)
 const fields = ref(props.fields)
 const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов, которые могут отсутствовать
 
@@ -61,6 +63,7 @@ const allComponents = {
   BaseCheckbox,
   BaseCombobox,
   BaseRecursiveConstructor,
+  BaseIsMissingDisabled,
   BaseIsMissing,
   BaseSlot
 }
@@ -78,7 +81,6 @@ function getComponent(type) {
 <style scoped>
 .adaptiveGrid {
   grid-column: 1/-1;
-  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);

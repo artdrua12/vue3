@@ -56,7 +56,6 @@ const fields = reactive({
     width: 'all',
     value: false,
     type: 'BaseSlot',
-    additionData: {}
   },
   name: {
     width: '6',
@@ -174,7 +173,6 @@ provide('pathToStatus', 'docStatus') // путь для статуса, испо
 
 async function find(obj) {
   const body = {
-    isOwn: fields.own.value,
     isRegexSearch: true,
     query: {
       ['patternName']: fields.name.value,

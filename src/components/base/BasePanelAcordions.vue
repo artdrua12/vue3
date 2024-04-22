@@ -6,7 +6,7 @@
       :elevation="3"
       :title="item.title"
       color="#2c4957"
-      :hide-actions="!item.items"
+      :hide-actions="!item.tabs"
       bg-color="#ebebeb"
       @click="toId(item.id)"
     >
@@ -19,6 +19,7 @@
           @click="updateTab(itm)"
           >{{ itm.title }}</v-btn
         >
+        
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>

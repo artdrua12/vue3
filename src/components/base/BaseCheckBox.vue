@@ -9,6 +9,7 @@
     @change="onChange"
   ></v-checkbox> -->
   <v-checkbox
+    v-model="checkbox"
     :label="props.label"
     class="base"
     :hide-details="props.additionData"
@@ -20,6 +21,7 @@
 <script setup>
 // import { ref, watch } from 'vue'
 // import { defineEmits } from 'vue'
+const checkbox = defineModel({ type: Boolean, default: false })
 const props = defineProps({
   label: { type: String, default: '' },
   // value: {
@@ -55,5 +57,10 @@ const props = defineProps({
   font-weight: 600;
   color: #031f2d;
   font-size: 16px;
+
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>
