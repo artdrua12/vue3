@@ -130,7 +130,6 @@ legend {
   padding: 0px 5px;
   line-height: 1;
 
-
   -webkit-line-clamp: 2; /* Число отображаемых строк */
   display: -webkit-box; /* Включаем флексбоксы */
   -webkit-box-orient: vertical; /* Вертикальная ориентация */
