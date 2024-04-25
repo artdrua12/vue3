@@ -24,65 +24,51 @@
         @click="removingImg(index)"
       ></v-icon>
     </div>
-    <base-modal v-model:isOpen="isOpen" icon="mdi-camera-outline">
-      <img :src="modalUrl" width="auto" />
+    <base-modal
+      v-model:isOpen="isOpen"
+      icon="mdi-camera-outline"
+      :title="images[currentIndex].file.name"
+    >
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
+        <canvas ref="modalCanvas"></canvas>
+        <div class="buttons">
+          <v-btn variant="tonal" class="imageBtn" @click="rotate(-1)">
+            <v-icon color="#2c4957" size="27">mdi-arrow-left-top-bold</v-icon></v-btn
+          >
+          <v-btn variant="tonal" class="imageBtn" @click="rotate(1)">
+            <v-icon color="#546e7a" size="27">mdi-arrow-right-top-bold</v-icon></v-btn
+          >
+
+          <v-btn variant="tonal" class="imageBtn">
+            <v-icon color="#546e7a" size="27"> mdi-image</v-icon></v-btn
+          >
+
+          <v-btn variant="tonal" class="imageBtn">
+            <v-icon color="#546e7a" size="27"> mdi-plus-thick</v-icon></v-btn
+          >
+          <v-btn variant="tonal" class="imageBtn">
+            <v-icon color="#546e7a" size="27"> mdi-minus-thick</v-icon></v-btn
+          >
+        </div>
+      </div>
     </base-modal>
   </div>
-  <canvas id="canvas" style="border: 1px solid red"></canvas>
-  <div><v-btn @click="rotate">Rotate</v-btn></div>
-  <img
-    id="as"
-    src="../../assets/images.jpg"
-    style="width: 700px; height: auto; border: 1px solid red; object-fit: contain"
-  />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import BaseModal from './BaseModal.vue'
 
-const images = ref([])
+const modalCanvas = ref(null) // canvas который находится в модальном окне
+const images = ref([]) // массив картинок
 const isOpen = ref(false)
-const modalUrl = ref('#')
+const currentIndex = ref()
 
-onMounted(() => {
-  let canvas = document.getElementById('canvas')
-  let context = canvas.getContext('2d')
-
-  const img = new Image()
-  img.onload = () => {
-    context.drawImage(img, 0, 0)
+watch(isOpen, (isOpen) => {
+  if (isOpen) {
+    startCanvas()
   }
-  img.src = 'src/assets/images.jpg'
 })
-
-function rotate() {
-  // context.clearRect(0, 0, canvas.width, canvas.height);  // Очищаем холст
-  let canvas = document.getElementById('canvas')
-  let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
-  let img = new Image()
-  img.src = canvasImg
-  const angle = 170
-  if (angle % 180 !== 0) {
-    canvas.width = img.height
-    canvas.height = img.width
-  } else {
-    canvas.width = img.width
-    canvas.height = img.height
-  }
-
-  context.save() // Сохраняем текущее состояние контекста
-  context.translate(canvas.width / 2, canvas.height / 2) // Переходим в центр изображения
-  context.rotate(Math.PI / 2) // Поворачиваем изображение на заданный угол, приведенный к радианам
-  context.drawImage(img, -img.width / 2, -img.height / 2) // Рисуем изображение
-  context.restore() // Возвращаем настройки контекста в исходное состояние
-
-  canvasImg = canvas.toDataURL('image/jpeg')
-  const first = document.getElementById('as')
-  first.setAttribute('src', canvasImg)
-  context.closePath()
-}
 
 function uploadFile(files) {
   if (!files) return
@@ -92,6 +78,52 @@ function uploadFile(files) {
     // URL.revokeObjectURL(link)
   }
 }
+function opened(index) {
+  isOpen.value = !isOpen.value
+  currentIndex.value = index
+}
+
+async function startCanvas() {
+  await nextTick() // Dom обновился и появилось модальное окно с modalCanvas
+  let canvas = modalCanvas.value
+  let context = canvas.getContext('2d')
+
+  const img = new Image()
+  img.onload = () => {
+    canvas.width = img.width
+    canvas.height = img.height
+    context.drawImage(img, 0, 0)
+  }
+  img.src = images.value[currentIndex.value].url
+  context.closePath()
+}
+
+function rotate(direction) {
+  let canvas = modalCanvas.value
+  let context = canvas.getContext('2d')
+  let canvasImg = canvas.toDataURL('image/jpeg')
+  console.log('canvasImg', canvasImg)
+  let img = new Image()
+  img.src = canvasImg
+
+  if (img?.width) {
+    canvas.width = img.height
+    canvas.height = img.width
+  }
+
+  context.save() // Сохраняем текущее состояние контекста
+  context.translate(canvas.width / 2, canvas.height / 2) // Переходим в центр изображения
+  context.rotate((direction * Math.PI) / 2) // Поворачиваем изображение на заданный угол, приведенный к радианам
+  context.drawImage(img, -img.width / 2, -img.height / 2) // Рисуем изображение
+  context.restore() // Возвращаем настройки контекста в исходное состояние
+
+  // передаем новые координаты в массив картинок
+  canvasImg = canvas.toDataURL('image/jpeg')
+  images.value[currentIndex.value].url = canvasImg
+
+  context.closePath()
+}
+
 function stopPrevent(e) {
   e.stopPropagation()
   e.preventDefault()
@@ -104,11 +136,6 @@ function drop(e) {
 
 function removingImg(index) {
   images.value.splice(index, 1)
-}
-function opened(index) {
-  console.log('opened')
-  isOpen.value = !isOpen.value
-  modalUrl.value = images.value[index].url
 }
 </script>
 
@@ -164,5 +191,17 @@ function opened(index) {
   position: relative;
   bottom: 2px;
   right: 2px;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: sticky;
+  bottom: 0px;
+}
+.imageBtn {
+  height: auto;
+  background-color: aqua;
+  color: white;
 }
 </style>

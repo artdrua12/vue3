@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px; overflow: auto; height: 100%">
     <v-btn @click="test">test</v-btn>
-    <h1>Страница в разработке...</h1>
+    <h1>Тестовая страница</h1>
     <base-file></base-file>
   </div>
 </template>

@@ -35,7 +35,7 @@
     </transition-group>
     <base-modal
       v-model:isOpen="isOpen"
-      title="Выход "
+      title="Выход"
       icon="mdi-exit-to-app"
       ok-title="Да"
       cancel-title="отмена"
