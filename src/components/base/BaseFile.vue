@@ -27,28 +27,18 @@
     <base-modal
       v-model:isOpen="isOpen"
       icon="mdi-camera-outline"
-      :title="images[currentIndex].file.name"
+      :title="images[currentIndex]?.file?.name"
     >
       <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
         <canvas ref="modalCanvas"></canvas>
         <div class="buttons">
-          <v-btn variant="tonal" class="imageBtn" @click="rotate(-1)">
-            <v-icon color="#2c4957" size="27">mdi-arrow-left-top-bold</v-icon></v-btn
-          >
-          <v-btn variant="tonal" class="imageBtn" @click="rotate(1)">
-            <v-icon color="#546e7a" size="27">mdi-arrow-right-top-bold</v-icon></v-btn
-          >
+          <v-btn icon="mdi-arrow-left-top-bold" class="imageBtn" @click="rotate(-1)"> </v-btn>
+          <v-btn icon="mdi-arrow-right-top-bold" class="imageBtn" @click="rotate(1)"> </v-btn>
 
-          <v-btn variant="tonal" class="imageBtn">
-            <v-icon color="#546e7a" size="27"> mdi-image</v-icon></v-btn
-          >
+          <v-btn icon="mdi-image" class="imageBtn"> </v-btn>
 
-          <v-btn variant="tonal" class="imageBtn">
-            <v-icon color="#546e7a" size="27"> mdi-plus-thick</v-icon></v-btn
-          >
-          <v-btn variant="tonal" class="imageBtn">
-            <v-icon color="#546e7a" size="27"> mdi-minus-thick</v-icon></v-btn
-          >
+          <v-btn icon="mdi-plus-thick" class="imageBtn"> </v-btn>
+          <v-btn icon="mdi-minus-thick" class="imageBtn"> </v-btn>
         </div>
       </div>
     </base-modal>
@@ -200,8 +190,7 @@ function removingImg(index) {
   bottom: 0px;
 }
 .imageBtn {
-  height: auto;
-  background-color: aqua;
+  background-color: #546e7a;
   color: white;
 }
 </style>
