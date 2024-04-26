@@ -11,11 +11,10 @@
 import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
+import { useGetAutocompliteData } from './service'
 import { useRequestStore } from '@/stores/requestStore'
-import { useIndexDBStore } from '@/stores/indexDBStore'
-const indexDB = useIndexDBStore()
-const route = useRouter()
 
+const route = useRouter()
 const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
   { text: 'Номер  документа', value: 'docId', id: 'h1' },
@@ -208,9 +207,10 @@ const fieldsMore = reactive({
     value: '',
     type: 'BaseAutocomplete',
     items: [],
-    url: '/api/classifier/epassport/vehicle-makes',
+    // url: '/api/classifier/epassport/vehicle-makes',
     text: 'value',
-    itemValue: 'value'
+    itemValue: 'value',
+    catalog: 'NSI_046'
   },
   commercialName: {
     width: '6',
@@ -268,7 +268,8 @@ const fieldsMore = reactive({
     items: [],
     url: '/api/classifier/epassport/countries',
     text: 'value',
-    itemValue: 'key'
+    itemValue: 'key',
+    catalog: 'NSI_034'
   },
   techCategory: {
     width: '6',
@@ -470,33 +471,7 @@ async function find(obj) {
   tableDataFromResponse.value = res
 }
 
-async function getAutocompliteData(obj = {}) {
-  for (const key in obj) {
-    if (obj[key].catalog) {
-      obj[key].items = await getCatalog(obj[key].catalog)
-    } else if (obj[key].url) {
-      try {
-        const data = await requests.get(obj[key].url)
-        if (!data) {
-          throw new Error()
-        }
-        obj[key].items = data
-      } catch (error) {
-        console.log('Ошибка загрузки данных для ' + obj[key]?.label)
-      }
-      if (obj[key].filter) {
-        obj[key].items = eval(`obj[key].items.${obj[key].filter}`)
-      }
-    }
-  }
-}
-
-getAutocompliteData({ ...fields, ...fieldsMore })
-
-async function getCatalog(catalog) {
-  console.log('i.catalog')
-  return await indexDB.getFromDatabase('catalog', catalog)
-}
+useGetAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 
 <style scoped></style>

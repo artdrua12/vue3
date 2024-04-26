@@ -1,7 +1,9 @@
 <template>
   <teleport to="#port">
     <div v-if="isOpen" class="modal-wrapper">
-      <div class="modal">
+      <slot v-if="isEmpty"></slot>
+
+      <div v-else class="modal">
         <div class="modal-title">
           <p><v-icon :icon="props.icon"></v-icon> &nbsp;{{ props.title }}</p>
           <v-btn icon="mdi-window-close" variant="text" @click="close"> </v-btn>
@@ -35,6 +37,11 @@
 <script setup>
 import { defineEmits } from 'vue'
 const props = defineProps({
+  // если empty true то отобращаем без рамоки, заголовка и кнопок
+  isEmpty: {
+    type: Boolean,
+    default: false
+  },
   title: {
     type: String,
     default: ''
@@ -85,6 +92,27 @@ function ok() {
 </script>
 
 <style>
+.empty {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  max-width: 96vw;
+  max-height: 96vh;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  background-color: antiquewhite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.but {
+  background-color: aqua;
+  height: 80px;
+}
 .modal-wrapper {
   position: fixed;
   display: flex;
@@ -106,7 +134,9 @@ function ok() {
   flex-direction: column;
   width: auto;
   background-color: #f0f0f0;
-  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   border-radius: 5px;
 }
@@ -122,11 +152,13 @@ function ok() {
   border-radius: 4px 4px 0 0;
 }
 .modal-content {
-  max-height: 85vh;
+  max-width: 96vw;
+  max-height: 90vh;
   overflow: auto;
   scrollbar-width: thin;
   padding: 20px;
 }
+
 .modal-button {
   width: 100%;
   display: flex;

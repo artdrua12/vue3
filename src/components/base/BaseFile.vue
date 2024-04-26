@@ -2,8 +2,8 @@
   <div class="baseFile">
     <div class="dropbox" @dragenter="stopPrevent" @dragover="stopPrevent" @drop="drop">
       <label
-        ><v-icon icon="mdi-camera-outline" size="50px" class="dropboxChield"></v-icon>
-        <span class="dropboxChield mt-2"> переместить или загрузить </span>
+        ><v-icon icon="mdi-camera-outline" size="50px" class="dropboxIntro"></v-icon>
+        <span class="dropboxIntro mt-2"> переместить или загрузить </span>
         <input
           type="file"
           multiple
@@ -12,34 +12,32 @@
         />
       </label>
     </div>
+
     <div v-for="(item, index) in images" :key="index" style="position: relative">
-      <span class="title">{{ item.file.name }}</span>
+      <span class="imgTitle">{{ item.file.name }}</span>
       <img :src="item.url" class="img" @click="opened(index)" />
-      <span class="size">{{ Math.ceil(item.file.size / 1000) }} Kb</span>
+      <span class="imgSize">{{ Math.ceil(item.file.size / 1000) }} Kb</span>
       <v-icon
         icon="mdi-delete-empty"
         color="red"
         size="20px"
-        class="delete"
+        class="imgDelete"
         @click="removingImg(index)"
       ></v-icon>
     </div>
-    <base-modal
-      v-model:isOpen="isOpen"
-      icon="mdi-camera-outline"
-      :title="images[currentIndex]?.file?.name"
-    >
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
-        <canvas ref="modalCanvas"></canvas>
-        <div class="buttons">
-          <v-btn icon="mdi-arrow-left-top-bold" class="imageBtn" @click="rotate(-1)"> </v-btn>
-          <v-btn icon="mdi-arrow-right-top-bold" class="imageBtn" @click="rotate(1)"> </v-btn>
 
-          <v-btn icon="mdi-image" class="imageBtn"> </v-btn>
+    <base-modal v-model:isOpen="isOpen" is-empty="true" :title="images[currentIndex]?.file?.name">
+      <canvas ref="modalCanvas" @click="isOpen = false"></canvas>
 
-          <v-btn icon="mdi-plus-thick" class="imageBtn"> </v-btn>
-          <v-btn icon="mdi-minus-thick" class="imageBtn"> </v-btn>
-        </div>
+      <div class="modalButtons">
+        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-1)"> </v-btn>
+        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(1)"> </v-btn>
+
+        <v-btn icon="mdi-image-outline" class="modalButtonImg" @click="naturalSize"> </v-btn>
+
+        <v-btn icon="mdi-plus-thick" class="modalButtonImg" @click="scale(1.5)"> </v-btn>
+        <v-btn icon="mdi-minus-thick" class="modalButtonImg" @click="scale(0.5)"> </v-btn>
+        <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="isOpen = false"> </v-btn>
       </div>
     </base-modal>
   </div>
@@ -53,6 +51,7 @@ const modalCanvas = ref(null) // canvas который находится в м�
 const images = ref([]) // массив картинок
 const isOpen = ref(false)
 const currentIndex = ref()
+const initialModalImage = ref()
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
@@ -80,19 +79,48 @@ async function startCanvas() {
 
   const img = new Image()
   img.onload = () => {
-    canvas.width = img.width
-    canvas.height = img.height
+    canvas.width = img.naturalWidth
+    canvas.height = img.naturalHeight
     context.drawImage(img, 0, 0)
   }
-  img.src = images.value[currentIndex.value].url
+  initialModalImage.value = images.value[currentIndex.value].url
+  img.src = initialModalImage.value
   context.closePath()
+}
+
+function scale(size) {
+  let canvas = modalCanvas.value
+  // canvas.style.transform = `scale(${(curentScale.value += size)})`
+  let context = canvas.getContext('2d')
+  let canvasImg = canvas.toDataURL('image/jpeg')
+  let img = new Image()
+  img.onload = () => {
+    context.drawImage(img, 0, 0, size * img.width, size * img.height) // Рисуем изображение
+  }
+  img.src = canvasImg
+  context.save() // Сохраняем текущее состояние контекста
+  canvas.width = canvas.width * size
+  canvas.height = canvas.height * size
+  context.restore() // Возвращаем настройки контекста в исходное состояние
+}
+
+function naturalSize() {
+  let canvas = modalCanvas.value
+  let context = canvas.getContext('2d')
+  let img = new Image()
+  img.onload = () => {
+    canvas.width = img.naturalWidth
+    canvas.height = img.naturalHeight
+    context.drawImage(img, 0, 0) // Рисуем изображение
+  }
+  img.src = initialModalImage.value
+  images.value[currentIndex.value].url = initialModalImage.value
 }
 
 function rotate(direction) {
   let canvas = modalCanvas.value
   let context = canvas.getContext('2d')
   let canvasImg = canvas.toDataURL('image/jpeg')
-  console.log('canvasImg', canvasImg)
   let img = new Image()
   img.src = canvasImg
 
@@ -133,7 +161,7 @@ function removingImg(index) {
 .baseFile {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px 15px;
+  gap: 20px 25px;
   padding: 20px;
   background-color: #f0f5f9;
   border: 1px solid;
@@ -149,7 +177,7 @@ function removingImg(index) {
   padding: 5px;
   border-radius: 10px;
 }
-.dropboxChield {
+.dropboxIntro {
   display: block;
   margin: auto;
   text-align: center;
@@ -160,37 +188,41 @@ function removingImg(index) {
 .img {
   height: 120px;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9); */
   border-radius: 10px;
 }
-.title {
+.imgTitle {
   position: absolute;
-  top: -15px;
+  top: -17px;
   left: 0px;
   font-size: 12px;
   font-weight: 700;
+  text-transform: uppercase;
 }
-.size {
-  position: absolute;
-  bottom: -10px;
+.imgSize {
+  position: relative;
+  bottom: 6px;
   left: 0px;
   font-size: 12px;
   font-weight: 500;
 }
-.delete {
-  position: relative;
-  bottom: 2px;
-  right: 2px;
+.imgDelete {
+  position: absolute;
+  bottom: 20px;
+  right: -18px;
 }
-.buttons {
+.modalButtons {
+  width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
-  position: sticky;
-  bottom: 0px;
+  position: fixed;
+  bottom: 40px;
 }
-.imageBtn {
-  background-color: #546e7a;
+.modalButtonImg {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(84, 110, 122, 0.7);
   color: white;
 }
 </style>
