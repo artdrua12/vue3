@@ -11,7 +11,7 @@
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
-
+import { useGetAutocompliteData } from './composable'
 const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
   {
@@ -200,26 +200,7 @@ async function find(obj) {
   tableDataFromResponse.value = res
 }
 
-async function getAutocompliteData(obj = {}) {
-  for (const key in obj) {
-    if (obj[key].url) {
-      try {
-        const data = await requests.get(obj[key].url)
-        if (!data) {
-          throw new Error()
-        }
-        obj[key].items = data
-      } catch (error) {
-        console.log('Ошибка загрузки данных для ' + obj[key]?.label)
-      }
-      if (obj[key].filter) {
-        obj[key].items = eval(`obj[key].items.${obj[key].filter}`)
-      }
-    }
-  }
-}
-
-getAutocompliteData({ ...fields, ...fieldsMore })
+useGetAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 
 <style scoped></style>

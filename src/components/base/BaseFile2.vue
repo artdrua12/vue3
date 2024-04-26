@@ -26,24 +26,25 @@
       ></v-icon>
     </div>
 
-    <base-modal v-model:isOpen="isOpen" is-empty="true" :title="images[currentIndex]?.file?.name">
-      <canvas ref="modalCanvas" class="canvas" @click="isOpen = false"></canvas>
+    <base-modal v-model:isOpen="isOpen" :is-empty="true" :title="images[currentIndex]?.file?.name">
+      <!-- <canvas ref="modalCanvas" class="canvas" @click="isOpen = false"></canvas> -->
+      <img ref="modalCanvas" :src="images[currentIndex]?.url" class="canvasC" />
 
       <div class="modalButtons">
-        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-1)"> </v-btn>
-        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(1)"> </v-btn>
+        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)"> </v-btn>
+        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
 
         <v-btn icon="mdi-image-outline" class="modalButtonImg" @click="naturalSize"> </v-btn>
 
-        <v-btn icon="mdi-plus-thick" class="modalButtonImg" @click="scale(1.5)"> </v-btn>
-        <v-btn icon="mdi-minus-thick" class="modalButtonImg" @click="scale(0.5)"> </v-btn>
+        <v-btn icon="mdi-plus-thick" class="modalButtonImg" @click.stop="scale(0.25)"> </v-btn>
+        <v-btn icon="mdi-minus-thick" class="modalButtonImg" @click.stop="scale(-0.25)"> </v-btn>
         <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="isOpen = false"> </v-btn>
       </div>
     </base-modal>
   </div>
 </template>
-
-<script setup>
+  
+  <script setup>
 import { ref, watch, nextTick } from 'vue'
 import BaseModal from './BaseModal.vue'
 
@@ -55,7 +56,7 @@ const initialModalImage = ref()
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
-    startCanvas()
+    // startCanvas()
   }
 })
 
@@ -90,18 +91,7 @@ async function startCanvas() {
 
 function scale(size) {
   let canvas = modalCanvas.value
-  // canvas.style.transform = `scale(${(curentScale.value += size)})`
-  let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
-  let img = new Image()
-  img.onload = () => {
-    context.drawImage(img, 0, 0, size * img.width, size * img.height) // Рисуем изображение
-  }
-  img.src = canvasImg
-  context.save() // Сохраняем текущее состояние контекста
-  canvas.width = canvas.width * size
-  canvas.height = canvas.height * size
-  context.restore() // Возвращаем настройки контекста в исходное состояние
+  canvas.style.transform = `scale(${(this.size = (this.size || 1) + size)})`
 }
 
 function naturalSize() {
@@ -117,29 +107,11 @@ function naturalSize() {
   images.value[currentIndex.value].url = initialModalImage.value
 }
 
-function rotate(direction) {
+async function rotate(deg) {
   let canvas = modalCanvas.value
-  let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
-  let img = new Image()
-  img.src = canvasImg
-
-  if (img?.width) {
-    canvas.width = img.height
-    canvas.height = img.width
-  }
-
-  context.save() // Сохраняем текущее состояние контекста
-  context.translate(canvas.width / 2, canvas.height / 2) // Переходим в центр изображения
-  context.rotate((direction * Math.PI) / 2) // Поворачиваем изображение на заданный угол, приведенный к радианам
-  context.drawImage(img, -img.width / 2, -img.height / 2) // Рисуем изображение
-  context.restore() // Возвращаем настройки контекста в исходное состояние
-
-  // передаем новые координаты в массив картинок
-  canvasImg = canvas.toDataURL('image/jpeg')
-  images.value[currentIndex.value].url = canvasImg
-
-  context.closePath()
+  canvas.style.transform = `rotate(${(this.deg = (this.deg || 0) + deg)}deg)`
+  // let link = URL.createObjectURL(files[i])
+  // images.value.push({ url: link, file: files[i] })
 }
 
 function stopPrevent(e) {
@@ -156,8 +128,8 @@ function removingImg(index) {
   images.value.splice(index, 1)
 }
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .baseFile {
   display: flex;
   flex-wrap: wrap;
@@ -213,9 +185,10 @@ function removingImg(index) {
   bottom: 20px;
   right: -18px;
 }
-.canvas {
+.canvasC {
   border: 4px solid white;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  transition: 500ms;
 }
 .modalButtons {
   width: 100%;
@@ -226,7 +199,8 @@ function removingImg(index) {
   bottom: 40px;
 }
 .modalButtonImg {
-  background-color: white ;
+  background-color: white;
   color: #546e7a;
 }
 </style>
+  

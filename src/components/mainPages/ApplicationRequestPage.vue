@@ -11,6 +11,7 @@
 import { provide, reactive, ref, computed } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
 import { useRequestStore } from '@/stores/requestStore'
+import { useGetAutocompliteData } from './composable'
 
 const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
@@ -41,7 +42,7 @@ const fields = reactive({
   toIndentTopPage: {
     width: 'all',
     value: false,
-    type: 'BaseSlot',
+    type: 'BaseSlot'
   },
   number: {
     width: '6',
@@ -121,8 +122,8 @@ async function find(obj) {
       ['dataToProcess']: fields.epassportNumb.value
         ? fields.epassportNumb.value
         : fields.bodyId.value
-          ? fields.bodyId.value
-          : null,
+        ? fields.bodyId.value
+        : null,
       ['isVin']: fields.epassportNumb.value ? false : fields.bodyId.value ? true : null,
       ['cert.signer.organization']: fields.organization.value,
       ['status']: fields.docStatus.value
@@ -137,26 +138,7 @@ async function find(obj) {
   tableDataFromResponse.value = res
 }
 
-async function getAutocompliteData(obj = {}) {
-  for (const key in obj) {
-    if (obj[key].url) {
-      try {
-        const data = await requests.get(obj[key].url)
-        if (!data) {
-          throw new Error()
-        }
-        obj[key].items = data
-      } catch (error) {
-        console.log('Ошибка загрузки данных для ' + obj[key]?.label)
-      }
-      if (obj[key].filter) {
-        obj[key].items = eval(`obj[key].items.${obj[key].filter}`)
-      }
-    }
-  }
-}
-
-getAutocompliteData({ ...fields, ...fieldsMore })
+useGetAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 
 <style scoped></style>

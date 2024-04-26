@@ -9,7 +9,7 @@
 <script setup>
 // import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
-import BaseFile from '../base/BaseFile.vue'
+import BaseFile from '../base/BaseFile2.vue'
 // const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
 

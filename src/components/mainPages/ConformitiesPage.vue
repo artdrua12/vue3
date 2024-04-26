@@ -11,7 +11,7 @@
 import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
 import LayoutPages from '../layout/LayoutPages.vue'
-import { useGetAutocompliteData } from './service'
+import { useGetAutocompliteData } from './composable'
 import { useRequestStore } from '@/stores/requestStore'
 
 const route = useRouter()
@@ -475,3 +475,4 @@ useGetAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 
 <style scoped></style>
+./Composable./composable
