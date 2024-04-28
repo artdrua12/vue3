@@ -27,8 +27,8 @@
     </div>
 
     <base-modal v-model:isOpen="isOpen" :is-empty="true" :title="images[currentIndex]?.file?.name">
-      <!-- <canvas ref="modalCanvas" class="canvas" @click="isOpen = false"></canvas> -->
-      <img ref="modalCanvas" :src="images[currentIndex]?.url" class="canvasC" />
+      <canvas ref="modalCanvas" class="canvasC" @click="isOpen = false"></canvas>
+      <!-- <img ref="modalCanvas" :src="images[currentIndex]?.url" class="canvasC" /> -->
 
       <div class="modalButtons">
         <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)"> </v-btn>
@@ -56,7 +56,7 @@ const initialModalImage = ref()
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
-    // startCanvas()
+    startCanvas()
   }
 })
 
@@ -110,8 +110,10 @@ function naturalSize() {
 async function rotate(deg) {
   let canvas = modalCanvas.value
   canvas.style.transform = `rotate(${(this.deg = (this.deg || 0) + deg)}deg)`
-  // let link = URL.createObjectURL(files[i])
-  // images.value.push({ url: link, file: files[i] })
+  // let link = URL.createObjectURL(canvas.url)
+  // images.value.push({ url: link, file: '123' })
+  const canvasImg = modalCanvas.value.toDataURL('image/jpeg')
+  images.value[currentIndex.value].url = canvasImg
 }
 
 function stopPrevent(e) {
