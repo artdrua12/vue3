@@ -216,6 +216,7 @@ function removingImg(index) {
 .canvas {
   border: 4px solid white;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  transition: 500ms;
 }
 .modalButtons {
   width: 100%;
