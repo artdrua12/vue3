@@ -17,29 +17,23 @@
       <span class="imgTitle">{{ item.file.name }}</span>
       <img :src="item.url" class="img" @click="openModal(index)" />
       <span class="imgSize">{{ Math.ceil(item.file.size / 1000) }} Kb</span>
-      <!-- <v-icon
+      <v-icon
         icon="mdi-delete-empty"
         color="red"
         size="20px"
         class="imgDelete"
         @click="removingImg(index)"
-      ></v-icon> -->
+      ></v-icon>
     </div>
 
     <base-modal v-model:isOpen="isOpen" :is-empty="true" :title="images[currentIndex]?.file?.name">
       <!-- <img ref="modalImg" :src="images[currentIndex]?.url" class="modalImg" @click="closeModal" /> -->
-      <canvas ref="modalCanvas" class="canvasC" @click="closeModal"></canvas>
+      <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
 
       <div class="modalButtons">
         <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)"> </v-btn>
+        <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
         <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
-
-        <!-- <v-btn icon="mdi-image-outline" class="modalButtonImg" @click="naturalSize"> </v-btn> -->
-
-        <v-btn icon="mdi-plus-thick" class="modalButtonImg" @click.stop="scale(0.25)"> </v-btn>
-        <v-btn icon="mdi-minus-thick" class="modalButtonImg" @click.stop="scale(-0.25)"> </v-btn>
-        <v-btn icon="mdi-delete-empty" color="red" class="modalButtonImg" @click="removingImg">
-        </v-btn>
       </div>
     </base-modal>
   </div>
@@ -53,7 +47,7 @@ const modalCanvas = ref(null) // canvas который находится в м�
 const images = ref([]) // массив картинок
 const isOpen = ref(false)
 const currentIndex = ref()
-const initialModalImage = ref()
+const scale = ref(1)
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
@@ -61,17 +55,7 @@ watch(isOpen, (isOpen) => {
   }
 })
 
-function rotate2(){
-  function animateRotation() {
-    angle += 1; // Плавное увеличение угла
-    drawRotated(angle); // Перекрашивание изображения
-    requestAnimationFrame(animateRotation); // Циклическая анимация
-}
-}
-
 function rotate(angle) {
-  // let angle = ang
-
   let canvas = modalCanvas.value
   let context = canvas.getContext('2d')
   let canvasImg = canvas.toDataURL('image/jpeg')
@@ -81,8 +65,7 @@ function rotate(angle) {
 
   img.onload = function () {
     drawRotated(canvas, context, angle, img)
-    if (angle >= 90) return
-    requestAnimationFrame(rotate)
+    // requestAnimationFrame(rotate)
   }
 }
 
@@ -103,22 +86,15 @@ function drawRotated(canvas, context, angle, img) {
   context.restore() // Возвращаем настройки контекста в исходное состояние
 }
 
-function scale(size) {
-  let canvas = modalCanvas.value
-  canvas.style.transform = `scale(${(this.size = (this.size || 1) + size)})`
-}
-
-function naturalSize() {
-  let canvas = modalCanvas.value
-  let context = canvas.getContext('2d')
-  let img = new Image()
-  img.onload = () => {
-    canvas.width = img.naturalWidth
-    canvas.height = img.naturalHeight
-    context.drawImage(img, 0, 0) // Рисуем изображение
+function onwheel(e) {
+  if (e.deltaY > 0) {
+    scale.value -= 0.15
+    modalCanvas.value.style.transform = `scale(${scale.value > 0.15 ? scale.value : (scale.value = 0.15)})`
+  } else {
+    scale.value += 0.15
+    modalCanvas.value.style.transform = `scale(${scale.value})`
   }
-  img.src = initialModalImage.value
-  images.value[currentIndex.value].url = initialModalImage.value
+  return false
 }
 
 function closeModal() {
@@ -127,6 +103,7 @@ function closeModal() {
   let canvasImg = canvas.toDataURL('image/jpeg') || images.value[currentIndex.value].url
   canvasImg = canvas.toDataURL('image/jpeg')
   images.value[currentIndex.value].url = canvasImg
+  scale.value = 1
   isOpen.value = false
 }
 
@@ -154,8 +131,7 @@ async function initCanvas() {
     canvas.height = img.naturalHeight
     context.drawImage(img, 0, 0)
   }
-  initialModalImage.value = images.value[currentIndex.value].url
-  img.src = initialModalImage.value
+  img.src = images.value[currentIndex.value].url
   context.closePath()
 }
 
