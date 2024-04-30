@@ -280,7 +280,8 @@ const fieldsMore = reactive({
     url: '/api/classifier/epassport/vehicle-tech-categories',
     filter: 'filter(e => e.key.match(/L|M|N|O/))',
     text: 'key',
-    itemValue: 'key'
+    itemValue: 'key',
+    catalog: 'NSI_015'
   }
 })
 const actions = [

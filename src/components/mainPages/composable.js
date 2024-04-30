@@ -9,6 +9,9 @@ export async function useGetAutocompliteData(obj = {}) {
   for (const key in obj) {
     if (obj[key].catalog) {
       obj[key].items = await getCatalog(obj[key].catalog)
+      if (obj[key].filter) {
+        obj[key].items = eval(`obj[key].items.${obj[key].filter}`)
+      }
     } else if (obj[key].url) {
       try {
         const data = await requests.get(obj[key].url)
