@@ -3,12 +3,11 @@
     <BaseCheckbox
       v-model="valueCheckbox"
       :label="props.label"
-      style="grid-column: 1/-1"
+      style="grid-column: 1/-1; overflow: hidden;"
       :disabled="props.disabled"
-      class="mb-5"
       @change="changingCheckbox"
     ></BaseCheckbox>
-    <div v-if="props.additionData ? valueCheckbox : !valueCheckbox" class="adaptiveGrid">
+    <div v-if="props.additionData ? valueCheckbox : !valueCheckbox" class="adaptiveGrid mt-5">
       <component
         :is="getComponent(i.type)"
         v-for="(i, index) in fields"
@@ -54,7 +53,7 @@ const props = defineProps({
 })
 const valueCheckbox = defineModel({ type: Boolean, default: false })
 const fields = ref(props.fields)
-const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов, которые могут отсутствовать
+const defaultFields = JSON.parse(JSON.stringify(props.fields)) // сохраняем первоначальное значение табов
 
 const allComponents = {
   BaseAutocomplete,
@@ -65,7 +64,7 @@ const allComponents = {
   BaseRecursiveConstructor,
   BaseIsMissingDisabled,
   BaseIsMissing,
-  BaseSlot
+  BaseSlot,
 }
 function changingCheckbox() {
   if (valueCheckbox.value) {
@@ -73,7 +72,6 @@ function changingCheckbox() {
   }
 }
 function getComponent(type) {
-  console.log('type', type)
   return allComponents[type]
 }
 </script>

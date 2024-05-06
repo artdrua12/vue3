@@ -15,14 +15,14 @@
       :class="{ 'adaptiveGrid--setting': !isOne }"
     >
       <legend v-if="!isOne">
-        {{ props.label }}
+        {{ props.additionData.numerable ? props.label + ' ' + (indexObj + 1) : props.label }}
       </legend>
 
       <v-icon
         v-if="fieldsArray.length != 1"
         color="red"
+        bg-color="green"
         icon="mdi-close-box"
-        size="23"
         class="removeBtn"
         @click="remove"
       ></v-icon>
@@ -58,12 +58,21 @@ import BaseSlot from './BaseSlot.vue'
 import BaseTextarea from './BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
+import BaseOtp from '@/components/base/BaseOtp.vue'
 const props = defineProps({
   label: { type: String, required: true, default: '.' },
   fields: {
     type: Array,
     required: true
+  },
+  //  если true то добавляется нумерация в заголовок
+  additionData: {
+    type: Object,
+    default() {
+      return { numerable: false }
+    }
   }
 })
 const emit = defineEmits(['find']) //событие для запуска поиска
@@ -79,7 +88,9 @@ const allComponents = {
   BaseTextarea,
   BaseRecursiveConstructor,
   BaseIsMissingDisabled,
-  BaseSlot
+  BaseIsMissing,
+  BaseSlot,
+  BaseOtp
 }
 
 let fieldsArray = ref(props.fields)
@@ -114,6 +125,7 @@ function remove() {
   grid-gap: 12px 12px;
   grid-auto-flow: dense;
   border: none;
+  align-items: flex-start;
 }
 .adaptiveGrid--setting {
   overflow: visible;
@@ -180,7 +192,7 @@ legend {
   left: -55px;
 }
 .removeBtn {
-  font-size: 25px;
+  font-size: 23px;
   position: absolute;
   bottom: calc(50% - 4px);
   left: -51px;

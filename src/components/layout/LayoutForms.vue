@@ -55,7 +55,7 @@
           </v-window>
         </div>
 
-        <div v-else class=" tabsWrapper tabsPageForm">
+        <div v-else class="tabsWrapper tabsPageForm">
           <component
             :is="getComponent(i.type)"
             v-for="(i, index) in item.fields"
@@ -91,7 +91,10 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseSlot from '@/components/base/BaseSlot.vue'
+import BaseFile from '@/components/base/BaseFile.vue'
+import BaseTableForDocuments from '@/components/base/BaseTableForDocuments.vue'
 import { ref, defineProps } from 'vue'
+
 const props = defineProps({
   data: { type: Array, required: true }
 })
@@ -105,7 +108,9 @@ const allComponents = {
   BaseIsMissingDisabled,
   BaseIsMissing,
   BaseSlot,
-  BaseRecursiveConstructor
+  BaseRecursiveConstructor,
+  BaseFile,
+  BaseTableForDocuments
 }
 const currentTab = ref('')
 function getComponent(type) {
@@ -122,6 +127,8 @@ function getComponent(type) {
   overflow: auto;
   align-items: flex-start;
   align-content: flex-start;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
 }
 .menu-button {
   display: flex;

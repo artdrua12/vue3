@@ -685,101 +685,6 @@ const data = reactive([
                 }
               }
             ]
-          },
-
-          test: {
-            label: 'Ограничения на возможность использования на дорогах общего пользования',
-            width: 'all',
-            type: 'BaseRecursiveConstructor',
-            fields: [
-              {
-                abs: {
-                  label: 'Ограничения на возможность использования на дорогах общего пользования',
-                  width: '6',
-                  type: 'BaseTextfield',
-                  value: ''
-                },
-                sba: {
-                  label: 'Ограничения на возможность использования на дорогах общего пользования',
-                  width: '6',
-                  type: 'BaseTextfield',
-                  value: ''
-                },
-                test: {
-                  label: 'test1',
-                  width: 'all',
-                  type: 'BaseRecursiveConstructor',
-                  fields: [
-                    {
-                      abs: {
-                        label: 'Ограничения на возможность использования ',
-                        width: '6',
-                        type: 'BaseTextfield',
-                        value: ''
-                      },
-                      sba: {
-                        label:
-                          'Ограничения на возможность использования на дорогах общего пользования',
-                        width: '6',
-                        type: 'BaseTextfield',
-                        value: ''
-                      },
-                      test2: {
-                        label: 'test1',
-                        width: 'all',
-                        type: 'BaseRecursiveConstructor',
-                        fields: [
-                          {
-                            abs: {
-                              label: 'Ограничения на возможность использования ',
-                              width: '6',
-                              type: 'BaseTextfield',
-                              value: ''
-                            },
-                            abs2: {
-                              label: 'Ttytcn  ',
-                              width: '6',
-                              type: 'BaseTextfield',
-                              value: ''
-                            }
-                          }
-                        ]
-                      },
-                      test12: {
-                        label: 'test1',
-                        width: 'all',
-                        type: 'BaseRecursiveConstructor',
-                        fields: [
-                          {
-                            abs: {
-                              label: 'Ограничения на возможность использования ',
-                              width: 'all',
-                              type: 'BaseTextfield',
-                              value: ''
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                },
-                test2: {
-                  label: 'test1',
-                  width: 'all',
-                  type: 'BaseRecursiveConstructor',
-                  fields: [
-                    {
-                      abs: {
-                        label: 'Ограничения на возможность использования ',
-                        width: 'all',
-                        type: 'BaseTextfield',
-                        value: ''
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
           }
         }
       }
@@ -1555,7 +1460,172 @@ const data = reactive([
               engineType: {
                 width: '6',
                 label: 'Вид двигателя*',
+                items: [],
+                url: '/api/classifier/epassport/engine-types',
                 type: 'BaseAutocomplete'
+              },
+              vehicleElectricalMachineDetails: {
+                label: 'Электродвигатель',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    electricalMachineKindCode: {
+                      label: 'Вид электромашины*',
+                      width: '6',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка*',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentText: {
+                      label: 'Тип электромашины',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    electricalMachineVoltageMeasure: {
+                      label: 'Рабочее напряжение, B*',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    },
+                    electricMotorPowerMeasure: {
+                      label: 'Максимальная 30-минутная мощность',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    measurementUnitCode2: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    }
+                  }
+                ]
+              },
+              engineDetails: {
+                label: 'Двигатель внутреннего сгорания',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentMakeName: {
+                      label: 'Марка двигателя*',
+                      width: '6',
+                      type: 'BaseTextfield',
+                      value: ''
+                    },
+                    vehicleComponentModelCode: {
+                      label: 'Тип(описание) двигателя внутреннего сгорания*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    engineCylinderQuantity: {
+                      label: 'Количество цилиндров*',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    },
+                    engineCompressionRate: {
+                      label: 'Степень сжатия*',
+                      width: '3',
+                      type: 'BaseTextfield'
+                    },
+                    engineCapacityMeasure: {
+                      label: 'Рабочий объём цилиндров*, см³',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '2',
+                      itemValue: 'key',
+                      type: 'BaseAutocomplete'
+                    },
+                    engineCylinderArrangementText: {
+                      label: 'Расположение цилиндров',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    engineMaxPowerMeasure: {
+                      label: 'Максимальная мощность двигателя*',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    engineMaxPowerMeasureMeasurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '2',
+                      itemValue: 'key',
+                      type: 'BaseAutocomplete'
+                    },
+                    vehicleShaftRotationFrequency: {
+                      label: `Скорость вращения коленчатого вала, при которой достигается максимальная мощность
+                  двигателя`,
+                      width: 'all',
+                      type: 'BaseSlot'
+                    },
+                    vehicleShaftRotationFrequencyMinMeasure: {
+                      label: 'Минимальная скорость*',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleShaftRotationFrequencyMinMeasureMeasurementUnitCode: {
+                      label: 'Ед. измерения',
+                      width: '2',
+                      itemValue: 'key',
+                      type: 'BaseAutocomplete'
+                    },
+                    vehicleShaftRotationFrequencyMaxMeasure: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        vehicleShaftRotationFrequencyMaxMeasure: {
+                          label: 'Максимальная скорость',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    },
+
+                    text: {
+                      label: `Скорость вращения коленчатого вала, при которой достигается максимальный крутящий
+                  момент двигателя`,
+                      width: 'all',
+                      type: 'BaseSlot'
+                    },
+                    vehicleShaftRotationFrequencyMinMeasure2: {
+                      label: 'Минимальная скорость*',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleShaftRotationFrequencyMinMeasureMeasurementUnitCode2: {
+                      label: 'Ед. измерения',
+                      width: '2',
+                      itemValue: 'key',
+                      type: 'BaseAutocomplete'
+                    },
+                    vehicleShaftRotationFrequencyMaxMeasure2: {
+                      label: 'Признак интервала значений',
+                      width: '6',
+                      type: 'BaseIsMissingDisabled',
+                      fields: {
+                        vehicleShaftRotationFrequencyMaxMeasure: {
+                          label: 'Максимальная скорость',
+                          type: 'BaseTextfield',
+                          value: ''
+                        }
+                      },
+                      additionData: false
+                    }
+                  }
+                ]
               },
               model: {
                 width: 'all',
@@ -1569,86 +1639,846 @@ const data = reactive([
       },
       {
         title: 'Устройство накопления энергии',
-        id: '#storage-device'
+        id: '#storage-device',
+        fields: {
+          BaseIsMissing: {
+            label: 'Устройство накопления энергии отсутствует',
+            width: 'all',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleComponentText: {
+                label: 'Устройство накопления энергии',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentText: {
+                      label: 'Тип компонента*',
+                      width: '6',
+                      type: 'BaseAutocomplete'
+                    },
+                    vehicleMakeName: {
+                      label: 'Марка*',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    text: {
+                      label: 'Тип*',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    electrochemicalSteam: {
+                      label: 'Электрохимическая пара',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    elementsQuantity: {
+                      label: 'Количество элементов',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    massValue: {
+                      label: 'Масса',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    measurementUnitCode: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    },
+                    powerStorageDeviceVoltageMeasure: {
+                      label: 'Рабочее напряжение устройства накопления энергии',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    powerStorageDeviceVoltageMeasureMeasurementUnitCode: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    },
+                    capacity: {
+                      label: 'Ёмкость',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    capacityMeasurementUnitCode: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    },
+                    vehicleComponentLocationText: {
+                      label: 'Место расположения компонента ТС',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleRangeMeasure: {
+                      label: 'Запас хода',
+                      width: '4',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleRangeMeasureMeasurementUnitCode: {
+                      label: 'Ед.измерения*',
+                      width: '2',
+                      type: 'BaseAutocomplete'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Топливо',
-        id: '#fuel'
+        id: '#fuel',
+        fields: {
+          BaseIsMissing: {
+            label: 'Топливо отсутствует',
+            width: 'all',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleFuelKindNameZ: {
+                label: 'Устройство накопления энергии',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleFuelKindNameZ: {
+                      label: 'Вид топлива*',
+                      width: 'all',
+                      type: 'BaseCombobox'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
       },
       {
         title: 'Система питания',
-        id: '#supply-system'
+        id: '#supply-system',
+        fields: {
+          notVehicleTrailerIndicator: {
+            width: 'all',
+            label: 'Система питания отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleComponentText: {
+                label: 'Система питания',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentText: {
+                      label: 'Описание типа*',
+                      width: 'all',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка*',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentElements: {
+                      label: 'Элемент системы питания',
+                      width: 'all',
+                      type: 'BaseRecursiveConstructor',
+                      fields: [
+                        {
+                          vehicleComponentName: {
+                            label: 'Наименование элемента системы питания',
+                            width: 'all',
+                            type: 'BaseAutocomplete',
+                            value: ''
+                          },
+                          vehicleComponentMakeName: {
+                            label: 'Марка',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentText: {
+                            label: 'Описание',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentType: {
+                            label: 'Тип',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentMarking: {
+                            label: 'Маркировка',
+                            width: '6',
+                            type: 'BaseCombobox'
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
       },
       {
         title: 'Система зажигания',
-        id: '#ignition-system'
+        id: '#ignition-system',
+        fields: {
+          vehicleIgnitionDetails: {
+            width: 'all',
+            label: 'Система зажигания отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleIgnitionDetails: {
+                label: 'Система зажигания',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentText: {
+                      label: 'Описание типа*',
+                      width: 'all',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка*',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentElements: {
+                      label: 'Элемент системы питания',
+                      width: 'all',
+                      type: 'BaseRecursiveConstructor',
+                      fields: [
+                        {
+                          vehicleComponentElements: {
+                            label: 'Наименование элемента системы питания',
+                            width: 'all',
+                            type: 'BaseAutocomplete',
+                            value: ''
+                          },
+                          vehicleComponentMakeName: {
+                            label: 'Марка',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentText: {
+                            label: 'Описание',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentType: {
+                            label: 'Тип',
+                            width: '6',
+                            type: 'BaseTextfield'
+                          },
+                          vehicleComponentMarking: {
+                            label: 'Маркировка',
+                            width: '6',
+                            type: 'BaseCombobox'
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
       },
       {
         title: 'Система выпуска и нейтрализации отработавших газов',
-        id: '#neutralization-system'
+        id: '#neutralization-system',
+        fields: {
+          vehicleIgnitionDetails: {
+            width: 'all',
+            label: 'Система выпуска и нейтрализации отработавших газов отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleIgnitionDetails: {
+                label: 'Система выпуска и нейтрализации отработавших газов',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentText: {
+                      label: 'Описание типа*',
+                      width: 'all',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка*',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentElements: {
+                      label: 'Элемент системы выпуска и нейтрализации отработавших газов',
+                      width: 'all',
+                      type: 'BaseRecursiveConstructor',
+                      fields: [
+                        {
+                          vehicleComponentElements: {
+                            label:
+                              'Наименование элемента системы выпуска и нейтрализации отработавших газов',
+                            width: 'all',
+                            type: 'BaseAutocomplete',
+                            value: ''
+                          },
+                          vehicleComponentElements2: {
+                            label: `Ступень `,
+                            width: 'all',
+                            type: 'BaseRecursiveConstructor',
+                            additionData: { numerable: true },
+                            fields: [
+                              {
+                                vehicleComponentMakeName: {
+                                  label: 'Марка',
+                                  width: '6',
+                                  type: 'BaseTextfield'
+                                },
+                                vehicleComponentText: {
+                                  label: 'Маркировка',
+                                  width: '6',
+                                  type: 'BaseCombobox'
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
       },
       {
         title: 'Сцепление',
-        id: '#clutch'
+        id: '#clutch',
+        fields: {
+          vehicleComponentText: {
+            width: 'all',
+            label: 'Сцепление отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              BaseRecursiveConstructor: {
+                label: 'Сцепление',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentText: {
+                      label: 'Описание типа*',
+                      width: 'all',
+                      type: 'BaseTextarea',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Трансмиссия',
-        id: '#transmission'
+        id: '#transmission',
+        fields: {
+          notTransmissionUnit: {
+            width: 'all',
+            label: 'Трансмиссия отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              vehicleTransmissionText: {
+                label: 'Тип трансмиссии*',
+                width: 'all',
+                type: 'BaseCombobox'
+              },
+              BaseRecursiveConstructor: {
+                label: 'Узел трансмиссии',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleUnitKindCode: {
+                      label: 'Узел*',
+                      width: '6',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentMakeName: {
+                      label: 'Марка',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentModelCode: {
+                      label: 'Маркировка',
+                      width: '6',
+                      type: 'BaseCombobox',
+                      value: ''
+                    },
+                    transmissionUnitGearQuantity: {
+                      label: 'Количество передач*',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Подвеска',
-        id: '#suspension'
+        id: '#suspension',
+        fields: {
+          BaseRecursiveConstructor: {
+            label: 'Узел трансмиссии',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleUnitKindCode: {
+                  label: 'Вид подвески транспортных средств*',
+                  width: 'all',
+                  type: 'BaseAutocomplete',
+                  value: ''
+                },
+                transmissionUnitGearQuantity: {
+                  label: 'Описание',
+                  width: 'all',
+                  type: 'BaseTextarea'
+                }
+              }
+            ]
+          }
+        }
       },
       {
         title: 'Рулевое управление',
-        id: '#steerage'
+        id: '#steerage',
+        fields: {
+          vehicleComponentText: {
+            width: 'all',
+            label: 'Рулевое управление отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              BaseRecursiveConstructor: {
+                label: 'Сцепление',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleComponentMakeName: {
+                      label: 'Марка рулевого управления',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleComponentText: {
+                      label: 'Описание ',
+                      width: 'all',
+                      type: 'BaseTextarea',
+                      value: ''
+                    },
+                    steeringWheelPositionCode: {
+                      label:
+                        'Описание месторасположения рулевого управления транспортного средства',
+                      width: 'all',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentLocationText: {
+                      label:
+                        'Описание места расположения рулевого управления, достаточное для его обнаружения',
+                      width: 'all',
+                      type: 'BaseTextfield'
+                    },
+                    wheelType: {
+                      label: 'Тип рулевого механизма',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    modelCode: {
+                      label: 'Маркировка Рулевого механизма',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Тормозные системы',
-        id: '#brake-systems'
+        id: '#brake-systems',
+        fields: {
+          vehicleComponentText: {
+            width: 'all',
+            label: 'Тормозная система отсутствует',
+            type: 'BaseIsMissing',
+            additionData: false,
+            fields: {
+              BaseRecursiveConstructor: {
+                label: 'Тормозная система',
+                width: 'all',
+                type: 'BaseRecursiveConstructor',
+                fields: [
+                  {
+                    vehicleBrakingSystemKindCode: {
+                      label: 'Наименование элемента тормозной системы*',
+                      width: 'all',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    },
+                    vehicleComponentText: {
+                      label: 'Описание*',
+                      width: 'all',
+                      type: 'BaseTextarea'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       {
         title: 'Шины',
-        id: '#tires'
+        id: '#tires',
+        fields: {
+          BaseRecursiveConstructor: {
+            label: 'Шины',
+            width: 'all',
+            type: 'BaseRecursiveConstructor',
+            fields: [
+              {
+                vehicleTyreKindSize: {
+                  label: 'Обозначение размера*',
+                  width: '6',
+                  type: 'BaseTextfield',
+                  value: ''
+                },
+                vehicleTyreKindStaticRadius: {
+                  label: 'Статический радиус',
+                  width: '4',
+                  type: 'BaseTextfield'
+                },
+                measurementUnitCode: {
+                  label: 'Ед.измерения*',
+                  width: '2',
+                  type: 'BaseAutocomplete'
+                },
+                vehicleMakeName: {
+                  label: 'Разные шины',
+                  width: 'all',
+                  type: 'BaseIsMissingDisabled',
+                  additionData: false,
+                  fields: {
+                    BaseAutocomplete: {
+                      label: 'Расположение*',
+                      type: 'BaseAutocomplete',
+                      value: ''
+                    }
+                  }
+                },
+                vehicleTyreKindCode: {
+                  label: 'Код вида шины транспортного средства',
+                  width: '6',
+                  type: 'BaseTextfield'
+                },
+                vehicleTyreKindCategorySpeed: {
+                  label: 'Классификатор скоростных категорий*',
+                  width: '6',
+                  type: 'BaseCombobox'
+                },
+                title: {
+                  label: 'Индекс несущей способности для максимально допустимой нагрузки.',
+                  width: 'all',
+                  type: 'BaseSlot'
+                },
+                title2: {
+                  label: 'Для односкатных шин',
+                  width: 'all',
+                  type: 'BaseSlot'
+                },
+                vehicleTyreKindMinIndexSingleTire: {
+                  label: 'Минимально*',
+                  width: '6',
+                  type: 'BaseTextfield'
+                },
+                vehicleTyreKindMaxIndexSingleTire: {
+                  label: 'Максимально',
+                  width: '6',
+                  type: 'BaseTextfield'
+                },
+                BaseIsMissing: {
+                  width: 'all',
+                  type: 'BaseIsMissing',
+                  label: 'Для двухскатных шин',
+                  fields: {
+                    vehicleTyreKindMinIndexSingleTire: {
+                      label: 'Минимально*',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    },
+                    vehicleTyreKindMaxIndexSingleTire: {
+                      label: 'Максимально',
+                      width: '6',
+                      type: 'BaseTextfield'
+                    }
+                  }
+                },
+                isSupplementVehicleTyre: {
+                  width: 'all',
+                  label: 'Запасная шина для временного пользования',
+                  type: 'BaseCheckbox'
+                }
+              }
+            ]
+          }
+        }
       }
     ]
   },
   {
     title: 'Описание маркировки транспортного средства (Шасси)',
-    id: '#description-of-vehicle-markings'
+    id: '#description-of-vehicle-markings',
+    fields: {
+      BaseRecursiveConstructor: {
+        label: 'Маркировка',
+        width: 'all',
+        type: 'BaseRecursiveConstructor',
+        fields: [
+          {
+            vehicleTyreKindSize: {
+              label:
+                '​Место расположения и форма единого знака обращения на рынке государств-членов Таможенного союза*',
+              width: 'all',
+              type: 'BaseTextfield',
+              value: ''
+            },
+            BaseIsMissing: {
+              width: 'all',
+              type: 'BaseIsMissing',
+              label: 'Признак отсутствия таблички изготовителя',
+              fields: {
+                BaseRecursiveConstructor: {
+                  label: 'Маркировка',
+                  width: 'all',
+                  type: 'BaseRecursiveConstructor',
+                  fields: [
+                    {
+                      vehicleComponentLocationText: {
+                        label:
+                          '​Место расположения и форма единого знака обращения на рынке государств-членов Таможенного союза*',
+                        width: 'all',
+                        type: 'BaseTextarea',
+                        value: ''
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            vehicleIdentificationNumberLocationText: {
+              width: 'all',
+              type: 'BaseRecursiveConstructor',
+              fields: [
+                {
+                  vehicleIdentificationNumberLocationText: {
+                    label: 'Место расположения идентификационного номера*',
+                    width: 'all',
+                    type: 'BaseTextarea',
+                    value: ''
+                  }
+                }
+              ]
+            },
+
+            engineIdentificationNumberLocationText: {
+              width: 'all',
+              type: 'BaseRecursiveConstructor',
+              fields: [
+                {
+                  vehicleIdentificationNumberLocationText: {
+                    label: 'Место расположения идентификационного номера  двигателя',
+                    width: 'all',
+                    type: 'BaseTextarea',
+                    value: ''
+                  }
+                }
+              ]
+            },
+            title: {
+              label: 'Структура и содержание идентификационного номера транспортного средства',
+              width: 'all',
+              type: 'BaseSlot'
+            },
+            squares: {
+              label: '',
+              width: 'all',
+              type: 'BaseOtp'
+            },
+            vehicleIdCharacterDetails: {
+              label: 'Группа',
+              width: 'all',
+              type: 'BaseRecursiveConstructor',
+              fields: [
+                {
+                  idCharacterStartingOrdinal: {
+                    label: 'Номер символа',
+                    width: '3',
+                    type: 'BaseAutocomplete',
+                    value: ''
+                  },
+                  idCharacterQuantity: {
+                    label: 'Количество символов*',
+                    width: '3',
+                    type: 'BaseAutocomplete',
+                    value: ''
+                  },
+                  typeDate: {
+                    label: 'Тип данных*',
+                    width: '6',
+                    type: 'BaseAutocomplete',
+                    value: ''
+                  },
+                  idCharacterText: {
+                    label: 'Описание*',
+                    width: 'all',
+                    type: 'BaseTextarea',
+                    value: ''
+                  },
+                  elementValue: {
+                    label: 'Значение',
+                    width: 'all',
+                    type: 'BaseRecursiveConstructor',
+                    fields: [
+                      {
+                        idCharacterStartingOrdinal: {
+                          label: 'Значение',
+                          width: 'all',
+                          type: 'BaseTextfield',
+                          value: ''
+                        },
+                        idCharacterText: {
+                          label: 'Описание*',
+                          width: 'all',
+                          type: 'BaseTextarea',
+                          value: ''
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   },
   {
     title: 'Общий вид транспортного средства (Шасси)',
-    id: '#vehicle-general-form'
+    id: '#vehicle-general-form',
+    fields: {
+      BaseFile: {
+        width: 'all',
+        type: 'BaseFile'
+      }
+    }
   },
   {
     title: 'Документ, подтверждающий соответствие обязательным требованиям',
-    id: '#confirming-document'
+    id: '#confirming-document',
+    fields: {
+      docName: {
+        label: 'Наименование документа, подтверждающего соответствие обязательным требованиям',
+        width: '6',
+        type: 'BaseTextfield'
+      },
+      docId: {
+        label: 'Номер документа, подтверждающего соответствие обязательным требованиям',
+        width: '6',
+        type: 'BaseTextfield'
+      },
+      docCreationDate: {
+        label: 'Дата документа',
+        width: '3',
+        type: 'BaseDatefield'
+      },
+      eventDate: {
+        label: 'Дата внесения записи о документе в единый реестр',
+        width: '3',
+        type: 'BaseDatefield'
+      },
+      businessEntityName: {
+        label: 'Наименование хозяйствующего субъекта, выдавшего документ',
+        width: '6',
+        type: 'BaseTextfield'
+      },
+      businessEntityId: {
+        label: 'Идентификатор хозяйствующего субъекта, присвоенный при государственной регистрации',
+        width: '6',
+        type: 'BaseTextfield'
+      },
+      fullNameDetails: {
+        label: 'Идентификатор хозяйствующего субъекта, присвоенный при государственной регистрации',
+        width: '6',
+        type: 'BaseTextfield'
+      }
+    }
   },
   {
     title: 'Перечень документов, являющихся основанием для оформления ОТТС',
-    id: '#list-of-documents'
+    id: '#list-of-documents',
+    fields:{
+      tables:{
+        width: 'all',
+        type: 'BaseTableForDocuments'
+      }
+    }
     // hide: this.formModel.conformityDocKindCode === '30'
-  },
-  {
-    title: 'Перечень документов, являющихся основанием для оформления ОТШ',
-    id: '#list-of-documents'
-    // hide: this.formModel.conformityDocKindCode === '35'
   },
   {
     title: 'История изменения документа',

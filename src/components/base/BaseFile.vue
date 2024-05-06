@@ -15,7 +15,7 @@
 
     <div v-for="(item, index) in images" :key="index" style="position: relative">
       <span class="imgTitle">{{ item.file.name }}</span>
-      <img :src="item.url" class="img" @click="opened(index)" />
+      <img :src="item.url" class="img" @click="openModal(index)" />
       <span class="imgSize">{{ Math.ceil(item.file.size / 1000) }} Kb</span>
       <v-icon
         icon="mdi-delete-empty"
@@ -26,18 +26,14 @@
       ></v-icon>
     </div>
 
-    <base-modal v-model:isOpen="isOpen" is-empty="true" :title="images[currentIndex]?.file?.name">
-      <canvas ref="modalCanvas" class="canvas" @click="isOpen = false"></canvas>
+    <base-modal v-model:isOpen="isOpen" :is-empty="true" :title="images[currentIndex]?.file?.name">
+      <!-- <img ref="modalImg" :src="images[currentIndex]?.url" class="modalImg" @click="closeModal" /> -->
+      <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
 
       <div class="modalButtons">
-        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-1)"> </v-btn>
-        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(1)"> </v-btn>
-
-        <v-btn icon="mdi-image-outline" class="modalButtonImg" @click="naturalSize"> </v-btn>
-
-        <v-btn icon="mdi-plus-thick" class="modalButtonImg" @click="scale(1.5)"> </v-btn>
-        <v-btn icon="mdi-minus-thick" class="modalButtonImg" @click="scale(0.5)"> </v-btn>
-        <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="isOpen = false"> </v-btn>
+        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)"> </v-btn>
+        <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
+        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
       </div>
     </base-modal>
   </div>
@@ -51,13 +47,65 @@ const modalCanvas = ref(null) // canvas который находится в м�
 const images = ref([]) // массив картинок
 const isOpen = ref(false)
 const currentIndex = ref()
-const initialModalImage = ref()
+const scale = ref(1)
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
-    startCanvas()
+    initCanvas()
   }
 })
+
+function rotate(angle) {
+  let canvas = modalCanvas.value
+  let context = canvas.getContext('2d')
+  let canvasImg = canvas.toDataURL('image/jpeg')
+
+  let img = new Image()
+  img.src = canvasImg
+
+  img.onload = function () {
+    drawRotated(canvas, context, angle, img)
+    // requestAnimationFrame(rotate)
+  }
+}
+
+function drawRotated(canvas, context, angle, img) {
+  if (angle % 180 !== 0) {
+    canvas.width = img.height
+    canvas.height = img.width
+  } else {
+    canvas.width = img.width
+    canvas.height = img.height
+  }
+  // Запуск анимации
+  context.clearRect(0, 0, canvas.width, canvas.height) // Очищаем холст
+  context.save() // Сохраняем текущее состояние контекста
+  context.translate(canvas.width / 2, canvas.height / 2) // Переходим в центр изображения
+  context.rotate((angle * Math.PI) / 180) // Поворачиваем изображение на заданный угол, приведенный к радианам
+  context.drawImage(img, -img.width / 2, -img.height / 2) // Рисуем изображение
+  context.restore() // Возвращаем настройки контекста в исходное состояние
+}
+
+function onwheel(e) {
+  if (e.deltaY > 0) {
+    scale.value -= 0.15
+    modalCanvas.value.style.transform = `scale(${scale.value > 0.15 ? scale.value : (scale.value = 0.15)})`
+  } else {
+    scale.value += 0.15
+    modalCanvas.value.style.transform = `scale(${scale.value})`
+  }
+  return false
+}
+
+function closeModal() {
+  // передаем новые координаты в массив картинок
+  let canvas = modalCanvas.value
+  let canvasImg = canvas.toDataURL('image/jpeg') || images.value[currentIndex.value].url
+  canvasImg = canvas.toDataURL('image/jpeg')
+  images.value[currentIndex.value].url = canvasImg
+  scale.value = 1
+  isOpen.value = false
+}
 
 function uploadFile(files) {
   if (!files) return
@@ -67,12 +115,12 @@ function uploadFile(files) {
     // URL.revokeObjectURL(link)
   }
 }
-function opened(index) {
+function openModal(index) {
   isOpen.value = !isOpen.value
   currentIndex.value = index
 }
 
-async function startCanvas() {
+async function initCanvas() {
   await nextTick() // Dom обновился и появилось модальное окно с modalCanvas
   let canvas = modalCanvas.value
   let context = canvas.getContext('2d')
@@ -83,62 +131,7 @@ async function startCanvas() {
     canvas.height = img.naturalHeight
     context.drawImage(img, 0, 0)
   }
-  initialModalImage.value = images.value[currentIndex.value].url
-  img.src = initialModalImage.value
-  context.closePath()
-}
-
-function scale(size) {
-  let canvas = modalCanvas.value
-  // canvas.style.transform = `scale(${(curentScale.value += size)})`
-  let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
-  let img = new Image()
-  img.onload = () => {
-    context.drawImage(img, 0, 0, size * img.width, size * img.height) // Рисуем изображение
-  }
-  img.src = canvasImg
-  context.save() // Сохраняем текущее состояние контекста
-  canvas.width = canvas.width * size
-  canvas.height = canvas.height * size
-  context.restore() // Возвращаем настройки контекста в исходное состояние
-}
-
-function naturalSize() {
-  let canvas = modalCanvas.value
-  let context = canvas.getContext('2d')
-  let img = new Image()
-  img.onload = () => {
-    canvas.width = img.naturalWidth
-    canvas.height = img.naturalHeight
-    context.drawImage(img, 0, 0) // Рисуем изображение
-  }
-  img.src = initialModalImage.value
-  images.value[currentIndex.value].url = initialModalImage.value
-}
-
-function rotate(direction) {
-  let canvas = modalCanvas.value
-  let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
-  let img = new Image()
-  img.src = canvasImg
-
-  if (img?.width) {
-    canvas.width = img.height
-    canvas.height = img.width
-  }
-
-  context.save() // Сохраняем текущее состояние контекста
-  context.translate(canvas.width / 2, canvas.height / 2) // Переходим в центр изображения
-  context.rotate((direction * Math.PI) / 2) // Поворачиваем изображение на заданный угол, приведенный к радианам
-  context.drawImage(img, -img.width / 2, -img.height / 2) // Рисуем изображение
-  context.restore() // Возвращаем настройки контекста в исходное состояние
-
-  // передаем новые координаты в массив картинок
-  canvasImg = canvas.toDataURL('image/jpeg')
-  images.value[currentIndex.value].url = canvasImg
-
+  img.src = images.value[currentIndex.value].url
   context.closePath()
 }
 
@@ -162,9 +155,9 @@ function removingImg(index) {
   display: flex;
   flex-wrap: wrap;
   gap: 20px 25px;
-  padding: 20px;
-  background-color: #f0f5f9;
-  border: 1px solid;
+  padding: 20px; 
+  background-color: rgba(246, 194, 160, 0.122);
+  border: 1px solid #2c4957;;
 }
 .dropbox {
   width: 170px;
@@ -187,11 +180,8 @@ function removingImg(index) {
 }
 .img {
   height: 120px;
-  object-fit: cover;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9); */
+  object-fit: contain;
   border-radius: 10px;
-  box-shadow: inset 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
-  /* box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5); */
 }
 .imgTitle {
   position: absolute;
@@ -213,10 +203,10 @@ function removingImg(index) {
   bottom: 20px;
   right: -18px;
 }
-.canvas {
+.modalImg {
   border: 4px solid white;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
-  transition: 500ms;
+  transition: transform 0.4s ease-in-out;
 }
 .modalButtons {
   width: 100%;
@@ -227,7 +217,10 @@ function removingImg(index) {
   bottom: 40px;
 }
 .modalButtonImg {
-  background-color: white ;
+  background-color: white;
   color: #546e7a;
+}
+.canvasC {
+  border: 2px solid white;
 }
 </style>
