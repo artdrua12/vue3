@@ -5,6 +5,9 @@
 <script setup>
 import { computed, reactive } from 'vue'
 import LayoutForms from '@/components/layout/LayoutForms.vue'
+import { useIndexDBStore } from '@/stores/indexDBStore'
+const indexDB = useIndexDBStore() // для работы с базой данных
+
 const data = reactive([
   {
     title: 'Документ об оценке соответствия',
@@ -20,9 +23,8 @@ const data = reactive([
             width: '6',
             value: '',
             type: 'BaseAutocomplete',
-            items: [],
-            text: 'name',
-            itemValue: 'type'
+            items: (async () => await indexDB.getFromDatabase('catalog', 'NSI_034'))(),
+            itemValue: 'key'
           },
           docId: {
             label: 'Номер документа*',
@@ -2472,8 +2474,8 @@ const data = reactive([
   {
     title: 'Перечень документов, являющихся основанием для оформления ОТТС',
     id: '#list-of-documents',
-    fields:{
-      tables:{
+    fields: {
+      tables: {
         width: 'all',
         type: 'BaseTableForDocuments'
       }
@@ -2482,9 +2484,13 @@ const data = reactive([
   },
   {
     title: 'История изменения документа',
-    id: '#conformity-change-history'
+    id: '#conformity-change-history',
+    fields: {
+      tables: {
+        width: 'all',
+        type: 'HistoryDocument'
+      }
+    }
   }
 ])
 </script>
-
-<style></style>

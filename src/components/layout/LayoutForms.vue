@@ -56,8 +56,9 @@
         </div>
 
         <div v-else class="tabsWrapper tabsPageForm">
+          <!-- :is="getComponent(i.type)" -->
           <component
-            :is="getComponent(i.type)"
+            :is="is(i.type)"
             v-for="(i, index) in item.fields"
             :key="index"
             v-model:fields="i.fields"
@@ -79,6 +80,7 @@
   </div>
 </template>
 <script setup>
+import { ref, defineProps, defineAsyncComponent } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -93,7 +95,7 @@ import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseSlot from '@/components/base/BaseSlot.vue'
 import BaseFile from '@/components/base/BaseFile.vue'
 import BaseTableForDocuments from '@/components/base/BaseTableForDocuments.vue'
-import { ref, defineProps } from 'vue'
+import HistoryDocument from '@/components/base/HistoryDocument.vue'
 
 const props = defineProps({
   data: { type: Array, required: true }
@@ -110,9 +112,14 @@ const allComponents = {
   BaseSlot,
   BaseRecursiveConstructor,
   BaseFile,
-  BaseTableForDocuments
+  BaseTableForDocuments,
+  HistoryDocument
 }
 const currentTab = ref('')
+
+function is(type) {
+  return defineAsyncComponent(() => import(`@/components/base/${type}.vue`))
+}
 function getComponent(type) {
   return allComponents[type]
 }

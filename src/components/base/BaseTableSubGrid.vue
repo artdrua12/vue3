@@ -4,9 +4,9 @@
       <div :key="tableHeaderKey" class="tableFixHead">
         <div class="fixPos">
           <v-tooltip text="Настройки таблицы" location="top">
-            <template #activator="{ activatorProps  }">
+            <template #activator="{ activatorProps }">
               <v-btn
-                v-bind="activatorProps "
+                v-bind="activatorProps"
                 icon="mdi-tune-variant"
                 rounded="0"
                 variant="text"
@@ -196,13 +196,13 @@
 
 <script setup>
 import { reactive, ref, defineEmits, inject, onMounted, defineProps, computed } from 'vue'
-import BaseCheckbox from './BaseCheckbox.vue';
+import BaseCheckbox from './BaseCheckbox.vue'
 import BaseModal from './BaseModal.vue'
 const isOpen = ref(false) // модальное окно "Настройки"
-const tableRowSelectedID = ref('')
+const tableRowSelectedID = ref('') // id выбранной строки
 const show = ref(false)
 const sizes = [5, 10, 15, 20, 50]
-const fixHeader = reactive([])
+const fixHeader = reactive([]) //фиксированые заголовки
 
 const additionalTableHeaders = inject('additionalTableHeaders')
 const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
@@ -210,7 +210,7 @@ const tableHeaderKey = ref(0) // ключ который меняется для
 const pathToStatus = inject('pathToStatus') //путь к статусу
 const props = defineProps({
   size: { type: Number, required: true }, //количество строк на одной странице
-  page: { type: Number, required: true }, // текущая страница
+  page: { type: Number, required: true } // текущая страница
   // tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
 })
 

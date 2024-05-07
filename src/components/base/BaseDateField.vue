@@ -7,41 +7,42 @@
 
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <BaseTextfield
-          v-bind="props"
-          v-model="formatDate"
-          :label="propsParent.label"
-          @update:enter="onEnter"
-        >
+        <BaseTextfield v-bind="props" v-model="formatDate" :label="label" @update:enter="onEnter">
         </BaseTextfield>
       </template>
-      <v-date-picker v-model="date" color="#2c4957" show-adjacent-months></v-date-picker>
+      <v-date-picker v-model="currentDate" color="#2c4957" show-adjacent-months></v-date-picker>
     </v-menu>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from 'vue'
+import { ref, computed, defineProps, defineEmits, watch } from 'vue'
 import { useDate } from 'vuetify'
 import BaseTextfield from './BaseTextfield.vue'
-const propsParent = defineProps({
-  label: { type: String, default: '' }
+const { label, date } = defineProps({
+  label: { type: String, default: '' },
+  date: { type: String, default: '2' }
 })
 const emit = defineEmits(['update:enter'])
 const dateUtils = useDate()
-const date = ref()
+const currentDate = ref()
 const formatDate = computed({
   get() {
-    return date.value ? dateUtils.format(date.value, 'keyboardDate') : null
+    return currentDate.value ? dateUtils.format(currentDate.value, 'keyboardDate') : null
   },
   set(value) {
-    date.value = value
+    currentDate.value = value
   }
 })
+
 
 function onEnter() {
   emit('update:enter')
 }
+watch(formatDate, () => {
+  console.log('newValue', formatDate.value)
+  emit('update:enter', formatDate.value)
+})
 </script>
 
 <style scoped></style>
