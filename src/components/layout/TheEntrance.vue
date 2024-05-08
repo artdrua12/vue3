@@ -68,7 +68,6 @@ async function entrance() {
       indexDB.setToDatabase('catalog', referenceBook[i].codeNsi, referenceBook[i].recordLine)
     }
   }
-  console.log('referenceBook.length', referenceBook.length)
 }
 
 async function checkLogin() {

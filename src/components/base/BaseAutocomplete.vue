@@ -26,8 +26,14 @@ const emit = defineEmits(['update:enter'])
 const props = defineProps({
   label: { type: String, default: '' },
   itemValue: { type: String, default: '' },
-  itemText: { type: String, default: '' },
-  value: { type: String, default: '' }
+  itemText: { type: String, default: 'value' },
+  value: { type: String, default: '' },
+  items: {
+    type: Array,
+    default() {
+      return []
+    }
+  }
 })
 function onEnter() {
   emit('update:enter')

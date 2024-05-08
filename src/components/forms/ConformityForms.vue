@@ -3,10 +3,24 @@
 </template>
 
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import LayoutForms from '@/components/layout/LayoutForms.vue'
-import { useIndexDBStore } from '@/stores/indexDBStore'
-const indexDB = useIndexDBStore() // для работы с базой данных
+function asd() {
+  return ['a', 'b', 'c']
+}
+
+const s = ref([])
+function resolveAfter2Seconds() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(['a', 'b', 'c'])
+    }, 0)
+  }).then((q) => {
+    for (let i = 0; i++; i < q.length) {
+      s.value.push(q[i])
+    }
+  })
+}
 
 const data = reactive([
   {
@@ -23,8 +37,10 @@ const data = reactive([
             width: '6',
             value: '',
             type: 'BaseAutocomplete',
-            items: (async () => await indexDB.getFromDatabase('catalog', 'NSI_034'))(),
-            itemValue: 'key'
+            items: s.value,
+            itemValue: 'key',
+            catalog: 'NSI_034',
+            asd: resolveAfter2Seconds()
           },
           docId: {
             label: 'Номер документа*',

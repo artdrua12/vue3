@@ -158,8 +158,7 @@ const fields = reactive({
     type: 'BaseAutocomplete',
     items: [],
     url: '/api/classifier/epassport/status-directory-otts',
-    catalog: 'NSI_003',
-    text: 'value'
+    catalog: 'NSI_003'
   },
   lastModifiedWith: {
     width: '3',
