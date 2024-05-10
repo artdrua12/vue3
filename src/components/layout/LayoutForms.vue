@@ -49,6 +49,7 @@
                   :item-value="i.itemValue"
                   :placeholder="i.placeholder"
                   :disabled="i.disabled"
+                  :hint="i.hint"
                 ></component>
               </div>
             </v-window-item>
@@ -73,6 +74,7 @@
             :item-value="i.itemValue"
             :placeholder="i.placeholder"
             :disabled="i.disabled"
+            :hint="i.hint"
           ></component>
         </div>
       </base-panel>

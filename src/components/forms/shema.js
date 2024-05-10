@@ -1,836 +1,837 @@
-{
-  "refuseReason": "",
-  "eDocId": "",
-  "changeHistory": [],
-  "additionalInfoText": "",
-  "applicantDetails": {
-    "businessEntityName": "",
-    "businessEntityTypeName": "",
-    "fullNameDetails": {
-      "lastName": "",
-      "firstName": "",
-      "middleName": ""
+import { reactive } from 'vue'
+export const shema = reactive({
+  refuseReason: '',
+  eDocId: '',
+  changeHistory: [],
+  additionalInfoText: '',
+  applicantDetails: {
+    businessEntityName: '',
+    businessEntityTypeName: '',
+    fullNameDetails: {
+      lastName: '',
+      firstName: '',
+      middleName: ''
     },
-    "subjectAddressDetails": [
+    subjectAddressDetails: [
       {
-        "addressKindCode": "4",
-        "unifiedCountryCode": {
-          "value": "",
-          "codeListId": "NSI_034"
+        addressKindCode: '4',
+        unifiedCountryCode: {
+          value: '',
+          codeListId: 'NSI_034'
         },
-        "territoryCode": "",
-        "regionName": "",
-        "districtName": "",
-        "cityName": "",
-        "settlementName": "",
-        "streetName": "",
-        "buildingNumberId": "",
-        "roomNumberId": "",
-        "postCode": "",
-        "postOfficeBoxId": "",
-        "fullAddress": ""
+        territoryCode: '',
+        regionName: '',
+        districtName: '',
+        cityName: '',
+        settlementName: '',
+        streetName: '',
+        buildingNumberId: '',
+        roomNumberId: '',
+        postCode: '',
+        postOfficeBoxId: '',
+        fullAddress: ''
       }
     ],
-    "unifiedCommunicationDetails": [
+    unifiedCommunicationDetails: [
       {
-        "communicationChannelId": [],
-        "communicationChannelName": "",
-        "unifiedCommunicationChannelCode": {
-          "value": "",
-          "codeListId": "NSI_042"
+        communicationChannelId: [],
+        communicationChannelName: '',
+        unifiedCommunicationChannelCode: {
+          value: '',
+          codeListId: 'NSI_042'
         }
       }
     ],
-    "unifiedCountryCode": {
-      "codeListId": "NSI_034",
-      "value": ""
+    unifiedCountryCode: {
+      codeListId: 'NSI_034',
+      value: ''
     },
-    "businessEntityId": [
+    businessEntityId: [
       {
-        "kindId": "",
-        "value": ""
+        kindId: '',
+        value: ''
       }
     ]
   },
-  "businessId": "",
-  "externalSystemLoadCode": "1",
-  "conformityAuthorityInformationDetails": {
-    "authority": "",
-    "inputManual": false,
-    "businessEntityBriefName": "",
-    "businessEntityId": "",
-    "businessEntityName": "",
-    "businessEntityTypeName": "",
-    "docId": "",
-    "docStartDate": "",
-    "docValidityDate": "",
-    "subjectAddressDetails": [
+  businessId: '',
+  externalSystemLoadCode: '1',
+  conformityAuthorityInformationDetails: {
+    authority: '',
+    inputManual: false,
+    businessEntityBriefName: '',
+    businessEntityId: '',
+    businessEntityName: '',
+    businessEntityTypeName: '',
+    docId: '',
+    docStartDate: '',
+    docValidityDate: '',
+    subjectAddressDetails: [
       {
-        "addressKindCode": "",
-        "postOfficeBoxId": "",
-        "fullAddress": ""
+        addressKindCode: '',
+        postOfficeBoxId: '',
+        fullAddress: ''
       }
     ],
-    "unifiedCommunicationDetails": [
+    unifiedCommunicationDetails: [
       {
-        "communicationChannelId": [],
-        "communicationChannelName": "",
-        "unifiedCommunicationChannelCode": {
-          "value": "",
-          "codeListId": "NSI_042"
+        communicationChannelId: [],
+        communicationChannelName: '',
+        unifiedCommunicationChannelCode: {
+          value: '',
+          codeListId: 'NSI_042'
         }
       }
     ],
-    "fullNameDetails": {
-      "firstName": "",
-      "middleName": "",
-      "lastName": ""
+    fullNameDetails: {
+      firstName: '',
+      middleName: '',
+      lastName: ''
     }
   },
-  "conformityDocKindCode": "",
-  "conformityDocKindName": "",
-  "conformityDocStatusDetails": {
-    "docStatus": "",
-    "docStatusChangeDocDetails": {
-      "docCreationDate": "",
-      "docId": 0,
-      "docKindCode": {
-        "value": ""
+  conformityDocKindCode: '',
+  conformityDocKindName: '',
+  conformityDocStatusDetails: {
+    docStatus: '',
+    docStatusChangeDocDetails: {
+      docCreationDate: '',
+      docId: 0,
+      docKindCode: {
+        value: ''
       },
-      "docName": "",
-      "formNumberId": ""
+      docName: '',
+      formNumberId: ''
     },
-    "docStatusCode": "",
-    "endDate": "",
-    "noteText": "",
-    "startDate": ""
+    docStatusCode: '',
+    endDate: '',
+    noteText: '',
+    startDate: ''
   },
-  "docAnnexDetails": [
+  docAnnexDetails: [
     {
-      "formNumberId": [],
-      "objectOrdinal": "",
-      "pageQuantity": 0
+      formNumberId: [],
+      objectOrdinal: '',
+      pageQuantity: 0
     }
   ],
-  "docCreationDate": "",
-  "docId": "",
-  "docStartDate": "",
-  "docValidityDate": "",
-  "formNumberId": {
-    "formAdditionalNumberId": [],
-    "formNumberMain": ""
+  docCreationDate: '',
+  docId: '',
+  docStartDate: '',
+  docValidityDate: '',
+  formNumberId: {
+    formAdditionalNumberId: [],
+    formNumberMain: ''
   },
-  "fullNameDetails": "",
-  "party": {
-    "partyValue": false,
-    "smallParty": {
-      "smallPartyValue": false,
-      "vinNumber": {
-        "constant": "",
-        "numberBy": "",
-        "numberWith": "",
-        "vin": []
+  fullNameDetails: '',
+  party: {
+    partyValue: false,
+    smallParty: {
+      smallPartyValue: false,
+      vinNumber: {
+        constant: '',
+        numberBy: '',
+        numberWith: '',
+        vin: []
       }
     }
   },
-  "resourceItemStatusDetails": [
+  resourceItemStatusDetails: [
     {
-      "technicalRegulationObjectKindCode": "",
-      "docName": "",
-      "docNumber": "",
-      "updateDateTime": "",
-      "businessEntity": {
-        "unifiedCountry": "",
-        "businessEntityName": ""
+      technicalRegulationObjectKindCode: '',
+      docName: '',
+      docNumber: '',
+      updateDateTime: '',
+      businessEntity: {
+        unifiedCountry: '',
+        businessEntityName: ''
       },
-      "validityPeriodDetails": {
-        "endDateTime": "",
-        "startDateTime": ""
+      validityPeriodDetails: {
+        endDateTime: '',
+        startDateTime: ''
       }
     }
   ],
-  "series": false,
-  "unifiedCommodityMeasure": {
-    "measurementUnitCode": {
-      "measurementUnitCodeListId": "H87"
+  series: false,
+  unifiedCommodityMeasure: {
+    measurementUnitCode: {
+      measurementUnitCodeListId: 'H87'
     },
-    "value": 0
+    value: 0
   },
-  "unifiedCountryCode": {
-    "codeListId": "",
-    "value": ""
+  unifiedCountryCode: {
+    codeListId: '',
+    value: ''
   },
-  "vehicleComplianceDocDetails": [
+  vehicleComplianceDocDetails: [
     {
-      "businessEntityId": "",
-      "businessEntityName": "",
-      "docCreationDate": "",
-      "docId": "",
-      "docName": "",
-      "eventDate": ""
+      businessEntityId: '',
+      businessEntityName: '',
+      docCreationDate: '',
+      docId: '',
+      docName: '',
+      eventDate: ''
     }
   ],
-  "notVehicleAssemblyPlantDetails": false,
-  "notVehicleRepresentativeDetails": false,
-  "notVehicleProviderDetails": false,
-  "vehicleManufacturerDetails": [
+  notVehicleAssemblyPlantDetails: false,
+  notVehicleRepresentativeDetails: false,
+  notVehicleProviderDetails: false,
+  vehicleManufacturerDetails: [
     {
-      "vehicleManufacturerKindCode": "05",
-      "businessEntityName": "",
-      "businessEntityBriefName": "",
-      "businessEntityTypeName": "",
-      "businessEntityId": [
+      vehicleManufacturerKindCode: '05',
+      businessEntityName: '',
+      businessEntityBriefName: '',
+      businessEntityTypeName: '',
+      businessEntityId: [
         {
-          "kindId": "",
-          "value": ""
+          kindId: '',
+          value: ''
         }
       ],
-      "unifiedCountryCode": {
-        "value": "",
-        "codeListId": "NSI_034"
+      unifiedCountryCode: {
+        value: '',
+        codeListId: 'NSI_034'
       },
-      "subjectAddressDetails": [
+      subjectAddressDetails: [
         {
-          "addressKindCode": "4",
-          "unifiedCountryCode": {
-            "value": "",
-            "codeListId": "NSI_034"
+          addressKindCode: '4',
+          unifiedCountryCode: {
+            value: '',
+            codeListId: 'NSI_034'
           },
-          "territoryCode": "",
-          "regionName": "",
-          "districtName": "",
-          "cityName": "",
-          "settlementName": "",
-          "streetName": "",
-          "buildingNumberId": "",
-          "roomNumberId": "",
-          "postCode": "",
-          "postOfficeBoxId": "",
-          "fullAddress": ""
+          territoryCode: '',
+          regionName: '',
+          districtName: '',
+          cityName: '',
+          settlementName: '',
+          streetName: '',
+          buildingNumberId: '',
+          roomNumberId: '',
+          postCode: '',
+          postOfficeBoxId: '',
+          fullAddress: ''
         }
       ],
-      "unifiedCommunicationDetails": [
+      unifiedCommunicationDetails: [
         {
-          "communicationChannelId": [],
-          "communicationChannelName": "",
-          "unifiedCommunicationChannelCode": {
-            "value": "",
-            "codeListId": "NSI_042"
+          communicationChannelId: [],
+          communicationChannelName: '',
+          unifiedCommunicationChannelCode: {
+            value: '',
+            codeListId: 'NSI_042'
           }
         }
       ],
-      "fullNameDetails": {
-        "firstName": "",
-        "lastName": "",
-        "middleName": ""
+      fullNameDetails: {
+        firstName: '',
+        lastName: '',
+        middleName: ''
       }
     }
   ],
-  "vehicleTypeDetails": {
-    "isNotRequiredVehicleEmergencyCallDeviceIndicator": false,
-    "vehicleHybrid": false,
-    "manufactureYear": "",
-    "vehicleTypeIdZ": [],
-    "addInfo": [""],
-    "addInfoIndicator": false,
-    "notVehicleCommercialNameIndicator": false,
-    "notVehicleMakeNameIndicator": false,
-    "preferentialManufacturingModeText": "",
-    "vehicleCommercialName": [],
-    "vehicleEquipmentText": [""],
-    "vehicleHybridDesignText": [],
-    "vehicleLabelingDetails": [
+  vehicleTypeDetails: {
+    isNotRequiredVehicleEmergencyCallDeviceIndicator: false,
+    vehicleHybrid: false,
+    manufactureYear: '',
+    vehicleTypeIdZ: [],
+    addInfo: [''],
+    addInfoIndicator: false,
+    notVehicleCommercialNameIndicator: false,
+    notVehicleMakeNameIndicator: false,
+    preferentialManufacturingModeText: '',
+    vehicleCommercialName: [],
+    vehicleEquipmentText: [''],
+    vehicleHybridDesignText: [],
+    vehicleLabelingDetails: [
       {
-        "vehicleIdentificationNumberId": {
-          "number1": "?",
-          "number2": "?",
-          "number3": "?",
-          "number4": "?",
-          "number5": "?",
-          "number6": "?",
-          "number7": "?",
-          "number8": "?",
-          "number9": "?",
-          "number10": "?",
-          "number11": "?",
-          "number12": "?",
-          "number13": "?",
-          "number14": "?",
-          "number15": "?",
-          "number16": "?",
-          "number17": "?"
+        vehicleIdentificationNumberId: {
+          number1: '?',
+          number2: '?',
+          number3: '?',
+          number4: '?',
+          number5: '?',
+          number6: '?',
+          number7: '?',
+          number8: '?',
+          number9: '?',
+          number10: '?',
+          number11: '?',
+          number12: '?',
+          number13: '?',
+          number14: '?',
+          number15: '?',
+          number16: '?',
+          number17: '?'
         },
-        "uniformSignLocationText": "",
-        "engineIdentificationNumberLocationText": [""],
-        "vehicleComponentLocationText": [""],
-        "vehicleIdCharacterDetails": [
+        uniformSignLocationText: '',
+        engineIdentificationNumberLocationText: [''],
+        vehicleComponentLocationText: [''],
+        vehicleIdCharacterDetails: [
           {
-            "idCharacterQuantity": 0,
-            "idCharacterStartingOrdinal": 0,
-            "idCharacterText": "",
-            "idCharacterValueDetails": [
+            idCharacterQuantity: 0,
+            idCharacterStartingOrdinal: 0,
+            idCharacterText: '',
+            idCharacterValueDetails: [
               {
-                "idCharacterValueCode": "",
-                "idCharacterValueText": ""
+                idCharacterValueCode: '',
+                idCharacterValueText: ''
               }
             ],
-            "idCharacterValueText": "",
-            "typeDate": ""
+            idCharacterValueText: '',
+            typeDate: ''
           }
         ],
-        "vehicleIdentificationNumberLocationText": [""],
-        "notManufacturerPlateIndicator": false
+        vehicleIdentificationNumberLocationText: [''],
+        notManufacturerPlateIndicator: false
       }
     ],
-    "vehicleLayoutPattern": "",
-    "vehicleLayoutPatternText": [],
-    "vehicleMakeCode": [],
-    "vehicleMakeName": [],
-    "vehicleMakeNameZ": [],
-    "vehicleMovementPermitIndicator": false,
-    "vehiclePicture": [],
-    "vehicleRoutingIndicator": false,
-    "vehicleTechCategoryCode": [],
-    "vehicleTypeId": [],
-    "vehicleUseRestrictionIndicator": false,
-    "vehicleUseRestrictionShipping": [""],
-    "vehicleUseRestrictionText": [""],
-    "notVehicleHybridDesignText": ""
+    vehicleLayoutPattern: '',
+    vehicleLayoutPatternText: [],
+    vehicleMakeCode: [],
+    vehicleMakeName: [],
+    vehicleMakeNameZ: [],
+    vehicleMovementPermitIndicator: false,
+    vehiclePicture: [],
+    vehicleRoutingIndicator: false,
+    vehicleTechCategoryCode: [],
+    vehicleTypeId: [],
+    vehicleUseRestrictionIndicator: false,
+    vehicleUseRestrictionShipping: [''],
+    vehicleUseRestrictionText: [''],
+    notVehicleHybridDesignText: ''
   },
-  "vehicleVariantDetails": [
+  vehicleVariantDetails: [
     {
-      "ecuModelCode": "",
-      "vehicleChassisDesignCode": [],
-      "notVehicleBrakingSystem": false,
-      "notPowerStorageDevice": false,
-      "notVehicleIgnition": false,
-      "notFuelFeed": false,
-      "notFuelKind": false,
-      "notExhaust": false,
-      "notVehicleTypeId": false,
-      "notModificationVirtual": false,
-      "notCodOKPBY": false,
-      "notCodTNVED": false,
-      "notEngine": false,
-      "modificationVirtual": "",
-      "notBaseVehicleDetails": false,
-      "baseVehicleDetails": [
+      ecuModelCode: '',
+      vehicleChassisDesignCode: [],
+      notVehicleBrakingSystem: false,
+      notPowerStorageDevice: false,
+      notVehicleIgnition: false,
+      notFuelFeed: false,
+      notFuelKind: false,
+      notExhaust: false,
+      notVehicleTypeId: false,
+      notModificationVirtual: false,
+      notCodOKPBY: false,
+      notCodTNVED: false,
+      notEngine: false,
+      modificationVirtual: '',
+      notBaseVehicleDetails: false,
+      baseVehicleDetails: [
         {
-          "docCreationDate": "",
-          "docId": "",
-          "vehicleCommercialName": [],
-          "vehicleMakeCode": [],
-          "vehicleMakeName": "",
-          "notVehicleMakeNameIndicator": false,
-          "vehicleTypeId": "",
-          "notVehicleCommercialNameIndicator": false
+          docCreationDate: '',
+          docId: '',
+          vehicleCommercialName: [],
+          vehicleMakeCode: [],
+          vehicleMakeName: '',
+          notVehicleMakeNameIndicator: false,
+          vehicleTypeId: '',
+          notVehicleCommercialNameIndicator: false
         }
       ],
-      "codOKPBY": [],
-      "codTNVED": [],
-      "engineDetails": [
+      codOKPBY: [],
+      codTNVED: [],
+      engineDetails: [
         {
-          "engineCapacityMeasure": {
-            "measurementUnitCode": "CMQ",
-            "value": 0
+          engineCapacityMeasure: {
+            measurementUnitCode: 'CMQ',
+            value: 0
           },
-          "engineCompressionRate": 0,
-          "engineCylinderArrangementText": "",
-          "engineCylinderQuantity": 0,
-          "engineMaxPowerDetails": {
-            "engineMaxPowerMeasure": {
-              "measurementUnitCode": "KWT",
-              "measurementUnitCodeListId": "",
-              "value": 0
+          engineCompressionRate: 0,
+          engineCylinderArrangementText: '',
+          engineCylinderQuantity: 0,
+          engineMaxPowerDetails: {
+            engineMaxPowerMeasure: {
+              measurementUnitCode: 'KWT',
+              measurementUnitCodeListId: '',
+              value: 0
             },
-            "vehicleShaftRotationFrequency": {
-              "rangeIndicator": false,
-              "vehicleShaftRotationFrequencyMaxMeasure": {
-                "measurementUnitCode": "RPM",
-                "value": 0
+            vehicleShaftRotationFrequency: {
+              rangeIndicator: false,
+              vehicleShaftRotationFrequencyMaxMeasure: {
+                measurementUnitCode: 'RPM',
+                value: 0
               },
-              "vehicleShaftRotationFrequencyMinMeasure": {
-                "measurementUnitCode": "RPM",
-                "value": 0
+              vehicleShaftRotationFrequencyMinMeasure: {
+                measurementUnitCode: 'RPM',
+                value: 0
               }
             }
           },
-          "engineMaxTorqueDetails": {
-            "engineMaxTorqueMeasure": {
-              "measurementUnitCode": "NEW",
-              "value": 0
+          engineMaxTorqueDetails: {
+            engineMaxTorqueMeasure: {
+              measurementUnitCode: 'NEW',
+              value: 0
             },
-            "vehicleShaftRotationFrequency": {
-              "rangeIndicator": false,
-              "vehicleShaftRotationFrequencyMaxMeasure": {
-                "measurementUnitCode": "RPM",
-                "value": 0
+            vehicleShaftRotationFrequency: {
+              rangeIndicator: false,
+              vehicleShaftRotationFrequencyMaxMeasure: {
+                measurementUnitCode: 'RPM',
+                value: 0
               },
-              "vehicleShaftRotationFrequencyMinMeasure": {
-                "measurementUnitCode": "RPM",
-                "value": 0
+              vehicleShaftRotationFrequencyMinMeasure: {
+                measurementUnitCode: 'RPM',
+                value: 0
               }
             }
           },
-          "vehicleComponentMakeName": "",
-          "vehicleComponentModelCode": "",
-          "vehicleComponentText": "",
-          "engineType": ""
+          vehicleComponentMakeName: '',
+          vehicleComponentModelCode: '',
+          vehicleComponentText: '',
+          engineType: ''
         }
       ],
-      "engineQuantity": 0,
-      "engineType": "",
-      "exhaustDetails": [
+      engineQuantity: 0,
+      engineType: '',
+      exhaustDetails: [
         {
-          "vehicleComponentMakeName": "",
-          "vehicleComponentText": "",
-          "vehicleComponentElements": [
+          vehicleComponentMakeName: '',
+          vehicleComponentText: '',
+          vehicleComponentElements: [
             {
-              "vehicleComponentName": "",
-              "stageDetails": [
+              vehicleComponentName: '',
+              stageDetails: [
                 {
-                  "vehicleComponentStageNumber": "Ступень 1",
-                  "vehicleComponentMakeName": "",
-                  "vehicleComponentMarking": [],
-                  "vehicleComponentType": ""
+                  vehicleComponentStageNumber: 'Ступень 1',
+                  vehicleComponentMakeName: '',
+                  vehicleComponentMarking: [],
+                  vehicleComponentType: ''
                 }
               ]
             }
           ]
         }
       ],
-      "fuelFeedDetails": [
+      fuelFeedDetails: [
         {
-          "vehicleComponentText": "",
-          "vehicleComponentMakeName": "",
-          "vehicleComponentElements": [
+          vehicleComponentText: '',
+          vehicleComponentMakeName: '',
+          vehicleComponentElements: [
             {
-              "vehicleComponentName": "",
-              "vehicleComponentMakeName": "",
-              "vehicleComponentText": "",
-              "vehicleComponentType": "",
-              "vehicleComponentMarking": [],
-              "stageDetails": [
+              vehicleComponentName: '',
+              vehicleComponentMakeName: '',
+              vehicleComponentText: '',
+              vehicleComponentType: '',
+              vehicleComponentMarking: [],
+              stageDetails: [
                 {
-                  "vehicleComponentStageNumber": "Ступень 1",
-                  "vehicleComponentMakeName": "",
-                  "vehicleComponentMarking": []
+                  vehicleComponentStageNumber: 'Ступень 1',
+                  vehicleComponentMakeName: '',
+                  vehicleComponentMarking: []
                 }
               ]
             }
           ]
         }
       ],
-      "notVehicleTrailerIndicator": false,
-      "powerStorageDeviceDetails": [
+      notVehicleTrailerIndicator: false,
+      powerStorageDeviceDetails: [
         {
-          "capacity": {
-            "measurementUnitCode": "AMH",
-            "value": 0
+          capacity: {
+            measurementUnitCode: 'AMH',
+            value: 0
           },
-          "electrochemicalSteam": "",
-          "massValue": {
-            "measurementUnitCode": "KGM",
-            "value": 0
+          electrochemicalSteam: '',
+          massValue: {
+            measurementUnitCode: 'KGM',
+            value: 0
           },
-          "powerStorageDeviceVoltageMeasure": {
-            "measurementUnitCode": "VLT",
-            "value": 0
+          powerStorageDeviceVoltageMeasure: {
+            measurementUnitCode: 'VLT',
+            value: 0
           },
-          "text": "",
-          "vehicleComponentText": "",
-          "elementsQuantity": 0,
-          "vehicleComponentLocationText": "",
-          "vehicleMakeName": "",
-          "vehicleRangeMeasure": {
-            "measurementUnitCode": "KMT",
-            "value": 0
+          text: '',
+          vehicleComponentText: '',
+          elementsQuantity: 0,
+          vehicleComponentLocationText: '',
+          vehicleMakeName: '',
+          vehicleRangeMeasure: {
+            measurementUnitCode: 'KMT',
+            value: 0
           }
         }
       ],
-      "vehicleBodyworkDetails": [
+      vehicleBodyworkDetails: [
         {
-          "vehicleBodyworkAppointment": [""],
-          "vehicleBodyworkType": "",
-          "vehicleCarriageSpaceImplementationText": [""],
-          "vehicleComponentText": [""],
-          "vehicleDoorQuantity": 0,
-          "vehiclePassengerQuantity": 0,
-          "vehicleSeatDetails": [
+          vehicleBodyworkAppointment: [''],
+          vehicleBodyworkType: '',
+          vehicleCarriageSpaceImplementationText: [''],
+          vehicleComponentText: [''],
+          vehicleDoorQuantity: 0,
+          vehiclePassengerQuantity: 0,
+          vehicleSeatDetails: [
             {
-              "seatQuantity": 0,
-              "vehicleSeatRawDetails": [
+              seatQuantity: 0,
+              vehicleSeatRawDetails: [
                 {
-                  "seatQuantity": 0,
-                  "seatRawOrdinal": 0
+                  seatQuantity: 0,
+                  seatRawOrdinal: 0
                 }
               ],
-              "vehicleSeatText": ""
+              vehicleSeatText: ''
             }
           ],
-          "vehicleTrunkVolumeMeasure": {
-            "measurementUnitCode": "MTQ",
-            "value": 0
+          vehicleTrunkVolumeMeasure: {
+            measurementUnitCode: 'MTQ',
+            value: 0
           }
         }
       ],
-      "vehicleBrakingSystemDetails": [
+      vehicleBrakingSystemDetails: [
         {
-          "vehicleBrakingSystemCylindersType": "",
-          "vehicleBrakingSystemItemName": "",
-          "vehicleBrakingSystemKindCode": "",
-          "vehicleBrakingSystemLocationCylinders": "",
-          "vehicleBrakingSystemLocationСambers": "",
-          "vehicleBrakingSystemModelCode": [],
-          "vehicleBrakingSystemСambersType": "",
-          "vehicleComponentText": ""
+          vehicleBrakingSystemCylindersType: '',
+          vehicleBrakingSystemItemName: '',
+          vehicleBrakingSystemKindCode: '',
+          vehicleBrakingSystemLocationCylinders: '',
+          vehicleBrakingSystemLocationСambers: '',
+          vehicleBrakingSystemModelCode: [],
+          vehicleBrakingSystemСambersType: '',
+          vehicleComponentText: ''
         }
       ],
-      "vehicleComponentLocationText": [],
-      "vehicleEcoClassCode": [],
-      "vehicleElectricalMachineDetails": [
+      vehicleComponentLocationText: [],
+      vehicleEcoClassCode: [],
+      vehicleElectricalMachineDetails: [
         {
-          "electricMotorPowerMeasure": {
-            "measurementUnitCode": "KWT",
-            "value": 0
+          electricMotorPowerMeasure: {
+            measurementUnitCode: 'KWT',
+            value: 0
           },
-          "electricalMachineKindCode": "",
-          "electricalMachineKindView": "",
-          "electricalMachineType": "",
-          "electricalMachineVoltageMeasure": {
-            "measurementUnitCode": "VLT",
-            "value": 0
+          electricalMachineKindCode: '',
+          electricalMachineKindView: '',
+          electricalMachineType: '',
+          electricalMachineVoltageMeasure: {
+            measurementUnitCode: 'VLT',
+            value: 0
           },
-          "vehicleComponentMakeName": "",
-          "vehicleComponentText": "",
-          "engineType": ""
+          vehicleComponentMakeName: '',
+          vehicleComponentText: '',
+          engineType: ''
         }
       ],
-      "vehicleFuelKindName": [
+      vehicleFuelKindName: [
         {
-          "cetaneNumber": "",
-          "octaneNumber": "",
-          "vehicleFuelKindNameZ": [],
-          "vehicleFuelKindCode": []
+          cetaneNumber: '',
+          octaneNumber: '',
+          vehicleFuelKindNameZ: [],
+          vehicleFuelKindCode: []
         }
       ],
-      "vehicleHitchLoadMeasure": [
+      vehicleHitchLoadMeasure: [
         {
-          "measurementUnitCode": "DAN",
-          "rangeIndicator": false,
-          "valueMax": 0,
-          "valueMin": 0
+          measurementUnitCode: 'DAN',
+          rangeIndicator: false,
+          valueMax: 0,
+          valueMin: 0
         }
       ],
-      "vehicleIgnitionDetails": [
+      vehicleIgnitionDetails: [
         {
-          "vehicleComponentMakeName": "",
-          "vehicleComponentText": "",
-          "vehicleComponentElements": [
+          vehicleComponentMakeName: '',
+          vehicleComponentText: '',
+          vehicleComponentElements: [
             {
-              "vehicleComponentName": "",
-              "vehicleComponentMakeName": "",
-              "vehicleComponentType": "",
-              "vehicleComponentMarking": []
+              vehicleComponentName: '',
+              vehicleComponentMakeName: '',
+              vehicleComponentType: '',
+              vehicleComponentMarking: []
             }
           ]
         }
       ],
-      "vehicleMassMeasures": [
+      vehicleMassMeasures: [
         {
-          "vehicleMassCode": "",
-          "massView": "",
-          "meaningMassMeasure": [
+          vehicleMassCode: '',
+          massView: '',
+          meaningMassMeasure: [
             {
-              "maxMassMeasure": 0,
-              "measurementUnitCode": "KGM",
-              "minMassMeasure": 0,
-              "rangeIndicator": false,
-              "axisNumber": [0.0]
+              maxMassMeasure: 0,
+              measurementUnitCode: 'KGM',
+              minMassMeasure: 0,
+              rangeIndicator: false,
+              axisNumber: [0.0]
             }
           ]
         }
       ],
-      "vehicleMaxBrakedTrailerWeightMeasure": [
+      vehicleMaxBrakedTrailerWeightMeasure: [
         {
-          "measurementUnitCode": "KGM",
-          "rangeIndicator": false,
-          "valueMax": 0,
-          "valueMin": 0
+          measurementUnitCode: 'KGM',
+          rangeIndicator: false,
+          valueMax: 0,
+          valueMin: 0
         }
       ],
-      "vehicleMaxUnbrakedTrailerWeightMeasure": [
+      vehicleMaxUnbrakedTrailerWeightMeasure: [
         {
-          "measurementUnitCode": "KGM",
-          "rangeIndicator": false,
-          "valueMax": 0,
-          "valueMin": 0
+          measurementUnitCode: 'KGM',
+          rangeIndicator: false,
+          valueMax: 0,
+          valueMin: 0
         }
       ],
-      "vehicleOverallDimensionDetails": {
-        "containerParametersIndicator": false,
-        "heightMeasure": [
+      vehicleOverallDimensionDetails: {
+        containerParametersIndicator: false,
+        heightMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ],
-        "lengthMeasure": [
+        lengthMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ],
-        "loadingHeightMeasure": [
+        loadingHeightMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ],
-        "maxHeightMeasure": [
+        maxHeightMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ],
-        "widthMeasure": [
+        widthMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ],
-        "workingPositionHeightMeasure": [
+        workingPositionHeightMeasure: [
           {
-            "measurementUnitCode": "MMT",
-            "rangeIndicator": false,
-            "valueMax": 0,
-            "valueMin": 0
+            measurementUnitCode: 'MMT',
+            rangeIndicator: false,
+            valueMax: 0,
+            valueMin: 0
           }
         ]
       },
-      "vehicleRunningGearDetails": [
+      vehicleRunningGearDetails: [
         {
-          "vehicleWheelQuantity": [0],
-          "notVehicleClutch": false,
-          "notTransmissionUnit": false,
-          "poweredWheel": [],
-          "poweredWheelQuantity": 0,
-          "transmissionUnitDetails": [
+          vehicleWheelQuantity: [0],
+          notVehicleClutch: false,
+          notTransmissionUnit: false,
+          poweredWheel: [],
+          poweredWheelQuantity: 0,
+          transmissionUnitDetails: [
             {
-              "vehicleUnitKindCode": "",
-              "axisDistribution": "",
-              "vehicleComponentText": "",
-              "vehicleComponentLocationText": "",
-              "vehicleComponentMakeName": "",
-              "vehicleComponentModelCode": [],
-              "transmissionUnitGearQuantity": "",
-              "transmissionUnitGearDetails": [
+              vehicleUnitKindCode: '',
+              axisDistribution: '',
+              vehicleComponentText: '',
+              vehicleComponentLocationText: '',
+              vehicleComponentMakeName: '',
+              vehicleComponentModelCode: [],
+              transmissionUnitGearQuantity: '',
+              transmissionUnitGearDetails: [
                 {
-                  "transmissionUnitGearType": "",
-                  "transmissionUnitGearName": "",
-                  "transmissionUnitGearRate": "",
-                  "transmissionUnitGearRateMax": "",
-                  "transmissionUnitReverseGearIndicator": false
+                  transmissionUnitGearType: '',
+                  transmissionUnitGearName: '',
+                  transmissionUnitGearRate: '',
+                  transmissionUnitGearRateMax: '',
+                  transmissionUnitReverseGearIndicator: false
                 }
               ],
-              "vehiclePowerTakeOffDetails": [
+              vehiclePowerTakeOffDetails: [
                 {
-                  "vehicleShaftRotationFrequencyMeasure": {
-                    "value": 0.0,
-                    "measurementUnitCode": "RPM"
+                  vehicleShaftRotationFrequencyMeasure: {
+                    value: 0.0,
+                    measurementUnitCode: 'RPM'
                   },
-                  "transmissionUnitGearRate": 0.0
+                  transmissionUnitGearRate: 0.0
                 }
               ]
             }
           ],
-          "vehicleAxleQuantity": 0,
-          "vehicleAxleDetails": [
+          vehicleAxleQuantity: 0,
+          vehicleAxleDetails: [
             {
-              "vehicleWheelQuantity": 0,
-              "brakingAxleIndicator": false,
-              "drivingAxleIndicator": false,
-              "dualTireAxleIndicator": false,
-              "steeringAxleIndicator": false,
-              "vehicleAxleOrdinal": 0,
-              "vehicleAxleSweptPathMeasure": {
-                "measurementUnitCode": "MMT",
-                "value": 0,
-                "maxValue": 0,
-                "rangeIndicator": false
+              vehicleWheelQuantity: 0,
+              brakingAxleIndicator: false,
+              drivingAxleIndicator: false,
+              dualTireAxleIndicator: false,
+              steeringAxleIndicator: false,
+              vehicleAxleOrdinal: 0,
+              vehicleAxleSweptPathMeasure: {
+                measurementUnitCode: 'MMT',
+                value: 0,
+                maxValue: 0,
+                rangeIndicator: false
               },
-              "vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure": {
-                "measurementUnitCode": "KGM",
-                "value": 0,
-                "rangeIndicator": false
+              vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure: {
+                measurementUnitCode: 'KGM',
+                value: 0,
+                rangeIndicator: false
               },
-              "vehicleTyre": {
-                "vehicleTyreKindSize": ""
+              vehicleTyre: {
+                vehicleTyreKindSize: ''
               },
-              "vehicleTyreKindCode": ""
+              vehicleTyreKindCode: ''
             }
           ],
-          "vehicleClutchDetails": [
+          vehicleClutchDetails: [
             {
-              "vehicleClutchType": "",
-              "vehicleComponentMakeName": "",
-              "vehicleComponentText": ""
+              vehicleClutchType: '',
+              vehicleComponentMakeName: '',
+              vehicleComponentText: ''
             }
           ],
-          "vehicleFrameText": [],
-          "notSteeringWheel": false,
-          "vehicleSteeringDetails": [
+          vehicleFrameText: [],
+          notSteeringWheel: false,
+          vehicleSteeringDetails: [
             {
-              "modelCode": "",
-              "steeringWheelPositionCode": "",
-              "vehicleComponentLocationText": "",
-              "vehicleComponentMakeName": "",
-              "vehicleComponentText": "",
-              "wheelType": ""
+              modelCode: '',
+              steeringWheelPositionCode: '',
+              vehicleComponentLocationText: '',
+              vehicleComponentMakeName: '',
+              vehicleComponentText: '',
+              wheelType: ''
             }
           ],
-          "vehicleSuspensionDetails": [
+          vehicleSuspensionDetails: [
             {
-              "vehicleComponentText": "",
-              "vehicleSuspensionKindCode": "",
-              "vehicleSuspensionView": ""
+              vehicleComponentText: '',
+              vehicleSuspensionKindCode: '',
+              vehicleSuspensionView: ''
             }
           ],
-          "vehicleTransmissionText": [],
-          "vehicleTyreKindInfo": [
+          vehicleTransmissionText: [],
+          vehicleTyreKindInfo: [
             {
-              "gableTireIndicator": false,
-              "isSupplementVehicleTyre": false,
-              "vehicleTyreKindCategorySpeed": [],
-              "vehicleTyreKindCode": "",
-              "vehicleTyreKindLocation": "",
-              "vehicleTyreKindMaxIndexGableTire": "",
-              "vehicleTyreKindMaxIndexSingleTire": "",
-              "vehicleTyreKindMinIndexGableTire": "",
-              "vehicleTyreKindMinIndexSingleTire": "",
-              "vehicleTyreKindSize": "",
-              "vehicleTyreKindStaticRadius": {
-                "measurementUnitCode": "MTR",
-                "value": 0
+              gableTireIndicator: false,
+              isSupplementVehicleTyre: false,
+              vehicleTyreKindCategorySpeed: [],
+              vehicleTyreKindCode: '',
+              vehicleTyreKindLocation: '',
+              vehicleTyreKindMaxIndexGableTire: '',
+              vehicleTyreKindMaxIndexSingleTire: '',
+              vehicleTyreKindMinIndexGableTire: '',
+              vehicleTyreKindMinIndexSingleTire: '',
+              vehicleTyreKindSize: '',
+              vehicleTyreKindStaticRadius: {
+                measurementUnitCode: 'MTR',
+                value: 0
               },
-              "differentTires": false
+              differentTires: false
             }
           ],
-          "vehicleWheelFormula": [],
-          "vehicleWheelLocation": "",
-          "vehicleWheelbaseMeasure": [
+          vehicleWheelFormula: [],
+          vehicleWheelLocation: '',
+          vehicleWheelbaseMeasure: [
             {
-              "measurementUnitCode": "MMT",
-              "rangeIndicator": false,
-              "valueMax": 0,
-              "valueMin": 0,
-              "semitrailerIndicator": false
+              measurementUnitCode: 'MMT',
+              rangeIndicator: false,
+              valueMax: 0,
+              valueMin: 0,
+              semitrailerIndicator: false
             }
           ]
         }
       ],
-      "vehicleTypeVariantId": [],
-      "notClassCode": false,
-      "classCode": [],
-      "notVehicleEcoClassCodeIndicator": false,
-      "vehicleEmergencyCallDeviceIndicator": false
+      vehicleTypeVariantId: [],
+      notClassCode: false,
+      classCode: [],
+      notVehicleEcoClassCodeIndicator: false,
+      vehicleEmergencyCallDeviceIndicator: false
     }
   ],
-  "cert": {
-    "serialNumber": "",
-    "validFrom": "",
-    "validTo": "",
-    "version": 0,
-    "issuer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+  cert: {
+    serialNumber: '',
+    validFrom: '',
+    validTo: '',
+    version: 0,
+    issuer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     },
-    "signer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+    signer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     }
   },
-  "certAdm": {
-    "serialNumber": "",
-    "validFrom": "",
-    "validTo": "",
-    "version": 0,
-    "issuer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+  certAdm: {
+    serialNumber: '',
+    validFrom: '',
+    validTo: '',
+    version: 0,
+    issuer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     },
-    "signer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+    signer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     }
   },
-  "certApproved": {
-    "serialNumber": "",
-    "validFrom": "",
-    "validTo": "",
-    "version": 0,
-    "issuer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+  certApproved: {
+    serialNumber: '',
+    validFrom: '',
+    validTo: '',
+    version: 0,
+    issuer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     },
-    "signer": {
-      "commonName": "",
-      "country": "",
-      "email": "",
-      "locality": "",
-      "name": "",
-      "organization": "",
-      "stateOrProvince": "",
-      "street": "",
-      "surname": ""
+    signer: {
+      commonName: '',
+      country: '',
+      email: '',
+      locality: '',
+      name: '',
+      organization: '',
+      stateOrProvince: '',
+      street: '',
+      surname: ''
     }
   },
-  "certSignature": "",
-  "certSignatureAdm": "",
-  "certApprovedSignature": ""
-}
+  certSignature: '',
+  certSignatureAdm: '',
+  certApprovedSignature: ''
+})

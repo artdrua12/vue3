@@ -10,6 +10,7 @@
     bg-color="white"
     :placeholder="props.placeholder"
     dirty
+    :hint="props.hint"
     @keyup.enter="onEnter"
   ></v-text-field>
 </template>
@@ -22,7 +23,8 @@ const rules = {
 }
 const props = defineProps({
   label: { type: String, default: '' },
-  placeholder: { type: String, default: '' }
+  placeholder: { type: String, default: '' },
+  hint: { type: String, default: '' }
 })
 function onEnter() {
   emit('update:enter')

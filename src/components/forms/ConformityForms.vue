@@ -5,20 +5,21 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
 import LayoutForms from '@/components/layout/LayoutForms.vue'
-function asd() {
-  return ['a', 'b', 'c']
-}
 
-const s = ref([])
+const autocomplite = reactive({
+  NSI_034: ['a', 'b', 'c']
+})
+const NSI_034 = ref([])
 function resolveAfter2Seconds() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(['a', 'b', 'c'])
-    }, 0)
+    }, 3000)
   }).then((q) => {
-    for (let i = 0; i++; i < q.length) {
-      s.value.push(q[i])
-    }
+    // for (let i = 0; i++; i < q.length) {
+    //   s.value.push(q[i])
+    // }
+    s.value = q
   })
 }
 
@@ -37,25 +38,25 @@ const data = reactive([
             width: '6',
             value: '',
             type: 'BaseAutocomplete',
-            items: s.value,
-            itemValue: 'key',
-            catalog: 'NSI_034',
-            asd: resolveAfter2Seconds()
+            items: computed(() => autocomplite.NSI_034),
+            itemValue: 'key'
           },
           docId: {
             label: 'Номер документа*',
             width: '6',
             value: '',
-            type: 'BaseTextfield'
+            type: 'BaseTextfield',
+            hint:"Номер документа должен соответствовать формату ТС ZZ (А|Е|К)-ZZ.0000.00000.*  (символы ТС, А, Е, К - с использованием букв кириллицы, ZZ - с использованием латиницы)"
           },
           conformityDocKindName: {
             label: 'Наименование вида документа об оценке соответствия',
             width: '6',
-            value: '',
+            value: '1234567',
             type: 'BaseAutocomplete',
             items: [],
             text: 'name',
-            itemValue: 'type'
+            itemValue: 'type',
+            disabled: true
           },
           docCreationDate: {
             label: 'Дата оформления бумажного ОТТС',

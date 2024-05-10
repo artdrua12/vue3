@@ -25,7 +25,7 @@ const router = createRouter({
         },
         {
           path: 'forms',
-          component: () => import('@/components/forms/ConformityForms.vue'),
+          component: () => import('@/components/forms/conformityForms/Root.vue'),
           meta: [
             { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
             { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
