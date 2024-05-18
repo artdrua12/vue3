@@ -9,4 +9,45 @@ html {
   height: 100vh;
 }
 
+.adaptiveGrid {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 12px 20px;
+  /* grid-auto-flow: dense; */
+  border: none;
+  align-items: flex-start;
+}
+@media (max-width: 1200px) {
+  .adaptiveGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
 
+.span6 {
+  grid-column: span 6;
+}
+.span4 {
+  grid-column: span 4;
+}
+.span3 {
+  grid-column: span 3;
+}
+.span2 {
+  grid-column: span 2;
+}
+.span {
+  grid-column: span 1;
+}
+.full {
+  grid-column: 1/-1;
+}
+.title {
+  color: #2c4957;
+  text-align: center;
+  font-family: serif;
+  font-size: 15px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}

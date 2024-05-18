@@ -32,13 +32,19 @@
 
           <v-window v-model="currentTab">
             <v-window-item v-for="tab in item.tabs" :id="tab.id" :key="tab.id" :value="tab.title">
-              <component class="tabsPageForm" :is="getComponent(tab.component)"></component>
+              <component
+                :is="getComponent(tab.component)"
+                class="adaptiveGrid adaptiveGrid__padding"
+              ></component>
             </v-window-item>
           </v-window>
         </div>
 
         <div v-else>
-          <component :is="getComponent(item.component)"></component>
+          <component
+            :is="getComponent(item.component)"
+            class="adaptiveGrid adaptiveGrid__paddings"
+          ></component>
           <!-- <component :is="is(i.type)" ></component> -->
         </div>
       </base-panel>
@@ -49,7 +55,12 @@
 import { ref, reactive, defineAsyncComponent } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
-import Document from '@/components/forms/conformityForms/Document.vue'
+import DocumentComformity from '@/components/forms/conformityForms/DocumentComformity.vue'
+import VehicleDetails from '@/components/forms/conformityForms/VehicleDetails.vue'
+import CertificationAgency from '@/components/forms/conformityForms/CertificationAgency.vue'
+import DeclarerAddress from '@/components/forms/conformityForms/DeclarerAddress.vue'
+import ManufacturerAddress from '@/components/forms/conformityForms/ManufacturerAddress.vue'
+import ManufacturersRepresentativesAddress from '@/components/forms/conformityForms/ManufacturersRepresentativesAddress.vue'
 
 const data = reactive([
   {
@@ -59,95 +70,59 @@ const data = reactive([
       {
         title: 'Документ',
         id: '#vehicle-details-document',
-        component: 'Document'
+        component: 'DocumentComformity'
       },
       {
         title: 'Транспортное средство',
         id: '#vehicle-details-vehicle',
-        component: 'Document'
+        component: 'VehicleDetails'
       },
       {
         title: 'Наименование органа, выдавшего документ',
         id: '#vehicle-details-certification',
-        component: 'Document'
+        component: 'CertificationAgency'
       },
       {
         title: 'Заявитель и его адрес',
         id: '#vehicle-details-applicant',
-        fields: {
-          businessEntityName: {
-            label: 'Организация*',
-            width: '6',
-            type: 'BaseAutocomplete'
-          },
-          unifiedCountryCode: {
-            label: 'Код страны',
-            width: '6',
-            type: 'BaseAutocomplete'
-          },
-          businessEntityTypeName: {
-            label: 'Наименование организационно-правовой формы',
-            width: 'all',
-            type: 'BaseAutocomplete'
-          },
-          businessEntityName4: {
-            label: 'Местонахождение',
-            width: 'all',
-            type: 'BaseTextarea'
-          },
-          title: {
-            label: 'Контактная информация',
-            width: 'all',
-            type: 'BaseSlot'
-          },
-          unifiedCommunicationChannelCode: {
-            label: 'Тип контактной информации',
-            width: '6',
-            type: 'BaseAutocomplete'
-          },
-          communicationChannelId: {
-            label: 'Контактные данные',
-            width: '6',
-            type: 'BaseCombobox'
-          }
-        }
+        component: 'DeclarerAddress'
       },
       {
         title: 'Изготовитель и его адрес',
         id: '#vehicle-details-manufacturer',
-        component: 'Document'
+        component: 'ManufacturerAddress'
       },
       {
         title: 'Представители изготовителя и их адреса',
         id: '#vehicle-details-representatives',
-        component: 'Document'
+        component: 'ManufacturersRepresentativesAddress'
       },
       {
         title: 'Сборочный завод и его адрес',
         id: '#vehicle-details-factory',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Поставщик сборочных комплектов и его адрес',
         id: '#vehicle-details-provider',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Вид распространения',
         id: '#vehicle-details-view',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Дополнительная информаци',
         id: '#vehicle-details-additional',
-        component: 'Document'
+        component: ''
       }
     ]
   },
   {
     title: 'Базовое ТС',
     id: '#base-vehicle',
-    component: 'Document'
+    component: ''
   },
   {
     title: 'Общие характеристики транспортного средства (Шасси)',
@@ -156,49 +131,49 @@ const data = reactive([
       {
         title: 'Компоновка транспортного средства',
         id: '#vehicle-composition',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Ходовая часть ТС',
         id: '#numbers-vheels',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Ось транспортного средства',
         id: '#vehicle-axis',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Габаритные размеры',
         id: '#dimensions',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Масса',
         id: '#weight',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Масса буксируемого прицепа',
         id: '#weight-towed-trailer',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Двигатель',
         id: '#engine',
-        component: 'Document'
+        component: ''
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Устройство накопления энергии',
         id: '#storage-device',
-        component: 'Document'
+        component: ''
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Топливо',
         id: '#fuel',
-        component: 'Document'
+        component: ''
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -206,7 +181,7 @@ const data = reactive([
       {
         title: 'Система питания',
         id: '#supply-system',
-        component: 'Document'
+        component: ''
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -214,7 +189,7 @@ const data = reactive([
       {
         title: 'Система зажигания',
         id: '#ignition-system',
-        component: 'Document'
+        component: ''
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -222,7 +197,7 @@ const data = reactive([
       {
         title: 'Система выпуска и нейтрализации отработавших газов',
         id: '#neutralization-system',
-        component: 'Document'
+        component: ''
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -230,67 +205,72 @@ const data = reactive([
       {
         title: 'Сцепление',
         id: '#clutch',
-        component: 'Document'
+        component: ''
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Трансмиссия',
         id: '#transmission',
-        component: 'Document'
+        component: ''
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Подвеска',
         id: '#suspension',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Рулевое управление',
         id: '#steerage',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Тормозные системы',
         id: '#brake-systems',
-        component: 'Document'
+        component: ''
       },
       {
         title: 'Шины',
         id: '#tires',
-        component: 'Document'
+        component: ''
       }
     ]
   },
   {
     title: 'Описание маркировки транспортного средства (Шасси)',
     id: '#description-of-vehicle-markings',
-    component: 'Document'
+    component: ''
   },
   {
     title: 'Общий вид транспортного средства (Шасси)',
     id: '#vehicle-general-form',
-    component: 'Document'
+    component: ''
   },
   {
     title: 'Документ, подтверждающий соответствие обязательным требованиям',
     id: '#confirming-document',
-    component: 'Document'
+    component: ''
   },
   {
     title: 'Перечень документов, являющихся основанием для оформления ОТТС',
     id: '#list-of-documents',
-    component: 'Document'
+    component: ''
     // hide: this.formModel.conformityDocKindCode === '30'
   },
   {
     title: 'История изменения документа',
     id: '#conformity-change-history',
-    component: 'Document'
+    component: ''
   }
 ])
-const currentTab = ref('')
+const currentTab = ref('1')
 const allComponents = {
-  Document
+  DocumentComformity,
+  VehicleDetails,
+  CertificationAgency,
+  DeclarerAddress,
+  ManufacturerAddress,
+  ManufacturersRepresentativesAddress
 }
 
 function is(type) {
@@ -342,17 +322,7 @@ function getComponent(type) {
   white-space: pre-wrap;
   padding: 5px 0px;
 }
-.tabsPageForm {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto;
-  grid-gap: 12px 25px;
+.adaptiveGrid__padding {
   padding: 30px 24px 10px 24px;
-}
-@media (max-width: 1200px) {
-  .tabsPageForm {
-    grid-template-columns: repeat(6, 1fr);
-  }
 }
 </style>

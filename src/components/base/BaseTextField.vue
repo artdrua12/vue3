@@ -6,7 +6,7 @@
     density="compact"
     class="base"
     persistent-counter
-    :rules="[rules.required]"
+    :rules="props.rules"
     bg-color="white"
     :placeholder="props.placeholder"
     dirty
@@ -18,12 +18,15 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['update:enter'])
-const rules = {
-  required: (value) => !!value || 'Field is required'
-}
 const props = defineProps({
   label: { type: String, default: '' },
   placeholder: { type: String, default: '' },
+  rules: {
+    type: [Array, Object],
+    default() {
+      return []
+    }
+  },
   hint: { type: String, default: '' }
 })
 function onEnter() {

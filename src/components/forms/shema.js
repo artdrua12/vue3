@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-export const shema = reactive({
+const shema = reactive({
   refuseReason: '',
   eDocId: '',
   changeHistory: [],
@@ -172,7 +172,7 @@ export const shema = reactive({
     }
   ],
   notVehicleAssemblyPlantDetails: false,
-  notVehicleRepresentativeDetails: false,
+  notVehicleRepresentativeDetails: true,
   notVehicleProviderDetails: false,
   vehicleManufacturerDetails: [
     {
@@ -835,3 +835,4 @@ export const shema = reactive({
   certSignatureAdm: '',
   certApprovedSignature: ''
 })
+export default shema

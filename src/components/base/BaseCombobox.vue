@@ -19,6 +19,7 @@
     closable-chips
     chips
     dirty
+    :rules="props.rules"
     @keyup.enter="onEnter"
   ></v-combobox>
 </template>
@@ -31,7 +32,19 @@ const props = defineProps({
   label: { type: String, default: '' },
   itemValue: { type: String, default: '' },
   itemText: { type: String, default: '' },
-  value: { type: String, default: '' }
+  value: { type: [String, Array], default: '' },
+  items: {
+    type: Array,
+    default() {
+      return []
+    }
+  },
+  rules: {
+    type: [Array, Object],
+    default() {
+      return []
+    }
+  }
 })
 function onEnter() {
   emit('update:enter')
