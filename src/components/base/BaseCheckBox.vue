@@ -50,17 +50,17 @@ const props = defineProps({
 <style>
 .base.v-checkbox .v-selection-control {
   min-height: 20px;
-  height: 30px;
+  /* height: 30px; */
   margin-left: -10px;
+  display: flex;
 }
 .base .v-selection-control .v-label {
   font-weight: 600;
   color: #031f2d;
   font-size: 16px;
 
-
   text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1;
   overflow: hidden;
 }
 </style>

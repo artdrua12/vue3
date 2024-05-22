@@ -179,6 +179,7 @@ const shema = reactive({
       vehicleManufacturerKindCode: '05',
       businessEntityName: '',
       businessEntityBriefName: '',
+      businessEntityBriefNames: [],
       businessEntityTypeName: '',
       businessEntityId: [
         {

@@ -91,7 +91,7 @@ const data = reactive([
           objectOrdinal: {
             label: 'Приложение к документу',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 objectOrdinal: {
@@ -416,7 +416,7 @@ const data = reactive([
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     businessEntityName: {
@@ -474,7 +474,7 @@ const data = reactive([
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     businessEntityName: {
@@ -532,7 +532,7 @@ const data = reactive([
               manufacturerAddress: {
                 label: 'Представитель изготовителя и его адрес',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     businessEntityName: {
@@ -648,7 +648,7 @@ const data = reactive([
               vehicleUseRestrictionIndicator: {
                 label: 'Ограничения на возможность использования на дорогах общего пользования',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     abs: {
@@ -666,7 +666,7 @@ const data = reactive([
           vehicleUseRestrictionShipping: {
             label: 'Ограничения для перевозки опасных грузов, пищевых продуктов и т.д.',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 abs: {
@@ -693,7 +693,7 @@ const data = reactive([
           addInfo: {
             label: 'Прочая информация',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 onher: {
@@ -722,7 +722,7 @@ const data = reactive([
           manufacturerAddress: {
             label: 'Базовое ТС',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleMakeName: {
@@ -776,10 +776,10 @@ const data = reactive([
             width: 'all',
             type: 'BaseCombobox'
           },
-          BaseRecursiveConstructor: {
+          BaseConstructor: {
             label: 'Представитель изготовителя и его адрес',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleEquipmentText: {
@@ -798,7 +798,7 @@ const data = reactive([
           bodyCar: {
             label: 'Кузов',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleBodyworkType: {
@@ -818,7 +818,7 @@ const data = reactive([
                 },
                 vehicleComponentText: {
                   width: '6',
-                  type: 'BaseRecursiveConstructor',
+                  type: 'BaseConstructor',
                   fields: [
                     {
                       vehicleComponentText: {
@@ -831,7 +831,7 @@ const data = reactive([
                 },
                 vehicleBodyworkAppointment: {
                   width: '6',
-                  type: 'BaseRecursiveConstructor',
+                  type: 'BaseConstructor',
                   fields: [
                     {
                       vehicleBodyworkAppointment: {
@@ -845,7 +845,7 @@ const data = reactive([
                 seatQuantity: {
                   width: 'all',
                   label: 'Количество мест для сидения',
-                  type: 'BaseRecursiveConstructor',
+                  type: 'BaseConstructor',
                   fields: [
                     {
                       seatQuantity: {
@@ -899,7 +899,7 @@ const data = reactive([
           vehicleUseRestrictionIndicator: {
             label: 'Ось транспортного средства',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleAxleOrdinal: {
@@ -992,7 +992,7 @@ const data = reactive([
           RestrictionIndicator: {
             label: 'Колесная база транспортного средства',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 value: {
@@ -1031,7 +1031,7 @@ const data = reactive([
           length: {
             label: 'Длина',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 value: {
@@ -1064,7 +1064,7 @@ const data = reactive([
           width: {
             label: 'Ширина',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 value: {
@@ -1097,7 +1097,7 @@ const data = reactive([
           height: {
             label: 'Высота',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 value: {
@@ -1130,7 +1130,7 @@ const data = reactive([
           heightInWorking: {
             label: 'Высота в рабочем положении',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 value: {
@@ -1168,7 +1168,7 @@ const data = reactive([
               loadingHeightMeasure: {
                 label: 'Высота (погрузочная)',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     value: {
@@ -1201,7 +1201,7 @@ const data = reactive([
               maxHeightMeasure: {
                 label: 'Высота (максимально допустимая',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     value: {
@@ -1242,7 +1242,7 @@ const data = reactive([
           massView: {
             label: 'Масса',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 mass: {
@@ -1254,7 +1254,7 @@ const data = reactive([
                 massView: {
                   label: 'Значение массы',
                   width: 'all',
-                  type: 'BaseRecursiveConstructor',
+                  type: 'BaseConstructor',
                   fields: [
                     {
                       value: {
@@ -1301,7 +1301,7 @@ const data = reactive([
               vehicleMaxUnbrakedTrailerWeightMeasure: {
                 label: 'Максимальная масса прицепа без тормозной системы',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     value: {
@@ -1334,7 +1334,7 @@ const data = reactive([
               vehicleMaxBrakedTrailerWeightMeasure: {
                 label: 'Максимальная масса прицепа с тормозной системой',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     value: {
@@ -1367,7 +1367,7 @@ const data = reactive([
               vehicleHitchLoadMeasure: {
                 label: 'Нагрузка на сцепное устройство транспортного средства',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     value: {
@@ -1426,7 +1426,7 @@ const data = reactive([
                   vehicleElectricalMachineDetails: {
                     label: 'Электродвигатель',
                     width: 'all',
-                    type: 'BaseRecursiveConstructor',
+                    type: 'BaseConstructor',
                     fields: [
                       {
                         electricalMachineKindCode: {
@@ -1486,7 +1486,7 @@ const data = reactive([
               vehicleElectricalMachineDetails: {
                 label: 'Электродвигатель',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     electricalMachineKindCode: {
@@ -1531,7 +1531,7 @@ const data = reactive([
               engineDetails: {
                 label: 'Двигатель внутреннего сгорания',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentMakeName: {
@@ -1669,7 +1669,7 @@ const data = reactive([
               vehicleComponentText: {
                 label: 'Устройство накопления энергии',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentText: {
@@ -1763,7 +1763,7 @@ const data = reactive([
               vehicleFuelKindNameZ: {
                 label: 'Устройство накопления энергии',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleFuelKindNameZ: {
@@ -1794,7 +1794,7 @@ const data = reactive([
               vehicleComponentText: {
                 label: 'Система питания',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentText: {
@@ -1811,7 +1811,7 @@ const data = reactive([
                     vehicleComponentElements: {
                       label: 'Элемент системы питания',
                       width: 'all',
-                      type: 'BaseRecursiveConstructor',
+                      type: 'BaseConstructor',
                       fields: [
                         {
                           vehicleComponentName: {
@@ -1866,7 +1866,7 @@ const data = reactive([
               vehicleIgnitionDetails: {
                 label: 'Система зажигания',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentText: {
@@ -1883,7 +1883,7 @@ const data = reactive([
                     vehicleComponentElements: {
                       label: 'Элемент системы питания',
                       width: 'all',
-                      type: 'BaseRecursiveConstructor',
+                      type: 'BaseConstructor',
                       fields: [
                         {
                           vehicleComponentElements: {
@@ -1938,7 +1938,7 @@ const data = reactive([
               vehicleIgnitionDetails: {
                 label: 'Система выпуска и нейтрализации отработавших газов',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentText: {
@@ -1955,7 +1955,7 @@ const data = reactive([
                     vehicleComponentElements: {
                       label: 'Элемент системы выпуска и нейтрализации отработавших газов',
                       width: 'all',
-                      type: 'BaseRecursiveConstructor',
+                      type: 'BaseConstructor',
                       fields: [
                         {
                           vehicleComponentElements: {
@@ -1968,7 +1968,7 @@ const data = reactive([
                           vehicleComponentElements2: {
                             label: `Ступень `,
                             width: 'all',
-                            type: 'BaseRecursiveConstructor',
+                            type: 'BaseConstructor',
                             additionData: { numerable: true },
                             fields: [
                               {
@@ -2008,10 +2008,10 @@ const data = reactive([
             type: 'BaseIsMissing',
             additionData: false,
             fields: {
-              BaseRecursiveConstructor: {
+              BaseConstructor: {
                 label: 'Сцепление',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentText: {
@@ -2048,10 +2048,10 @@ const data = reactive([
                 width: 'all',
                 type: 'BaseCombobox'
               },
-              BaseRecursiveConstructor: {
+              BaseConstructor: {
                 label: 'Узел трансмиссии',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleUnitKindCode: {
@@ -2088,10 +2088,10 @@ const data = reactive([
         title: 'Подвеска',
         id: '#suspension',
         fields: {
-          BaseRecursiveConstructor: {
+          BaseConstructor: {
             label: 'Узел трансмиссии',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleUnitKindCode: {
@@ -2120,10 +2120,10 @@ const data = reactive([
             type: 'BaseIsMissing',
             additionData: false,
             fields: {
-              BaseRecursiveConstructor: {
+              BaseConstructor: {
                 label: 'Сцепление',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleComponentMakeName: {
@@ -2177,10 +2177,10 @@ const data = reactive([
             type: 'BaseIsMissing',
             additionData: false,
             fields: {
-              BaseRecursiveConstructor: {
+              BaseConstructor: {
                 label: 'Тормозная система',
                 width: 'all',
-                type: 'BaseRecursiveConstructor',
+                type: 'BaseConstructor',
                 fields: [
                   {
                     vehicleBrakingSystemKindCode: {
@@ -2205,10 +2205,10 @@ const data = reactive([
         title: 'Шины',
         id: '#tires',
         fields: {
-          BaseRecursiveConstructor: {
+          BaseConstructor: {
             label: 'Шины',
             width: 'all',
-            type: 'BaseRecursiveConstructor',
+            type: 'BaseConstructor',
             fields: [
               {
                 vehicleTyreKindSize: {
@@ -2303,10 +2303,10 @@ const data = reactive([
     title: 'Описание маркировки транспортного средства (Шасси)',
     id: '#description-of-vehicle-markings',
     fields: {
-      BaseRecursiveConstructor: {
+      BaseConstructor: {
         label: 'Маркировка',
         width: 'all',
-        type: 'BaseRecursiveConstructor',
+        type: 'BaseConstructor',
         fields: [
           {
             vehicleTyreKindSize: {
@@ -2321,10 +2321,10 @@ const data = reactive([
               type: 'BaseIsMissing',
               label: 'Признак отсутствия таблички изготовителя',
               fields: {
-                BaseRecursiveConstructor: {
+                BaseConstructor: {
                   label: 'Маркировка',
                   width: 'all',
-                  type: 'BaseRecursiveConstructor',
+                  type: 'BaseConstructor',
                   fields: [
                     {
                       vehicleComponentLocationText: {
@@ -2341,7 +2341,7 @@ const data = reactive([
             },
             vehicleIdentificationNumberLocationText: {
               width: 'all',
-              type: 'BaseRecursiveConstructor',
+              type: 'BaseConstructor',
               fields: [
                 {
                   vehicleIdentificationNumberLocationText: {
@@ -2356,7 +2356,7 @@ const data = reactive([
 
             engineIdentificationNumberLocationText: {
               width: 'all',
-              type: 'BaseRecursiveConstructor',
+              type: 'BaseConstructor',
               fields: [
                 {
                   vehicleIdentificationNumberLocationText: {
@@ -2381,7 +2381,7 @@ const data = reactive([
             vehicleIdCharacterDetails: {
               label: 'Группа',
               width: 'all',
-              type: 'BaseRecursiveConstructor',
+              type: 'BaseConstructor',
               fields: [
                 {
                   idCharacterStartingOrdinal: {
@@ -2411,7 +2411,7 @@ const data = reactive([
                   elementValue: {
                     label: 'Значение',
                     width: 'all',
-                    type: 'BaseRecursiveConstructor',
+                    type: 'BaseConstructor',
                     fields: [
                       {
                         idCharacterStartingOrdinal: {

@@ -88,7 +88,7 @@ import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
+import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -112,7 +112,7 @@ const allComponents = {
   BaseIsMissingDisabled,
   BaseIsMissing,
   BaseSlot,
-  BaseRecursiveConstructor,
+  BaseConstructor,
   BaseFile,
   BaseTableForDocuments,
   HistoryDocument

@@ -67,11 +67,13 @@
       class="span6"
     ></base-combobox>
 
-    <base-recursive-constructor
+    <base-constructor
       v-slot="props"
       v-model:data="shema.docAnnexDetails"
       class="full"
       label="Приложение к документу"
+      :filter-data="shema.docAnnexDetails"
+      :default-data="defaultDataConstructor"
     >
       <base-textfield
         v-model="props.item.objectOrdinal"
@@ -89,7 +91,7 @@
         class="span6"
       >
       </base-combobox>
-    </base-recursive-constructor>
+    </base-constructor>
 
     <base-textarea v-model="shema.additionalInfoText" label="Иные сведения" class="span6">
     </base-textarea>
@@ -147,7 +149,7 @@ import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor2.vue'
+import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 
@@ -156,6 +158,12 @@ const indexDB = useIndexDBStore()
 
 const NSI_034 = ref([])
 const conformityDocKindName = ref([])
+
+const defaultDataConstructor = {
+  formNumberId: [],
+  objectOrdinal: '',
+  pageQuantity: 0
+}
 
 async function load() {
   NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')

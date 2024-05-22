@@ -1,5 +1,6 @@
 <template>
   <v-textarea
+    v-model="model"
     :label="props.label"
     variant="outlined"
     density="compact"
@@ -8,12 +9,14 @@
     bg-color="white"
     dirty
     auto-grow
+    clearable
     @keyup.enter="onEnter"
   ></v-textarea>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, defineModel } from 'vue'
+const model = defineModel({ type: String })
 const emit = defineEmits(['update:enter'])
 const rules = {
   required: (value) => !!value || 'Field is required'

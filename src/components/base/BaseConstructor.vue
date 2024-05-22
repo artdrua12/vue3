@@ -2,7 +2,7 @@
   <div class="constructor">
     <v-btn icon="mdi-plus-box" color="#465f6b" rounded="0" class="addBtn" @click="add"> </v-btn>
     <fieldset
-      v-for="(item, index) in fields"
+      v-for="(item, index) in filterData"
       :key="index"
       class="adaptiveGrid adaptiveGrid--setting"
     >
@@ -12,36 +12,35 @@
       <slot :item="item"></slot>
 
       <v-icon
-        v-if="fields.length != 1"
+        v-if="props.filterData.length != 1"
         color="red"
         bg-color="green"
         icon="mdi-close-box"
         class="removeBtn"
-        @click="remove(index)"
+        @click="remove(item)"
       ></v-icon>
     </fieldset>
   </div>
 </template>
 
 <script setup>
-import { reactive, defineProps } from 'vue'
-
+import { defineProps } from 'vue'
+const data = defineModel('data', { type: Array })
 const props = defineProps({
   label: { type: String, default: '' },
-  data: {
-    type: Array,
-    required: true
-  }
+  defaultData: { type: [Array, Object], required: true },
+  filterData: { type: [Array, Object], required: true }
 })
 
-let fields = reactive(props.data)
-// const defaultFields = JSON.parse(JSON.stringify(fields.value[0]))
-
 function add() {
-  fields.push(JSON.parse(JSON.stringify(fields[0])))
+  data.value.push(JSON.parse(JSON.stringify(props.defaultData)))
 }
-function remove(index) {
-  fields.splice(index, 1)
+function remove(item) {
+  const index = data.value.findIndex((dataItem) => dataItem == item)
+  data.value.splice(index, 1)
+}
+if (props.filterData.length == 0) {
+  add()
 }
 </script>
 

@@ -59,7 +59,7 @@ import BaseTextarea from './BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
-import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
+import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseOtp from '@/components/base/BaseOtp.vue'
 const props = defineProps({
   label: { type: String, required: true, default: '.' },
@@ -86,7 +86,7 @@ const allComponents = {
   BaseCheckbox,
   BaseCombobox,
   BaseTextarea,
-  BaseRecursiveConstructor,
+  BaseConstructor,
   BaseIsMissingDisabled,
   BaseIsMissing,
   BaseSlot,

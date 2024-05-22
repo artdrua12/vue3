@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
+  <v-expansion-panels v-model="panel" style="gap: 1px" class="base" variant="popout">
     <v-expansion-panel
       v-for="item in props.data"
       :key="item.id"
@@ -14,20 +14,20 @@
         <v-btn
           v-for="itm in item.tabs"
           :key="itm"
+          v-model="tab"
           class="menu-button rounded-0"
           block
           @click="updateTab(itm)"
           >{{ itm.title }}</v-btn
         >
-        
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <script setup>
-import { defineEmits } from 'vue'
-const emit = defineEmits(['update:tab'])
+import { defineEmits, defineModel } from 'vue'
+// const emit = defineEmits(['update:tab'])
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
   data: { type: Array, default: [] }, //1-панель будет открыта при отрисовке
@@ -35,13 +35,17 @@ const props = defineProps({
   tColor: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
 
+const panel = defineModel('panel', { type: Number, required: true })
+const tab = defineModel('tab', { type: String, required: true })
+
 function toId(id) {
   let elem = document.getElementById(id)
   elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 
-function updateTab(item) {
-  emit('update:tab', item.title)
+function updateTab(itm) {
+  // emit('update:tab', item.title)
+  tab.value = itm.component
 }
 </script>
 

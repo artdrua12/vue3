@@ -29,7 +29,7 @@ import BaseTextfield from './BaseTextfield.vue'
 import BaseTextarea from './BaseTextarea.vue'
 import BaseAutocomplete from './BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseRecursiveConstructor from '@/components/base/BaseRecursiveConstructor.vue'
+import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSlot from './BaseSlot.vue'
 import BaseIsMissingDisabled from './BaseIsMissingDisabled.vue'
@@ -61,7 +61,7 @@ const allComponents = {
   BaseTextarea,
   BaseCheckbox,
   BaseCombobox,
-  BaseRecursiveConstructor,
+  BaseConstructor,
   BaseIsMissingDisabled,
   BaseIsMissing,
   BaseSlot,

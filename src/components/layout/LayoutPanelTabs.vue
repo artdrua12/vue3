@@ -26,8 +26,13 @@
         bg-color="#ebebeb"
       >
         <template #title>{{ item.title }} </template>
-        <div v-if="item.items" class="tabsWrapper" >
-          <v-tabs v-model="tab" align-tabs="right" density="compact" style="position: sticky; top: 0px; background-color: white; z-index: 2;">
+        <div v-if="item.items" class="tabsWrapper">
+          <v-tabs
+            v-model="tab"
+            align-tabs="right"
+            density="compact"
+            style="position: sticky; top: 0px; background-color: white; z-index: 2"
+          >
             <v-tab v-for="itm in item.items" :key="itm" :value="itm.title"> {{ itm.title }} </v-tab>
           </v-tabs>
 
