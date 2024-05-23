@@ -3,7 +3,7 @@
       <base-is-missing
         v-model="shema.notVehicleRepresentativeDetails"
         v-model:data="shema.vehicleManufacturerDetails"
-        label="Сборочный завод и его адрес - отсутствует"
+        label="Поставщик сборочных комплектов и его адрес - отсутствует"
         :default-data="defaultData"
       >
         <base-constructor
@@ -12,7 +12,7 @@
           :filter-data="filterData"
           :default-data="defaultDataConstructor"
           class="full"
-          label="Сборочный завод и его адрес"
+          label="Поставщик сборочных комплектов и его адрес"
         >
           <base-autocomplete
             v-model="props.item.businessEntityName"
@@ -97,7 +97,7 @@
   <script setup>
   import { ref, computed } from 'vue'
   import shema from '@/components/forms/shema'
-  import { conformityRules } from './rules'
+  import { conformityRules } from '../rules'
   import BaseTextfield from '@/components/base/BaseTextfield.vue'
   import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
   import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -168,7 +168,7 @@
     }
   ]
   const defaultDataConstructor = {
-    vehicleManufacturerKindCode: '15',
+    vehicleManufacturerKindCode: '20',
     businessEntityName: '',
     businessEntityBriefName: '',
     businessEntityBriefNames: [],
@@ -220,7 +220,7 @@
     }
   }
   const filterData = computed(() =>
-    shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '15')
+    shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '20')
   )
   
   function chooseManufacturerDoc(shemaItem) {

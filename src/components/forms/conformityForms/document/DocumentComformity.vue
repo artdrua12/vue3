@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid mt-5">
     <base-autocomplete
       v-model="shema.unifiedCountryCode.value"
       label="Код страны, выдавшей  документ об оценке соответствия колесных транспортных средств"
@@ -145,7 +145,7 @@
 <script setup>
 import { ref } from 'vue'
 import shema from '@/components/forms/shema'
-import { conformityRules } from './rules'
+import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
@@ -153,7 +153,9 @@ import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 
+import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
 
 const NSI_034 = ref([])
@@ -167,6 +169,7 @@ const defaultDataConstructor = {
 
 async function load() {
   NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')
+  conformityDocKindName.value = await requests.get('/api/classifier/epassport/conformity-doc-kinds')
 }
 load()
 </script>

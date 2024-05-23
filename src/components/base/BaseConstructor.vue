@@ -1,6 +1,14 @@
 <template>
   <div class="constructor">
-    <v-btn icon="mdi-plus-box" color="#465f6b" rounded="0" class="addBtn" @click="add"> </v-btn>
+    <v-btn
+      icon="mdi-plus-box"
+      color="#465f6b"
+      rounded="0"
+      class="addBtn"
+      :disabled="props.disabled"
+      @click="add"
+    >
+    </v-btn>
     <fieldset
       v-for="(item, index) in filterData"
       :key="index"
@@ -11,14 +19,15 @@
       </legend>
       <slot :item="item"></slot>
 
-      <v-icon
-        v-if="props.filterData.length != 1"
-        color="red"
-        bg-color="green"
-        icon="mdi-close-box"
-        class="removeBtn"
-        @click="remove(item)"
-      ></v-icon>
+      <slot name="btnRemove" :index="index">
+        <v-icon
+          v-if="props.filterData.length != 1"
+          color="red"
+          icon="mdi-close-box"
+          class="btnRemove"
+          @click="remove(item)"
+        ></v-icon
+      ></slot>
     </fieldset>
   </div>
 </template>
@@ -29,7 +38,8 @@ const data = defineModel('data', { type: Array })
 const props = defineProps({
   label: { type: String, default: '' },
   defaultData: { type: [Array, Object], required: true },
-  filterData: { type: [Array, Object], required: true }
+  filterData: { type: [Array, Object], required: true }, //отфильтрованные значения из data
+  disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
 function add() {
@@ -114,7 +124,7 @@ legend {
   left: -3px;
 }
 
-.removeBtn {
+.btnRemove {
   font-size: 23px;
   position: absolute;
   bottom: calc(50% - 4px);

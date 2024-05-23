@@ -35,7 +35,7 @@
     </base-constructor-one-element>
 
     <base-checkbox
-      v-if="isConformityDocKindCode_Not35"
+      v-if="conformityDocKindCodeIsNot35"
       v-model="shema.vehicleTypeDetails.vehicleRoutingIndicator"
       label="Признак маршрутного ТС"
       class="full"
@@ -55,7 +55,7 @@
     ></base-autocomplete>
 
     <base-checkbox
-      v-if="isConformityDocKindCode_Not35"
+      v-if="conformityDocKindCodeIsNot35"
       v-model="shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator"
       label="Возможность оформления ЭПТС без УВЭОС"
       :disabled="
@@ -67,7 +67,7 @@
     </base-checkbox>
 
     <base-checkbox
-      v-if="isConformityDocKindCode_Not35"
+      v-if="conformityDocKindCodeIsNot35"
       v-model="shema.vehicleTypeDetails.addInfoIndicator"
       :label="emergencyCallDeviceFree"
       :disabled="
@@ -79,17 +79,22 @@
     ></base-checkbox>
 
     <base-constructor-one-element
-      v-slot="props"
       v-model:data="shema.vehicleTypeDetails.addInfo"
       default-data=""
       class="full mt-5"
     >
-      <base-textarea
-        v-model="shema.vehicleTypeDetails.addInfo[props.index]"
-        label="Прочая информация"
-        class="full"
-        :disabled="props.index == 0 && isEmergencyCallDeviceFree"
-      ></base-textarea>
+      <template #default="props">
+        <base-textarea
+          v-model="shema.vehicleTypeDetails.addInfo[props.index]"
+          label="Прочая информация"
+          class="full"
+          :disabled="props.index == 0 && isEmergencyCallDeviceFree"
+        ></base-textarea>
+      </template>
+
+      <template #btnRemove="props">
+        <div v-if="props.index == 0 && isEmergencyCallDeviceFree"></div>
+      </template>
     </base-constructor-one-element>
   </div>
 </template>
@@ -109,12 +114,12 @@ const NSI_067 = ref([])
 const emergencyCallDeviceFree =
   'Без применения пункта 13-1 Технического регламента, пунктов 113 и 114 приложения N 2 к Техническому регламенту и пунктов 16 и 17 приложения N 3 к Техническому регламенту.'
 
-const isConformityDocKindCode_Not35 = computed(() => {
+const conformityDocKindCodeIsNot35 = computed(() => {
   return shema.vehicleTypeDetails.conformityDocKindCode !== '35'
 })
 // проверяем содержится ли в первом элементе массива emergencyCallDeviceFree
 const isEmergencyCallDeviceFree = computed(() => {
-  return shema.vehicleTypeDetails.addInfo[0].match(emergencyCallDeviceFree)
+  return shema.vehicleTypeDetails.addInfo[0].includes(emergencyCallDeviceFree)
 })
 
 // добавляем в первый элементе массива emergencyCallDeviceFree

@@ -40,6 +40,7 @@ function onEnter() {
   /* height: 27px; */
   padding-top: 1px;
   padding-bottom: 3px;
+  line-height: 1.2;
 }
 .base .v-input__details {
   min-height: 10px;

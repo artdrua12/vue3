@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid mt-5">
     <base-constructor
       v-slot="props"
       v-model:data="shema.vehicleManufacturerDetails"
@@ -7,6 +7,7 @@
       :default-data="defaultDataConstructor"
       class="full"
       label="Изготовитель"
+      disabled
     >
       <base-autocomplete
         v-model="props.item.businessEntityName"
@@ -90,7 +91,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import shema from '@/components/forms/shema'
-import { conformityRules } from './rules'
+import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'

@@ -68,16 +68,18 @@
 import { ref, reactive } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
-import DocumentComformity from '@/components/forms/conformityForms/DocumentComformity.vue'
-import VehicleDetails from '@/components/forms/conformityForms/VehicleDetails.vue'
-import CertificationAgency from '@/components/forms/conformityForms/CertificationAgency.vue'
-import DeclarerAddress from '@/components/forms/conformityForms/DeclarerAddress.vue'
-import ManufacturerAddress from '@/components/forms/conformityForms/ManufacturerAddress.vue'
-import ManufacturersRepresentativesAddress from '@/components/forms/conformityForms/ManufacturersRepresentativesAddress.vue'
-import AssemblyPlant from '@/components/forms/conformityForms/AssemblyPlant.vue'
-import ProviderAddress from '@/components/forms/conformityForms/ProviderAddress.vue'
-import ViewSpread from '@/components/forms/conformityForms/ViewSpread.vue'
-import MoreInformations from '@/components/forms/conformityForms/MoreInformations.vue'
+import DocumentComformity from '@/components/forms/conformityForms/document/DocumentComformity.vue'
+import VehicleDetails from '@/components/forms/conformityForms/document/VehicleDetails.vue'
+import CertificationAgency from '@/components/forms/conformityForms/document/CertificationAgency.vue'
+import DeclarerAddress from '@/components/forms/conformityForms/document/DeclarerAddress.vue'
+import ManufacturerAddress from '@/components/forms/conformityForms/document/ManufacturerAddress.vue'
+import ManufacturersRepresentativesAddress from '@/components/forms/conformityForms/document/ManufacturersRepresentativesAddress.vue'
+import AssemblyPlant from '@/components/forms/conformityForms/document/AssemblyPlant.vue'
+import ProviderAddress from '@/components/forms/conformityForms/document/ProviderAddress.vue'
+import ViewSpread from '@/components/forms/conformityForms/document/ViewSpread.vue'
+import MoreInformations from '@/components/forms/conformityForms/document/MoreInformations.vue'
+
+import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
 
 const data = reactive([
   {
@@ -139,7 +141,7 @@ const data = reactive([
   {
     title: 'Базовое ТС',
     id: '#base-vehicle',
-    component: 'DocumentComformity'
+    component: 'BasicVehicle'
   },
   {
     title: 'Общие характеристики транспортного средства (Шасси)',
@@ -292,7 +294,8 @@ const allComponents = {
   AssemblyPlant,
   ProviderAddress,
   ViewSpread,
-  MoreInformations
+  MoreInformations,
+  BasicVehicle
 }
 
 // function is(type) {
@@ -349,6 +352,6 @@ function getComponent(type) {
   padding: 5px 0px;
 }
 .adaptiveGrid__padding {
-  padding: 10px 24px 10px 24px;
+  padding: 14px 24px 10px 24px;
 }
 </style>

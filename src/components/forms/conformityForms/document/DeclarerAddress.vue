@@ -1,7 +1,7 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid mt-5">
     <base-autocomplete
-      v-model="formModel.businessEntityName"
+      v-model="shema.applicantDetails.businessEntityName"
       label="Организация*"
       item-text="businessEntityName"
       item-value="businessEntityName"
@@ -12,17 +12,12 @@
       "
       :rules="[conformityRules.authority]"
       class="full"
-      @update:model="
-        chooseApplicantDoc({
-          businessEntityName: formModel.businessEntityName,
-          authority
-        })
-      "
+      @update:search="chooseApplicantDoc"
     ></base-autocomplete>
 
     <base-autocomplete
-      v-if="authorityBrief.length > 1"
-      v-model="formModel.businessEntityBriefName"
+      v-if="shema.applicantDetails.businessEntityBriefNames.length > 1"
+      v-model="shema.applicantDetails.businessEntityBriefName"
       label="Краткое наименование изготовителя"
       item-text="businessEntityBriefName"
       item-value="businessEntityBriefName"
@@ -31,7 +26,7 @@
     ></base-autocomplete>
 
     <base-autocomplete
-      v-model="formModel.businessEntityTypeName"
+      v-model="shema.applicantDetails.unifiedCountryCode.value"
       label="Код страны"
       item-text="key"
       :items="NSI_034"
@@ -40,7 +35,7 @@
     ></base-autocomplete>
 
     <base-autocomplete
-      v-model="formModel.businessEntityTypeName"
+      v-model="shema.applicantDetails.businessEntityTypeName"
       label="Наименование организационно-правовой формы"
       max-length="300"
       item-text="value"
@@ -50,7 +45,7 @@
     ></base-autocomplete>
 
     <template
-      v-for="(item, index) in formModel.subjectAddressDetails.filter((e) =>
+      v-for="(item, index) in shema.applicantDetails.subjectAddressDetails.filter((e) =>
         ['2', '4'].includes(e.addressKindCode)
       )"
       :key="index"
@@ -69,7 +64,10 @@
     </template>
 
     <p class="full title">Контактные данные</p>
-    <template v-for="(item, index) in formModel.unifiedCommunicationDetails" :key="index">
+    <template
+      v-for="(item, index) in shema.applicantDetails.unifiedCommunicationDetails"
+      :key="index"
+    >
       <base-autocomplete
         v-model="item.unifiedCommunicationChannelCode.value"
         label="Тип контактной информации"
@@ -88,9 +86,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import shema from '@/components/forms/shema'
-import { conformityRules } from './rules'
+import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -98,20 +96,92 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const requests = useRequestStore() // для работы с запросами
-const indexDB = useIndexDBStore()
-
-const formModel = computed(() => {
-  return shema.applicantDetails
-})
+const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
-const authorityBrief = ref([])
+const defaultData = {
+  businessEntityName: '',
+  businessEntityBriefNames: [],
+  businessEntityTypeName: '',
+  fullNameDetails: {
+    lastName: '',
+    firstName: '',
+    middleName: ''
+  },
+  subjectAddressDetails: [
+    {
+      addressKindCode: '4',
+      unifiedCountryCode: {
+        value: '',
+        codeListId: 'NSI_034'
+      },
+      territoryCode: '',
+      regionName: '',
+      districtName: '',
+      cityName: '',
+      settlementName: '',
+      streetName: '',
+      buildingNumberId: '',
+      roomNumberId: '',
+      postCode: '',
+      postOfficeBoxId: '',
+      fullAddress: ''
+    }
+  ],
+  unifiedCommunicationDetails: [
+    {
+      communicationChannelId: [],
+      communicationChannelName: '',
+      unifiedCommunicationChannelCode: {
+        value: '',
+        codeListId: 'NSI_042'
+      }
+    }
+  ],
+  unifiedCountryCode: {
+    codeListId: 'NSI_034',
+    value: ''
+  },
+  businessEntityId: [
+    {
+      kindId: '',
+      value: ''
+    }
+  ]
+}
 
-function chooseApplicantDoc({ businessEntityName, authority }) {
-  authorityBrief.value = authority.filter(
+function chooseApplicantDoc() {
+  const businessEntityName = shema.applicantDetails.businessEntityName
+  if (!businessEntityName) {
+    const {
+      subjectAddressDetails,
+      unifiedCountryCode,
+      unifiedCommunicationDetails,
+      businessEntityTypeName
+    } = defaultData
+    shema.applicantDetails.subjectAddressDetails = subjectAddressDetails
+    shema.applicantDetails.unifiedCommunicationDetails = unifiedCommunicationDetails
+    shema.applicantDetails.unifiedCountryCode = unifiedCountryCode
+    shema.applicantDetails.businessEntityTypeName = businessEntityTypeName
+    return
+  }
+  const choiseItem = authority.value.find((item) => item.businessEntityName == businessEntityName)
+  //устанавливаем новое значение фирмы
+  const {
+    subjectAddressDetails,
+    unifiedCountryCode,
+    unifiedCommunicationDetails,
+    businessEntityTypeName
+  } = choiseItem
+  shema.applicantDetails.subjectAddressDetails = subjectAddressDetails
+  shema.applicantDetails.unifiedCommunicationDetails = unifiedCommunicationDetails
+  shema.applicantDetails.unifiedCountryCode = unifiedCountryCode
+  shema.applicantDetails.businessEntityTypeName = businessEntityTypeName
+  //устанавливаем короткие имена фирмы
+  shema.applicantDetails.businessEntityBriefNames = authority.value.filter(
     (e) => e.businessEntityName === businessEntityName && e.businessEntityBriefName
   )
 }

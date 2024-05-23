@@ -6,6 +6,7 @@ const shema = reactive({
   additionalInfoText: '',
   applicantDetails: {
     businessEntityName: '',
+    businessEntityBriefNames: [],
     businessEntityTypeName: '',
     fullNameDetails: {
       lastName: '',

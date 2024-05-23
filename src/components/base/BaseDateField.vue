@@ -7,7 +7,13 @@
 
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <BaseTextfield v-bind="props" v-model="formatDate" :label="label" @update:enter="onEnter">
+        <BaseTextfield
+          v-bind="props"
+          v-model="formatDate"
+          :label="label"
+          :disabled="disabled"
+          @update:enter="onEnter"
+        >
         </BaseTextfield>
       </template>
       <v-date-picker v-model="currentDate" color="#2c4957" show-adjacent-months></v-date-picker>
@@ -19,9 +25,10 @@
 import { ref, computed, defineProps, defineEmits, watch } from 'vue'
 import { useDate } from 'vuetify'
 import BaseTextfield from './BaseTextfield.vue'
-const { label, date } = defineProps({
+const { label, date, disabled } = defineProps({
   label: { type: String, default: '' },
-  date: { type: String, default: '2' }
+  date: { type: String, default: '2' },
+  disabled: { type: Boolean, default: false }
 })
 const emit = defineEmits(['update:enter'])
 const dateUtils = useDate()
@@ -34,7 +41,6 @@ const formatDate = computed({
     currentDate.value = value
   }
 })
-
 
 function onEnter() {
   emit('update:enter')

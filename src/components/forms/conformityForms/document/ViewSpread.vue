@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid ">
     <base-checkbox
       v-model="shema.series"
       label="На серийно выпускаемую продукцию"
@@ -74,7 +74,7 @@
 <script setup>
 import { ref } from 'vue'
 import shema from '@/components/forms/shema'
-import { conformityRules } from './rules'
+import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'

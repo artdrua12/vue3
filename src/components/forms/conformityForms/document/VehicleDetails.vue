@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid mt-5">
     <base-is-missing-disabled
       v-model="vehicleTypeDetails.notVehicleMakeNameIndicator"
       class="span6"
@@ -152,7 +152,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import shema from '@/components/forms/shema'
-import { conformityRules } from './rules'
+import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -161,7 +161,7 @@ import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled2.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const requests = useRequestStore() // для работы с запросами
-const indexDB = useIndexDBStore()
+const indexDB = useIndexDBStore() // для работы с IndexDB
 const vehicleTypeDetails = computed(() => {
   return shema.vehicleTypeDetails
 })

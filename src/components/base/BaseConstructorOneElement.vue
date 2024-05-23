@@ -1,16 +1,25 @@
 <template>
   <div class="constructor">
-    <v-btn icon="mdi-plus-box" color="#465f6b" rounded="0" class="addBtn" @click="add"> </v-btn>
+    <v-btn
+      icon="mdi-plus-box"
+      color="#465f6b"
+      rounded="0"
+      class="addBtn"
+      :disabled="props.disabled"
+      @click="add"
+    >
+    </v-btn>
     <div v-for="(item, index) in data" :key="index" class="element">
-      <slot :index="index"></slot>
-      <v-icon
-        v-if="props.data.length != 1"
-        color="red"
-        bg-color="green"
-        icon="mdi-close-box"
-        class="removeBtn"
-        @click="remove(item)"
-      ></v-icon>
+      <slot name="default" :index="index"></slot>
+      <slot name="btnRemove" :index="index" >
+        <v-icon
+          v-if="props.data.length != 1"
+          color="red"
+          class="btnRemove"
+          icon="mdi-close-box"
+          @click="remove(item)"
+        ></v-icon
+      ></slot>
     </div>
   </div>
 </template>
@@ -19,7 +28,8 @@
 import { defineProps } from 'vue'
 const data = defineModel('data', { type: Array })
 const props = defineProps({
-  defaultData: { type: String, required: true }
+  defaultData: { type: String, required: true },
+  disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
 function add() {
@@ -83,7 +93,7 @@ if (data.value.length == 0) {
   background-color: #ebebeb;
 }
 
-.removeBtn {
+.btnRemove {
   font-size: 20px;
   position: absolute;
   bottom: calc(50% - 3px);
