@@ -68,18 +68,32 @@
 import { ref, reactive } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
+
+// Документ об оценке соответствия
 import DocumentComformity from '@/components/forms/conformityForms/document/DocumentComformity.vue'
 import VehicleDetails from '@/components/forms/conformityForms/document/VehicleDetails.vue'
 import CertificationAgency from '@/components/forms/conformityForms/document/CertificationAgency.vue'
 import DeclarerAddress from '@/components/forms/conformityForms/document/DeclarerAddress.vue'
 import ManufacturerAddress from '@/components/forms/conformityForms/document/ManufacturerAddress.vue'
 import ManufacturersRepresentativesAddress from '@/components/forms/conformityForms/document/ManufacturersRepresentativesAddress.vue'
-import AssemblyPlant from '@/components/forms/conformityForms/document/AssemblyPlant.vue'
+import AssemblyPlantAddress from '@/components/forms/conformityForms/document/AssemblyPlantAddress.vue'
 import ProviderAddress from '@/components/forms/conformityForms/document/ProviderAddress.vue'
 import ViewSpread from '@/components/forms/conformityForms/document/ViewSpread.vue'
 import MoreInformations from '@/components/forms/conformityForms/document/MoreInformations.vue'
 
+//  Базовое ТС
 import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
+// Общие характеристики транспортного средства (Шасси)
+// Описание маркировки транспортного средства (Шасси)
+import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue'
+// Общий вид транспортного средства (Шасси)
+import VehicleView from '@/components/forms/conformityForms/VehicleView.vue'
+// Документ, подтверждающий соответствие обязательным требованиям
+import ConfirmingDocument from '@/components/forms/conformityForms/ConfirmingDocument.vue'
+// Перечень документов, являющихся основанием для оформления ОТТС
+import ListOfDocuments from '@/components/forms/conformityForms/ListOfDocuments.vue'
+// История изменения документа
+import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vue'
 
 const data = reactive([
   {
@@ -119,7 +133,7 @@ const data = reactive([
       {
         title: 'Сборочный завод и его адрес',
         id: '#vehicle-details-factory',
-        component: 'AssemblyPlant'
+        component: 'AssemblyPlantAddress'
       },
       {
         title: 'Поставщик сборочных комплектов и его адрес',
@@ -258,32 +272,32 @@ const data = reactive([
   {
     title: 'Описание маркировки транспортного средства (Шасси)',
     id: '#description-of-vehicle-markings',
-    component: 'DocumentComformity'
+    component: 'DescriptionOfVehicleMarkings'
   },
   {
     title: 'Общий вид транспортного средства (Шасси)',
     id: '#vehicle-general-form',
-    component: 'DocumentComformity'
+    component: 'VehicleView'
   },
   {
     title: 'Документ, подтверждающий соответствие обязательным требованиям',
     id: '#confirming-document',
-    component: 'DocumentComformity'
+    component: 'ConfirmingDocument'
   },
   {
     title: 'Перечень документов, являющихся основанием для оформления ОТТС',
     id: '#list-of-documents',
-    component: 'DocumentComformity'
+    component: 'ListOfDocuments'
     // hide: this.formModel.conformityDocKindCode === '30'
   },
   {
     title: 'История изменения документа',
     id: '#conformity-change-history',
-    component: 'DocumentComformity'
+    component: 'HistoryDocument'
   }
 ])
 const currentPanel = ref(0)
-const currentTab = ref('tab')
+const currentTab = ref('')
 const allComponents = {
   DocumentComformity,
   VehicleDetails,
@@ -291,11 +305,18 @@ const allComponents = {
   DeclarerAddress,
   ManufacturerAddress,
   ManufacturersRepresentativesAddress,
-  AssemblyPlant,
+  AssemblyPlantAddress,
   ProviderAddress,
   ViewSpread,
   MoreInformations,
-  BasicVehicle
+
+  BasicVehicle,
+
+  DescriptionOfVehicleMarkings,
+  VehicleView,
+  ConfirmingDocument,
+  ListOfDocuments,
+  HistoryDocument
 }
 
 // function is(type) {
@@ -340,6 +361,7 @@ function getComponent(type) {
   flex-direction: column;
   gap: 20px;
   margin: 20px;
+  overflow: hidden;
 }
 .tabsWrapper {
   display: grid;

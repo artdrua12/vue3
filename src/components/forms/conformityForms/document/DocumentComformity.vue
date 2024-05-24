@@ -76,17 +76,17 @@
       :default-data="defaultDataConstructor"
     >
       <base-textfield
-        v-model="props.item.objectOrdinal"
+        v-model="shema.docAnnexDetails[props.index].objectOrdinal"
         label="Номер приложения"
         class="span3"
       ></base-textfield>
       <base-textfield
-        v-model="props.item.pageQuantity"
+        v-model="shema.docAnnexDetails[props.index].pageQuantity"
         label="Количество листов"
         class="span3"
       ></base-textfield>
       <base-combobox
-        v-model="props.item.formNumberId"
+        v-model="shema.docAnnexDetails[props.index].formNumberId"
         label="Номер бланка приложения"
         class="span6"
       >

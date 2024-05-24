@@ -6,11 +6,11 @@
       label="Наличие ограничений использования ТС"
       :default-data="['']"
       invert
+      class="full"
     >
       <base-constructor-one-element
         v-slot="props"
         v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionText"
-        default-data=""
         class="full"
       >
         <base-textarea
@@ -24,8 +24,7 @@
     <base-constructor-one-element
       v-slot="props"
       v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionShipping"
-      default-data=""
-      class="full"
+      class="full mt-4"
     >
       <base-textarea
         v-model="shema.vehicleTypeDetails.vehicleUseRestrictionShipping[props.index]"
@@ -80,7 +79,6 @@
 
     <base-constructor-one-element
       v-model:data="shema.vehicleTypeDetails.addInfo"
-      default-data=""
       class="full mt-5"
     >
       <template #default="props">

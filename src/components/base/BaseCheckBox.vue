@@ -12,8 +12,8 @@
     v-model="checkbox"
     :label="props.label"
     class="base"
-    :hide-details="props.additionData"
     :disabled="props.disabled"
+    hide-details
     color="#546e7a"
   ></v-checkbox>
 </template>

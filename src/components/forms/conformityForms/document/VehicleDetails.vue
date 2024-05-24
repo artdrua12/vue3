@@ -1,43 +1,48 @@
 <template>
   <div class="adaptiveGrid mt-5">
     <base-is-missing-disabled
-      v-model="vehicleTypeDetails.notVehicleMakeNameIndicator"
+      v-model="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
+      v-model:data="shema.vehicleTypeDetails.vehicleMakeName"
       class="span6"
     >
       <base-autocomplete
-        v-model="vehicleTypeDetails.vehicleMakeName"
+        v-model="shema.vehicleTypeDetails.vehicleMakeName"
         label="Марка*"
         :items="NSI_046"
-        :disabled="vehicleTypeDetails.notVehicleMakeNameIndicator"
+        :disabled="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
         item-value="key"
         max-length="120"
         :rules="
-          !vehicleTypeDetails.notVehicleMakeNameIndicator ? [conformityRules.vehicleMakeName] : []
+          !shema.vehicleTypeDetails.notVehicleMakeNameIndicator
+            ? [conformityRules.vehicleMakeName]
+            : []
         "
       ></base-autocomplete>
     </base-is-missing-disabled>
 
     <base-is-missing-disabled
-      v-model="vehicleTypeDetails.notVehicleCommercialNameIndicator"
+      v-model="shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
+      v-model:data="shema.vehicleTypeDetails.vehicleCommercialName"
+      :default-data="[null]"
       class="span6"
     >
       <base-combobox
-        v-model="vehicleTypeDetails.vehicleCommercialName"
+        v-model="shema.vehicleTypeDetails.vehicleCommercialName"
         label="Коммерческое наименование*"
         item-value="key"
         max-length="120"
         :rules="
-          !vehicleTypeDetails.notVehicleCommercialNameIndicator
+          !shema.vehicleTypeDetails.notVehicleCommercialNameIndicator
             ? [conformityRules.vehicleCommercialName]
             : []
         "
-        :disabled="vehicleTypeDetails.notVehicleCommercialNameIndicator"
+        :disabled="shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
       ></base-combobox>
     </base-is-missing-disabled>
 
     <base-autocomplete
       v-if="shema.conformityDocKindCode !== '35'"
-      v-model="vehicleTypeDetails.vehicleTypeId"
+      v-model="shema.vehicleTypeDetails.vehicleTypeId"
       multiple
       label="Тип"
       item-text="value"
@@ -46,36 +51,44 @@
     ></base-autocomplete>
 
     <base-combobox
-      v-model="vehicleTypeDetails.vehicleTypeIdZ"
+      v-model="shema.vehicleTypeDetails.vehicleTypeIdZ"
       label="Идентификатор типа*"
       :rules="[conformityRules.vehicleTypeIdZ]"
       class="span6"
     ></base-combobox>
 
-    <base-is-missing-disabled v-model="vehicleVariantDetails[0].notVehicleTypeId" class="span6">
+    <base-is-missing-disabled
+      v-model="shema.vehicleVariantDetails[0].notVehicleTypeId"
+      v-model:data="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
+      :default-data="[null]"
+      class="span6"
+    >
       <base-combobox
-        v-model="vehicleTypeDetails.vehicleMakeName"
+        v-model="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
         label="Модификация транспортного средства"
         :rules="
-          !vehicleVariantDetails[0].notVehicleTypeId ? [conformityRules.vehicleTypeVariantId] : []
+          !shema.vehicleVariantDetails[0].notVehicleTypeId
+            ? [conformityRules.vehicleTypeVariantId]
+            : []
         "
-        :disabled="vehicleVariantDetails[0].notVehicleTypeId"
+        :disabled="shema.vehicleVariantDetails[0].notVehicleTypeId"
       ></base-combobox>
     </base-is-missing-disabled>
 
     <base-is-missing-disabled
-      v-model="vehicleVariantDetails[0].notModificationVirtual"
+      v-model="shema.vehicleVariantDetails[0].notModificationVirtual"
+      v-model:data="shema.vehicleVariantDetails[0].modificationVirtual"
       class="span6"
     >
       <base-textfield
-        v-model="vehicleVariantDetails[0].modificationVirtual"
+        v-model="shema.vehicleVariantDetails[0].modificationVirtual"
         label="Виртуальная модификация*"
-        :disabled="vehicleVariantDetails[0].notModificationVirtual"
+        :disabled="shema.vehicleVariantDetails[0].notModificationVirtual"
       ></base-textfield>
     </base-is-missing-disabled>
 
     <base-autocomplete
-      v-model="vehicleTypeDetails.vehicleTechCategoryCode"
+      v-model="shema.vehicleTypeDetails.vehicleTechCategoryCode"
       label="Категория ТС в соответствии с ТР ТС № 018/2011*"
       item-text="key"
       :items="NSI_015.filter((e) => e.key.match(/L|M|N|O/))"
@@ -86,18 +99,20 @@
     </base-autocomplete>
 
     <base-is-missing-disabled
-      v-model="vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
+      v-model="shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
+      v-model:data="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
+      :default-data="[null]"
       class="span6"
     >
       <base-autocomplete
-        v-model="vehicleVariantDetails[0].vehicleEcoClassCode"
+        v-model="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
         label="Экологический класс*"
-        :disabled="vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
+        :disabled="shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
         :items="NSI_016"
         item-text="value"
         multiple
         :rules="
-          !vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator
+          !shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator
             ? [conformityRules.vehicleEcoClassCode]
             : []
         "
@@ -106,51 +121,63 @@
 
     <base-is-missing-disabled
       v-if="
-        vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
+        shema.vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
           ['M2', 'M2G', 'M3', 'M3G'].includes(i)
         )
       "
-      v-model="vehicleVariantDetails[0].notClassCode"
+      v-model="shema.vehicleVariantDetails[0].notClassCode"
+      v-model:data="shema.vehicleVariantDetails[0].classCode"
+      :default-data="[null]"
       class="span6"
     >
       <base-autocomplete
-        v-model="vehicleVariantDetails[0].classCode"
+        v-model="shema.vehicleVariantDetails[0].classCode"
         label="Класс для категорий M2, M2G, M3, M3G "
         :items="clazz"
-        :disabled="vehicleVariantDetails[0].notClassCode"
+        :disabled="shema.vehicleVariantDetails[0].notClassCode"
         item-text="value"
         multiple
       ></base-autocomplete>
     </base-is-missing-disabled>
 
-    <base-is-missing-disabled v-model="vehicleVariantDetails[0].notCodOKPBY" class="span6">
+    <base-is-missing-disabled
+      v-model="shema.vehicleVariantDetails[0].notCodOKPBY"
+      v-model:data="shema.vehicleVariantDetails[0].codOKPBY"
+      :default-data="[null]"
+      class="span6"
+    >
       <base-autocomplete
-        v-model="vehicleVariantDetails[0].codOKPBY"
+        v-model="shema.vehicleVariantDetails[0].codOKPBY"
         label="Код ОКП*"
         :items="NSI_089"
-        :disabled="vehicleVariantDetails[0].notCodOKPBY"
+        :disabled="shema.vehicleVariantDetails[0].notCodOKPBY"
         item-text="key"
         multiple
-        :rules="!vehicleVariantDetails[0].notCodOKPBY ? [conformityRules.codOKPBY] : []"
+        :rules="!shema.vehicleVariantDetails[0].notCodOKPBY ? [conformityRules.codOKPBY] : []"
       ></base-autocomplete>
     </base-is-missing-disabled>
 
-    <base-is-missing-disabled v-model="vehicleVariantDetails[0].notCodTNVED" class="span6">
+    <base-is-missing-disabled
+      v-model="shema.vehicleVariantDetails[0].notCodTNVED"
+      v-model:data="shema.vehicleVariantDetails[0].codTNVED"
+      :default-data="[null]"
+      class="span6"
+    >
       <base-autocomplete
-        v-model="vehicleVariantDetails[0].codTNVED"
+        v-model="shema.vehicleVariantDetails[0].codTNVED"
         label="Код ТН ВЭД*"
         :items="NSI_108"
-        :disabled="vehicleVariantDetails[0].notCodTNVED"
+        :disabled="shema.vehicleVariantDetails[0].notCodTNVED"
         item-text="key"
         multiple
-        :rules="!vehicleVariantDetails[0].notCodTNVED ? [conformityRules.codTNVED] : []"
+        :rules="!shema.vehicleVariantDetails[0].notCodTNVED ? [conformityRules.codTNVED] : []"
       ></base-autocomplete>
     </base-is-missing-disabled>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import shema from '@/components/forms/shema'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -162,12 +189,7 @@ import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с IndexDB
-const vehicleTypeDetails = computed(() => {
-  return shema.vehicleTypeDetails
-})
-const vehicleVariantDetails = computed(() => {
-  return shema.vehicleVariantDetails
-})
+
 const NSI_015 = ref([])
 const NSI_016 = ref([])
 const NSI_046 = ref([])

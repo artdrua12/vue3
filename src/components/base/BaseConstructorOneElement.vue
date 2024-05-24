@@ -11,7 +11,7 @@
     </v-btn>
     <div v-for="(item, index) in data" :key="index" class="element">
       <slot name="default" :index="index"></slot>
-      <slot name="btnRemove" :index="index" >
+      <slot name="btnRemove" :index="index">
         <v-icon
           v-if="props.data.length != 1"
           color="red"
@@ -25,10 +25,9 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-const data = defineModel('data', { type: Array })
+const data = defineModel('data', { type: Array }) // место куда вставляем данные
 const props = defineProps({
-  defaultData: { type: String, required: true },
+  defaultData: { type: String, default: ' ' },
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 

@@ -1,63 +1,40 @@
 <template>
-  <div class="adaptiveGrid">
-    <base-is-missing
-      v-model="shema.vehicleVariantDetails[0].notBaseVehicleDetails"
-      v-model:data="shema.vehicleVariantDetails"
-      label="Базовое ТС - отсутствует"
-      :default-data="defaultData"
-      class="full"
-    >
-      <base-constructor
-        v-slot="props"
-        v-model:data="shema.vehicleVariantDetails"
-        :filter-data="shema.vehicleVariantDetails"
-        :default-data="defaultData[0]"
-        class="full"
-        label="Базовое ТС"
-      >
-        <base-is-missing-disabled
-          v-model="shema.vehicleVariantDetails[props.index].notVehicleMakeNameIndicator"
-          v-model:data="shema.vehicleVariantDetails[props.index].vehicleMakeName"
-          class="full"
-        >
-          <base-autocomplete
-            v-model="shema.vehicleVariantDetails[props.index].vehicleMakeName"
-            label="Марка*"
-            :items="NSI_046"
-            :disabled="shema.vehicleVariantDetails[props.index].notVehicleMakeNameIndicator"
-            item-value="key"
-            max-length="120"
-            :rules="
-              shema.vehicleVariantDetails[props.index].notVehicleMakeNameIndicator ? [] : [conformityRules.vehicleMakeNameString]
-            "
-          ></base-autocomplete>
-        </base-is-missing-disabled>
-
-        <base-textfield
-          id="type"
-          v-model="shema.vehicleVariantDetails[props.index].vehicleTypeId"
-          label="Идентификатор типа*"
-          :validators="[conformityRules.vehicleTypeId]"
-          max-length="50"
-          class="span6"
-        ></base-textfield>
-        <base-combobox
-          v-model="shema.vehicleVariantDetails[props.index].vehicleCommercialName"
-          label="Коммерческое наименование транспортного средства"
-          max-length="120"
-          class="span6"
-        ></base-combobox>
-        <base-textfield
-          v-model="shema.vehicleVariantDetails[props.index].docId"
-          label="Номер бумажного паспорта базового ТС (шасси ТС)"
-          max-length="50"
-          class="span6"
-        ></base-textfield>
-
-        <base-datefield v-model="shema.vehicleVariantDetails[props.index].docCreationDate" label="Дата документа" class="span6">
-        </base-datefield>
-      </base-constructor>
-    </base-is-missing>
+  <div class="adaptiveGrid mt-5">
+    <base-textfield
+      v-model="shema.vehicleComplianceDocDetails[0].docName"
+      label="Наименование документа, подтверждающего соответствие обязательным требованиям"
+      class="span6"
+    ></base-textfield>
+    <base-textfield
+      v-model="shema.vehicleComplianceDocDetails[0].docId"
+      label="Номер документа, подтверждающего соответствие обязательным требованиям"
+      class="span6"
+    ></base-textfield>
+    <base-datefield
+      v-model="shema.vehicleComplianceDocDetails[0].docCreationDate"
+      label="Дата документа"
+      class="span3"
+    ></base-datefield>
+    <base-datefield
+      v-model="shema.vehicleComplianceDocDetails[0].eventDate"
+      label="Дата внесения записи о документе в единый реестр"
+      class="span3"
+    ></base-datefield>
+    <base-textfield
+      v-model="shema.vehicleComplianceDocDetails[0].businessEntityName"
+      label="Наименование хозяйствующего субъекта, выдавшего документ"
+      class="span6"
+    ></base-textfield>
+    <base-textfield
+      v-model="shema.vehicleComplianceDocDetails[0].businessEntityId"
+      label="Идентификатор хозяйствующего субъекта, присвоенный при государственной регистрации"
+      class="span6"
+    ></base-textfield>
+    <base-textfield
+      v-model="shema.fullNameDetails"
+      label="ФИО руководителя уполномоченного органа"
+      class="span6"
+    ></base-textfield>
   </div>
 </template>
 

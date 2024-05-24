@@ -5,6 +5,7 @@
         v-model:data="shema.vehicleManufacturerDetails"
         label="Сборочный завод и его адрес - отсутствует"
         :default-data="defaultData"
+        class="full"
       >
         <base-constructor
           v-slot="props"
@@ -15,28 +16,28 @@
           label="Сборочный завод и его адрес"
         >
           <base-autocomplete
-            v-model="props.item.businessEntityName"
+            v-model="shema.vehicleManufacturerDetails[props.index].businessEntityName"
             label="Организация*"
             item-text="businessEntityName"
             item-value="businessEntityName"
             :items="authority"
             :rules="[conformityRules.authority]"
             class="full"
-            @update:search="chooseManufacturerDoc(props.item)"
+            @update:search="chooseManufacturerDoc(shema.vehicleManufacturerDetails[props.index])"
           ></base-autocomplete>
   
           <base-autocomplete
-            v-if="props.item.businessEntityBriefNames.length > 1"
+            v-if="shema.vehicleManufacturerDetails[props.index].businessEntityBriefNames.length > 1"
             v-model="shema.businessEntityBriefName"
             label="Краткое наименование изготовителя"
             item-text="businessEntityBriefName"
             item-value="businessEntityBriefName"
-            :items="props.item.businessEntityBriefNames"
+            :items="shema.vehicleManufacturerDetails[props.index].businessEntityBriefNames"
             class="full"
           ></base-autocomplete>
   
           <base-autocomplete
-            v-model="props.item.unifiedCountryCode.value"
+            v-model="shema.vehicleManufacturerDetails[props.index].unifiedCountryCode.value"
             label="Код страны"
             item-text="key"
             :items="NSI_034"
@@ -45,7 +46,7 @@
           ></base-autocomplete>
   
           <base-autocomplete
-            v-model="props.item.businessEntityTypeName"
+            v-model="shema.vehicleManufacturerDetails[props.index].businessEntityTypeName"
             label="Наименование организационно-правовой формы"
             max-length="300"
             item-text="value"
@@ -55,7 +56,7 @@
           ></base-autocomplete>
   
           <template
-            v-for="(item2, index2) in props.item.subjectAddressDetails.filter((e) =>
+            v-for="(item2, index2) in shema.vehicleManufacturerDetails[props.index].subjectAddressDetails.filter((e) =>
               ['2', '4'].includes(e.addressKindCode)
             )"
             :key="index2"
@@ -74,7 +75,7 @@
           </template>
   
           <p class="full title">Контактные данные</p>
-          <template v-for="(item3, index3) in props.item.unifiedCommunicationDetails" :key="index3">
+          <template v-for="(item3, index3) in shema.vehicleManufacturerDetails[props.index].unifiedCommunicationDetails" :key="index3">
             <base-autocomplete
               v-model="item3.communicationChannelName"
               label="Тип контактной информации"

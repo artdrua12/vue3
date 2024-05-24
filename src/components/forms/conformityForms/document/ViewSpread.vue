@@ -4,7 +4,7 @@
       v-model="shema.series"
       label="На серийно выпускаемую продукцию"
       :disabled="shema.party.partyValue"
-      class="span6"
+      class="full"
     ></base-checkbox>
 
     <base-is-missing
@@ -14,6 +14,7 @@
       :disabled="shema.series"
       :default-data="defaultData"
       invert
+      class="full"
       @change="change"
     >
       <base-textfield

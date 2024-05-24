@@ -17,7 +17,7 @@
       <legend>
         {{ props.label }}
       </legend>
-      <slot :item="item"></slot>
+      <slot :index="index"></slot>
 
       <slot name="btnRemove" :index="index">
         <v-icon
@@ -33,12 +33,11 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-const data = defineModel('data', { type: Array })
+const data = defineModel('data', { type: Array, Object, String })
 const props = defineProps({
   label: { type: String, default: '' },
-  defaultData: { type: [Array, Object], required: true },
-  filterData: { type: [Array, Object], required: true }, //отфильтрованные значения из data
+  defaultData: { type: [Array, Object, String], required: true },
+  filterData: { type: [Array, Object, String], required: true }, //отфильтрованные значения из data
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
