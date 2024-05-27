@@ -84,6 +84,14 @@ import MoreInformations from '@/components/forms/conformityForms/document/MoreIn
 //  Базовое ТС
 import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
 // Общие характеристики транспортного средства (Шасси)
+import VehicleComposition from '@/components/forms/conformityForms/generalCharacteristics/VehicleComposition.vue'
+import VehicleRunningGearDetails from '@/components/forms/conformityForms/generalCharacteristics/VehicleRunningGearDetails.vue'
+import VehicleAxis from '@/components/forms/conformityForms/generalCharacteristics/VehicleAxis.vue'
+import DimensionsSize from '@/components/forms/conformityForms/generalCharacteristics/DimensionsSize.vue'
+
+
+
+
 // Описание маркировки транспортного средства (Шасси)
 import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue'
 // Общий вид транспортного средства (Шасси)
@@ -164,22 +172,22 @@ const data = reactive([
       {
         title: 'Компоновка транспортного средства',
         id: '#vehicle-composition',
-        component: 'DocumentComformity'
+        component: 'VehicleComposition'
       },
       {
         title: 'Ходовая часть ТС',
         id: '#numbers-vheels',
-        component: 'DocumentComformity'
+        component: 'VehicleRunningGearDetails'
       },
       {
         title: 'Ось транспортного средства',
         id: '#vehicle-axis',
-        component: 'DocumentComformity'
+        component: 'VehicleAxis'
       },
       {
         title: 'Габаритные размеры',
         id: '#dimensions',
-        component: 'DocumentComformity'
+        component: 'DimensionsSize'
       },
       {
         title: 'Масса',
@@ -311,6 +319,11 @@ const allComponents = {
   MoreInformations,
 
   BasicVehicle,
+
+  VehicleComposition,
+  VehicleRunningGearDetails,
+  VehicleAxis,
+  DimensionsSize,
 
   DescriptionOfVehicleMarkings,
   VehicleView,

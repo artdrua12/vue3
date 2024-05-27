@@ -2,7 +2,7 @@
   <div class="adaptiveGrid mt-5">
     <base-constructor
       v-slot="props"
-      v-model:data="shema.vehicleManufacturerDetails"
+      v-model="shema.vehicleManufacturerDetails"
       :filter-data="filterData"
       :default-data="defaultDataConstructor"
       class="full"

@@ -17,9 +17,9 @@
       <legend>
         {{ props.label }}
       </legend>
-      <slot :index="index"></slot>
+      <slot :index="index" :item="item"></slot>
 
-      <slot name="btnRemove" :index="index">
+      <slot name="btnRemove" :index="index" >
         <v-icon
           v-if="props.filterData.length != 1"
           color="red"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-const data = defineModel('data', { type: Array, Object, String })
+const data = defineModel({ type: [Array, Object, String], required: true })
 const props = defineProps({
   label: { type: String, default: '' },
   defaultData: { type: [Array, Object, String], required: true },

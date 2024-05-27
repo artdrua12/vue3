@@ -183,7 +183,7 @@ import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled2.vue'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'

@@ -69,7 +69,7 @@
 
     <base-constructor
       v-slot="props"
-      v-model:data="shema.docAnnexDetails"
+      v-model="shema.docAnnexDetails"
       class="full"
       label="Приложение к документу"
       :filter-data="shema.docAnnexDetails"

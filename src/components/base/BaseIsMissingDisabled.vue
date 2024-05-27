@@ -1,57 +1,32 @@
 <template>
   <div class="baseIsMissing">
-    <component
-      :is="getComponent(i.type)"
-      v-for="(i, index) in fields"
-      :key="index"
-      :label="i.label"
-      :fields="i.fields"
-      :disabled="props.additionData ? valueCheckbox : !valueCheckbox"
-      class="field"
-      @update:enter="emit('find')"
-    ></component>
-    <BaseCheckbox v-model="valueCheckbox" :label="props.label" class="ckeckbox"></BaseCheckbox>
+    <slot class="field"></slot>
+    <BaseCheckbox v-model="checkbox" :label="props.label" class="ckeckbox"></BaseCheckbox>
   </div>
 </template>
 
 <script setup>
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
-import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
-import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseSwich from '@/components/base/BaseSwich.vue'
-import { ref, defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+const emit = defineEmits(['change'])
 const props = defineProps({
   label: { type: String, default: 'Отсутствует' },
-  itemValue: { type: String, default: '' },
-  itemText: { type: String, default: '' },
-  value: { type: String, default: '' },
-  fields: {
-    type: Object,
-    default() {
-      return null
-    }
-  },
-  // что бы disabled компонент когда сheckbox поставлен, если false - наоборот
-  additionData: {
-    type: Boolean,
-    default: true
+  defaultData: { type: [String, Object, Array], default: null }
+})
+// то куда потставляются данные
+const data = defineModel('data', {
+  type: [String, Object, Array, Number],
+  default: null
+})
+const checkbox = defineModel({
+  type: Boolean,
+  set(value) {
+    // при извенении чекбокса подставляем дефолтные значения
+    data.value = JSON.parse(JSON.stringify(props.defaultData))
+    emit('change')
+    return value
   }
 })
-const emit = defineEmits(['find']) //событие для запуска поиска
-let valueCheckbox = ref(false)
-
-const allComponents = {
-  BaseAutocomplete,
-  BaseTextfield,
-  BaseCheckbox,
-  BaseCombobox,
-  BaseSwich
-}
-
-function getComponent(type) {
-  return allComponents[type]
-}
 </script>
 
 <style scoped>
@@ -59,13 +34,15 @@ function getComponent(type) {
   width: 100%;
   display: flex;
   gap: 0px 12px;
+  align-content: center;
 }
 .field {
   flex: content 1 1;
   min-width: 100px;
 }
 .ckeckbox {
-  flex: content 0 1;
+  flex: content 0 0;
   overflow: hidden;
+  margin-top: -6px;
 }
 </style>

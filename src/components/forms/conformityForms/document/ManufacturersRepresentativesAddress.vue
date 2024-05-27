@@ -9,7 +9,7 @@
     >
       <base-constructor
         v-slot="props"
-        v-model:data="shema.vehicleManufacturerDetails"
+        v-model="shema.vehicleManufacturerDetails"
         :filter-data="filterData"
         :default-data="defaultDataConstructor"
         class="full"
@@ -102,13 +102,13 @@ import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const requests = useRequestStore() // для работы с запросами
-const indexDB = useIndexDBStore()
+const indexDB = useIndexDBStore() // для работы с indexDB
 
 const NSI_034 = ref([])
 const NSI_042 = ref([])

@@ -9,7 +9,7 @@
     >
       <base-constructor
         v-slot="props"
-        v-model:data="shema.vehicleVariantDetails"
+        v-model="shema.vehicleVariantDetails"
         :filter-data="shema.vehicleVariantDetails"
         :default-data="defaultData[0]"
         class="full"
@@ -68,9 +68,9 @@ import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled2.vue'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'

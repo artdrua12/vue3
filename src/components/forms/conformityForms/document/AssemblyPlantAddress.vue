@@ -9,7 +9,7 @@
       >
         <base-constructor
           v-slot="props"
-          v-model:data="shema.vehicleManufacturerDetails"
+          v-model="shema.vehicleManufacturerDetails"
           :filter-data="filterData"
           :default-data="defaultDataConstructor"
           class="full"
@@ -102,7 +102,7 @@
   import BaseTextfield from '@/components/base/BaseTextfield.vue'
   import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
   import BaseCombobox from '@/components/base/BaseCombobox.vue'
-  import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+  import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
   import BaseConstructor from '@/components/base/BaseConstructor.vue'
   
   import { useRequestStore } from '@/stores/requestStore'

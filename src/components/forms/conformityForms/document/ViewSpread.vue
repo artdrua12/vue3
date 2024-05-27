@@ -78,7 +78,7 @@ import shema from '@/components/forms/shema'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
-import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 

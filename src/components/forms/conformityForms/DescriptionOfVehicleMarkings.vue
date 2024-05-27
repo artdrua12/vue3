@@ -2,7 +2,7 @@
   <div>
     <base-constructor
       v-slot="props"
-      v-model:data="shema.vehicleTypeDetails.vehicleLabelingDetails"
+      v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :filter-data="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :default-data="defaultDataConstructor"
       class="mt-5"
@@ -29,7 +29,7 @@
       >
         <base-constructor-one-element
           v-slot="props2"
-          v-model:data="
+          v-model="
             shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
               .vehicleComponentLocationText
           "
@@ -47,7 +47,7 @@
 
       <base-constructor-one-element
         v-slot="props3"
-        v-model:data="
+        v-model="
           shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
             .vehicleIdentificationNumberLocationText
         "
@@ -65,7 +65,7 @@
 
       <base-constructor-one-element
         v-slot="props4"
-        v-model:data="
+        v-model="
           shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
             .engineIdentificationNumberLocationText
         "
@@ -83,16 +83,22 @@
       <p class="title full">
         Структура и содержание идентификационного номера транспортного средства
       </p>
+      <base-squares
+        :items="
+          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdentificationNumberId
+        "
+        class="full"
+      ></base-squares>
 
       <base-constructor
         v-slot="props5"
-        v-model:data="
+        v-model="
           shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails
         "
         :filter-data="
           shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails
         "
-        :default-data="defaultDataConstructor5"
+        :default-data="defaultDataConstructor.vehicleIdCharacterDetails[0]"
         class="full"
         label="Группа"
       >
@@ -104,25 +110,101 @@
           "
           label="Номер символа"
           :items="fromAndBy"
+          class="span6"
+        ></base-autocomplete>
+
+        <base-autocomplete
+          v-model="
+            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
+              props5.index
+            ].idCharacterQuantity
+          "
+          :items="fromAndBy"
+          label="Количество символов*"
+          :rules="[conformityRules.idCharacterQuantity]"
+          class="span6"
+        ></base-autocomplete>
+
+        <base-autocomplete
+          v-model="
+            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
+              props5.index
+            ].typeDate
+          "
+          label="Тип данных*"
+          :items="groupType"
+          :rules="[conformityRules.typeDate]"
           class="full"
         ></base-autocomplete>
+
+        <base-textarea
+          v-model="
+            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
+              props5.index
+            ].idCharacterText
+          "
+          label="Описание*"
+          :rules="[conformityRules.idCharacterText]"
+          class="full"
+        ></base-textarea>
+
+        <base-constructor
+          v-slot="props6"
+          v-model="
+            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
+              props5.index
+            ].idCharacterValueDetails
+          "
+          :filter-data="
+            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
+              props5.index
+            ].idCharacterValueDetails
+          "
+          :default-data="
+            defaultDataConstructor.vehicleIdCharacterDetails[0].idCharacterValueDetails[0]
+          "
+          class="full"
+          label="Значение"
+        >
+          <base-textfield
+            v-model="
+              shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
+                .vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[props6.index]
+                .idCharacterValueCode
+            "
+            label="Значение"
+            :items="groupType"
+            class="full"
+          ></base-textfield>
+
+          <base-textarea
+            v-model="
+              shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
+                .vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[props6.index]
+                .idCharacterValueText
+            "
+            label="Расшифровка значения"
+            class="full"
+          ></base-textarea>
+        </base-constructor>
       </base-constructor>
     </base-constructor>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
 import shema from '@/components/forms/shema'
 import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
-import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
-import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import BaseSquares from '@/components/base/BaseSquares.vue'
 
+const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']
 const defaultDataConstructor = {
   vehicleIdentificationNumberId: {
     number1: '?',
@@ -164,21 +246,6 @@ const defaultDataConstructor = {
   vehicleIdentificationNumberLocationText: [''],
   notManufacturerPlateIndicator: false
 }
-const defaultDataConstructor5 = [
-  {
-    idCharacterQuantity: 0,
-    idCharacterStartingOrdinal: 0,
-    idCharacterText: '',
-    idCharacterValueDetails: [
-      {
-        idCharacterValueCode: '',
-        idCharacterValueText: ''
-      }
-    ],
-    idCharacterValueText: '',
-    typeDate: ''
-  }
-]
 </script>
 
 <style></style>
