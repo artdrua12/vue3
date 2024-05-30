@@ -39,6 +39,7 @@ function onEnter() {
   /* min-height: 25px; */
   /* height: 27px; */
   min-height: 34px;
+  height: 34px;
   padding-top: 1px;
   padding-bottom: 3px;
   line-height: 1.2;

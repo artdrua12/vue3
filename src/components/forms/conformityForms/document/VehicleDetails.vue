@@ -3,6 +3,7 @@
     <base-is-missing-disabled
       v-model="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleMakeName"
+      :default-data="[null]"
       class="span6"
     >
       <base-autocomplete
@@ -10,6 +11,7 @@
         label="Марка*"
         :items="NSI_046"
         :disabled="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
+        multiple
         item-value="key"
         max-length="120"
         :rules="

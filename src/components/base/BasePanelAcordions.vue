@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels v-model="panel" style="gap: 1px" class="base" variant="popout">
+  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
     <v-expansion-panel
       v-for="item in props.data"
       :key="item.id"
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { defineEmits, defineModel } from 'vue'
+import { defineModel } from 'vue'
 // const emit = defineEmits(['update:tab'])
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
@@ -35,7 +35,6 @@ const props = defineProps({
   tColor: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
 
-const panel = defineModel('panel', { type: Number, required: true })
 const tab = defineModel('tab', { type: String, required: true })
 
 function toId(id) {

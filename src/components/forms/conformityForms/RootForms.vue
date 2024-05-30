@@ -1,7 +1,6 @@
 <template>
   <div class="layoutForms">
     <base-panel-acordions
-      v-model:panel="currentPanel"
       v-model:tab="currentTab"
       class="forms-menu"
       :data="data"
@@ -80,7 +79,6 @@ import AssemblyPlantAddress from '@/components/forms/conformityForms/document/As
 import ProviderAddress from '@/components/forms/conformityForms/document/ProviderAddress.vue'
 import ViewSpread from '@/components/forms/conformityForms/document/ViewSpread.vue'
 import MoreInformations from '@/components/forms/conformityForms/document/MoreInformations.vue'
-
 //  Базовое ТС
 import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
 // Общие характеристики транспортного средства (Шасси)
@@ -88,8 +86,20 @@ import VehicleComposition from '@/components/forms/conformityForms/generalCharac
 import VehicleRunningGearDetails from '@/components/forms/conformityForms/generalCharacteristics/VehicleRunningGearDetails.vue'
 import VehicleAxis from '@/components/forms/conformityForms/generalCharacteristics/VehicleAxis.vue'
 import DimensionsSize from '@/components/forms/conformityForms/generalCharacteristics/DimensionsSize.vue'
-
-
+import WeightCar from '@/components/forms/conformityForms/generalCharacteristics/WeightCar.vue'
+import WeightTowedTrailer from '@/components/forms/conformityForms/generalCharacteristics/WeightTowedTrailer.vue'
+import EngineCar from '@/components/forms/conformityForms/generalCharacteristics/EngineCar.vue'
+import StorageDevice from '@/components/forms/conformityForms/generalCharacteristics/StorageDevice.vue'
+import FuelCar from '@/components/forms/conformityForms/generalCharacteristics/FuelCar.vue'
+import SupplySystem from '@/components/forms/conformityForms/generalCharacteristics/SupplySystem.vue'
+import IgnitionSystem from '@/components/forms/conformityForms/generalCharacteristics/IgnitionSystem.vue'
+import NeutralizationSystem from '@/components/forms/conformityForms/generalCharacteristics/NeutralizationSystem.vue'
+import ClutchCar from '@/components/forms/conformityForms/generalCharacteristics/ClutchCar.vue'
+import TransmissionCar from '@/components/forms/conformityForms/generalCharacteristics/TransmissionCar.vue'
+import SuspensionCar from '@/components/forms/conformityForms/generalCharacteristics/SuspensionCar.vue'
+import SteerageCar from '@/components/forms/conformityForms/generalCharacteristics/SteerageCar.vue'
+import BrakeSystems from '@/components/forms/conformityForms/generalCharacteristics/BrakeSystems.vue'
+import TiresCar from '@/components/forms/conformityForms/generalCharacteristics/TiresCar.vue'
 
 
 // Описание маркировки транспортного средства (Шасси)
@@ -192,29 +202,29 @@ const data = reactive([
       {
         title: 'Масса',
         id: '#weight',
-        component: 'DocumentComformity'
+        component: 'WeightCar'
       },
       {
         title: 'Масса буксируемого прицепа',
         id: '#weight-towed-trailer',
-        component: 'DocumentComformity'
+        component: 'WeightTowedTrailer'
       },
       {
         title: 'Двигатель',
         id: '#engine',
-        component: 'DocumentComformity'
+        component: 'EngineCar'
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Устройство накопления энергии',
         id: '#storage-device',
-        component: 'DocumentComformity'
+        component: 'StorageDevice'
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Топливо',
         id: '#fuel',
-        component: 'DocumentComformity'
+        component: 'FuelCar'
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -222,7 +232,7 @@ const data = reactive([
       {
         title: 'Система питания',
         id: '#supply-system',
-        component: 'DocumentComformity'
+        component: 'SupplySystem'
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -230,7 +240,7 @@ const data = reactive([
       {
         title: 'Система зажигания',
         id: '#ignition-system',
-        component: 'DocumentComformity'
+        component: 'IgnitionSystem'
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -238,7 +248,7 @@ const data = reactive([
       {
         title: 'Система выпуска и нейтрализации отработавших газов',
         id: '#neutralization-system',
-        component: 'DocumentComformity'
+        component: 'NeutralizationSystem'
         // hide:
         //   this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i)) &&
         //   this.engineType === 'Двигатель внутреннего сгорания'
@@ -246,34 +256,34 @@ const data = reactive([
       {
         title: 'Сцепление',
         id: '#clutch',
-        component: 'DocumentComformity'
+        component: 'ClutchCar'
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Трансмиссия',
         id: '#transmission',
-        component: 'DocumentComformity'
+        component: 'TransmissionCar'
         // hide: this.techCategoryCode.every((i) => !['O1', 'O2', 'O3', 'O4'].includes(i))
       },
       {
         title: 'Подвеска',
         id: '#suspension',
-        component: 'DocumentComformity'
+        component: 'SuspensionCar'
       },
       {
         title: 'Рулевое управление',
         id: '#steerage',
-        component: 'DocumentComformity'
+        component: 'SteerageCar'
       },
       {
         title: 'Тормозные системы',
         id: '#brake-systems',
-        component: 'DocumentComformity'
+        component: 'BrakeSystems'
       },
       {
         title: 'Шины',
         id: '#tires',
-        component: 'DocumentComformity'
+        component: 'TiresCar'
       }
     ]
   },
@@ -304,7 +314,7 @@ const data = reactive([
     component: 'HistoryDocument'
   }
 ])
-const currentPanel = ref(0)
+
 const currentTab = ref('')
 const allComponents = {
   DocumentComformity,
@@ -324,6 +334,20 @@ const allComponents = {
   VehicleRunningGearDetails,
   VehicleAxis,
   DimensionsSize,
+  WeightCar,
+  WeightTowedTrailer,
+  EngineCar,
+  StorageDevice,
+  FuelCar,
+  SupplySystem,
+  IgnitionSystem,
+  NeutralizationSystem,
+  ClutchCar,
+  TransmissionCar,
+  SuspensionCar,
+  SteerageCar,
+  BrakeSystems,
+  TiresCar,
 
   DescriptionOfVehicleMarkings,
   VehicleView,

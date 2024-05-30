@@ -15,13 +15,11 @@
       class="adaptiveGrid adaptiveGrid--setting"
     >
       <legend>
-        <slot name="label" :index="index" :item="item">
-          {{ props.label }}
-        </slot>
+        {{ props.label }}
       </legend>
-      <slot :index="index" :item="item" ></slot>
+      <slot :index="index" :item="item"></slot>
 
-      <slot name="btnRemove" :index="index" :item="item">
+      <slot name="btnRemove" :index="index">
         <v-icon
           v-if="props.filterData.length != 1"
           color="red"
@@ -44,7 +42,9 @@ const props = defineProps({
 })
 
 function add() {
-  data.value.push(JSON.parse(JSON.stringify(props.defaultData)))
+  const addData = JSON.parse(JSON.stringify(props.defaultData))
+  addData.vehicleComponentStageNumber = `Ступень ${data.value.length + 1}`
+  data.value.push(addData)
 }
 function remove(item) {
   const index = data.value.findIndex((dataItem) => dataItem == item)
@@ -111,16 +111,18 @@ legend {
 .adaptiveGrid:last-of-type::after {
   border: none;
 }
-
-.addBtn {
-  position: absolute;
-  top: -6px;
-  left: -3px;
+.addBtn,
+.addBtnOne {
   width: 30px;
   height: 30px;
   font-size: 14px;
   z-index: 2;
   background-color: #ebebeb;
+}
+.addBtn {
+  position: absolute;
+  top: -5px;
+  left: -3px;
 }
 
 .btnRemove {

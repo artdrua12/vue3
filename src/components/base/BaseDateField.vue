@@ -30,6 +30,7 @@ const { label, date, disabled } = defineProps({
   date: { type: String, default: '2' },
   disabled: { type: Boolean, default: false }
 })
+console.log(date)
 const emit = defineEmits(['update:enter'])
 const dateUtils = useDate()
 const currentDate = ref()

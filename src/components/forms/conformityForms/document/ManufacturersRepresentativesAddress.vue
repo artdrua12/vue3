@@ -1,11 +1,10 @@
 <template>
-  <div class="adaptiveGrid">
+  <div >
     <base-is-missing
       v-model="shema.notVehicleRepresentativeDetails"
       v-model:data="shema.vehicleManufacturerDetails"
       label="Представитель изготовителя и его адрес - отсутствует"
       :default-data="defaultData"
-      class="full"
     >
       <base-constructor
         v-slot="props"

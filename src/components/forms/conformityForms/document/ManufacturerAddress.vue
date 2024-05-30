@@ -1,11 +1,11 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <div >
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleManufacturerDetails"
       :filter-data="filterData"
       :default-data="defaultDataConstructor"
-      class="full"
+      class="mt-5"
       label="Изготовитель"
       disabled
     >
@@ -50,9 +50,9 @@
       ></base-autocomplete>
 
       <template
-        v-for="(item2, index2) in shema.vehicleManufacturerDetails[props.index].subjectAddressDetails.filter((e) =>
-          ['2', '4'].includes(e.addressKindCode)
-        )"
+        v-for="(item2, index2) in shema.vehicleManufacturerDetails[
+          props.index
+        ].subjectAddressDetails.filter((e) => ['2', '4'].includes(e.addressKindCode))"
         :key="index2"
       >
         <base-textfield
@@ -69,7 +69,11 @@
       </template>
 
       <p class="full title">Контактные данные</p>
-      <template v-for="(item3, index3) in shema.vehicleManufacturerDetails[props.index].unifiedCommunicationDetails" :key="index3">
+      <template
+        v-for="(item3, index3) in shema.vehicleManufacturerDetails[props.index]
+          .unifiedCommunicationDetails"
+        :key="index3"
+      >
         <base-autocomplete
           v-model="item3.unifiedCommunicationChannelCode.value"
           label="Тип контактной информации"

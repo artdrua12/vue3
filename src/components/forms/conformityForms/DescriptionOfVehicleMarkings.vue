@@ -33,6 +33,7 @@
             shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
               .vehicleComponentLocationText
           "
+          class="full"
         >
           <base-textarea
             v-model="

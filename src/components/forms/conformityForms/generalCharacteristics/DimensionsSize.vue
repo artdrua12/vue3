@@ -1,248 +1,364 @@
 <template>
-    <div class="adaptiveGrid mt-5">
+  <div class="adaptiveGrid">
+    <base-constructor
+      v-slot="props"
+      v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.lengthMeasure"
+      label="Длина"
+      :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.lengthMeasure"
+      :default-data="defaultData[0]"
+      class="full mt-5"
+    >
       <base-textfield
-        v-if="
-          shema.vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
-            ['O1', 'O2', 'O3', 'O4'].includes(i)
-          )
-        "
-        v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleQuantity"
-        label="Количество осей"
+        v-model.sync="props.item.valueMin"
+        label="Минимально"
         type="number"
-        class="span6"
+        max-length="24"
+        :rules="[conformityRules.lengthMeasure]"
+        class="span3"
       ></base-textfield>
-  
-      <base-combobox
-        v-if="
-          shema.vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
-            ['O1', 'O2', 'O3', 'O4'].includes(i)
-          )
-        "
-        v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelQuantity"
-        label="Количество колес"
-        type="number"
-        max-length="4"
+
+      <base-autocomplete
+        v-model="props.item.measurementUnitCode"
+        label="Ед. измерения"
+        :items="NSI_033"
+        item-value="key"
+        class="span3"
+      ></base-autocomplete>
+
+      <base-is-missing-disabled
+        v-model="props.item.rangeIndicator"
+        v-model:data="props.item.valueMax"
+        default-data="0"
+        label="Признак интервала значений"
         class="span6"
-      ></base-combobox>
-  
-      <base-constructor
-        v-slot="props"
-        v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails"
-        label="Ось транспортного средства"
-        :filter-data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails"
-        :default-data="defaultDataConstructor"
-        class="full"
       >
         <base-textfield
-          v-model="props.item.vehicleAxleOrdinal"
-          label="Порядковый номер оси транспортного средства"
+          v-model="props.item.valueMax"
+          label="Максимально"
           type="number"
-          class="full"
-        ></base-textfield>
-  
-        <p class="title full">Технически допустимая максимальная масса на ось</p>
-        <base-textfield
-          v-model.sync="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value"
-          label="Минимально"
-          type="number"
+          :disabled="!props.item.rangeIndicator"
           max-length="24"
-          class="span3"
+          :rules="[
+            conformityRules.minMax(
+              props.item.valueMin,
+              props.item.valueMax,
+              props.item.rangeIndicator
+            )
+          ]"
         ></base-textfield>
-  
-        <base-autocomplete
-          v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-  
-        <base-is-missing-disabled
-          v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator"
-          v-model:data="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue"
-          default-data="0"
-          label="Признак интервала значений"
-          class="span6"
-        >
-          <base-textfield
-            v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue"
-            label="Максимально"
-            type="number"
-            :disabled="!props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator"
-            max-length="24"
-            :rules="[
-              conformityRules.minMax(
-                props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value,
-                props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue,
-                props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator
-              )
-            ]"
-          ></base-textfield>
-        </base-is-missing-disabled>
-  
-        <base-checkbox
-          v-model="props.item.dualTireAxleIndicator"
-          label="Признак оси колес со сдвоенными шинами"
-          class="span6"
-        ></base-checkbox>
-        <base-checkbox
-          v-model="props.item.steeringAxleIndicator"
-          label="Признак управляемой оси"
-          class="span6"
-        ></base-checkbox>
-        <base-checkbox
-          v-model="props.item.drivingAxleIndicator"
-          label="Признак ведущей оси"
-          class="span6"
-        ></base-checkbox>
-        <base-checkbox
-          v-model="props.item.brakingAxleIndicator"
-          label="Признак тормозной оси"
-          class="span6"
-        ></base-checkbox>
-  
-        <p class="title full mt-3">Величина колеи оси транспортного средства</p>
-  
+      </base-is-missing-disabled>
+    </base-constructor>
+
+    <!-- Ширина -->
+    <base-constructor
+      v-slot="props"
+      v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.widthMeasure"
+      label="Ширина"
+      :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.widthMeasure"
+      :default-data="defaultData[0]"
+      class="full mt-5"
+    >
+      <base-textfield
+        v-model.sync="props.item.valueMin"
+        label="Минимально"
+        type="number"
+        max-length="24"
+        :rules="[conformityRules.lengthMeasure]"
+        class="span3"
+      ></base-textfield>
+
+      <base-autocomplete
+        v-model="props.item.measurementUnitCode"
+        label="Ед. измерения"
+        :items="NSI_033"
+        item-value="key"
+        class="span3"
+      ></base-autocomplete>
+
+      <base-is-missing-disabled
+        v-model="props.item.rangeIndicator"
+        v-model:data="props.item.valueMax"
+        default-data="0"
+        label="Признак интервала значений"
+        class="span6"
+      >
         <base-textfield
-          v-model.sync="props.item.vehicleAxleSweptPathMeasure.value"
-          label="Минимально"
+          v-model="props.item.valueMax"
+          label="Максимально"
           type="number"
+          :disabled="!props.item.rangeIndicator"
           max-length="24"
-          class="span3"
+          :rules="[
+            conformityRules.minMax(
+              props.item.valueMin,
+              props.item.valueMax,
+              props.item.rangeIndicator
+            )
+          ]"
         ></base-textfield>
-  
-        <base-autocomplete
-          v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-  
-        <base-is-missing-disabled
-          v-model="props.item.vehicleAxleSweptPathMeasure.rangeIndicator"
-          v-model:data="props.item.vehicleAxleSweptPathMeasure.maxValue"
-          default-data="0"
-          label="Признак интервала значений"
-          class="span6"
-        >
-          <base-textfield
-            v-model="props.item.vehicleAxleSweptPathMeasure.maxValue"
-            label="Максимально"
-            type="number"
-            :disabled="!props.item.vehicleAxleSweptPathMeasure.rangeIndicator"
-            max-length="24"
-            :rules="[
-              conformityRules.minMax(
-                props.item.vehicleAxleSweptPathMeasure.value,
-                props.item.vehicleAxleSweptPathMeasure.maxValue,
-                props.item.vehicleAxleSweptPathMeasure.rangeIndicator
-              )
-            ]"
-          ></base-textfield>
-        </base-is-missing-disabled>
-      </base-constructor>
-  
+      </base-is-missing-disabled>
+    </base-constructor>
+
+    <!-- Высота -->
+    <base-constructor
+      v-slot="props"
+      v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.heightMeasure"
+      label="Высота"
+      :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.heightMeasure"
+      :default-data="defaultData[0]"
+      class="full mt-5"
+    >
+      <base-textfield
+        v-model.sync="props.item.valueMin"
+        label="Минимально"
+        type="number"
+        max-length="24"
+        :rules="[conformityRules.lengthMeasure]"
+        class="span3"
+      ></base-textfield>
+
+      <base-autocomplete
+        v-model="props.item.measurementUnitCode"
+        label="Ед. измерения"
+        :items="NSI_033"
+        item-value="key"
+        class="span3"
+      ></base-autocomplete>
+
+      <base-is-missing-disabled
+        v-model="props.item.rangeIndicator"
+        v-model:data="props.item.valueMax"
+        default-data="0"
+        label="Признак интервала значений"
+        class="span6"
+      >
+        <base-textfield
+          v-model="props.item.valueMax"
+          label="Максимально"
+          type="number"
+          :disabled="!props.item.rangeIndicator"
+          max-length="24"
+          :rules="[
+            conformityRules.minMax(
+              props.item.valueMin,
+              props.item.valueMax,
+              props.item.rangeIndicator
+            )
+          ]"
+        ></base-textfield>
+      </base-is-missing-disabled>
+    </base-constructor>
+
+    <!-- Высота в рабочем положении -->
+    <base-constructor
+      v-slot="props"
+      v-model="
+        shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.workingPositionHeightMeasure
+      "
+      label="Высота в рабочем положении"
+      :filter-data="
+        shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.workingPositionHeightMeasure
+      "
+      :default-data="defaultData[0]"
+      class="full mt-5"
+    >
+      <base-textfield
+        v-model.sync="props.item.valueMin"
+        label="Минимально"
+        type="number"
+        max-length="24"
+        :rules="[conformityRules.lengthMeasure]"
+        class="span3"
+      ></base-textfield>
+
+      <base-autocomplete
+        v-model="props.item.measurementUnitCode"
+        label="Ед. измерения"
+        :items="NSI_033"
+        item-value="key"
+        class="span3"
+      ></base-autocomplete>
+
+      <base-is-missing-disabled
+        v-model="props.item.rangeIndicator"
+        v-model:data="props.item.valueMax"
+        default-data="0"
+        label="Признак интервала значений"
+        class="span6"
+      >
+        <base-textfield
+          v-model="props.item.valueMax"
+          label="Максимально"
+          type="number"
+          :disabled="!props.item.rangeIndicator"
+          max-length="24"
+          :rules="[
+            conformityRules.minMax(
+              props.item.valueMin,
+              props.item.valueMax,
+              props.item.rangeIndicator
+            )
+          ]"
+        ></base-textfield>
+      </base-is-missing-disabled>
+    </base-constructor>
+
+    <!-- Дополнительные параметры для контейнеровоза -->
+    <base-is-missing
+      v-if="
+        shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.conformityDocKindCode !== '35'
+      "
+      v-model="
+        shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.containerParametersIndicator
+      "
+      v-model:data="
+        shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.loadingHeightMeasure
+      "
+      :disabled="!!shema.vehicleTypeDetails.vehicleTechCategoryCode.toString().match(/L|M/)"
+      label="Дополнительные параметры для контейнеровоза"
+      :default-data="defaultData"
+      class="full"
+      invert
+      @change="onChange"
+    >
       <base-constructor
-        v-slot="props2"
-        v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelbaseMeasure"
-        label="Колесная база транспортного средства"
+        v-slot="props"
+        v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.loadingHeightMeasure"
+        label="Высота (погрузочная)"
         :filter-data="
-          shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelbaseMeasure
+          shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.loadingHeightMeasure
         "
-        :default-data="defaultDataConstructor2"
+        :default-data="defaultData[0]"
         class="full mt-5"
       >
         <base-textfield
-          v-model.sync="props2.item.valueMin"
+          v-model.sync="props.item.valueMin"
           label="Минимально"
           type="number"
           max-length="24"
+          :rules="[conformityRules.lengthMeasure]"
           class="span3"
         ></base-textfield>
-  
+
         <base-autocomplete
-          v-model="props2.item.measurementUnitCode"
+          v-model="props.item.measurementUnitCode"
           label="Ед. измерения"
           :items="NSI_033"
           item-value="key"
           class="span3"
         ></base-autocomplete>
-  
+
         <base-is-missing-disabled
-          v-model="props2.item.rangeIndicator"
-          v-model:data="props2.item.valueMax"
+          v-model="props.item.rangeIndicator"
+          v-model:data="props.item.valueMax"
           default-data="0"
           label="Признак интервала значений"
           class="span6"
         >
           <base-textfield
-            v-model="props2.item.valueMax"
+            v-model="props.item.valueMax"
             label="Максимально"
             type="number"
-            :disabled="!props2.item.rangeIndicator"
+            :disabled="!props.item.rangeIndicator"
             max-length="24"
+            :rules="[
+              conformityRules.minMax(
+                props.item.valueMin,
+                props.item.valueMax,
+                props.item.rangeIndicator
+              )
+            ]"
           ></base-textfield>
         </base-is-missing-disabled>
       </base-constructor>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue'
-  import shema from '@/components/forms/shema'
-  import { conformityRules } from '../rules'
-  import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
-  import BaseCombobox from '@/components/base/BaseCombobox.vue'
-  import BaseTextfield from '@/components/base/BaseTextfield.vue'
-  import BaseConstructor from '@/components/base/BaseConstructor.vue'
-  import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
-  import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
-  
-  import { useIndexDBStore } from '@/stores/indexDBStore'
-  import { useRequestStore } from '@/stores/requestStore'
-  const indexDB = useIndexDBStore() // для работы с IndexDB
-  const request = useRequestStore()
-  
-  const NSI_033 = ref([])
-  
-  const defaultDataConstructor = {
-    vehicleWheelQuantity: 0,
-    brakingAxleIndicator: false,
-    drivingAxleIndicator: false,
-    dualTireAxleIndicator: false,
-    steeringAxleIndicator: false,
-    vehicleAxleOrdinal: 0,
-    vehicleAxleSweptPathMeasure: {
-      measurementUnitCode: 'MMT',
-      value: 0,
-      maxValue: 0,
-      rangeIndicator: false
-    },
-    vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure: {
-      measurementUnitCode: 'KGM',
-      value: 0,
-      rangeIndicator: false
-    },
-    vehicleTyre: {
-      vehicleTyreKindSize: ''
-    },
-    vehicleTyreKindCode: ''
-  }
-  const defaultDataConstructor2 = {
+
+      <!-- Высота (максимально допустимая) -->
+      <base-constructor
+        v-slot="props"
+        v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.maxHeightMeasure"
+        label="Высота (максимально допустимая)"
+        :filter-data="
+          shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.maxHeightMeasure
+        "
+        :default-data="defaultData[0]"
+        class="full mt-5"
+      >
+        <base-textfield
+          v-model.sync="props.item.valueMin"
+          label="Минимально"
+          type="number"
+          max-length="24"
+          :rules="[conformityRules.lengthMeasure]"
+          class="span3"
+        ></base-textfield>
+
+        <base-autocomplete
+          v-model="props.item.measurementUnitCode"
+          label="Ед. измерения"
+          :items="NSI_033"
+          item-value="key"
+          class="span3"
+        ></base-autocomplete>
+
+        <base-is-missing-disabled
+          v-model="props.item.rangeIndicator"
+          v-model:data="props.item.valueMax"
+          default-data="0"
+          label="Признак интервала значений"
+          class="span6"
+        >
+          <base-textfield
+            v-model="props.item.valueMax"
+            label="Максимально"
+            type="number"
+            :disabled="!props.item.rangeIndicator"
+            max-length="24"
+            :rules="[
+              conformityRules.minMax(
+                props.item.valueMin,
+                props.item.valueMax,
+                props.item.rangeIndicator
+              )
+            ]"
+          ></base-textfield>
+        </base-is-missing-disabled>
+      </base-constructor>
+    </base-is-missing>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import shema from '@/components/forms/shema'
+import { conformityRules } from '../rules'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseConstructor from '@/components/base/BaseConstructor.vue'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+
+import { useIndexDBStore } from '@/stores/indexDBStore'
+const indexDB = useIndexDBStore() // для работы с IndexDB
+
+const NSI_033 = ref([])
+const defaultData = [
+  {
     measurementUnitCode: 'MMT',
     rangeIndicator: false,
     valueMax: 0,
-    valueMin: 0,
-    semitrailerIndicator: false
+    valueMin: 0
   }
-  
-  async function load() {
-    NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
-  
-    const s = await request.get('/api/classifier/epassport/powered-wheels')
-    console.log('s', s)
-  }
-  load()
-  </script>
-  
+]
+
+function onChange() {
+  // функция нужна потому что меняем данные в двух местах на одном уровне вложености
+  shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.maxHeightMeasure = JSON.parse(
+    JSON.stringify(defaultData)
+  )
+}
+
+async function load() {
+  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+}
+load()
+</script>
