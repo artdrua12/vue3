@@ -3,14 +3,14 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notPowerStorageDevice"
       v-model:data="shema.vehicleVariantDetails[0].powerStorageDeviceDetails"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].powerStorageDeviceDetails"
       label="Устройство накопления энергии - отсутствует"
     >
       <base-constructor
         v-slot="props"
         v-model="shema.vehicleVariantDetails[0].powerStorageDeviceDetails"
         :filter-data="shema.vehicleVariantDetails[0].powerStorageDeviceDetails"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].powerStorageDeviceDetails[0]"
         class="full"
         label="Базовое ТС"
       >
@@ -115,7 +115,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -128,36 +129,9 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_033 = ref([])
 const NSI_059 = ref([])
 
-const defaultData = [
-  {
-    capacity: {
-      measurementUnitCode: 'AMH',
-      value: 0
-    },
-    electrochemicalSteam: '',
-    massValue: {
-      measurementUnitCode: 'KGM',
-      value: 0
-    },
-    powerStorageDeviceVoltageMeasure: {
-      measurementUnitCode: 'VLT',
-      value: 0
-    },
-    text: '',
-    vehicleComponentText: '',
-    elementsQuantity: 0,
-    vehicleComponentLocationText: '',
-    vehicleMakeName: '',
-    vehicleRangeMeasure: {
-      measurementUnitCode: 'KMT',
-      value: 0
-    }
-  }
-]
-
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
-  NSI_059.value = await indexDB.getFromDatabase('catalog', 'NSI_059')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
+  NSI_059.value = (await indexDB.getFromDatabase('catalog', 'NSI_059')) || []
 }
 load()
 </script>

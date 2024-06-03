@@ -15,7 +15,9 @@
       class="adaptiveGrid adaptiveGrid--setting"
     >
       <legend>
-        {{ props.label }}
+        <slot name="label" :index="index" :item="item">
+          {{ props.label }}
+        </slot>
       </legend>
       <slot :index="index" :item="item"></slot>
 

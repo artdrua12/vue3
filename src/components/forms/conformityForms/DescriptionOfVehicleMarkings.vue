@@ -4,7 +4,7 @@
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :filter-data="shema.vehicleTypeDetails.vehicleLabelingDetails"
-      :default-data="defaultDataConstructor"
+      :default-data="shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0]"
       class="mt-5"
       label="Маркировка"
     >
@@ -99,7 +99,9 @@
         :filter-data="
           shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails
         "
-        :default-data="defaultDataConstructor.vehicleIdCharacterDetails[0]"
+        :default-data="
+          shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0].vehicleIdCharacterDetails[0]
+        "
         class="full"
         label="Группа"
       >
@@ -162,7 +164,8 @@
             ].idCharacterValueDetails
           "
           :default-data="
-            defaultDataConstructor.vehicleIdCharacterDetails[0].idCharacterValueDetails[0]
+            shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0].vehicleIdCharacterDetails[0]
+              .idCharacterValueDetails[0]
           "
           class="full"
           label="Значение"
@@ -194,7 +197,8 @@
 </template>
 
 <script setup>
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -206,47 +210,4 @@ import BaseSquares from '@/components/base/BaseSquares.vue'
 
 const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']
-const defaultDataConstructor = {
-  vehicleIdentificationNumberId: {
-    number1: '?',
-    number2: '?',
-    number3: '?',
-    number4: '?',
-    number5: '?',
-    number6: '?',
-    number7: '?',
-    number8: '?',
-    number9: '?',
-    number10: '?',
-    number11: '?',
-    number12: '?',
-    number13: '?',
-    number14: '?',
-    number15: '?',
-    number16: '?',
-    number17: '?'
-  },
-  uniformSignLocationText: '',
-  engineIdentificationNumberLocationText: [''],
-  vehicleComponentLocationText: [''],
-  vehicleIdCharacterDetails: [
-    {
-      idCharacterQuantity: 0,
-      idCharacterStartingOrdinal: 0,
-      idCharacterText: '',
-      idCharacterValueDetails: [
-        {
-          idCharacterValueCode: '',
-          idCharacterValueText: ''
-        }
-      ],
-      idCharacterValueText: '',
-      typeDate: ''
-    }
-  ],
-  vehicleIdentificationNumberLocationText: [''],
-  notManufacturerPlateIndicator: false
-}
 </script>
-
-<style></style>

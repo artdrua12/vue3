@@ -12,41 +12,67 @@
 
     <base-modal
       v-model:isOpen="isOpen"
-      :title="currentIndex === -1 ? 'Добавление доумента' : 'Редактирование документа'"
+      :title="currentIndex === -1 ? 'Добавление документа' : 'Редактирование документа'"
       icon="mdi-file-document-plus-outline"
       :ok-function="{ fun: save, isCloseAfterClick: true }"
     >
-      <div>
+      <div class="modalSize">
         <base-autocomplete
           v-model="currentItem.technicalRegulationObjectKindCode"
           label="Наименование объекта технического регулирования*"
-          class="all"
+          :items="NSI_106"
+          class="full"
+          :rules="[
+            () => !!currentItem.technicalRegulationObjectKindCode || 'Обязательно к заполнению'
+          ]"
         ></base-autocomplete>
+
         <base-textfield
           v-model="currentItem.docName"
           label="Наименование документа, подтверждающего соответствие"
+          class="full"
         ></base-textfield>
-        <base-textfield v-model="currentItem.docNumber" label="Номер документа"></base-textfield>
+
+        <base-textfield
+          v-model="currentItem.docNumber"
+          label="Номер документа"
+          class="full"
+        ></base-textfield>
+
         <base-datefield
           :value="currentItem.updateDateTime"
           label="Дата документа*"
-          @update:enter="currentItem.updateDateTime = $event"
+          class="span6"
+          @update:value="currentItem.updateDateTime = $event"
         ></base-datefield>
+
         <base-datefield
-          v-model="currentItem.startDateTime"
+          :value="currentItem.validityPeriodDetails.startDateTime"
           label="Срок действия с*"
+          class="span3"
+          @update:value="currentItem.validityPeriodDetails.startDateTime = $event"
         ></base-datefield>
+
         <base-datefield
-          v-model="currentItem.endDateTime"
+          :value="currentItem.validityPeriodDetails.endDateTime"
           label="Срок действия по*"
+          class="span3"
+          @update:value="currentItem.validityPeriodDetails.endDateTime = $event"
         ></base-datefield>
+
         <base-autocomplete
-          v-model="currentItem.businessEntityName"
+          v-model="currentItem.businessEntity.businessEntityName"
           label="Наименование организации, выдавшей документ"
+          :items="organizationName"
+          item-text="certificationBodyNameBrief"
+          item-value="certificationBodyNameBrief"
+          class="full"
         ></base-autocomplete>
+
         <base-textfield
-          v-model="currentItem.unifiedCountry"
+          v-model="currentItem.businessEntity.unifiedCountry"
           label="Происхождение документа"
+          class="full"
         ></base-textfield>
       </div>
     </base-modal>
@@ -72,7 +98,13 @@ import BaseModal from '@/components/base/BaseModal.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useRequestStore } from '@/stores/requestStore'
+const indexDB = useIndexDBStore() // для работы с IndexDB
+const request = useRequestStore()
 
+const NSI_106 = ref([])
+const organizationName = ref([])
 const isOpen = ref(false)
 const currentIndex = ref(-1)
 const currentItem = ref({
@@ -80,33 +112,30 @@ const currentItem = ref({
   docName: '',
   docNumber: '',
   updateDateTime: '',
-  businessEntityName: '',
-  startDateTime: '',
-  endDateTime: '',
-  unifiedCountry: ''
+  businessEntity: {
+    unifiedCountry: '',
+    businessEntityName: ''
+  },
+  validityPeriodDetails: {
+    endDateTime: '',
+    startDateTime: ''
+  }
 })
 const defaultItem = {
   technicalRegulationObjectKindCode: '',
   docName: '',
   docNumber: '',
   updateDateTime: '',
-  businessEntityName: '',
-  startDateTime: '',
-  endDateTime: '',
-  unifiedCountry: ''
-}
-const items = ref([
-  {
-    technicalRegulationObjectKindCode: '123',
-    docName: '321',
-    docNumber: '777',
-    updateDateTime: '12.03.2024',
-    businessEntityName: '',
-    startDateTime: '',
+  businessEntity: {
+    unifiedCountry: '',
+    businessEntityName: ''
+  },
+  validityPeriodDetails: {
     endDateTime: '',
-    unifiedCountry: ''
+    startDateTime: ''
   }
-])
+}
+const items = ref([])
 const headers = ref([
   {
     title: 'Объекты технического регулирования',
@@ -119,18 +148,12 @@ const headers = ref([
   { title: 'Дата документа', value: 'updateDateTime' },
   {
     title: 'Наименование организации, выдавшей документ',
-    value: 'businessEntityName'
+    value: 'businessEntity.businessEntityName'
   },
-  { title: 'Срок действия с', value: 'startDateTime' },
-  { title: 'Срок действия по', value: 'endDateTime' },
-  { title: 'Происхождение документа', value: 'unifiedCountry' },
-  // {
-  //   title: 'Наименование организации, выдавшей документ',
-  //   value: 'businessEntity.businessEntityName'
-  // },
-  // { title: 'Срок действия с', value: 'validityPeriodDetails.startDateTime' },
-  // { title: 'Срок действия по', value: 'validityPeriodDetails.endDateTime' },
-  // { title: 'Происхождение документа', value: 'businessEntity.unifiedCountry' },
+  { title: 'Срок действия с', value: 'validityPeriodDetails.startDateTime' },
+  { title: 'Срок действия по', value: 'validityPeriodDetails.endDateTime' },
+  { title: 'Происхождение документа', value: 'businessEntity.unifiedCountry' },
+
   { title: 'Действия', value: 'actions', sortable: false }
 ])
 
@@ -162,4 +185,23 @@ function deleteItem(item) {
   const index = items.value.indexOf(item)
   items.value.splice(index, 1)
 }
+async function load() {
+  NSI_106.value = await indexDB.getFromDatabase('catalog', 'NSI_106')
+  organizationName.value = await request.get(
+    '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+  )
+}
+load()
 </script>
+
+<style scoped>
+.modalSize {
+  width: 700px;
+  margin: 20px 10px 0px 10px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 12px 20px;
+  /* grid-auto-flow: dense; */
+  align-items: flex-start;
+}
+</style>

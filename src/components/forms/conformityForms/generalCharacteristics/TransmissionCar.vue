@@ -3,7 +3,7 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].notTransmissionUnit"
       v-model:data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails"
       label="Трансмиссия - отсутствует"
     >
       <base-autocomplete
@@ -25,7 +25,10 @@
         :filter-data="
           shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].transmissionUnitDetails
         "
-        :default-data="defaultData[0].transmissionUnitDetails[0]"
+        :default-data="
+          shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+            .transmissionUnitDetails[0]
+        "
         class="full"
       >
         <template #label="props">
@@ -127,7 +130,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -144,133 +148,11 @@ const NSI_026 = ref([])
 const NSI_051 = ref([])
 const NSI_058 = ref([])
 
-const defaultData = [
-  {
-    vehicleWheelQuantity: [0],
-    notVehicleClutch: false,
-    notTransmissionUnit: false,
-    poweredWheel: [],
-    poweredWheelQuantity: 0,
-    transmissionUnitDetails: [
-      {
-        vehicleUnitKindCode: '',
-        axisDistribution: '',
-        vehicleComponentText: '',
-        vehicleComponentLocationText: '',
-        vehicleComponentMakeName: '',
-        vehicleComponentModelCode: [],
-        transmissionUnitGearQuantity: '',
-        transmissionUnitGearDetails: [
-          {
-            transmissionUnitGearType: '',
-            transmissionUnitGearName: '',
-            transmissionUnitGearRate: '',
-            transmissionUnitGearRateMax: '',
-            transmissionUnitReverseGearIndicator: false
-          }
-        ],
-        vehiclePowerTakeOffDetails: [
-          {
-            vehicleShaftRotationFrequencyMeasure: {
-              value: 0.0,
-              measurementUnitCode: 'RPM'
-            },
-            transmissionUnitGearRate: 0.0
-          }
-        ]
-      }
-    ],
-    vehicleAxleQuantity: 0,
-    vehicleAxleDetails: [
-      {
-        vehicleWheelQuantity: 0,
-        brakingAxleIndicator: false,
-        drivingAxleIndicator: false,
-        dualTireAxleIndicator: false,
-        steeringAxleIndicator: false,
-        vehicleAxleOrdinal: 0,
-        vehicleAxleSweptPathMeasure: {
-          measurementUnitCode: 'MMT',
-          value: 0,
-          maxValue: 0,
-          rangeIndicator: false
-        },
-        vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure: {
-          measurementUnitCode: 'KGM',
-          value: 0,
-          rangeIndicator: false
-        },
-        vehicleTyre: {
-          vehicleTyreKindSize: ''
-        },
-        vehicleTyreKindCode: ''
-      }
-    ],
-    vehicleClutchDetails: [
-      {
-        vehicleClutchType: '',
-        vehicleComponentMakeName: '',
-        vehicleComponentText: ''
-      }
-    ],
-    vehicleFrameText: [],
-    notSteeringWheel: false,
-    vehicleSteeringDetails: [
-      {
-        modelCode: '',
-        steeringWheelPositionCode: '',
-        vehicleComponentLocationText: '',
-        vehicleComponentMakeName: '',
-        vehicleComponentText: '',
-        wheelType: ''
-      }
-    ],
-    vehicleSuspensionDetails: [
-      {
-        vehicleComponentText: '',
-        vehicleSuspensionKindCode: '',
-        vehicleSuspensionView: ''
-      }
-    ],
-    vehicleTransmissionText: [],
-    vehicleTyreKindInfo: [
-      {
-        gableTireIndicator: false,
-        isSupplementVehicleTyre: false,
-        vehicleTyreKindCategorySpeed: [],
-        vehicleTyreKindCode: '',
-        vehicleTyreKindLocation: '',
-        vehicleTyreKindMaxIndexGableTire: '',
-        vehicleTyreKindMaxIndexSingleTire: '',
-        vehicleTyreKindMinIndexGableTire: '',
-        vehicleTyreKindMinIndexSingleTire: '',
-        vehicleTyreKindSize: '',
-        vehicleTyreKindStaticRadius: {
-          measurementUnitCode: 'MTR',
-          value: 0
-        },
-        differentTires: false
-      }
-    ],
-    vehicleWheelFormula: [],
-    vehicleWheelLocation: '',
-    vehicleWheelbaseMeasure: [
-      {
-        measurementUnitCode: 'MMT',
-        rangeIndicator: false,
-        valueMax: 0,
-        valueMin: 0,
-        semitrailerIndicator: false
-      }
-    ]
-  }
-]
-
 async function load() {
-  NSI_018.value = await indexDB.getFromDatabase('catalog', 'NSI_018')
-  NSI_026.value = await indexDB.getFromDatabase('catalog', 'NSI_026')
-  NSI_051.value = await indexDB.getFromDatabase('catalog', 'NSI_051')
-  NSI_058.value = await indexDB.getFromDatabase('catalog', 'NSI_058')
+  NSI_018.value = (await indexDB.getFromDatabase('catalog', 'NSI_018')) || []
+  NSI_026.value = (await indexDB.getFromDatabase('catalog', 'NSI_026')) || []
+  NSI_051.value = (await indexDB.getFromDatabase('catalog', 'NSI_051')) || []
+  NSI_058.value = (await indexDB.getFromDatabase('catalog', 'NSI_058')) || []
 }
 load()
 </script>

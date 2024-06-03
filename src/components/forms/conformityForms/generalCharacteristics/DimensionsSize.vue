@@ -5,7 +5,9 @@
       v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.lengthMeasure"
       label="Длина"
       :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.lengthMeasure"
-      :default-data="defaultData[0]"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails.lengthMeasure[0]
+      "
       class="full mt-5"
     >
       <base-textfield
@@ -55,7 +57,9 @@
       v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.widthMeasure"
       label="Ширина"
       :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.widthMeasure"
-      :default-data="defaultData[0]"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails.widthMeasure[0]
+      "
       class="full mt-5"
     >
       <base-textfield
@@ -105,7 +109,9 @@
       v-model="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.heightMeasure"
       label="Высота"
       :filter-data="shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.heightMeasure"
-      :default-data="defaultData[0]"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails.heightMeasure[0]
+      "
       class="full mt-5"
     >
       <base-textfield
@@ -159,7 +165,10 @@
       :filter-data="
         shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.workingPositionHeightMeasure
       "
-      :default-data="defaultData[0]"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails
+          .workingPositionHeightMeasure[0]
+      "
       class="full mt-5"
     >
       <base-textfield
@@ -216,7 +225,9 @@
       "
       :disabled="!!shema.vehicleTypeDetails.vehicleTechCategoryCode.toString().match(/L|M/)"
       label="Дополнительные параметры для контейнеровоза"
-      :default-data="defaultData"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails.loadingHeightMeasure
+      "
       class="full"
       invert
       @change="onChange"
@@ -329,7 +340,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -353,12 +365,14 @@ const defaultData = [
 function onChange() {
   // функция нужна потому что меняем данные в двух местах на одном уровне вложености
   shema.vehicleVariantDetails[0].vehicleOverallDimensionDetails.maxHeightMeasure = JSON.parse(
-    JSON.stringify(defaultData)
+    JSON.stringify(
+      shemaDefault.vehicleVariantDetails[0].vehicleOverallDimensionDetails.maxHeightMeasure
+    )
   )
 }
 
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
 </script>

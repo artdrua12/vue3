@@ -5,7 +5,9 @@
       v-model:data="
         shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleSteeringDetails
       "
-      :default-data="defaultData"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleSteeringDetails
+      "
       label="Рулевого управления - отсутствует"
       class="full"
     >
@@ -15,7 +17,10 @@
         :filter-data="
           shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleSteeringDetails
         "
-        :default-data="defaultData[0]"
+        :default-data="
+          shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+            .vehicleSteeringDetails[0]
+        "
         label="Рулевое управление"
         class="full"
       >
@@ -99,7 +104,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -113,19 +119,8 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_027 = ref([])
 
-const defaultData = [
-  {
-    modelCode: '',
-    steeringWheelPositionCode: '',
-    vehicleComponentLocationText: '',
-    vehicleComponentMakeName: '',
-    vehicleComponentText: '',
-    wheelType: ''
-  }
-]
-
 async function load() {
-  NSI_027.value = await indexDB.getFromDatabase('catalog', 'NSI_027')
+  NSI_027.value = (await indexDB.getFromDatabase('catalog', 'NSI_027')) || []
 }
 load()
 </script>

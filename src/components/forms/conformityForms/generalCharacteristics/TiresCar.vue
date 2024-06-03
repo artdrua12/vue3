@@ -4,7 +4,9 @@
       v-slot="props"
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTyreKindInfo"
       :filter-data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTyreKindInfo"
-      :default-data="defaultData[0]"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTyreKindInfo[0]
+      "
       label="Шины"
       class="full"
     >
@@ -110,7 +112,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -124,26 +127,6 @@ const NSI_033 = ref([])
 const NSI_039 = ref([])
 const NSI_107 = ref([])
 
-const defaultData = [
-  {
-    gableTireIndicator: false,
-    isSupplementVehicleTyre: false,
-    vehicleTyreKindCategorySpeed: [],
-    vehicleTyreKindCode: '',
-    vehicleTyreKindLocation: '',
-    vehicleTyreKindMaxIndexGableTire: '',
-    vehicleTyreKindMaxIndexSingleTire: '',
-    vehicleTyreKindMinIndexGableTire: '',
-    vehicleTyreKindMinIndexSingleTire: '',
-    vehicleTyreKindSize: '',
-    vehicleTyreKindStaticRadius: {
-      measurementUnitCode: 'MTR',
-      value: 0
-    },
-    differentTires: false
-  }
-]
-
 function onChange(index) {
   // функция нужна потому что меняем данные в двух местах на одном уровне вложености
   shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTyreKindInfo[
@@ -152,9 +135,9 @@ function onChange(index) {
 }
 
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
-  NSI_039.value = await indexDB.getFromDatabase('catalog', 'NSI_039')
-  NSI_107.value = await indexDB.getFromDatabase('catalog', 'NSI_107')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
+  NSI_039.value = (await indexDB.getFromDatabase('catalog', 'NSI_039')) || []
+  NSI_107.value = (await indexDB.getFromDatabase('catalog', 'NSI_107')) || []
 }
 load()
 </script>

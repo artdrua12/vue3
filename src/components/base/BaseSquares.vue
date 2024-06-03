@@ -32,8 +32,7 @@ const props = defineProps({
   background-color: white;
   box-shadow:
    0 1px rgba(255,255,255,.2) inset,
-   0 3px 5px #2c4957,
-   0 0 1px 1px rgba(26, 57, 214, 0.2);
+   0 0px 2px 1px rgb(44, 73, 87,0.5);
    background: linear-gradient(rgb(240, 239, 238), rgba(245, 245, 245, 0.952)) rgb(204, 187, 139);
    user-select: none;
 }

@@ -3,14 +3,14 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notFuelFeed"
       v-model:data="shema.vehicleVariantDetails[0].fuelFeedDetails"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].fuelFeedDetails"
       label="Система питания - отсутствует"
     >
       <base-constructor
         v-slot="props"
         v-model="shema.vehicleVariantDetails[0].fuelFeedDetails"
         :filter-data="shema.vehicleVariantDetails[0].fuelFeedDetails"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].fuelFeedDetails[0]"
         class="full"
         label="Система питания"
       >
@@ -33,7 +33,9 @@
           v-slot="props2"
           v-model="props.item.vehicleComponentElements"
           :filter-data="props.item.vehicleComponentElements"
-          :default-data="defaultData2"
+          :default-data="
+            shemaDefault.vehicleVariantDetails[0].fuelFeedDetails[0].vehicleComponentElements[0]
+          "
           class="full"
           label="Элемент системы питания"
         >
@@ -71,11 +73,14 @@
           </template>
 
           <base-constructor
-            v-if="props.item.vehicleComponentName === 'Глушители шума впуска'"
+            v-if="props2.item.vehicleComponentName === 'Глушители шума впуска'"
             v-slot="props3"
-            v-model="shema.vehicleVariantDetails[0].fuelFeedDetails"
-            :filter-data="shema.vehicleVariantDetails[0].fuelFeedDetails"
-            :default-data="defaultData[0]"
+            v-model="props2.item.stageDetails"
+            :filter-data="props2.item.stageDetails"
+            :default-data="
+              shemaDefault.vehicleVariantDetails[0].fuelFeedDetails[0].vehicleComponentElements[0]
+                .stageDetails[0]
+            "
             class="full"
             label="Cтупень глушителя"
           >
@@ -106,7 +111,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -120,38 +126,9 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_056 = ref([])
 const NSI_063 = ref([])
 
-const defaultData = [
-  {
-    vehicleComponentText: '',
-    vehicleComponentMakeName: '',
-    vehicleComponentElements: [
-      {
-        vehicleComponentName: '',
-        vehicleComponentMakeName: '',
-        vehicleComponentText: '',
-        vehicleComponentType: '',
-        vehicleComponentMarking: [],
-        stageDetails: [
-          {
-            vehicleComponentStageNumber: 'Ступень 1',
-            vehicleComponentMakeName: '',
-            vehicleComponentMarking: []
-          }
-        ]
-      }
-    ]
-  }
-]
-
-const defaultData2 = {
-  vehicleComponentName: '',
-  vehicleComponentMakeName: '',
-  vehicleComponentType: '',
-  vehicleComponentMarking: []
-}
 async function load() {
-  NSI_056.value = await indexDB.getFromDatabase('catalog', 'NSI_056')
-  NSI_063.value = await indexDB.getFromDatabase('catalog', 'NSI_063')
+  NSI_056.value = (await indexDB.getFromDatabase('catalog', 'NSI_056')) || []
+  NSI_063.value = (await indexDB.getFromDatabase('catalog', 'NSI_063')) || []
 }
 load()
 </script>

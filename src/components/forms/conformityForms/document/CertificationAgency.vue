@@ -120,7 +120,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -137,39 +138,6 @@ const NSI_042 = ref([])
 const NSI_310 = ref([])
 const certificateAccreditations = ref([])
 const authority = ref([])
-const defaultData = {
-  authority: '',
-  inputManual: false,
-  businessEntityBriefName: '',
-  businessEntityId: '',
-  businessEntityName: '',
-  businessEntityTypeName: '',
-  docId: '',
-  docStartDate: '',
-  docValidityDate: '',
-  subjectAddressDetails: [
-    {
-      addressKindCode: '',
-      postOfficeBoxId: '',
-      fullAddress: ''
-    }
-  ],
-  unifiedCommunicationDetails: [
-    {
-      communicationChannelId: [],
-      communicationChannelName: '',
-      unifiedCommunicationChannelCode: {
-        value: '',
-        codeListId: 'NSI_042'
-      }
-    }
-  ],
-  fullNameDetails: {
-    firstName: '',
-    middleName: '',
-    lastName: ''
-  }
-}
 
 function chooseAuthorityOnForm() {
   const authorityId = shema.conformityAuthorityInformationDetails.authority
@@ -179,7 +147,9 @@ function chooseAuthorityOnForm() {
   )
 
   if (!choiseItem) {
-    shema.conformityAuthorityInformationDetails = JSON.parse(JSON.stringify(defaultData))
+    shema.conformityAuthorityInformationDetails = JSON.parse(
+      JSON.stringify(shemaDefault.conformityAuthorityInformationDetails)
+    )
     return
   }
   // устанавливаем новое значение фирмы

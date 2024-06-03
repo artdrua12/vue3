@@ -77,10 +77,7 @@
       @change="onChange"
     ></base-checkbox>
 
-    <base-constructor-one-element
-      v-model="shema.vehicleTypeDetails.addInfo"
-      class="full mt-5"
-    >
+    <base-constructor-one-element v-model="shema.vehicleTypeDetails.addInfo" class="full mt-5">
       <template #default="props">
         <base-textarea
           v-model="shema.vehicleTypeDetails.addInfo[props.index]"
@@ -99,7 +96,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
@@ -132,7 +129,7 @@ function onChange() {
 }
 
 async function load() {
-  NSI_067.value = await indexDB.getFromDatabase('catalog', 'NSI_067')
+  NSI_067.value = (await indexDB.getFromDatabase('catalog', 'NSI_067')) || []
 }
 load()
 </script>

@@ -3,14 +3,14 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notExhaust"
       v-model:data="shema.vehicleVariantDetails[0].exhaustDetails"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].exhaustDetails"
       label="Система выпуска и нейтрализации отработавших газов - отсутствует"
     >
       <base-constructor
         v-slot="props"
         v-model="shema.vehicleVariantDetails[0].exhaustDetails"
         :filter-data="shema.vehicleVariantDetails[0].exhaustDetails"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].exhaustDetails[0]"
         class="full"
         label="Система выпуска и нейтрализации отработавших газов"
       >
@@ -33,50 +33,56 @@
           v-slot="props2"
           v-model="props.item.vehicleComponentElements"
           :filter-data="props.item.vehicleComponentElements"
-          :default-data="defaultData[0].vehicleComponentElements[0]"
+          :default-data="
+            shemaDefault.vehicleVariantDetails[0].exhaustDetails[0].vehicleComponentElements[0]
+          "
           class="full"
           label="Элемент системы выпуска и нейтрализации отработавших газов"
         >
           <base-autocomplete
             v-model="props2.item.vehicleComponentName"
             label="Наименование элемента системы выпуска и нейтрализации отработавших газов"
-            :items="exhaust"
+            :items="NSI_455"
             class="full"
           ></base-autocomplete>
 
           <base-constructor-2
-            v-slot="props3"
             v-model="props2.item.stageDetails"
             :filter-data="props2.item.stageDetails"
-            :default-data="defaultData[0].vehicleComponentElements[0].stageDetails[0]"
-            label="Ступень"
+            :default-data="
+              shemaDefault.vehicleVariantDetails[0].exhaustDetails[0].vehicleComponentElements[0]
+                .stageDetails[0]
+            "
             class="full"
           >
-            <base-textfield
-              :value="`Ступень ${props3.index + 1}`"
-              label="Номер ступени"
-              disabled
-              class="span6"
-            ></base-textfield>
+            <template #label="props3">{{ `Ступень ${props3.index + 1}` }}</template>
+            <template #default="props3">
+              <base-textfield
+                :value="`Ступень ${props3.index + 1}`"
+                label="Номер ступени"
+                disabled
+                class="span6"
+              ></base-textfield>
 
-            <base-textfield
-              v-model="props3.item.vehicleComponentMakeName"
-              label="Марка"
-              class="span6"
-            ></base-textfield>
+              <base-textfield
+                v-model="props3.item.vehicleComponentMakeName"
+                label="Марка"
+                class="span6"
+              ></base-textfield>
 
-            <base-combobox
-              v-model="props3.item.vehicleComponentMarking"
-              label="Маркировка"
-              class="full"
-            ></base-combobox>
+              <base-combobox
+                v-model="props3.item.vehicleComponentMarking"
+                label="Маркировка"
+                class="full"
+              ></base-combobox>
 
-            <base-autocomplete
-              v-if="props2.item.vehicleComponentName === 'глушитель'"
-              v-model="props3.item.vehicleComponentType"
-              label="Тип"
-              :items="NSI_119"
-            ></base-autocomplete>
+              <base-autocomplete
+                v-if="props2.item.vehicleComponentName === 'глушитель'"
+                v-model="props3.item.vehicleComponentType"
+                label="Тип"
+                :items="NSI_119"
+              ></base-autocomplete>
+            </template>
           </base-constructor-2>
         </base-constructor>
       </base-constructor>
@@ -86,7 +92,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -97,36 +104,14 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseConstructor2 from '@/components/base/BaseConstructor2.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
-import { useRequestStore } from '@/stores/requestStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
-const request = useRequestStore()
 
 const NSI_119 = ref([])
-const exhaust = ref([])
-
-const defaultData = [
-  {
-    vehicleComponentMakeName: '',
-    vehicleComponentText: '',
-    vehicleComponentElements: [
-      {
-        vehicleComponentName: '',
-        stageDetails: [
-          {
-            vehicleComponentStageNumber: 'Ступень 1',
-            vehicleComponentMakeName: '',
-            vehicleComponentMarking: [],
-            vehicleComponentType: ''
-          }
-        ]
-      }
-    ]
-  }
-]
+const NSI_455 = ref([])
 
 async function load() {
-  NSI_119.value = await indexDB.getFromDatabase('catalog', 'NSI_119')
-  exhaust.value = await request.get('/api/classifier/exhaust-details')
+  NSI_119.value = (await indexDB.getFromDatabase('catalog', 'NSI_119')) || []
+  NSI_455.value = (await indexDB.getFromDatabase('catalog', 'NSI_119')) || []
 }
 load()
 </script>

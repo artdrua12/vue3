@@ -3,14 +3,14 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notFuelKind"
       v-model:data="shema.vehicleVariantDetails[0].vehicleFuelKindName"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleFuelKindName"
       label="Топливо - отсутствует"
     >
       <base-constructor
         v-slot="props"
         v-model="shema.vehicleVariantDetails[0].vehicleFuelKindName"
         :filter-data="shema.vehicleVariantDetails[0].vehicleFuelKindName"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].vehicleFuelKindName[0]"
         class="full"
         label="Топливо"
       >
@@ -45,7 +45,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
@@ -59,19 +60,10 @@ const NSI_030 = ref([])
 const NSI_088 = ref([])
 const NSI_120 = ref([])
 
-const defaultData = [
-  {
-    cetaneNumber: '',
-    octaneNumber: '',
-    vehicleFuelKindNameZ: [],
-    vehicleFuelKindCode: []
-  }
-]
-
 async function load() {
-  NSI_030.value = await indexDB.getFromDatabase('catalog', 'NSI_030')
-  NSI_088.value = await indexDB.getFromDatabase('catalog', 'NSI_088')
-  NSI_120.value = await indexDB.getFromDatabase('catalog', 'NSI_120')
+  NSI_030.value = (await indexDB.getFromDatabase('catalog', 'NSI_030')) || []
+  NSI_088.value = (await indexDB.getFromDatabase('catalog', 'NSI_088')) || []
+  NSI_120.value = (await indexDB.getFromDatabase('catalog', 'NSI_120')) || []
 }
 load()
 </script>

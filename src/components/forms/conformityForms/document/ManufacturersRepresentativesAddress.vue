@@ -1,10 +1,10 @@
 <template>
-  <div >
+  <div>
     <base-is-missing
       v-model="shema.notVehicleRepresentativeDetails"
       v-model:data="shema.vehicleManufacturerDetails"
       label="Представитель изготовителя и его адрес - отсутствует"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleManufacturerDetails"
     >
       <base-constructor
         v-slot="props"
@@ -55,9 +55,9 @@
         ></base-autocomplete>
 
         <template
-          v-for="(item2, index2) in shema.vehicleManufacturerDetails[props.index].subjectAddressDetails.filter((e) =>
-            ['2', '4'].includes(e.addressKindCode)
-          )"
+          v-for="(item2, index2) in shema.vehicleManufacturerDetails[
+            props.index
+          ].subjectAddressDetails.filter((e) => ['2', '4'].includes(e.addressKindCode))"
           :key="index2"
         >
           <base-textfield
@@ -74,7 +74,11 @@
         </template>
 
         <p class="full title">Контактные данные</p>
-        <template v-for="(item3, index3) in shema.vehicleManufacturerDetails[props.index].unifiedCommunicationDetails" :key="index3">
+        <template
+          v-for="(item3, index3) in shema.vehicleManufacturerDetails[props.index]
+            .unifiedCommunicationDetails"
+          :key="index3"
+        >
           <base-autocomplete
             v-model="item3.communicationChannelName"
             label="Тип контактной информации"
@@ -96,7 +100,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -113,112 +118,10 @@ const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
-const defaultData = [
-  {
-    vehicleManufacturerKindCode: '05',
-    businessEntityName: '',
-    businessEntityBriefName: '',
-    businessEntityBriefNames: [],
-    businessEntityTypeName: '',
-    businessEntityId: [
-      {
-        kindId: '',
-        value: ''
-      }
-    ],
-    unifiedCountryCode: {
-      value: '',
-      codeListId: 'NSI_034'
-    },
-    subjectAddressDetails: [
-      {
-        addressKindCode: '4',
-        unifiedCountryCode: {
-          value: '',
-          codeListId: 'NSI_034'
-        },
-        territoryCode: '',
-        regionName: '',
-        districtName: '',
-        cityName: '',
-        settlementName: '',
-        streetName: '',
-        buildingNumberId: '',
-        roomNumberId: '',
-        postCode: '',
-        postOfficeBoxId: '',
-        fullAddress: ''
-      }
-    ],
-    unifiedCommunicationDetails: [
-      {
-        communicationChannelId: [],
-        communicationChannelName: '',
-        unifiedCommunicationChannelCode: {
-          value: '',
-          codeListId: 'NSI_042'
-        }
-      }
-    ],
-    fullNameDetails: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    }
-  }
-]
-const defaultDataConstructor = {
-  vehicleManufacturerKindCode: '10',
-  businessEntityName: '',
-  businessEntityBriefName: '',
-  businessEntityBriefNames: [],
-  businessEntityTypeName: '',
-  businessEntityId: [
-    {
-      kindId: '',
-      value: ''
-    }
-  ],
-  unifiedCountryCode: {
-    value: '',
-    codeListId: 'NSI_034'
-  },
-  subjectAddressDetails: [
-    {
-      addressKindCode: '4',
-      unifiedCountryCode: {
-        value: '',
-        codeListId: 'NSI_034'
-      },
-      territoryCode: '',
-      regionName: '',
-      districtName: '',
-      cityName: '',
-      settlementName: '',
-      streetName: '',
-      buildingNumberId: '',
-      roomNumberId: '',
-      postCode: '',
-      postOfficeBoxId: '',
-      fullAddress: ''
-    }
-  ],
-  unifiedCommunicationDetails: [
-    {
-      communicationChannelId: [],
-      communicationChannelName: '',
-      unifiedCommunicationChannelCode: {
-        value: '',
-        codeListId: 'NSI_042'
-      }
-    }
-  ],
-  fullNameDetails: {
-    firstName: '',
-    lastName: '',
-    middleName: ''
-  }
-}
+
+const cloneObj = JSON.parse(JSON.stringify(shemaDefault.vehicleManufacturerDetails[0]))
+const defaultDataConstructor = { ...cloneObj, vehicleManufacturerKindCode: '10' }
+
 const filterData = computed(() =>
   shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '10')
 )
@@ -257,10 +160,10 @@ function chooseManufacturerDoc(shemaItem) {
 }
 
 async function load() {
-  NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')
-  NSI_042.value = await indexDB.getFromDatabase('catalog', 'NSI_042')
-  NSI_310.value = await indexDB.getFromDatabase('catalog', 'NSI_310')
-  authority.value = await requests.get('/api/manufacturer-registry/all')
+  NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
+  NSI_042.value = (await indexDB.getFromDatabase('catalog', 'NSI_042')) || []
+  NSI_310.value = (await indexDB.getFromDatabase('catalog', 'NSI_310')) || []
+  authority.value = (await requests.get('/api/manufacturer-registry/all')) || []
 }
 load()
 </script>

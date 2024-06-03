@@ -3,7 +3,7 @@
     v-slot="props"
     v-model="shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails"
     :filter-data="shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails"
-    :default-data="defaultData"
+    :default-data="shemaDefault.shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails[0]"
     class="full"
     label="Электродвигатель"
   >
@@ -68,12 +68,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
@@ -81,27 +81,10 @@ const NSI_028 = ref([])
 const NSI_033 = ref([])
 const NSI_060 = ref([])
 
-const defaultData = {
-  electricMotorPowerMeasure: {
-    measurementUnitCode: 'KWT',
-    value: 0
-  },
-  electricalMachineKindCode: '',
-  electricalMachineKindView: '',
-  electricalMachineType: '',
-  electricalMachineVoltageMeasure: {
-    measurementUnitCode: 'VLT',
-    value: 0
-  },
-  vehicleComponentMakeName: '',
-  vehicleComponentText: '',
-  engineType: ''
-}
-
 async function load() {
-  NSI_028.value = await indexDB.getFromDatabase('catalog', 'NSI_028')
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
-  NSI_060.value = await indexDB.getFromDatabase('catalog', 'NSI_060')
+  NSI_028.value = (await indexDB.getFromDatabase('catalog', 'NSI_028')) || []
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
+  NSI_060.value = (await indexDB.getFromDatabase('catalog', 'NSI_060')) || []
 }
 load()
 </script>

@@ -87,7 +87,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -102,56 +103,6 @@ const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
-const defaultData = {
-  businessEntityName: '',
-  businessEntityBriefNames: [],
-  businessEntityTypeName: '',
-  fullNameDetails: {
-    lastName: '',
-    firstName: '',
-    middleName: ''
-  },
-  subjectAddressDetails: [
-    {
-      addressKindCode: '4',
-      unifiedCountryCode: {
-        value: '',
-        codeListId: 'NSI_034'
-      },
-      territoryCode: '',
-      regionName: '',
-      districtName: '',
-      cityName: '',
-      settlementName: '',
-      streetName: '',
-      buildingNumberId: '',
-      roomNumberId: '',
-      postCode: '',
-      postOfficeBoxId: '',
-      fullAddress: ''
-    }
-  ],
-  unifiedCommunicationDetails: [
-    {
-      communicationChannelId: [],
-      communicationChannelName: '',
-      unifiedCommunicationChannelCode: {
-        value: '',
-        codeListId: 'NSI_042'
-      }
-    }
-  ],
-  unifiedCountryCode: {
-    codeListId: 'NSI_034',
-    value: ''
-  },
-  businessEntityId: [
-    {
-      kindId: '',
-      value: ''
-    }
-  ]
-}
 
 function chooseApplicantDoc() {
   const businessEntityName = shema.applicantDetails.businessEntityName
@@ -161,7 +112,7 @@ function chooseApplicantDoc() {
       unifiedCountryCode,
       unifiedCommunicationDetails,
       businessEntityTypeName
-    } = defaultData
+    } = shemaDefault.applicantDetails
     shema.applicantDetails.subjectAddressDetails = subjectAddressDetails
     shema.applicantDetails.unifiedCommunicationDetails = unifiedCommunicationDetails
     shema.applicantDetails.unifiedCountryCode = unifiedCountryCode
@@ -187,10 +138,10 @@ function chooseApplicantDoc() {
 }
 
 async function load() {
-  NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')
-  NSI_042.value = await indexDB.getFromDatabase('catalog', 'NSI_042')
-  NSI_310.value = await indexDB.getFromDatabase('catalog', 'NSI_310')
-  authority.value = await requests.get('/api/manufacturer-registry/all')
+  NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
+  NSI_042.value = (await indexDB.getFromDatabase('catalog', 'NSI_042')) || []
+  NSI_310.value = (await indexDB.getFromDatabase('catalog', 'NSI_310')) || []
+  authority.value = (await requests.get('/api/manufacturer-registry/all')) || []
 }
 load()
 </script>

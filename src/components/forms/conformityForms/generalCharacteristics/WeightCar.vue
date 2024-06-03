@@ -5,7 +5,7 @@
       v-model="shema.vehicleVariantDetails[0].vehicleMassMeasures"
       label="Масса"
       :filter-data="shema.vehicleVariantDetails[0].vehicleMassMeasures"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0]"
       class="full mt-5"
     >
       <base-autocomplete
@@ -21,7 +21,9 @@
         v-model="props.item.meaningMassMeasure"
         label="Значение массы"
         :filter-data="props.item.meaningMassMeasure"
-        :default-data="defaultData.meaningMassMeasure[0]"
+        :default-data="
+          shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0].meaningMassMeasure[0]
+        "
         class="full mt-5"
       >
         <base-textfield
@@ -70,7 +72,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -82,23 +85,10 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_019 = ref([])
 const NSI_033 = ref([])
-const defaultData = {
-  vehicleMassCode: '',
-  massView: '',
-  meaningMassMeasure: [
-    {
-      maxMassMeasure: 0,
-      measurementUnitCode: 'KGM',
-      minMassMeasure: 0,
-      rangeIndicator: false,
-      axisNumber: [0.0]
-    }
-  ]
-}
 
 async function load() {
-  NSI_019.value = await indexDB.getFromDatabase('catalog', 'NSI_019')
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+  NSI_019.value = (await indexDB.getFromDatabase('catalog', 'NSI_019')) || []
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
 </script>

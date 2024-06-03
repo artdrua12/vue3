@@ -3,14 +3,14 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notVehicleIgnition"
       v-model:data="shema.vehicleVariantDetails[0].vehicleIgnitionDetails"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleIgnitionDetails"
       label="Система зажигания - отсутствует"
     >
       <base-constructor
         v-slot="props"
         v-model="shema.vehicleVariantDetails[0].vehicleIgnitionDetails"
         :filter-data="shema.vehicleVariantDetails[0].vehicleIgnitionDetails"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].vehicleIgnitionDetails[0]"
         class="full"
         label="Система зажигания"
       >
@@ -33,7 +33,10 @@
           v-slot="props2"
           v-model="props.item.vehicleComponentElements"
           :filter-data="props.item.vehicleComponentElements"
-          :default-data="defaultData2"
+          :default-data="
+            shemaDefault.vehicleVariantDetails[0].vehicleIgnitionDetails[0]
+              .vehicleComponentElements[0]
+          "
           class="full"
           label="Элемент системы зажигания"
         >
@@ -51,12 +54,6 @@
           ></base-textfield>
 
           <base-textfield
-            v-model="props2.item.vehicleComponentText"
-            label="Описание"
-            class="span6"
-          ></base-textfield>
-
-          <base-textfield
             v-model="props2.item.vehicleComponentType"
             label="Тип"
             class="span6"
@@ -65,7 +62,7 @@
           <base-combobox
             v-model="props2.item.vehicleComponentMarking"
             label="Маркировка"
-            class="span6"
+            class="full"
           ></base-combobox>
         </base-constructor>
       </base-constructor>
@@ -75,52 +72,23 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
-
 const indexDB = useIndexDBStore() // для работы с IndexDB
+
 const NSI_055 = ref([])
 const NSI_062 = ref([])
 
-const defaultData = [
-  {
-    vehicleComponentText: '',
-    vehicleComponentMakeName: '',
-    vehicleComponentElements: [
-      {
-        vehicleComponentName: '',
-        vehicleComponentMakeName: '',
-        vehicleComponentText: '',
-        vehicleComponentType: '',
-        vehicleComponentMarking: [],
-        stageDetails: [
-          {
-            vehicleComponentStageNumber: 'Ступень 1',
-            vehicleComponentMakeName: '',
-            vehicleComponentMarking: []
-          }
-        ]
-      }
-    ]
-  }
-]
-
-const defaultData2 = {
-  vehicleComponentName: '',
-  vehicleComponentMakeName: '',
-  vehicleComponentType: '',
-  vehicleComponentMarking: []
-}
 async function load() {
-  NSI_055.value = await indexDB.getFromDatabase('catalog', 'NSI_055')
-  NSI_062.value = await indexDB.getFromDatabase('catalog', 'NSI_062')
+  NSI_055.value = (await indexDB.getFromDatabase('catalog', 'NSI_055')) || []
+  NSI_062.value = (await indexDB.getFromDatabase('catalog', 'NSI_062')) || []
 }
 load()
 </script>

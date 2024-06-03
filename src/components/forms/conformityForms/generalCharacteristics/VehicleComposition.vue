@@ -77,7 +77,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -95,8 +95,8 @@ const NSI_017 = ref([])
 const NSI_050 = ref([])
 
 async function load() {
-  NSI_017.value = await indexDB.getFromDatabase('catalog', 'NSI_017')
-  NSI_050.value = await indexDB.getFromDatabase('catalog', 'NSI_050')
+  NSI_017.value = await indexDB.getFromDatabase('catalog', 'NSI_017') || []
+  NSI_050.value = await indexDB.getFromDatabase('catalog', 'NSI_050') || []
 }
 load()
 </script>

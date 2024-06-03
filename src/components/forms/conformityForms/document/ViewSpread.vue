@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid ">
+  <div class="adaptiveGrid">
     <base-checkbox
       v-model="shema.series"
       label="На серийно выпускаемую продукцию"
@@ -12,7 +12,7 @@
       v-model:data="shema.unifiedCommodityMeasure"
       label="На партию транспортных средств"
       :disabled="shema.series"
-      :default-data="defaultData"
+      :default-data="shemaDefault.unifiedCommodityMeasure"
       invert
       class="full"
       @change="change"
@@ -40,10 +40,11 @@
         v-model:data="shema.party.smallParty"
         label="Малая партия"
         :disabled="shema.series"
-        :default-data="defaultData2"
+        :default-data="shemaDefault.party.smallParty"
         invert
+        class="full"
       >
-        <p class="title full mb-5">Диапазон VIN</p>
+        <p class="title full mb-3">Диапазон VIN</p>
         <base-textfield
           v-model="shema.party.smallParty.vinNumber.constant"
           label="VIN (Постоянная часть)"
@@ -74,7 +75,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -86,31 +88,13 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore()
 const NSI_033 = ref([])
 
-const defaultData = {
-  measurementUnitCode: {
-    measurementUnitCodeListId: 'H87'
-  },
-  value: 0
-}
-
-const defaultData2 = {
-  smallPartyValue: false,
-  vinNumber: {
-    constant: '',
-    numberBy: '',
-    numberWith: '',
-    vin: []
-  }
-}
 function change() {
   if (shema.unifiedCommodityMeasure) {
     shema.party.smallParty.smallPartyValue = false
   }
 }
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
 </script>
-
-<style></style>

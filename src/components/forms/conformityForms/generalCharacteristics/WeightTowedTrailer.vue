@@ -3,7 +3,7 @@
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notVehicleTrailerIndicator"
       v-model:data="shema.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
-      :default-data="defaultData"
+      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
       label="Буксировка прицепа"
       invert
       @change="onChange"
@@ -13,7 +13,9 @@
         v-model="shema.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
         label="Максимальная масса прицепа без тормозной системы"
         :filter-data="shema.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
-        :default-data="defaultData[0]"
+        :default-data="
+          shemaDefault.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure[0]
+        "
         class="full mt-5"
       >
         <base-textfield
@@ -61,7 +63,9 @@
         v-model="shema.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure"
         label="Максимальная масса прицепа с тормозной системой"
         :filter-data="shema.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure"
-        :default-data="defaultData[0]"
+        :default-data="
+          shemaDefault.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure[0]
+        "
         class="full mt-5"
       >
         <base-textfield
@@ -109,7 +113,7 @@
         v-model="shema.vehicleVariantDetails[0].vehicleHitchLoadMeasure"
         label="Нагрузка на сцепное устройство транспортного средства"
         :filter-data="shema.vehicleVariantDetails[0].vehicleHitchLoadMeasure"
-        :default-data="defaultData[0]"
+        :default-data="shemaDefault.vehicleVariantDetails[0].vehicleHitchLoadMeasure[0]"
         class="full mt-5"
       >
         <base-textfield
@@ -157,7 +161,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -169,25 +174,19 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])
-const defaultData = [
-  {
-    measurementUnitCode: 'KGM',
-    rangeIndicator: false,
-    valueMax: 0,
-    valueMin: 0
-  }
-]
 
 function onChange() {
   // функция нужна потому что меняем данные в 3 местах на одном уровне вложености
-  shema.vehicleVariantDetails[0].vehicleHitchLoadMeasure = JSON.parse(JSON.stringify(defaultData))
+  shema.vehicleVariantDetails[0].vehicleHitchLoadMeasure = JSON.parse(
+    JSON.stringify(shemaDefault.vehicleVariantDetails[0].vehicleHitchLoadMeasure)
+  )
   shema.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure = JSON.parse(
-    JSON.stringify(defaultData)
+    JSON.stringify(shemaDefault.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure)
   )
 }
 
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
 </script>

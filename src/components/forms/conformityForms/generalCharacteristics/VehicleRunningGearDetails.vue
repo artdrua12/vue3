@@ -31,7 +31,7 @@
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelFormula"
       :items="NSI_045"
       label="Колесная формула*"
-      :validators="[conformityRules.vehicleWheelFormula]"
+      :rules="[conformityRules.vehicleWheelFormula]"
       multiple
       class="span6"
     ></base-autocomplete>
@@ -72,7 +72,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -85,8 +85,8 @@ const NSI_045 = ref([])
 const NSI_079 = ref([])
 
 async function load() {
-  NSI_045.value = await indexDB.getFromDatabase('catalog', 'NSI_045')
-  NSI_079.value = await indexDB.getFromDatabase('catalog', 'NSI_079')
+  NSI_045.value = (await indexDB.getFromDatabase('catalog', 'NSI_045')) || []
+  NSI_079.value = (await indexDB.getFromDatabase('catalog', 'NSI_079')) || []
 }
 load()
 </script>

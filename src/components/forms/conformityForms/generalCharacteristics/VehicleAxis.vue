@@ -30,7 +30,9 @@
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails"
       label="Ось транспортного средства"
       :filter-data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails"
-      :default-data="defaultDataConstructor"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails[0]
+      "
       class="full"
     >
       <base-textfield
@@ -150,7 +152,10 @@
       :filter-data="
         shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelbaseMeasure
       "
-      :default-data="defaultDataConstructor2"
+      :default-data="
+        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+          .vehicleWheelbaseMeasure[0]
+      "
       class="full mt-5"
     >
       <base-textfield
@@ -190,7 +195,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -203,39 +209,9 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])
-const defaultDataConstructor = {
-  vehicleWheelQuantity: 0,
-  brakingAxleIndicator: false,
-  drivingAxleIndicator: false,
-  dualTireAxleIndicator: false,
-  steeringAxleIndicator: false,
-  vehicleAxleOrdinal: 0,
-  vehicleAxleSweptPathMeasure: {
-    measurementUnitCode: 'MMT',
-    value: 0,
-    maxValue: 0,
-    rangeIndicator: false
-  },
-  vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure: {
-    measurementUnitCode: 'KGM',
-    value: 0,
-    rangeIndicator: false
-  },
-  vehicleTyre: {
-    vehicleTyreKindSize: ''
-  },
-  vehicleTyreKindCode: ''
-}
-const defaultDataConstructor2 = {
-  measurementUnitCode: 'MMT',
-  rangeIndicator: false,
-  valueMax: 0,
-  valueMin: 0,
-  semitrailerIndicator: false
-}
 
 async function load() {
-  NSI_033.value = await indexDB.getFromDatabase('catalog', 'NSI_033')
+  NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="baseFile mt-5">
+  <div class="baseFile">
     <div class="dropbox" @dragenter="stopPrevent" @dragover="stopPrevent" @drop="drop">
       <label
         ><v-icon icon="mdi-camera-outline" size="50px" class="dropboxIntro"></v-icon>
@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
-import BaseModal from '@/components/base/BaseModal.vue';
+import BaseModal from '@/components/base/BaseModal.vue'
 
 const modalCanvas = ref(null) // canvas который находится в модальном окне
 const images = ref([]) // массив картинок
@@ -155,7 +155,7 @@ function removingImg(index) {
   display: flex;
   flex-wrap: wrap;
   gap: 20px 25px;
-  padding: 20px;
+  margin: 20px 0px 0px 0px;
   /* background-color: rgba(246, 194, 160, 0.122); */
 }
 .dropbox {
@@ -168,6 +168,7 @@ function removingImg(index) {
   border: 3px dashed #2c4957;
   padding: 5px;
   border-radius: 10px;
+  margin-bottom: 25px;
 }
 .dropboxIntro {
   display: block;
@@ -176,6 +177,7 @@ function removingImg(index) {
   font-size: 14px;
   line-height: 1;
   font-family: serif;
+  color: #2c4957;
 }
 .img {
   height: 120px;

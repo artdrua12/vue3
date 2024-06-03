@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 
@@ -50,7 +50,7 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_046 = ref([])
 
 async function load() {
-  NSI_046.value = await indexDB.getFromDatabase('catalog', 'NSI_046')
+  NSI_046.value = (await indexDB.getFromDatabase('catalog', 'NSI_046')) || []
 }
 load()
 </script>

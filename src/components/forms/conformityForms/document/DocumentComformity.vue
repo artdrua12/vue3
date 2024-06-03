@@ -20,7 +20,7 @@
     <base-autocomplete
       v-model="shema.conformityDocKindCode"
       label="Наименование вида документа об оценке соответствия"
-      :items="conformityDocKindName"
+      :items="NSI_012"
       item-value="key"
       disabled
       class="span6"
@@ -73,7 +73,7 @@
       class="full"
       label="Приложение к документу"
       :filter-data="shema.docAnnexDetails"
-      :default-data="defaultDataConstructor"
+      :default-data="shemaDefault.docAnnexDetails"
     >
       <base-textfield
         v-model="shema.docAnnexDetails[props.index].objectOrdinal"
@@ -144,7 +144,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -152,24 +153,15 @@ import BaseDatefield from '@/components/base/BaseDatefield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-
-import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
-const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
 
+const NSI_012 = ref([])
 const NSI_034 = ref([])
-const conformityDocKindName = ref([])
-
-const defaultDataConstructor = {
-  formNumberId: [],
-  objectOrdinal: '',
-  pageQuantity: 0
-}
 
 async function load() {
-  NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')
-  conformityDocKindName.value = await requests.get('/api/classifier/epassport/conformity-doc-kinds')
+  NSI_012.value = (await indexDB.getFromDatabase('catalog', 'NSI_012')) || []
+  NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
 }
 load()
 </script>
