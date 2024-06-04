@@ -199,7 +199,7 @@ const NSI_399 = ref([])
 const clazz = ref([])
 
 async function load() {
-  NSI_015.value = await indexDB.getFromDatabase('catalog', 'NSI_015')
+  NSI_015.value = (await indexDB.getFromDatabase('catalog', 'NSI_015')) || []
   NSI_016.value = await indexDB.getFromDatabase('catalog', 'NSI_016')
   NSI_046.value = await indexDB.getFromDatabase('catalog', 'NSI_046')
   NSI_089.value = await indexDB.getFromDatabase('catalog', 'NSI_089')

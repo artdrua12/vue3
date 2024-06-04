@@ -103,7 +103,7 @@
             ].idCharacterStartingOrdinal
           "
           label="Номер символа"
-          :items="fromAndBy"
+          :items="[]"
           class="full"
         ></base-autocomplete>
       </base-constructor>

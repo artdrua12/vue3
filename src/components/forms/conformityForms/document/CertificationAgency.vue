@@ -213,7 +213,7 @@ async function load() {
   NSI_310.value = await indexDB.getFromDatabase('catalog', 'NSI_310')
   certificateAccreditations.value = await requests.get(
     '/api/classifier/epassport/certification-body/search/certificateAccreditations'
-  )
+  ) || []
   authority.value = await requests.get('/api/classifier/epassport/certification-body/search/all')
 }
 load()

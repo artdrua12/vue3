@@ -169,7 +169,7 @@ const defaultDataConstructor = {
 
 async function load() {
   NSI_034.value = await indexDB.getFromDatabase('catalog', 'NSI_034')
-  conformityDocKindName.value = await requests.get('/api/classifier/epassport/conformity-doc-kinds')
+  conformityDocKindName.value = await requests.get('/api/classifier/epassport/conformity-doc-kinds') || []
 }
 load()
 </script>

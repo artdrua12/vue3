@@ -126,7 +126,7 @@ legend {
 .btnRemove {
   font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 4px);
+  bottom: calc(50% - 5px);
   left: -51px;
   z-index: 2;
   background-color: #ebebeb;

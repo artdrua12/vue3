@@ -93,9 +93,9 @@ if (data.value.length == 0) {
 }
 
 .btnRemove {
-  font-size: 20px;
+  font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 3px);
+  bottom: calc(50% - 5px);
   left: -50px;
   z-index: 2;
   background-color: #ebebeb;
