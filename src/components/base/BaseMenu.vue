@@ -65,19 +65,22 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр СБКТС',
-        to: '/vehicle-safety-certificate',
+        to: '/conformities',
+        // to: '/vehicle-safety-certificate',
         permission: 'Доступ к реестру СБКТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр сертификатов соответствия',
-        to: '/powered-machines-certificates',
+        to: '/conformities',
+        // to: '/powered-machines-certificates',
         permission: 'Доступ к реестру сертификатов соответствия (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр деклараций о соответствии',
-        to: '/powered-machines-declarations',
+        to: '/conformities',
+        // to: '/powered-machines-declarations',
         permission: 'Доступ к реестру деклараций соответствия (осуществление поиска)'
       }
     ]
@@ -90,43 +93,50 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов ТС',
-        to: '/epassports',
+        to: '/conformities',
+        // to: '/epassports',
         permission: 'Доступ к реестру электронных паспортов ТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов CМ',
-        to: '/powered-machines-epassports',
+        to: '/conformities',
+        // to: '/powered-machines-epassports',
         permission: 'Доступ к реестру электронных паспортов СМ (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений по получению сведений',
-        to: '/application-request',
+        to: '/conformities',
+        // to: '/application-request',
         permission: 'Доступ к реестру заявлений по получению сведений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений',
-        to: '/application',
+        to: '/conformities',
+        // to: '/application',
         permission: 'Доступ к реестру заявлений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр шаблонов',
-        to: '/registry-templates',
+        to: '/conformities',
+        // to: '/registry-templates',
         permission: 'Доступ к реестру шаблонов'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр НСИ',
-        to: '/reference-information',
+        to: '/conformities',
+        // to: '/reference-information',
         permission: 'Доступ к реестру справочников'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр уведомлений об отмене',
-        to: '/cancellation-document',
+        to: '/conformities',
+        // to: '/cancellation-document',
         permission: 'true'
       }
     ]
@@ -139,43 +149,50 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр ролей',
-        to: '/registry-roles',
+        to: '/conformities',
+        // to: '/registry-roles',
         permission: 'Просмотр и редактирование реестра ролей'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр процессов и версий',
-        to: '/administrative-process',
+        to: '/conformities',
+        // to: '/administrative-process',
         permission: 'Доступ к реестру процессов и версий'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр бизнес процессов',
-        to: '/business-process',
+        to: '/conformities',
+        // to: '/business-process',
         permission: 'Доступ к реестру бизнес процессов'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр изготовителей ТС, ШТС, СМ и других видов техники',
-        to: '/registry-manufacturers-process',
+        to: '/conformities',
+        // to: '/registry-manufacturers-process',
         permission: 'Доступ к реестру изготовителей'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр отчётов',
-        to: '/reports-registry',
+        to: '/conformities',
+        // to: '/reports-registry',
         permission: 'true'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр органов по сертификации и испытательных лабораторий',
-        to: '/registry-certification-testlaboratories',
+        to: '/conformities',
+        // to: '/registry-certification-testlaboratories',
         permission: 'Доступ к реестру органов по сертификации и испытательных лабораторий'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Система оповещения',
-        to: '/registry-notification-system',
+        to: '/conformities',
+        // to: '/registry-notification-system',
         permission: 'Сервис сообщений о технологических работах'
       }
     ]
@@ -223,7 +240,7 @@ onMounted(() => {
   user-select: none;
   cursor: pointer;
   box-shadow:
-  3px 0px 15px 5px rgba(0, 0, 0, 0.32),
+    3px 0px 15px 5px rgba(0, 0, 0, 0.32),
     inset 0px 11px 12px -10px rgba(0, 0, 0, 0.45);
   font-family: 'Open Sans', arial;
   z-index: 3;
@@ -259,7 +276,6 @@ onMounted(() => {
   font-size: 17px;
   font-weight: 570;
   line-height: 18px;
-
 }
 .item-bange {
   width: 40px;

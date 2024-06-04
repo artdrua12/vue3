@@ -17,31 +17,31 @@
 
 <script setup>
 import { ref, computed, defineProps, defineEmits } from 'vue'
-import { useDate } from 'vuetify'
+
 import BaseTextfield from './BaseTextfield.vue'
-const { label, date, disabled } = defineProps({
+const { label, dater, disabled } = defineProps({
   label: { type: String, default: '' },
-  date: { type: String, default: '' },
+  dater: { type: String, default: '' },
   disabled: { type: Boolean, default: false }
 })
-console.log(date)
-const emit = defineEmits(['update:value'])
-const dateUtils = useDate()
-const currentDate = ref()
+
+const emit = defineEmits(['update:date'])
+const currentDate = ref(new Date(dater || null))
+
 const formatDate = computed({
   get() {
-    return currentDate.value ? dateUtils.format(currentDate.value, 'keyboardDate') : null
+    return currentDate.value ? currentDate.value.toLocaleDateString() : null
   },
   set(value) {
     currentDate.value = value
   }
 })
 function undate() {
-  emit('update:value', formatDate.value)
+  emit('update:date', formatDate.value)
 }
 
-// watch(formatDate, () => {
-//   emit('update:enter', formatDate.value)
+// watch(date, () => {
+//   console.log('sss')
 // })
 </script>
 
@@ -82,3 +82,45 @@ const formatDate = computed(() =>
   currentDate.value ? dateUtils.format(currentDate.value, 'keyboardDate') : null
 )
 </script> -->
+
+<!-- <template>
+  <div>
+    <v-menu :close-on-content-click="false">
+      <template #activator="{ props }">
+        <BaseTextfield v-bind="props" v-model="formatDate" :label="label" :disabled="disabled">
+        </BaseTextfield>
+      </template>
+      <v-date-picker
+        v-model="currentDate"
+        color="#2c4957"
+        show-adjacent-months
+        @update:model-value="undate"
+      ></v-date-picker>
+    </v-menu>
+  </div>
+</template>
+
+<script setup>
+import { computed, defineProps, defineEmits } from 'vue'
+import BaseTextfield from './BaseTextfield.vue'
+const { label, date, disabled } = defineProps({
+  label: { type: String, default: '' },
+  disabled: { type: Boolean, default: false }
+})
+
+const emit = defineEmits(['update:date'])
+const currentDate = defineModel({
+  type: Date
+})
+const formatDate = computed({
+  get() {
+    return currentDate.value ? currentDate.value.toLocaleDateString() : null
+  },
+  set(value) {
+    currentDate.value = value
+  }
+})
+function undate() {
+  emit('update:date', formatDate.value)
+}
+</script>  -->

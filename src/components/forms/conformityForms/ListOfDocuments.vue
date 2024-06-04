@@ -14,54 +14,55 @@
       v-model:isOpen="isOpen"
       :title="currentIndex === -1 ? 'Добавление документа' : 'Редактирование документа'"
       icon="mdi-file-document-plus-outline"
-      :ok-function="{ fun: save, isCloseAfterClick: true }"
+      :ok-function="addOrEdit"
     >
+      <v-btn @click="test">TEST</v-btn>
       <div class="modalSize">
         <base-autocomplete
-          v-model="currentItem.technicalRegulationObjectKindCode"
+          v-model="modalItem.technicalRegulationObjectKindCode"
           label="Наименование объекта технического регулирования*"
           :items="NSI_106"
           class="full"
           :rules="[
-            () => !!currentItem.technicalRegulationObjectKindCode || 'Обязательно к заполнению'
+            () => !!modalItem.technicalRegulationObjectKindCode || 'Обязательно к заполнению'
           ]"
         ></base-autocomplete>
 
         <base-textfield
-          v-model="currentItem.docName"
+          v-model="modalItem.docName"
           label="Наименование документа, подтверждающего соответствие"
           class="full"
         ></base-textfield>
 
         <base-textfield
-          v-model="currentItem.docNumber"
+          v-model="modalItem.docNumber"
           label="Номер документа"
           class="full"
         ></base-textfield>
 
         <base-datefield
-          :value="currentItem.updateDateTime"
+          :dater="modalItem.updateDateTime"
           label="Дата документа*"
           class="span6"
-          @update:value="currentItem.updateDateTime = $event"
+          @update:date="modalItem.updateDateTime = $event"
         ></base-datefield>
 
         <base-datefield
-          :value="currentItem.validityPeriodDetails.startDateTime"
+          :dater="modalItem.validityPeriodDetails.startDateTime"
           label="Срок действия с*"
           class="span3"
-          @update:value="currentItem.validityPeriodDetails.startDateTime = $event"
+          @update:date="modalItem.validityPeriodDetails.startDateTime = $event"
         ></base-datefield>
 
         <base-datefield
-          :value="currentItem.validityPeriodDetails.endDateTime"
+          :dater="modalItem.validityPeriodDetails.endDateTime"
           label="Срок действия по*"
           class="span3"
-          @update:value="currentItem.validityPeriodDetails.endDateTime = $event"
+          @update:date="modalItem.validityPeriodDetails.endDateTime = $event"
         ></base-datefield>
 
         <base-autocomplete
-          v-model="currentItem.businessEntity.businessEntityName"
+          v-model="modalItem.businessEntity.businessEntityName"
           label="Наименование организации, выдавшей документ"
           :items="organizationName"
           item-text="certificationBodyNameBrief"
@@ -70,7 +71,7 @@
         ></base-autocomplete>
 
         <base-textfield
-          v-model="currentItem.businessEntity.unifiedCountry"
+          v-model="modalItem.businessEntity.unifiedCountry"
           label="Происхождение документа"
           class="full"
         ></base-textfield>
@@ -106,8 +107,8 @@ const request = useRequestStore()
 const NSI_106 = ref([])
 const organizationName = ref([])
 const isOpen = ref(false)
-const currentIndex = ref(-1)
-const currentItem = ref({
+const currentIndex = ref(-1) // -1 редактируем 0 и более - добавляем
+const modalItem = ref({
   technicalRegulationObjectKindCode: '',
   docName: '',
   docNumber: '',
@@ -117,8 +118,8 @@ const currentItem = ref({
     businessEntityName: ''
   },
   validityPeriodDetails: {
-    endDateTime: '',
-    startDateTime: ''
+    startDateTime: '',
+    endDateTime: ''
   }
 })
 const defaultItem = {
@@ -131,11 +132,26 @@ const defaultItem = {
     businessEntityName: ''
   },
   validityPeriodDetails: {
-    endDateTime: '',
-    startDateTime: ''
+    startDateTime: '',
+    endDateTime: ''
   }
 }
-const items = ref([])
+const items = ref([
+  {
+    technicalRegulationObjectKindCode: '',
+    docName: 'fgvadfsg',
+    docNumber: 'fgafgfsg',
+    updateDateTime: '12.05.2024',
+    businessEntity: {
+      unifiedCountry: '',
+      businessEntityName: ''
+    },
+    validityPeriodDetails: {
+      startDateTime: '12.06.2024',
+      endDateTime: '12.07.2024'
+    }
+  }
+])
 const headers = ref([
   {
     title: 'Объекты технического регулирования',
@@ -157,28 +173,32 @@ const headers = ref([
   { title: 'Действия', value: 'actions', sortable: false }
 ])
 
-function save() {
+function addOrEdit() {
+  // редактируем
   if (currentIndex.value > -1) {
-    // обновляем
-    Object.assign(items.value[currentIndex.value], currentItem.value)
+    Object.assign(items.value[currentIndex.value], modalItem.value)
   } else {
     // добавляем
-    items.value.push(Object.assign({}, currentItem.value))
+    items.value.push(Object.assign({}, modalItem.value))
   }
-  currentItem.value = Object.assign({}, defaultItem)
-  currentIndex.value = -1
+  // modalItem.value = JSON.parse(JSON.stringify(defaultItem)) // выставляем  значаения по умолчанию
+  // currentIndex.value = -1 // выставляем  значаения по умолчанию (на добавление)
 }
 
 function add() {
-  currentIndex.value = -1 // выставляем значение текущего индекса
-  currentItem.value = Object.assign({}, currentItem.value) // подставляем пустое значение
-  isOpen.value = true
+  currentIndex.value = -1 // выставляем значение индекса на добавление (index < 0)
+  modalItem.value = JSON.parse(JSON.stringify(defaultItem)) // подставляем значаения по умолчанию
+  isOpen.value = true //открываем модальное окно
 }
 
 function editItem(item) {
-  currentIndex.value = items.value.indexOf(item)
-  currentItem.value = Object.assign({}, item)
-  isOpen.value = true
+  currentIndex.value = items.value.indexOf(item) // выставляем значение текущего индекса на редактирование (index > 0)
+  modalItem.value = JSON.parse(JSON.stringify(item))
+  isOpen.value = true //открываем модальное окно
+}
+
+function test() {
+  console.log('modalItem.value', modalItem.value)
 }
 
 function deleteItem(item) {

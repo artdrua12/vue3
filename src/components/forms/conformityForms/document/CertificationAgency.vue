@@ -147,7 +147,7 @@ function chooseAuthorityOnForm() {
   )
 
   if (!choiseItem) {
-    shema.conformityAuthorityInformationDetails = JSON.parse(
+    shema.conformityAuthorityInformationDetails = (
       JSON.stringify(shemaDefault.conformityAuthorityInformationDetails)
     )
     return

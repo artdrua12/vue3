@@ -46,17 +46,28 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  //название кнопки 
   okTitle: {
     type: String,
     default: 'OK'
   },
-  cancelTitle: {
-    type: String,
-    default: 'Закрыть'
+  //fun - функция которая вызывается
+  okFunction: {
+    type: [Function, Object],
+    default: () => {}
   },
   okDisable: {
     type: Boolean,
     default: false
+  },
+  // isCloseAfterClick - закрывать ли модальное окно после вызова функции
+  isCloseAfterClick: {
+    type: Boolean,
+    default: true
+  },
+  cancelTitle: {
+    type: String,
+    default: 'Закрыть'
   },
   isOpen: {
     type: Boolean,
@@ -65,16 +76,6 @@ const props = defineProps({
   icon: {
     type: String,
     default: 'mdi-tune-variant'
-  },
-  //fun - функция которая вызывается, isCloseAfterClick - закрывать ли модальное окно после вызова функции
-  okFunction: {
-    type: Object,
-    default() {
-      return {
-        fun: null,
-        isCloseAfterClick: true
-      }
-    }
   }
 })
 const emit = defineEmits(['update:isOpen'])
@@ -82,10 +83,10 @@ function close() {
   emit('update:isOpen', false)
 }
 function ok() {
-  if (props.okFunction.fun) {
-    props.okFunction.fun()
+  if (props.okFunction) {
+    props.okFunction()
   }
-  if (props.okFunction.isCloseAfterClick) {
+  if (props.isCloseAfterClick) {
     close()
   }
 }
