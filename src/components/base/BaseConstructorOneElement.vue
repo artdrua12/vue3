@@ -96,7 +96,7 @@ if (data.value.length == 0) {
   font-size: 23px;
   position: absolute;
   bottom: calc(50% - 5px);
-  left: -50px;
+  left: -52px;
   z-index: 2;
   background-color: #ebebeb;
 }
