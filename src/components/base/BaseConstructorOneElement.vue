@@ -13,7 +13,7 @@
       <slot name="default" :index="index"></slot>
       <slot name="btnRemove" :index="index">
         <v-icon
-          v-if="props.data.length != 1"
+          v-if="data.length != 1"
           color="red"
           class="btnRemove"
           icon="mdi-close-box"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-const data = defineModel('data', { type: Array }) // место куда вставляем данные
+const data = defineModel({ type: Array, required: true }) // место куда вставляем данные
 const props = defineProps({
   defaultData: { type: String, default: ' ' },
   disabled: { type: Boolean, default: false } //выключает кнопку добавления

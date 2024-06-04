@@ -12,41 +12,68 @@
 
     <base-modal
       v-model:isOpen="isOpen"
-      :title="currentIndex === -1 ? 'Добавление доумента' : 'Редактирование документа'"
+      :title="currentIndex === -1 ? 'Добавление документа' : 'Редактирование документа'"
       icon="mdi-file-document-plus-outline"
-      :ok-function="{ fun: save, isCloseAfterClick: true }"
+      :ok-function="addOrEdit"
     >
-      <div>
+      <v-btn @click="test">TEST</v-btn>
+      <div class="modalSize">
         <base-autocomplete
-          v-model="currentItem.technicalRegulationObjectKindCode"
+          v-model="modalItem.technicalRegulationObjectKindCode"
           label="Наименование объекта технического регулирования*"
-          class="all"
+          :items="NSI_106"
+          class="full"
+          :rules="[
+            () => !!modalItem.technicalRegulationObjectKindCode || 'Обязательно к заполнению'
+          ]"
         ></base-autocomplete>
+
         <base-textfield
-          v-model="currentItem.docName"
+          v-model="modalItem.docName"
           label="Наименование документа, подтверждающего соответствие"
+          class="full"
         ></base-textfield>
-        <base-textfield v-model="currentItem.docNumber" label="Номер документа"></base-textfield>
-        <base-datefield
-          :value="currentItem.updateDateTime"
-          label="Дата документа*"
-          @update:enter="currentItem.updateDateTime = $event"
-        ></base-datefield>
-        <base-datefield
-          v-model="currentItem.startDateTime"
-          label="Срок действия с*"
-        ></base-datefield>
-        <base-datefield
-          v-model="currentItem.endDateTime"
-          label="Срок действия по*"
-        ></base-datefield>
-        <base-autocomplete
-          v-model="currentItem.businessEntityName"
-          label="Наименование организации, выдавшей документ"
-        ></base-autocomplete>
+
         <base-textfield
-          v-model="currentItem.unifiedCountry"
+          v-model="modalItem.docNumber"
+          label="Номер документа"
+          class="full"
+        ></base-textfield>
+
+        <base-datefield
+          :dater="modalItem.updateDateTime"
+          label="Дата документа*"
+          class="span6"
+          @update:date="modalItem.updateDateTime = $event"
+        ></base-datefield>
+
+        <base-datefield
+          :dater="modalItem.validityPeriodDetails.startDateTime"
+          label="Срок действия с*"
+          class="span3"
+          @update:date="modalItem.validityPeriodDetails.startDateTime = $event"
+        ></base-datefield>
+
+        <base-datefield
+          :dater="modalItem.validityPeriodDetails.endDateTime"
+          label="Срок действия по*"
+          class="span3"
+          @update:date="modalItem.validityPeriodDetails.endDateTime = $event"
+        ></base-datefield>
+
+        <base-autocomplete
+          v-model="modalItem.businessEntity.businessEntityName"
+          label="Наименование организации, выдавшей документ"
+          :items="organizationName"
+          item-text="certificationBodyNameBrief"
+          item-value="certificationBodyNameBrief"
+          class="full"
+        ></base-autocomplete>
+
+        <base-textfield
+          v-model="modalItem.businessEntity.unifiedCountry"
           label="Происхождение документа"
+          class="full"
         ></base-textfield>
       </div>
     </base-modal>
@@ -72,39 +99,57 @@ import BaseModal from '@/components/base/BaseModal.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useRequestStore } from '@/stores/requestStore'
+const indexDB = useIndexDBStore() // для работы с IndexDB
+const request = useRequestStore()
 
+const NSI_106 = ref([])
+const organizationName = ref([])
 const isOpen = ref(false)
-const currentIndex = ref(-1)
-const currentItem = ref({
+const currentIndex = ref(-1) // -1 редактируем 0 и более - добавляем
+const modalItem = ref({
   technicalRegulationObjectKindCode: '',
   docName: '',
   docNumber: '',
   updateDateTime: '',
-  businessEntityName: '',
-  startDateTime: '',
-  endDateTime: '',
-  unifiedCountry: ''
+  businessEntity: {
+    unifiedCountry: '',
+    businessEntityName: ''
+  },
+  validityPeriodDetails: {
+    startDateTime: '',
+    endDateTime: ''
+  }
 })
 const defaultItem = {
   technicalRegulationObjectKindCode: '',
   docName: '',
   docNumber: '',
   updateDateTime: '',
-  businessEntityName: '',
-  startDateTime: '',
-  endDateTime: '',
-  unifiedCountry: ''
+  businessEntity: {
+    unifiedCountry: '',
+    businessEntityName: ''
+  },
+  validityPeriodDetails: {
+    startDateTime: '',
+    endDateTime: ''
+  }
 }
 const items = ref([
   {
-    technicalRegulationObjectKindCode: '123',
-    docName: '321',
-    docNumber: '777',
-    updateDateTime: '12.03.2024',
-    businessEntityName: '',
-    startDateTime: '',
-    endDateTime: '',
-    unifiedCountry: ''
+    technicalRegulationObjectKindCode: '',
+    docName: 'fgvadfsg',
+    docNumber: 'fgafgfsg',
+    updateDateTime: '12.05.2024',
+    businessEntity: {
+      unifiedCountry: '',
+      businessEntityName: ''
+    },
+    validityPeriodDetails: {
+      startDateTime: '12.06.2024',
+      endDateTime: '12.07.2024'
+    }
   }
 ])
 const headers = ref([
@@ -119,47 +164,64 @@ const headers = ref([
   { title: 'Дата документа', value: 'updateDateTime' },
   {
     title: 'Наименование организации, выдавшей документ',
-    value: 'businessEntityName'
+    value: 'businessEntity.businessEntityName'
   },
-  { title: 'Срок действия с', value: 'startDateTime' },
-  { title: 'Срок действия по', value: 'endDateTime' },
-  { title: 'Происхождение документа', value: 'unifiedCountry' },
-  // {
-  //   title: 'Наименование организации, выдавшей документ',
-  //   value: 'businessEntity.businessEntityName'
-  // },
-  // { title: 'Срок действия с', value: 'validityPeriodDetails.startDateTime' },
-  // { title: 'Срок действия по', value: 'validityPeriodDetails.endDateTime' },
-  // { title: 'Происхождение документа', value: 'businessEntity.unifiedCountry' },
+  { title: 'Срок действия с', value: 'validityPeriodDetails.startDateTime' },
+  { title: 'Срок действия по', value: 'validityPeriodDetails.endDateTime' },
+  { title: 'Происхождение документа', value: 'businessEntity.unifiedCountry' },
+
   { title: 'Действия', value: 'actions', sortable: false }
 ])
 
-function save() {
+function addOrEdit() {
+  // редактируем
   if (currentIndex.value > -1) {
-    // обновляем
-    Object.assign(items.value[currentIndex.value], currentItem.value)
+    Object.assign(items.value[currentIndex.value], modalItem.value)
   } else {
     // добавляем
-    items.value.push(Object.assign({}, currentItem.value))
+    items.value.push(Object.assign({}, modalItem.value))
   }
-  currentItem.value = Object.assign({}, defaultItem)
-  currentIndex.value = -1
+  // modalItem.value = JSON.parse(JSON.stringify(defaultItem)) // выставляем  значаения по умолчанию
+  // currentIndex.value = -1 // выставляем  значаения по умолчанию (на добавление)
 }
 
 function add() {
-  currentIndex.value = -1 // выставляем значение текущего индекса
-  currentItem.value = Object.assign({}, currentItem.value) // подставляем пустое значение
-  isOpen.value = true
+  currentIndex.value = -1 // выставляем значение индекса на добавление (index < 0)
+  modalItem.value = JSON.parse(JSON.stringify(defaultItem)) // подставляем значаения по умолчанию
+  isOpen.value = true //открываем модальное окно
 }
 
 function editItem(item) {
-  currentIndex.value = items.value.indexOf(item)
-  currentItem.value = Object.assign({}, item)
-  isOpen.value = true
+  currentIndex.value = items.value.indexOf(item) // выставляем значение текущего индекса на редактирование (index > 0)
+  modalItem.value = JSON.parse(JSON.stringify(item))
+  isOpen.value = true //открываем модальное окно
+}
+
+function test() {
+  console.log('modalItem.value', modalItem.value)
 }
 
 function deleteItem(item) {
   const index = items.value.indexOf(item)
   items.value.splice(index, 1)
 }
+async function load() {
+  NSI_106.value = await indexDB.getFromDatabase('catalog', 'NSI_106')
+  organizationName.value = await request.get(
+    '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+  )
+}
+load()
 </script>
+
+<style scoped>
+.modalSize {
+  width: 700px;
+  margin: 20px 10px 0px 10px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 12px 20px;
+  /* grid-auto-flow: dense; */
+  align-items: flex-start;
+}
+</style>

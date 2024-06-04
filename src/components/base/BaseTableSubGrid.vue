@@ -112,7 +112,8 @@
       v-model:isOpen="isOpen"
       title="Настройки"
       ok-title="Снять все выделения"
-      :ok-function="{ fun: removeActiveCheckboxes, isCloseAfterClick: false }"
+      :ok-function="removeActiveCheckboxes"
+      :is-close-after-click= false
       cancel-title="применить"
     >
       <div>

@@ -39,7 +39,7 @@
       icon="mdi-exit-to-app"
       ok-title="Да"
       cancel-title="отмена"
-      :ok-function="{ fun: user.exitFromUser, isCloseAfterClick: true }"
+      :ok-function="user.exitFromUser"
     >
       <p>Вы действительно хотите выйти?</p>
     </base-modal>

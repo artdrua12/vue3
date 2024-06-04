@@ -61,7 +61,6 @@ async function entrance() {
   route.push('./start')
 
   const referenceBook = await requests.post('/api/classifiers/get-full-records', {})
-  console.log('referenceBook', referenceBook)
   //если спарвочник не пустой, то записываем в хранилище catalog, indexDB
   if (referenceBook?.length > 0) {
     for (let i = 0; i < referenceBook.length; i++) {

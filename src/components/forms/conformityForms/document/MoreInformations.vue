@@ -10,7 +10,7 @@
     >
       <base-constructor-one-element
         v-slot="props"
-        v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionText"
+        v-model="shema.vehicleTypeDetails.vehicleUseRestrictionText"
         class="full"
       >
         <base-textarea
@@ -23,7 +23,7 @@
 
     <base-constructor-one-element
       v-slot="props"
-      v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionShipping"
+      v-model="shema.vehicleTypeDetails.vehicleUseRestrictionShipping"
       class="full mt-4"
     >
       <base-textarea
@@ -77,10 +77,7 @@
       @change="onChange"
     ></base-checkbox>
 
-    <base-constructor-one-element
-      v-model:data="shema.vehicleTypeDetails.addInfo"
-      class="full mt-5"
-    >
+    <base-constructor-one-element v-model="shema.vehicleTypeDetails.addInfo" class="full mt-5">
       <template #default="props">
         <base-textarea
           v-model="shema.vehicleTypeDetails.addInfo[props.index]"
@@ -99,9 +96,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
-import BaseIsMissing from '@/components/base/BaseIsMissing2.vue'
+import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
@@ -132,7 +129,7 @@ function onChange() {
 }
 
 async function load() {
-  NSI_067.value = await indexDB.getFromDatabase('catalog', 'NSI_067')
+  NSI_067.value = (await indexDB.getFromDatabase('catalog', 'NSI_067')) || []
 }
 load()
 </script>

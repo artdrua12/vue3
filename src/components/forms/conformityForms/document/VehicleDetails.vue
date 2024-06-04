@@ -3,6 +3,7 @@
     <base-is-missing-disabled
       v-model="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleMakeName"
+      :default-data="[null]"
       class="span6"
     >
       <base-autocomplete
@@ -10,6 +11,7 @@
         label="Марка*"
         :items="NSI_046"
         :disabled="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
+        multiple
         item-value="key"
         max-length="120"
         :rules="
@@ -133,7 +135,7 @@
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].classCode"
         label="Класс для категорий M2, M2G, M3, M3G "
-        :items="clazz"
+        :items="NSI_013"
         :disabled="shema.vehicleVariantDetails[0].notClassCode"
         item-text="value"
         multiple
@@ -178,34 +180,32 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/shema'
+import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled2.vue'
-
-import { useRequestStore } from '@/stores/requestStore'
+import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
-const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
+const NSI_013 = ref([])
 const NSI_015 = ref([])
 const NSI_016 = ref([])
 const NSI_046 = ref([])
 const NSI_089 = ref([])
 const NSI_108 = ref([])
 const NSI_399 = ref([])
-const clazz = ref([])
 
 async function load() {
+  NSI_013.value = (await indexDB.getFromDatabase('catalog', 'NSI_015')) || []
   NSI_015.value = (await indexDB.getFromDatabase('catalog', 'NSI_015')) || []
-  NSI_016.value = await indexDB.getFromDatabase('catalog', 'NSI_016')
-  NSI_046.value = await indexDB.getFromDatabase('catalog', 'NSI_046')
-  NSI_089.value = await indexDB.getFromDatabase('catalog', 'NSI_089')
-  NSI_108.value = await indexDB.getFromDatabase('catalog', 'NSI_108')
-  NSI_399.value = await indexDB.getFromDatabase('catalog', 'NSI_399')
-  clazz.value = await requests.get('/api/classifier/epassport/class-m2-m3-classifier')
+  NSI_016.value = (await indexDB.getFromDatabase('catalog', 'NSI_016')) || []
+  NSI_046.value = (await indexDB.getFromDatabase('catalog', 'NSI_046')) || []
+  NSI_089.value = (await indexDB.getFromDatabase('catalog', 'NSI_089')) || []
+  NSI_108.value = (await indexDB.getFromDatabase('catalog', 'NSI_108')) || []
+  NSI_399.value = (await indexDB.getFromDatabase('catalog', 'NSI_399')) || []
 }
 load()
 </script>
+
