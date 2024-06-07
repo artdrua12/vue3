@@ -18,15 +18,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 const props = defineProps({
   elevation: { type: String, default: '5' }, //тень
-  propsPanel: { type: String, default: '' }, //1-панель будет открыта при отрисовке
+  //1-панель будет открыта при отрисовке
   bgColor: { type: String, default: '#e7e7e7' }, // фон панели заголовка
   color: { type: String, default: '#546e7a' } // цвет панели заголовка
 })
-const panel = ref('')
-panel.value = props.propsPanel
+const panel = defineModel('openPanel', { type: String })
 </script>
 
 <style scoped>

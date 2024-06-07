@@ -1,11 +1,10 @@
 <template>
-  <div>
+  <div class="pa-7">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :filter-data="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :default-data="shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0]"
-      class="mt-5"
       label="Маркировка"
     >
       <base-textarea

@@ -1,5 +1,5 @@
 <template>
-  <div class="baseFile">
+  <div class="baseFile pa-3 ">
     <div class="dropbox" @dragenter="stopPrevent" @dragover="stopPrevent" @drop="drop">
       <label
         ><v-icon icon="mdi-camera-outline" size="50px" class="dropboxIntro"></v-icon>
@@ -155,7 +155,7 @@ function removingImg(index) {
   display: flex;
   flex-wrap: wrap;
   gap: 20px 25px;
-  margin: 20px 0px 0px 0px;
+  margin: 20px 0px 0px 20px;
   /* background-color: rgba(246, 194, 160, 0.122); */
 }
 .dropbox {

@@ -93,7 +93,7 @@ function ok() {
 </script>
 
 <style>
-.empty {
+/* .empty {
   display: grid;
   grid-template-rows: 1fr auto;
   width: 100%;
@@ -101,8 +101,8 @@ function ok() {
   margin: auto;
   max-width: 96vw;
   max-height: 96vh;
-}
-.img {
+} */
+/* .img {
   width: 100%;
   height: 100%;
   background-color: antiquewhite;
@@ -113,7 +113,7 @@ function ok() {
 .but {
   background-color: aqua;
   height: 80px;
-}
+} */
 .modal-wrapper {
   position: fixed;
   display: flex;

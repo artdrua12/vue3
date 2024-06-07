@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <div class="adaptiveGrid pa-7">
     <base-textfield
       v-model="shema.vehicleComplianceDocDetails[0].docName"
       label="Наименование документа, подтверждающего соответствие обязательным требованиям"

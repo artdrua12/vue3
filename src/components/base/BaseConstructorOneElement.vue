@@ -56,21 +56,21 @@ if (data.value.length == 0) {
   position: relative;
 }
 .element::before {
-  width: 40px;
+  width: 37px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -40px;
+  left: -35px;
   bottom: calc(50% + 7px);
   border-bottom: 1px solid #2c4957;
   border-left: 1px solid #2c4957;
 }
 .element::after {
-  width: 40px;
+  width: 35px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -40px;
+  left: -35px;
   bottom: 0%;
   border-left: 1px solid #2c4957;
 }
@@ -83,8 +83,8 @@ if (data.value.length == 0) {
 }
 .addBtn {
   position: absolute;
-  top: -20px;
-  left: -5px;
+  top: -15px;
+  left: 0px;
   width: 30px;
   height: 30px;
   font-size: 14px;
@@ -95,8 +95,8 @@ if (data.value.length == 0) {
 .btnRemove {
   font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 5px);
-  left: -52px;
+  bottom: calc(50% - 4px);
+  left: -47px;
   z-index: 2;
   background-color: #ebebeb;
 }

@@ -106,9 +106,9 @@
     <base-textfield
       :value="
         [
-          shema.conformityAuthorityInformationDetails.fullNameDetails.lastName,
-          shema.conformityAuthorityInformationDetails.fullNameDetails.firstName,
-          shema.conformityAuthorityInformationDetails.fullNameDetails.middleName
+          shema.conformityAuthorityInformationDetails.fullNameDetails?.lastName,
+          shema.conformityAuthorityInformationDetails.fullNameDetails?.firstName,
+          shema.conformityAuthorityInformationDetails.fullNameDetails?.middleName
         ].join(' ')
       "
       label="ФИО руководителя хозяйствующего субъекта"
@@ -147,7 +147,7 @@ function chooseAuthorityOnForm() {
   )
 
   if (!choiseItem) {
-    shema.conformityAuthorityInformationDetails = (
+    shema.conformityAuthorityInformationDetails = JSON.parse(
       JSON.stringify(shemaDefault.conformityAuthorityInformationDetails)
     )
     return
@@ -181,9 +181,10 @@ function chooseAuthorityOnForm() {
 async function load() {
   NSI_042.value = await indexDB.getFromDatabase('catalog', 'NSI_042')
   NSI_310.value = await indexDB.getFromDatabase('catalog', 'NSI_310')
-  certificateAccreditations.value = await requests.get(
-    '/api/classifier/epassport/certification-body/search/certificateAccreditations'
-  ) || []
+  certificateAccreditations.value =
+    (await requests.get(
+      '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+    )) || []
   authority.value = await requests.get('/api/classifier/epassport/certification-body/search/all')
 }
 load()

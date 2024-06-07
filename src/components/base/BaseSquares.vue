@@ -30,11 +30,11 @@ const props = defineProps({
   position: relative;
   /* border: 1px solid #546e7a; */
   background-color: white;
+  border-radius: 4px;
   box-shadow:
-   0 1px rgba(255,255,255,.2) inset,
-   0 0px 2px 1px rgb(44, 73, 87,0.5);
-   background: linear-gradient(rgb(240, 239, 238), rgba(245, 245, 245, 0.952)) rgb(204, 187, 139);
-   user-select: none;
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  user-select: none;
 }
 
 .square:after {

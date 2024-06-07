@@ -9,12 +9,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useDate } from 'vuetify'
+// import { useDate } from 'vuetify'
 import BaseDatefield from '../base/BaseDatefield.vue'
 // import { useRequestStore } from '@/stores/requestStore'
-import { useIndexDBStore } from '@/stores/indexDBStore'
+// import { useIndexDBStore } from '@/stores/indexDBStore'
 // const requests = useRequestStore() // для работы с запросами
-const indexDB = useIndexDBStore()
+// const indexDB = useIndexDBStore()
 const currentDate = ref()
 
 async function test() {

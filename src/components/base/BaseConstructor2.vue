@@ -65,6 +65,7 @@ if (props.filterData.length == 0) {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow: hidden;
 }
 
 .adaptiveGrid--setting {
@@ -88,21 +89,21 @@ legend {
   overflow: hidden;
 }
 .adaptiveGrid::before {
-  width: 40px;
+  width: 36px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -40px;
+  left: -36px;
   bottom: calc(50% + 7px);
   border-bottom: 1px solid #2c4957;
   border-left: 1px solid #2c4957;
 }
 .adaptiveGrid::after {
-  width: 40px;
+  width: 36px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -40px;
+  left: -36px;
   bottom: 0%;
   border-left: 1px solid #2c4957;
 }
@@ -113,25 +114,23 @@ legend {
 .adaptiveGrid:last-of-type::after {
   border: none;
 }
-.addBtn,
-.addBtnOne {
+
+.addBtn {
+  position: absolute;
+  top: 0px;
+  left: 0px;
   width: 30px;
   height: 30px;
   font-size: 14px;
   z-index: 2;
   background-color: #ebebeb;
 }
-.addBtn {
-  position: absolute;
-  top: -5px;
-  left: -3px;
-}
 
 .btnRemove {
   font-size: 23px;
   position: absolute;
   bottom: calc(50% - 4px);
-  left: -51px;
+  left: -47px;
   z-index: 2;
   background-color: #ebebeb;
 }

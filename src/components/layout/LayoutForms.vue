@@ -12,7 +12,7 @@
         :id="item.id"
         :key="item.id"
         elevation="5"
-        props-panel="1"
+        open-panel="1"
         bg-color="#ebebeb"
       >
         <template #title>{{ item.title }} </template>

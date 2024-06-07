@@ -26,7 +26,7 @@ const { label, dater, disabled } = defineProps({
 })
 
 const emit = defineEmits(['update:date'])
-const currentDate = ref(new Date(dater || null))
+const currentDate = ref(normalize(dater))
 
 const formatDate = computed({
   get() {
@@ -40,6 +40,14 @@ function undate() {
   emit('update:date', formatDate.value)
 }
 
+function normalize(date) {
+  if (date == '' || !date) {
+    return null
+  }
+  const array = date.split('.')
+  const normalData = array[1] + '.' + array[0] + '.' + array[2]
+  return new Date(normalData)
+}
 // watch(date, () => {
 //   console.log('sss')
 // })

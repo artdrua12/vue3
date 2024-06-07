@@ -1,107 +1,37 @@
 <template>
   <div class="layoutForms">
-    <base-panel-acordions
-      v-model:tab="currentTab"
-      class="forms-menu"
-      :data="data"
-    ></base-panel-acordions>
-
+    <base-panel-acordions v-model="data" class="forms-menu"></base-panel-acordions>
     <div class="forms-data">
       <base-panel
         v-for="item in data"
         :id="item.id"
         :key="item.id"
+        v-model:open-panel="item.openPanel"
         elevation="5"
-        props-panel="1"
         bg-color="#ebebeb"
       >
         <template #title>{{ item.title }} </template>
 
-        <div v-if="item?.tabs" class="tabsWrapper">
-          <v-tabs
-            v-model="currentTab"
-            align-tabs="right"
-            density="compact"
-            mandatory
-            style="position: sticky; top: 0px; background-color: white; z-index: 2"
-          >
-            <v-tab
-              v-for="tab in item.tabs"
-              :key="tab.id"
-              v-model="currentTab"
-              :value="tab.component"
-            >
-              {{ tab.title }}
-            </v-tab>
-          </v-tabs>
-
-          <v-window v-model="currentTab">
-            <v-window-item
-              v-for="tab in item.tabs"
-              :id="tab.id"
-              :key="tab.id"
-              :value="tab.component"
-            >
-              <component
-                :is="getComponent(tab.component)"
-                class="adaptiveGrid__padding"
-              ></component>
-              <!-- <component
-                :is="is(tab.component)"
-                class="adaptiveGrid adaptiveGrid__paddings"
-              ></component> -->
-            </v-window-item>
-          </v-window>
-        </div>
-
         <component
           :is="getComponent(item.component)"
-          v-else
-          class="adaptiveGrid__padding"
+          v-model="item.tabs"
+          v-model:tab="item.tab"
         ></component>
       </base-panel>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
 
 // Документ об оценке соответствия
-import DocumentComformity from '@/components/forms/conformityForms/document/DocumentComformity.vue'
-import VehicleDetails from '@/components/forms/conformityForms/document/VehicleDetails.vue'
-import CertificationAgency from '@/components/forms/conformityForms/document/CertificationAgency.vue'
-import DeclarerAddress from '@/components/forms/conformityForms/document/DeclarerAddress.vue'
-import ManufacturerAddress from '@/components/forms/conformityForms/document/ManufacturerAddress.vue'
-import ManufacturersRepresentativesAddress from '@/components/forms/conformityForms/document/ManufacturersRepresentativesAddress.vue'
-import AssemblyPlantAddress from '@/components/forms/conformityForms/document/AssemblyPlantAddress.vue'
-import ProviderAddress from '@/components/forms/conformityForms/document/ProviderAddress.vue'
-import ViewSpread from '@/components/forms/conformityForms/document/ViewSpread.vue'
-import MoreInformations from '@/components/forms/conformityForms/document/MoreInformations.vue'
+import DocumentRoot from '@/components/forms/conformityForms/document/DocumentRoot.vue'
 //  Базовое ТС
 import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
 // Общие характеристики транспортного средства (Шасси)
-import VehicleComposition from '@/components/forms/conformityForms/generalCharacteristics/VehicleComposition.vue'
-import VehicleRunningGearDetails from '@/components/forms/conformityForms/generalCharacteristics/VehicleRunningGearDetails.vue'
-import VehicleAxis from '@/components/forms/conformityForms/generalCharacteristics/VehicleAxis.vue'
-import DimensionsSize from '@/components/forms/conformityForms/generalCharacteristics/DimensionsSize.vue'
-import WeightCar from '@/components/forms/conformityForms/generalCharacteristics/WeightCar.vue'
-import WeightTowedTrailer from '@/components/forms/conformityForms/generalCharacteristics/WeightTowedTrailer.vue'
-import EngineCar from '@/components/forms/conformityForms/generalCharacteristics/EngineCar.vue'
-import StorageDevice from '@/components/forms/conformityForms/generalCharacteristics/StorageDevice.vue'
-import FuelCar from '@/components/forms/conformityForms/generalCharacteristics/FuelCar.vue'
-import SupplySystem from '@/components/forms/conformityForms/generalCharacteristics/SupplySystem.vue'
-import IgnitionSystem from '@/components/forms/conformityForms/generalCharacteristics/IgnitionSystem.vue'
-import NeutralizationSystem from '@/components/forms/conformityForms/generalCharacteristics/NeutralizationSystem.vue'
-import ClutchCar from '@/components/forms/conformityForms/generalCharacteristics/ClutchCar.vue'
-import TransmissionCar from '@/components/forms/conformityForms/generalCharacteristics/TransmissionCar.vue'
-import SuspensionCar from '@/components/forms/conformityForms/generalCharacteristics/SuspensionCar.vue'
-import SteerageCar from '@/components/forms/conformityForms/generalCharacteristics/SteerageCar.vue'
-import BrakeSystems from '@/components/forms/conformityForms/generalCharacteristics/BrakeSystems.vue'
-import TiresCar from '@/components/forms/conformityForms/generalCharacteristics/TiresCar.vue'
-
-
+import GeneralCharacteristicsRoot from '@/components/forms/conformityForms/generalCharacteristics/GeneralCharacteristicsRoot.vue'
 // Описание маркировки транспортного средства (Шасси)
 import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue'
 // Общий вид транспортного средства (Шасси)
@@ -117,6 +47,9 @@ const data = reactive([
   {
     title: 'Документ об оценке соответствия',
     id: '#vehicle-details',
+    component: 'DocumentRoot',
+    tab: 'DocumentComformity',
+    openPanel: '1',
     tabs: [
       {
         title: 'Документ',
@@ -173,11 +106,15 @@ const data = reactive([
   {
     title: 'Базовое ТС',
     id: '#base-vehicle',
-    component: 'BasicVehicle'
+    component: 'BasicVehicle',
+    openPanel: '1'
   },
   {
     title: 'Общие характеристики транспортного средства (Шасси)',
     id: '#vehicle-setting',
+    component: 'GeneralCharacteristicsRoot',
+    tab: 'VehicleComposition',
+    openPanel: '1',
     tabs: [
       {
         title: 'Компоновка транспортного средства',
@@ -290,79 +227,45 @@ const data = reactive([
   {
     title: 'Описание маркировки транспортного средства (Шасси)',
     id: '#description-of-vehicle-markings',
-    component: 'DescriptionOfVehicleMarkings'
+    component: 'DescriptionOfVehicleMarkings',
+    openPanel: '1'
   },
   {
     title: 'Общий вид транспортного средства (Шасси)',
     id: '#vehicle-general-form',
-    component: 'VehicleView'
+    component: 'VehicleView',
+    openPanel: '1'
   },
   {
     title: 'Документ, подтверждающий соответствие обязательным требованиям',
     id: '#confirming-document',
-    component: 'ConfirmingDocument'
+    component: 'ConfirmingDocument',
+    openPanel: '1'
   },
   {
     title: 'Перечень документов, являющихся основанием для оформления ОТТС',
     id: '#list-of-documents',
-    component: 'ListOfDocuments'
+    component: 'ListOfDocuments',
+    openPanel: '1'
     // hide: this.formModel.conformityDocKindCode === '30'
   },
   {
     title: 'История изменения документа',
     id: '#conformity-change-history',
-    component: 'HistoryDocument'
+    component: 'HistoryDocument',
+    openPanel: '1'
   }
 ])
-
-const currentTab = ref('')
 const allComponents = {
-  DocumentComformity,
-  VehicleDetails,
-  CertificationAgency,
-  DeclarerAddress,
-  ManufacturerAddress,
-  ManufacturersRepresentativesAddress,
-  AssemblyPlantAddress,
-  ProviderAddress,
-  ViewSpread,
-  MoreInformations,
-
+  DocumentRoot,
   BasicVehicle,
-
-  VehicleComposition,
-  VehicleRunningGearDetails,
-  VehicleAxis,
-  DimensionsSize,
-  WeightCar,
-  WeightTowedTrailer,
-  EngineCar,
-  StorageDevice,
-  FuelCar,
-  SupplySystem,
-  IgnitionSystem,
-  NeutralizationSystem,
-  ClutchCar,
-  TransmissionCar,
-  SuspensionCar,
-  SteerageCar,
-  BrakeSystems,
-  TiresCar,
-
+  GeneralCharacteristicsRoot,
   DescriptionOfVehicleMarkings,
   VehicleView,
   ConfirmingDocument,
   ListOfDocuments,
   HistoryDocument
 }
-
-// function is(type) {
-//   if (!type) {
-//     console.log('______________no_____________')
-//     return
-//   }
-//   return defineAsyncComponent(() => import(`@/components/forms/conformityForms/${type}.vue`))
-// }
 function getComponent(type) {
   return allComponents[type]
 }
@@ -397,20 +300,21 @@ function getComponent(type) {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 20px;
+  padding: 10px 25px 15px 25px;
   overflow: hidden;
 }
-.tabsWrapper {
+/* .tabsWrapper {
   display: grid;
   grid-template-columns: 1fr;
   min-height: 85vh;
+  min-height: 50vh;
   align-content: flex-start;
-}
+} */
 ::v-deep .v-btn__content {
   white-space: pre-wrap;
   padding: 5px 0px;
 }
-.adaptiveGrid__padding {
-  padding: 14px 24px 10px 24px;
-}
+/* .adaptiveGrid__padding {
+  padding: 0px 24px 10px 24px;
+} */
 </style>

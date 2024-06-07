@@ -8,7 +8,7 @@
     ></v-btn>
     <div class="panel-menu">
       <BasePanelAcordions
-        :props-panel="data"
+        :open-panel="data"
         :tab="tab"
         @update:tab="tab = $event"
       ></BasePanelAcordions>
@@ -22,7 +22,7 @@
         :id="item.title"
         :key="item.title"
         elevation="5"
-        props-panel="1"
+        open-panel="1"
         bg-color="#ebebeb"
       >
         <template #title>{{ item.title }} </template>

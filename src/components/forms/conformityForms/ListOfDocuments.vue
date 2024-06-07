@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pa-7">
     <v-btn
       class="mb-2"
       color="#546e7a"
@@ -16,7 +16,6 @@
       icon="mdi-file-document-plus-outline"
       :ok-function="addOrEdit"
     >
-      <v-btn @click="test">TEST</v-btn>
       <div class="modalSize">
         <base-autocomplete
           v-model="modalItem.technicalRegulationObjectKindCode"
@@ -195,10 +194,6 @@ function editItem(item) {
   currentIndex.value = items.value.indexOf(item) // выставляем значение текущего индекса на редактирование (index > 0)
   modalItem.value = JSON.parse(JSON.stringify(item))
   isOpen.value = true //открываем модальное окно
-}
-
-function test() {
-  console.log('modalItem.value', modalItem.value)
 }
 
 function deleteItem(item) {

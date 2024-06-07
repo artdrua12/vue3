@@ -46,7 +46,8 @@
             class="full"
           ></base-autocomplete>
 
-          <base-constructor-2
+          <base-constructor
+            v-slot="props3"
             v-model="props2.item.stageDetails"
             :filter-data="props2.item.stageDetails"
             :default-data="
@@ -54,36 +55,33 @@
                 .stageDetails[0]
             "
             class="full"
+            label="Ступень"
           >
-            <template #label="props3">{{ `Ступень ${props3.index + 1}` }}</template>
-            <template #default="props3">
-              <base-textfield
-                :value="`Ступень ${props3.index + 1}`"
-                label="Номер ступени"
-                disabled
-                class="span6"
-              ></base-textfield>
+            <base-textfield
+              v-model="props3.item.vehicleComponentStageNumber"
+              label="Номер ступени"
+              class="span6"
+            ></base-textfield>
 
-              <base-textfield
-                v-model="props3.item.vehicleComponentMakeName"
-                label="Марка"
-                class="span6"
-              ></base-textfield>
+            <base-textfield
+              v-model="props3.item.vehicleComponentMakeName"
+              label="Марка"
+              class="span6"
+            ></base-textfield>
 
-              <base-combobox
-                v-model="props3.item.vehicleComponentMarking"
-                label="Маркировка"
-                class="full"
-              ></base-combobox>
+            <base-combobox
+              v-model="props3.item.vehicleComponentMarking"
+              label="Маркировка"
+              class="full"
+            ></base-combobox>
 
-              <base-autocomplete
-                v-if="props2.item.vehicleComponentName === 'глушитель'"
-                v-model="props3.item.vehicleComponentType"
-                label="Тип"
-                :items="NSI_119"
-              ></base-autocomplete>
-            </template>
-          </base-constructor-2>
+            <base-autocomplete
+              v-if="props2.item.vehicleComponentName === 'глушитель'"
+              v-model="props3.item.vehicleComponentType"
+              label="Тип"
+              :items="NSI_119"
+            ></base-autocomplete>
+          </base-constructor>
         </base-constructor>
       </base-constructor>
     </base-is-missing>

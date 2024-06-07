@@ -7,7 +7,7 @@
       @click="isOpen = true"
     ></v-btn>
     <div class="panel-menu">
-      <BasePanelAcordions :props-panel="data"></BasePanelAcordions>
+      <BasePanelAcordions :open-panel="data"></BasePanelAcordions>
       <v-btn @click="testGreen">TEST green</v-btn>
       <v-btn @click="testRed">TEST red</v-btn>
     </div>
@@ -18,7 +18,7 @@
         :id="item.title"
         :key="item.title"
         elevation="5"
-        props-panel="1"
+        open-panel="1"
         bg-color="#ebebeb"
       >
         <template #title>Panel Title {{ item.title }}</template>
@@ -31,7 +31,7 @@
             :id="itm"
             :key="itm"
             elevation="2"
-            props-panel="1"
+            open-panel="1"
             color="#2c4957"
             bg-color="#dbdbdb"
           >

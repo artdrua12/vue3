@@ -1,6 +1,6 @@
 <template>
   <div class="layoutPages">
-    <base-panel class="baseSearch" elevation="3" props-panel="1">
+    <base-panel class="baseSearch" elevation="3" open-panel="1">
       <template #title>{{ props.title }}</template>
       <div class="layoutPagesForm">
         <component
@@ -71,7 +71,7 @@
       </div>
     </base-panel>
     <div class="base-action elevation-5">
-      <base-panel props-panel="1">
+      <base-panel open-panel="1">
         <template #title>Выбор действия</template>
         <base-threeview :selected="tableRowSelect"></base-threeview>
       </base-panel>

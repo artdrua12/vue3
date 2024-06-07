@@ -68,7 +68,7 @@ if (props.filterData.length == 0) {
 
 .adaptiveGrid--setting {
   overflow: visible;
-  background-color: rgba(246, 194, 160, 0.122);
+  background-color: rgba(173, 178, 180, 0.122);
   border: 1px solid #2c4957;
   border-radius: 4px;
   padding: 25px 24px 10px 24px;
@@ -87,21 +87,21 @@ legend {
   overflow: hidden;
 }
 .adaptiveGrid::before {
-  width: 37px;
+  width: 36px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -37px;
+  left: -36px;
   bottom: calc(50% + 7px);
   border-bottom: 1px solid #2c4957;
   border-left: 1px solid #2c4957;
 }
 .adaptiveGrid::after {
-  width: 37px;
+  width: 36px;
   height: 100%;
   content: '';
   position: absolute;
-  left: -37px;
+  left: -36px;
   bottom: 0%;
   border-left: 1px solid #2c4957;
 }
@@ -127,8 +127,8 @@ legend {
 .btnRemove {
   font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 5px);
-  left: -49px;
+  bottom: calc(50% - 4px);
+  left: -47px;
   z-index: 2;
   background-color: #ebebeb;
 }

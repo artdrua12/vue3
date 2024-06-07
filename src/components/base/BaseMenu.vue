@@ -65,22 +65,19 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр СБКТС',
-        to: '/conformities',
-        // to: '/vehicle-safety-certificate',
+        to: '/vehicle-safety-certificate',
         permission: 'Доступ к реестру СБКТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр сертификатов соответствия',
-        to: '/conformities',
-        // to: '/powered-machines-certificates',
+        to: '/powered-machines-certificates',
         permission: 'Доступ к реестру сертификатов соответствия (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр деклараций о соответствии',
-        to: '/conformities',
-        // to: '/powered-machines-declarations',
+        to: '/powered-machines-declarations',
         permission: 'Доступ к реестру деклараций соответствия (осуществление поиска)'
       }
     ]
@@ -93,15 +90,13 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов ТС',
-        to: '/conformities',
-        // to: '/epassports',
+        to: '/epassports',
         permission: 'Доступ к реестру электронных паспортов ТС (осуществление поиска)'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр электронных паспортов CМ',
-        to: '/conformities',
-        // to: '/powered-machines-epassports',
+        to: '/powered-machines-epassports',
         permission: 'Доступ к реестру электронных паспортов СМ (осуществление поиска)'
       },
       {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pa-7">
       <v-data-table :headers="headers" :items="items" hide-default-footer>
         <template #[`item.actions`]="{ item }">
           <div style="display: flex; justify-content: space-between">

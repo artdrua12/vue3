@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <div class="adaptiveGrid pa-7">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notBaseVehicleDetails"
       v-model:data="shema.vehicleVariantDetails[0].baseVehicleDetails"
