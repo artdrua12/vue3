@@ -84,7 +84,7 @@ export const conformityRules = {
     return true;
   },
   vehicleComponentLocationText: value => {
-    if (value.length == []) return `Поле "Расположение двигателя" обязательно к заполнению`;
+    if (value?.length == []) return `Поле "Расположение двигателя" обязательно к заполнению`;
     return true;
   },
   vehicleBodyworkType: value => {

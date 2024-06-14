@@ -4,12 +4,13 @@
     :label="props.label"
     variant="outlined"
     density="compact"
-    class="base"
+    rows="1"
     :rules="props.rules"
     bg-color="white"
     dirty
     auto-grow
     clearable
+    prepend-inner-icon="mdi-comment-outline"
     @keyup.enter="onEnter"
   ></v-textarea>
 </template>
@@ -32,5 +33,3 @@ function onEnter() {
   emit('update:enter')
 }
 </script>
-<!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplete и другие с классом base, родные vuetify не изменяются  -->
-<style scoped></style>

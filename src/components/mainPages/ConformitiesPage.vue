@@ -324,7 +324,8 @@ const actions = [
     enabled: {
       notEmptyAndStatus: ['Черновик'],
       permission: ['Редактировать документ ОТТС (ОТШ)']
-    }
+    },
+    action: (id) => route.push(`/conformities/forms/${id}`)
   },
   // решение до реализации заявлений!!
   {
@@ -466,7 +467,7 @@ async function find(obj) {
       size: obj.size
     }
   }
-  const res = await requests.post('/api/otts/docDetails/modification/search', body)
+  const res = (await requests.post('/api/otts/docDetails/modification/search', body)) || []
 
   tableDataFromResponse.value = res
 }
@@ -475,4 +476,4 @@ useGetAutocompliteData({ ...fields, ...fieldsMore })
 </script>
 
 <style scoped></style>
-./Composable./composable
+

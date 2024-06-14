@@ -113,7 +113,7 @@
       title="Настройки"
       ok-title="Снять все выделения"
       :ok-function="removeActiveCheckboxes"
-      :is-close-after-click= false
+      :is-close-after-click="false"
       cancel-title="применить"
     >
       <div>
@@ -329,7 +329,8 @@ function removeActiveCheckboxes() {
   }
 }
 function checkClass(item) {
-  console.log('item', item)
+  item ? '' : console.log('no item')
+
   if (!pathToStatus) return ''
   const status = eval(`item.${pathToStatus}`)
   if (status === 'Действующий') return 'greenText'

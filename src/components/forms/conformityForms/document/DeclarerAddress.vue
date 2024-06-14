@@ -16,7 +16,7 @@
     ></base-autocomplete>
 
     <base-autocomplete
-      v-if="shema.applicantDetails.businessEntityBriefNames.length > 1"
+      v-if="shema.applicantDetails?.businessEntityBriefNames?.length > 1"
       v-model="shema.applicantDetails.businessEntityBriefName"
       label="Краткое наименование изготовителя"
       item-text="businessEntityBriefName"

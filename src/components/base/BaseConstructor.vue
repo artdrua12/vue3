@@ -19,7 +19,7 @@
           {{ props.label }}
         </slot>
       </legend>
-      <slot :index="index" :item="item" ></slot>
+      <slot :index="index" :item="item"></slot>
 
       <slot name="btnRemove" :index="index" :item="item">
         <v-icon
@@ -38,7 +38,7 @@
 const data = defineModel({ type: [Array, Object, String], required: true })
 const props = defineProps({
   label: { type: String, default: '' },
-  defaultData: { type: [Array, Object, String], required: true },
+  defaultData: { type: [Array, Object, String], required: true }, // значения которые добавляем по умолчанию
   filterData: { type: [Array, Object, String], required: true }, //отфильтрованные значения из data
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
@@ -50,7 +50,12 @@ function remove(item) {
   const index = data.value.findIndex((dataItem) => dataItem == item)
   data.value.splice(index, 1)
 }
-if (props.filterData.length == 0) {
+// если массив не приходит, заменяем тогда дефолтным значением
+if (!props.filterData) {
+  data.value = [JSON.parse(JSON.stringify(props.defaultData))]
+}
+// если массив пустой
+if (props.filterData && props.filterData?.length == 0) {
   add()
 }
 </script>

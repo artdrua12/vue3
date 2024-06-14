@@ -43,6 +43,35 @@ import ListOfDocuments from '@/components/forms/conformityForms/ListOfDocuments.
 // История изменения документа
 import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vue'
 
+import { useRoute } from 'vue-router'
+import { useRequestStore } from '@/stores/requestStore'
+import shema from '@/components/forms/conformityForms/shema'
+
+const requests = useRequestStore()
+const route = useRoute()
+
+if (route.params.id) {
+  asd().then((item) => {
+    const shemaNew = Object.assign(shema, item)
+    console.log('_____________shemaNew', shemaNew)
+
+    const images = shema.vehicleTypeDetails.vehiclePicture
+
+    for (let i = 0; i < images.length; i++) {
+      gettingURLImg(images.fileName).then((url) => {
+        images[i].value = 'data:image/jpeg;base64,' + url
+      })
+    }
+  })
+}
+async function asd() {
+  return await requests.get(`/api/otts/docDetails/search/${route.params.id}`)
+}
+
+async function gettingURLImg(nameImg = 'stage/3994.png') {
+  return await requests.postText('/api/storage/image/get', { fileName: nameImg })
+}
+
 const data = reactive([
   {
     title: 'Документ об оценке соответствия',

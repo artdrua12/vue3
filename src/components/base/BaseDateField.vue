@@ -2,7 +2,7 @@
   <div>
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <BaseTextfield v-bind="props" v-model="formatDate" :label="label" :disabled="disabled">
+        <BaseTextfield v-bind="props" v-model="textDate" :label="label" :disabled="disabled">
         </BaseTextfield>
       </template>
       <v-date-picker
@@ -16,47 +16,37 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from 'vue'
+import { ref, defineProps } from 'vue'
 
 import BaseTextfield from './BaseTextfield.vue'
-const { label, dater, disabled } = defineProps({
+const { label, disabled } = defineProps({
   label: { type: String, default: '' },
-  dater: { type: String, default: '' },
   disabled: { type: Boolean, default: false }
 })
 
-const emit = defineEmits(['update:date'])
-const currentDate = ref(normalize(dater))
+const textDate = defineModel({ type: String })
+let currentDate = ref(toIsoFormat(textDate)) //toIsoFormat(textDate)
 
-const formatDate = computed({
-  get() {
-    return currentDate.value ? currentDate.value.toLocaleDateString() : null
-  },
-  set(value) {
-    currentDate.value = value
-  }
-})
 function undate() {
-  emit('update:date', formatDate.value)
+  textDate.value = currentDate.value.toLocaleString('fr-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
 }
 
-function normalize(date) {
-  if (date == '' || !date) {
+function toIsoFormat(textDate) {
+  if (textDate.value == '' || !textDate.value) {
     return null
   }
-  const array = date.split('.')
-  const normalData = array[1] + '.' + array[0] + '.' + array[2]
-  return new Date(normalData)
+  return new Date(textDate.value)
 }
-// watch(date, () => {
-//   console.log('sss')
-// })
 </script>
 
 <!-- <template>
   <div>
     <BaseTextfield
-      :value="formatDate"
+      :value="textDate"
       :label="props.label"
       :disabled="props.disabled"
       @click="show = true"
@@ -86,7 +76,7 @@ const props = defineProps({
 
 const show = ref(false)
 const currentDate = ref(props.date)
-const formatDate = computed(() =>
+const textDate = computed(() =>
   currentDate.value ? dateUtils.format(currentDate.value, 'keyboardDate') : null
 )
 </script> -->
@@ -95,7 +85,7 @@ const formatDate = computed(() =>
   <div>
     <v-menu :close-on-content-click="false">
       <template #activator="{ props }">
-        <BaseTextfield v-bind="props" v-model="formatDate" :label="label" :disabled="disabled">
+        <BaseTextfield v-bind="props" v-model="textDate" :label="label" :disabled="disabled">
         </BaseTextfield>
       </template>
       <v-date-picker
@@ -120,7 +110,7 @@ const emit = defineEmits(['update:date'])
 const currentDate = defineModel({
   type: Date
 })
-const formatDate = computed({
+const textDate = computed({
   get() {
     return currentDate.value ? currentDate.value.toLocaleDateString() : null
   },
@@ -129,6 +119,6 @@ const formatDate = computed({
   }
 })
 function undate() {
-  emit('update:date', formatDate.value)
+  emit('update:date', textDate.value)
 }
 </script>  -->

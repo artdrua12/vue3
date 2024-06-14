@@ -52,5 +52,31 @@ export const useRequestStore = defineStore('request', () => {
     }
   }
 
-  return { get, post }
+  async function postText(url, body) {
+    try {
+      const response = await fetch(BASE_URL + url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+          'API-Key': 'secret'
+        },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      })
+
+      if (response.ok) {
+        return await response.text()
+      } else {
+        throw new Error(response.status)
+      }
+    } catch (error) {
+      const snack = useSnackStore()
+      snack.setSnack({ text: 'Ошибка сети ', type: 'error' })
+      return null
+    }
+  }
+
+  return { get, post, postText }
 })

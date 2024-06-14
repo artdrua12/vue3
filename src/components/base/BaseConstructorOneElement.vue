@@ -25,21 +25,27 @@
 </template>
 
 <script setup>
-const data = defineModel({ type: Array, required: true }) // место куда вставляем данные
+const data = defineModel({ type: [Array, null], required: true }) // место куда вставляем данные
 const props = defineProps({
-  defaultData: { type: String, default: ' ' },
+  defaultData: { type: String, default: '' },
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
 function add() {
-  data.value.push(JSON.parse(JSON.stringify(props.defaultData)))
+  data.value.push(props.defaultData)
 }
 function remove(item) {
   const index = data.value.findIndex((dataItem) => dataItem == item)
   data.value.splice(index, 1)
 }
+if (!data.value) {
+  // если у нас поле не массив то создаем массив
+  data.value = []
+}
+
 if (data.value.length == 0) {
-  add()
+  // если у нас поле не массив то заполняем дефолтными значениями
+ add()
 }
 </script>
 

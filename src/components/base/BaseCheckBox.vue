@@ -46,7 +46,7 @@ const props = defineProps({
 //   emit('update:value', checkbox.value)
 // }
 </script>
-
+<!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplete и другие с классом base, родные vuetify не изменяются  -->
 <style>
 .base.v-checkbox .v-selection-control {
   min-height: 20px;
@@ -55,7 +55,7 @@ const props = defineProps({
   display: flex;
 }
 .base .v-selection-control .v-label {
-  font-weight: 600;
+  font-weight: 400;
   color: #031f2d;
   font-size: 16px;
 

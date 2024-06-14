@@ -14,6 +14,7 @@ html {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
   grid-gap: 12px 20px;
   /* grid-auto-flow: dense; */
   border: none;
@@ -52,3 +53,22 @@ html {
   text-transform: uppercase;
   padding: 15px 0px 10px 0px;
 }
+
+/* цвет label, кроме textarea */
+.v-label {
+  opacity: 1;
+  color: #344b57;
+  font-size: 13px;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+/* нерозрачность полей в состоянии disabled */
+.base .v-field--disabled {
+  opacity: 0.52;
+}
+
+/* .v-input__details {
+  min-height: 10px;
+  padding-top: 0px;
+  white-space: nowrap;
+} */

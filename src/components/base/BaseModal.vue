@@ -1,9 +1,9 @@
 <template>
   <teleport to="#port">
     <div v-if="isOpen" class="modal-wrapper">
-      <slot v-if="isEmpty"></slot>
+      <!-- <slot v-if="isEmpty"></slot> -->
 
-      <div v-else class="modal">
+      <div class="modal">
         <div class="modal-title">
           <p><v-icon :icon="props.icon"></v-icon> &nbsp;{{ props.title }}</p>
           <v-btn icon="mdi-window-close" variant="text" @click="close"> </v-btn>
@@ -38,15 +38,15 @@
 import { defineEmits } from 'vue'
 const props = defineProps({
   // если empty true то отобращаем без рамоки, заголовка и кнопок
-  isEmpty: {
-    type: Boolean,
-    default: false
-  },
+  // isEmpty: {
+  //   type: Boolean,
+  //   default: false
+  // },
   title: {
     type: String,
     default: ''
   },
-  //название кнопки 
+  //название кнопки
   okTitle: {
     type: String,
     default: 'OK'
@@ -101,18 +101,6 @@ function ok() {
   margin: auto;
   max-width: 96vw;
   max-height: 96vh;
-} */
-/* .img {
-  width: 100%;
-  height: 100%;
-  background-color: antiquewhite;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.but {
-  background-color: aqua;
-  height: 80px;
 } */
 .modal-wrapper {
   position: fixed;

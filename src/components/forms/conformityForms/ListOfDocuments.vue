@@ -40,24 +40,21 @@
         ></base-textfield>
 
         <base-datefield
-          :dater="modalItem.updateDateTime"
+          v-model="modalItem.updateDateTime"
           label="Дата документа*"
           class="span6"
-          @update:date="modalItem.updateDateTime = $event"
         ></base-datefield>
 
         <base-datefield
-          :dater="modalItem.validityPeriodDetails.startDateTime"
+          v-model="modalItem.validityPeriodDetails.startDateTime"
           label="Срок действия с*"
           class="span3"
-          @update:date="modalItem.validityPeriodDetails.startDateTime = $event"
         ></base-datefield>
 
         <base-datefield
-          :dater="modalItem.validityPeriodDetails.endDateTime"
+          v-model="modalItem.validityPeriodDetails.endDateTime"
           label="Срок действия по*"
           class="span3"
-          @update:date="modalItem.validityPeriodDetails.endDateTime = $event"
         ></base-datefield>
 
         <base-autocomplete
@@ -135,22 +132,7 @@ const defaultItem = {
     endDateTime: ''
   }
 }
-const items = ref([
-  {
-    technicalRegulationObjectKindCode: '',
-    docName: 'fgvadfsg',
-    docNumber: 'fgafgfsg',
-    updateDateTime: '12.05.2024',
-    businessEntity: {
-      unifiedCountry: '',
-      businessEntityName: ''
-    },
-    validityPeriodDetails: {
-      startDateTime: '12.06.2024',
-      endDateTime: '12.07.2024'
-    }
-  }
-])
+const items = ref([])
 const headers = ref([
   {
     title: 'Объекты технического регулирования',

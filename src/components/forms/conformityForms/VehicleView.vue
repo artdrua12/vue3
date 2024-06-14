@@ -1,5 +1,5 @@
 <template>
-  <div class="baseFile pa-3 ">
+  <div class="baseFile pa-3">
     <div class="dropbox" @dragenter="stopPrevent" @dragover="stopPrevent" @drop="drop">
       <label
         ><v-icon icon="mdi-camera-outline" size="50px" class="dropboxIntro"></v-icon>
@@ -14,9 +14,9 @@
     </div>
 
     <div v-for="(item, index) in images" :key="index" style="position: relative">
-      <span class="imgTitle">{{ item.file.name }}</span>
-      <img :src="item.url" class="img" @click="openModal(index)" />
-      <span class="imgSize">{{ Math.ceil(item.file.size / 1000) }} Kb</span>
+      <span class="imgTitle">{{ item.fileName }}</span>
+      <img :src="item.value" class="img" @click="openModal(index)" />
+      <!-- <span class="imgSize">{{ Math.ceil(item.file.size / 1000) }} Kb</span> -->
       <v-icon
         icon="mdi-delete-empty"
         color="red"
@@ -26,8 +26,7 @@
       ></v-icon>
     </div>
 
-    <base-modal v-model:isOpen="isOpen" :is-empty="true" :title="images[currentIndex]?.file?.name">
-      <!-- <img ref="modalImg" :src="images[currentIndex]?.url" class="modalImg" @click="closeModal" /> -->
+    <!-- <base-modal v-model:isOpen="isOpen" :is-empty="true">
       <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
 
       <div class="modalButtons">
@@ -35,30 +34,41 @@
         <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
         <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
       </div>
-    </base-modal>
+    </base-modal> -->
+
+    <v-dialog v-model="isOpen" fullscreen hide-overlay transition="dialog-top-transition">
+      <div class="modal-wrapper">
+        <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
+
+        <div class="modalButtons">
+          <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)">
+          </v-btn>
+          <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
+          <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)">
+          </v-btn>
+        </div>
+      </div>
+    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, nextTick } from 'vue'
-import BaseModal from '@/components/base/BaseModal.vue'
+import { ref, nextTick, computed } from 'vue'
+import shema from './shema'
 
 const modalCanvas = ref(null) // canvas который находится в модальном окне
-const images = ref([]) // массив картинок
 const isOpen = ref(false)
 const currentIndex = ref()
 const scale = ref(1)
 
-watch(isOpen, (isOpen) => {
-  if (isOpen) {
-    initCanvas()
-  }
+const images = computed(() => {
+  return shema.vehicleTypeDetails.vehiclePicture
 })
 
 function rotate(angle) {
   let canvas = modalCanvas.value
   let context = canvas.getContext('2d')
-  let canvasImg = canvas.toDataURL('image/jpeg')
+  let canvasImg = canvas.toDataURL()
 
   let img = new Image()
   img.src = canvasImg
@@ -100,9 +110,7 @@ function onwheel(e) {
 function closeModal() {
   // передаем новые координаты в массив картинок
   let canvas = modalCanvas.value
-  let canvasImg = canvas.toDataURL('image/jpeg') || images.value[currentIndex.value].url
-  canvasImg = canvas.toDataURL('image/jpeg')
-  images.value[currentIndex.value].url = canvasImg
+  images.value[currentIndex.value].value = canvas.toDataURL()
   scale.value = 1
   isOpen.value = false
 }
@@ -110,14 +118,25 @@ function closeModal() {
 function uploadFile(files) {
   if (!files) return
   for (let i = 0; i < files.length; i++) {
-    let link = URL.createObjectURL(files[i])
-    images.value.push({ url: link, file: files[i] })
-    // URL.revokeObjectURL(link)
+    // let urlBase64 = URL.createObjectURL(files[i])
+
+    const reader = new FileReader()
+    reader.readAsDataURL(files[i])
+    reader.onloadend = () => {
+      images.value.push({
+        fileName: files[i].name,
+        value: reader.result,
+        isLoadedInStorage: true,
+        isNeedToDelete: false
+      })
+    }
   }
 }
+
 function openModal(index) {
   isOpen.value = !isOpen.value
   currentIndex.value = index
+  initCanvas()
 }
 
 async function initCanvas() {
@@ -131,7 +150,7 @@ async function initCanvas() {
     canvas.height = img.naturalHeight
     context.drawImage(img, 0, 0)
   }
-  img.src = images.value[currentIndex.value].url
+  img.src = images.value[currentIndex.value].value
   context.closePath()
 }
 
@@ -180,6 +199,7 @@ function removingImg(index) {
   color: #2c4957;
 }
 .img {
+  max-width: 100%;
   height: 120px;
   object-fit: contain;
   border-radius: 10px;
@@ -194,15 +214,15 @@ function removingImg(index) {
 }
 .imgSize {
   position: relative;
-  bottom: 6px;
-  left: 0px;
+  bottom: -12px;
+  left: -80%;
   font-size: 12px;
   font-weight: 500;
 }
 .imgDelete {
-  position: absolute;
-  bottom: 20px;
-  right: -18px;
+  position: relative;
+  bottom: 0px;
+  left: 0px;
 }
 .modalImg {
   border: 4px solid white;

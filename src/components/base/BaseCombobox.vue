@@ -1,5 +1,6 @@
 <template>
   <v-combobox
+    v-model="value"
     :label="props.label"
     :items="props.items"
     :item-title="props.itemText"
@@ -27,12 +28,12 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['update:enter'])
+const value = defineModel({ type: [Array, String] })
 
 const props = defineProps({
   label: { type: String, default: '' },
   itemValue: { type: String, default: '' },
   itemText: { type: String, default: '' },
-  value: { type: [String, Array], default: '' },
   items: {
     type: Array,
     default() {

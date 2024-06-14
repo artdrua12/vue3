@@ -38,6 +38,7 @@ function openPanel(item) {
 }
 
 function updateTab(item, itm) {
+  // console.log('item, itm', item, itm)
   item.tab = itm.component
 }
 </script>

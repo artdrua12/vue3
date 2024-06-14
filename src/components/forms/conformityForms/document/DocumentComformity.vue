@@ -30,14 +30,14 @@
       v-if="shema.conformityDocKindCode === '30'"
       v-model="shema.docCreationDate"
       label="Дата оформления бумажного ОТТС"
-      class="span3"
+      class="span6"
     ></base-datefield>
 
     <base-datefield
       v-if="shema.conformityDocKindCode === '35'"
       v-model="shema.docCreationDate"
       label="Дата оформления бумажного ОТШ"
-      class="span3"
+      class="span6"
     ></base-datefield>
 
     <base-datefield

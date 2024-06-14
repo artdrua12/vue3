@@ -21,7 +21,7 @@
       ></base-autocomplete>
 
       <base-autocomplete
-        v-if="shema.vehicleManufacturerDetails[props.index].businessEntityBriefNames.length > 1"
+        v-if="shema.vehicleManufacturerDetails[props.index].businessEntityBriefNames?.length > 1"
         v-model="shema.businessEntityBriefName"
         label="Краткое наименование изготовителя"
         item-text="businessEntityBriefName"
@@ -111,7 +111,7 @@ const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
- 
+
 const filterData = computed(() =>
   shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '05')
 )
@@ -153,11 +153,13 @@ async function load() {
   NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
   NSI_042.value = (await indexDB.getFromDatabase('catalog', 'NSI_042')) || []
   NSI_310.value = (await indexDB.getFromDatabase('catalog', 'NSI_310')) || []
-  const fullAutority = (await requests.get('/api/manufacturer-registry/all')) || []
+  let fullAutority = (await requests.get('/api/manufacturer-registry/all')) || []
 
-  authority.value = fullAutority.filter(
-    (e) => e.vehicleManufacturerKindCode && e.vehicleManufacturerKindCode.includes('30')
-  )
+
+    authority.value = fullAutority.filter(
+      (e) => e.vehicleManufacturerKindCode && e.vehicleManufacturerKindCode.includes('30')
+    )
+  
 }
 load()
 </script>

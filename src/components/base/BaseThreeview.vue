@@ -84,7 +84,7 @@ let actionsFiltered = computed(() => {
 function runAction(item) {
   try {
     const funActions = item.action
-    funActions()
+    funActions(props.selected.id)
   } catch {
     console.log('Ошибка при выполнении действия')
   }

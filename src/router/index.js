@@ -31,6 +31,15 @@ const router = createRouter({
             { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
           ],
           name: 'create'
+        },
+        {
+          path: 'forms/:id',
+          component: () => import('@/components/forms/conformityForms/RootForms.vue'),
+          meta: [
+            { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
+            { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
+          ],
+          name: 'edit'
         }
       ]
     },

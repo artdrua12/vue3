@@ -66,11 +66,12 @@
         )
       "
       label="Расположение двигателя*"
-      :items="vehicleComponentLocationText"
+      :items="NSI_047"
       :model="shema.vehicleVariantDetails[0].vehicleComponentLocationText"
       multiple
       :rules="[conformityRules.vehicleComponentLocationText]"
       max-length="1000"
+      class="full"
     ></base-autocomplete>
   </div>
 </template>
@@ -92,10 +93,12 @@ const conformityDocKindCodeis35 = computed(() => {
   return shema.conformityDocKindCode === '35'
 })
 const NSI_017 = ref([])
+const NSI_047 = ref([])
 const NSI_050 = ref([])
 
 async function load() {
   NSI_017.value = await indexDB.getFromDatabase('catalog', 'NSI_017') || []
+  NSI_047.value = await indexDB.getFromDatabase('catalog', 'NSI_047') || []
   NSI_050.value = await indexDB.getFromDatabase('catalog', 'NSI_050') || []
 }
 load()
