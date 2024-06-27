@@ -29,7 +29,7 @@
       <base-textfield
         v-model="props.item.vehicleTyreKindSize"
         label="Обозначение размера*"
-        :validators="[conformityRules.vehicleTyreKindSize]"
+        :rules="[conformityRules.vehicleTyreKindSize]"
         class="span6"
       ></base-textfield>
 
@@ -112,7 +112,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -121,7 +121,9 @@ import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 
+const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_033 = ref([])
 const NSI_039 = ref([])

@@ -118,7 +118,7 @@
     >
       <div>
         <base-checkbox
-          v-for="(item, index) in additionalTableHeaders"
+          v-for="(item, index) in additionalHeaders"
           :key="index"
           v-model="item.model"
           :label="item.text"
@@ -128,32 +128,32 @@
     </base-modal>
 
     <div class="pagination">
-      <span class="itemBottom">
+      <div class="itemBottom">
         <span>Строк на странице</span>
         <div class="pagination-select">
-          <input
-            :value="props.size"
-            readonly
-            class="pagination-select__input"
-            @click="show = true"
-          />
-          <div v-show="show" role="listbox" class="pagination-select__listbox">
+          <input :value="size" readonly class="pagination-select__input" @click="showSize = true" />
+          <div v-show="showSize" role="listbox" class="pagination-select__listbox">
             <div
               v-for="item in sizes"
               :key="item"
               role="option"
               class="pagination-select__option"
-              :class="{ active: item == props.size }"
+              :class="{ active: item == size }"
               @click="modificationSize(item)"
             >
               {{ item }}
             </div>
           </div>
         </div>
-      </span>
+      </div>
 
-      <span v-if="tableData.length > 0">{{ page + 1 }} из {{ countPage }} </span>
-      <span v-else> &mdash; </span>
+      <div class="itemBottom">
+        <span v-if="tableData.length > 0">
+          {{ countNotesStart }}-{{ countNotesEnd }} из {{ totalCount }}
+        </span>
+        <span v-else> &mdash; </span>
+      </div>
+
       <span class="itemBottom">
         <v-btn
           class="pagination-icon"
@@ -196,39 +196,53 @@
 </template>
 
 <script setup>
-import { reactive, ref, defineEmits, inject, onMounted, defineProps, computed } from 'vue'
+import { reactive, ref, defineEmits, onMounted, defineProps, computed } from 'vue'
 import BaseCheckbox from './BaseCheckbox.vue'
 import BaseModal from './BaseModal.vue'
+
+const props = defineProps({
+  pathToStatus: { type: String, required: true }, // путь для статуса
+  tableHeaders: { type: Array, required: true }, // массив заголовков таблицы
+  additionalTableHeaders: { type: Array, required: true }, // дополнительный массив заголовков таблицы при вызове меню "Настройки"
+  // данные для таблицы + данные пагинации
+  tableDataAndPagination: {
+    type: Object,
+    default() {
+      return { result: [] }
+    }
+  }
+})
+
 const isOpen = ref(false) // модальное окно "Настройки"
 const tableRowSelectedID = ref('') // id выбранной строки
-const show = ref(false)
+const showSize = ref(false) //открытие меню выбора количества строк таблицы на одной странице
 const sizes = [5, 10, 15, 20, 50]
 const fixHeader = reactive([]) //фиксированые заголовки
 
-const additionalTableHeaders = reactive(
-  JSON.parse(JSON.stringify(inject('additionalTableHeaders'))) // создаем локальное свойство, напрямую изменять inject нельзя
-)
-const emit = defineEmits(['find', 'update:tableRowSelect', 'update:size', 'update:page'])
+let header = reactive(JSON.parse(JSON.stringify(props.tableHeaders))) //заголовки для таблицы
+// дополнительные заголовки для таблицы при открытии модального окна "Настройки"
+const additionalHeaders = reactive(JSON.parse(JSON.stringify(props.additionalTableHeaders)))
+
+const emit = defineEmits(['find', 'update:tableRowSelect'])
 const tableHeaderKey = ref(0) // ключ который меняется для перерисовки заголовка таблицы
-const pathToStatus = inject('pathToStatus') //путь к статусу
-const props = defineProps({
-  size: { type: Number, required: true }, //количество строк на одной странице
-  page: { type: Number, required: true } // текущая страница
-  // tableRowSelect: { type: Object, default: {} } // выбранная строка из таблицы
+let size = defineModel('size', { type: Number, required: true }) //количество строк на одной странице
+let page = defineModel('page', { type: Number, required: true }) // текущая страница
+const tableRowSelect = defineModel('tableRowSelect', { type: Object, required: true }) // выбранная строка таблицы
+// количество записей при текущей страницы пагинации(начало отрезка)
+const countNotesStart = computed(() => {
+  const count = page.value * size.value
+  return count == 0 ? 1 : count
 })
-
-const tableHeaders = inject('tableHeaders')
-let header = reactive(JSON.parse(JSON.stringify(tableHeaders)))
-let tableDataFromResponse = inject('tableDataFromResponse')
-
-let countPage = computed(() => {
-  const totalCount = tableDataFromResponse.value.totalCount || 0
-  return Math.ceil(totalCount / props.size)
+// количество записей при текущей страницы пагинации(конец отрезка)
+const countNotesEnd = computed(() => {
+  const count = size.value + page.value * size.value
+  return count > totalCount.value ? totalCount : count
 })
-
-let tableData = computed(() => {
-  return tableDataFromResponse.value?.result || []
+const tableData = computed(() => {
+  return props.tableDataAndPagination?.result || [] // получаем данные для таблицы
 })
+const totalCount = computed(() => props.tableDataAndPagination?.totalCount || 0) // всего записей
+const countPage = computed(() => Math.ceil(totalCount.value / size.value)) // всего страниц
 
 function addFixed(index) {
   const del = header.splice(index, 1)
@@ -250,6 +264,7 @@ function selectingTableRow(e, item) {
   if (tableRowSelectedID.value == e.target.id) {
     e.target.checked = false
     tableRowSelectedID.value = ''
+    tableRowSelect
     emit('update:tableRowSelect', {})
   } else {
     emit('update:tableRowSelect', item)
@@ -273,15 +288,17 @@ function sorting(item, e) {
   }
 }
 function modificationSize(index) {
-  show.value = false
-  emit('update:size', index)
+  showSize.value = false
+  size.value = index
+  page.value = 0 //при изменении количество отображаемых строк, переходим на первую страницу
   emit('find')
 }
 
 function clicksPagination(newPage) {
   tableRowSelectedID.value = ''
   emit('update:tableRowSelect', {})
-  emit('update:page', newPage)
+  page.value = newPage
+  // emit('update:page', newPage)
   emit('find')
 }
 function valueFromPatch(item, patch) {
@@ -325,16 +342,16 @@ function modifateColumnsTable(item) {
 }
 
 function removeActiveCheckboxes() {
-  for (let i = 0; i < additionalTableHeaders.length; i++) {
-    additionalTableHeaders[i].model = false
-    modifateColumnsTable(additionalTableHeaders[i])
+  for (let i = 0; i < additionalHeaders.length; i++) {
+    additionalHeaders[i].model = false
+    modifateColumnsTable(additionalHeaders[i])
   }
 }
 function checkClass(item) {
   item ? '' : console.log('no item')
 
-  if (!pathToStatus) return ''
-  const status = eval(`item.${pathToStatus}`)
+  if (!props.pathToStatus) return ''
+  const status = eval(`item.${props.pathToStatus}`)
   if (status === 'Действующий') return 'greenText'
   else if (status === 'На утверждении') return 'orangeText'
   else if (status === 'Незавершенный') return 'blueText'
@@ -519,7 +536,7 @@ input[type='checkbox']:checked + svg {
 .pagination {
   height: 40px;
   display: flex;
-  gap: 30px;
+  gap: 20px;
   width: 100%;
   padding: 0px 5px;
   justify-content: flex-end;
@@ -541,14 +558,15 @@ input[type='checkbox']:checked + svg {
 .itemBottom {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
+  min-width: 90px;
 }
 .pagination-select {
   position: relative;
-  width: 30px;
+  /* width: 30px; */
   padding: 5px;
 }
-
 .pagination-select__input {
   width: 45px;
   height: 30px;

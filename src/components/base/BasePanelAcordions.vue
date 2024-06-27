@@ -12,14 +12,14 @@
     >
       <v-expansion-panel-text class="elevetion-0">
         <v-btn
-          v-for="itm in item.tabs"
+          v-for="itm in item.tabsEnabled"
           :key="itm"
           v-model="item.tab"
           class="menu-button rounded-0"
           block
           @click="updateTab(item, itm)"
-          >{{ itm.title }}</v-btn
-        >
+          >{{ itm.title }}
+        </v-btn>
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>

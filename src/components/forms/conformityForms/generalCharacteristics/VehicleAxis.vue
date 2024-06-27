@@ -43,32 +43,26 @@
       ></base-textfield>
 
       <p class="title full">Технически допустимая максимальная масса на ось</p>
-      <base-textfield
-        v-model.sync="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value"
-        label="Минимально"
-        type="number"
-        max-length="24"
-        class="span3"
-      ></base-textfield>
 
-      <base-autocomplete
-        v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.measurementUnitCode"
-        label="Ед. измерения"
-        :items="NSI_033"
-        item-value="key"
-        class="span3"
-      ></base-autocomplete>
-
-      <base-is-missing-disabled
+      <base-checkbox
         v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator"
-        v-model:data="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue"
-        default-data="0"
         label="Признак интервала значений"
-        class="span6"
-      >
+        class="full"
+        @change="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue = 0"
+      ></base-checkbox>
+
+      <div class="full grid12">
+        <base-textfield
+          v-model.sync="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value"
+          label="Минимально"
+          type="number"
+          max-length="24"
+          class="span4"
+        ></base-textfield>
+
         <base-textfield
           v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue"
-          label="Максимально"
+          label="Максимальноeee"
           type="number"
           :disabled="!props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator"
           max-length="24"
@@ -79,8 +73,19 @@
               props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator
             )
           ]"
+          class="span4"
         ></base-textfield>
-      </base-is-missing-disabled>
+
+        <base-autocomplete
+          v-model="
+            props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.measurementUnitCode
+          "
+          label="Ед. измерения"
+          :items="NSI_033"
+          item-value="key"
+          class="span4"
+        ></base-autocomplete>
+      </div>
 
       <base-checkbox
         v-model="props.item.dualTireAxleIndicator"
@@ -105,29 +110,22 @@
 
       <p class="title full mt-3">Величина колеи оси транспортного средства</p>
 
-      <base-textfield
-        v-model.sync="props.item.vehicleAxleSweptPathMeasure.value"
-        label="Минимально"
-        type="number"
-        max-length="24"
-        class="span3"
-      ></base-textfield>
-
-      <base-autocomplete
-        v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.measurementUnitCode"
-        label="Ед. измерения"
-        :items="NSI_033"
-        item-value="key"
-        class="span3"
-      ></base-autocomplete>
-
-      <base-is-missing-disabled
+      <base-checkbox
         v-model="props.item.vehicleAxleSweptPathMeasure.rangeIndicator"
-        v-model:data="props.item.vehicleAxleSweptPathMeasure.maxValue"
-        default-data="0"
         label="Признак интервала значений"
-        class="span6"
-      >
+        class="full"
+        @change="props.item.vehicleAxleSweptPathMeasure.maxValue = 0"
+      ></base-checkbox>
+
+      <div class="full grid12">
+        <base-textfield
+          v-model.sync="props.item.vehicleAxleSweptPathMeasure.value"
+          label="Минимально"
+          type="number"
+          max-length="24"
+          class="span4"
+        ></base-textfield>
+
         <base-textfield
           v-model="props.item.vehicleAxleSweptPathMeasure.maxValue"
           label="Максимально"
@@ -141,8 +139,19 @@
               props.item.vehicleAxleSweptPathMeasure.rangeIndicator
             )
           ]"
+          class="span4"
         ></base-textfield>
-      </base-is-missing-disabled>
+
+        <base-autocomplete
+          v-model="
+            props.item.vehicleAxleSweptPathMeasure.measurementUnitCode
+          "
+          label="Ед. измерения"
+          :items="NSI_033"
+          item-value="key"
+          class="span4"
+        ></base-autocomplete>
+      </div>
     </base-constructor>
 
     <base-constructor
@@ -158,23 +167,41 @@
       "
       class="full mt-5"
     >
-      <base-textfield
-        v-model.sync="props2.item.valueMin"
-        label="Минимально"
-        type="number"
-        max-length="24"
-        class="span3"
-      ></base-textfield>
+      <base-checkbox
+        v-model="props2.item.rangeIndicator"
+        label="Признак интервала значений"
+        class="full"
+        @change="props2.item.valueMax = 0"
+      ></base-checkbox>
 
-      <base-autocomplete
-        v-model="props2.item.measurementUnitCode"
-        label="Ед. измерения"
-        :items="NSI_033"
-        item-value="key"
-        class="span3"
-      ></base-autocomplete>
+      <div class="full grid12">
+        <base-textfield
+          v-model="props2.item.valueMin"
+          label="Минимально"
+          type="number"
+          max-length="24"
+          class="span4"
+        ></base-textfield>
 
-      <base-is-missing-disabled
+        <base-textfield
+          v-model="props2.item.valueMax"
+          label="Максимально"
+          type="number"
+          :disabled="!props2.item.rangeIndicator"
+          max-length="24"
+          class="span4"
+        ></base-textfield>
+
+        <base-autocomplete
+          v-model="props2.item.measurementUnitCode"
+          label="Ед. измерения"
+          :items="NSI_033"
+          item-value="key"
+          class="span4"
+        ></base-autocomplete>
+      </div>
+
+      <!-- <base-is-missing-disabled
         v-model="props2.item.rangeIndicator"
         v-model:data="props2.item.valueMax"
         default-data="0"
@@ -188,24 +215,25 @@
           :disabled="!props2.item.rangeIndicator"
           max-length="24"
         ></base-textfield>
-      </base-is-missing-disabled>
+      </base-is-missing-disabled> -->
     </base-constructor>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])

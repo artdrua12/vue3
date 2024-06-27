@@ -1,18 +1,172 @@
 <template>
-  <layout-pages
-    v-model:fields="fields"
-    v-model:fields-more="fieldsMore"
-    title="Реестр СБКТС"
-    @find="find"
-  ></layout-pages>
+  <div class="layoutPages">
+    <base-panel class="baseSearch" elevation="3" open-panel="1">
+      <template #title>Реестр СБКТС</template>
+      <v-form ref="form" class="adaptiveGrid pa-5">
+        <base-checkbox :v-model="fields.own" label="Только свои" class="full"></base-checkbox>
+
+        <base-textfield
+          v-model="fields.docId"
+          label="Номер документа"
+          class="span6"
+        ></base-textfield>
+        <base-autocomplete
+          v-model="fields.docStatus"
+          label="Статус"
+          class="span6"
+          :items="docStatusItems"
+        ></base-autocomplete>
+
+        <base-autocomplete
+          v-model="fields.countryCode"
+          label="Страна выдачи документа'"
+          class="span6"
+          :items="countryCodeItems"
+          item-value="key"
+        ></base-autocomplete>
+        <base-textfield
+          v-model="fields.vin"
+          label="Идентификационный номер"
+          class="span6"
+        ></base-textfield>
+
+        <base-autocomplete
+          v-model="fields.makeName"
+          label="Марка"
+          class="span6"
+          :items="makeNameItems"
+        ></base-autocomplete>
+        <base-datefield
+          v-model="fields.lastModifiedWith"
+          label="Срок действия с"
+          class="span3"
+        ></base-datefield>
+        <base-datefield
+          v-model="fields.lastModifiedBy"
+          label="Срок действия по"
+          class="span3"
+        ></base-datefield>
+
+        <base-datefield
+          v-model="fields.commercialName"
+          label="Коммерческое наименование"
+          class="full"
+        ></base-datefield>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model="fields.signerSurname"
+            label="Документ подписан"
+            placeholder="Фамилия"
+            class="span4"
+          ></base-textfield>
+          <base-textfield
+            v-model="fields.singerName"
+            placeholder="Имя"
+            class="span4"
+          ></base-textfield>
+          <base-textfield
+            v-model="fields.singerPatronimic"
+            placeholder="Отчество"
+            class="span4"
+          ></base-textfield>
+        </div>
+
+        <base-panel class="full" elevation="3">
+          <template #title>Дополнительные поля</template>
+          <div class="adaptiveGrid mt-3 pa-5">
+            <base-autocomplete
+              v-model="fields.manufacturer.value"
+              label="Изготовитель"
+              class="span6"
+              :items="manufacturerItems"
+              item-text="businessEntityName"
+              item-value="businessEntityName"
+            ></base-autocomplete>
+            <base-autocomplete
+              v-model="fields.declarer"
+              label="Заявитель"
+              class="span6"
+              :items="manufacturerItems"
+              item-text="businessEntityName"
+              item-value="businessEntityName"
+            ></base-autocomplete>
+
+            <base-autocomplete
+              v-model="fields.certificationAgency"
+              label="Испытательная лаборатория"
+              class="span6"
+              :items="certificationAgencyItems"
+              item-text="certificationBodyNameBrief"
+              item-value="certificationBodyNameBrief"
+            ></base-autocomplete>
+          </div>
+        </base-panel>
+      </v-form>
+      <div class="full base-button">
+        <v-btn
+          prepend-icon="mdi-close-circle"
+          color="red"
+          size="small"
+          class="rounded-0"
+          variant="tonal"
+          @click="Object.assign(fields, defaultFields)"
+        >
+          Очистить форму
+        </v-btn>
+        <v-btn
+          append-icon="mdi-magnify"
+          width="120px"
+          color="#546e7a"
+          size="small"
+          elevation="3"
+          class="rounded-0"
+          @click="find"
+        >
+          Поиск
+        </v-btn>
+      </div>
+    </base-panel>
+
+    <div class="base-action elevation-5">
+      <base-panel open-panel="1">
+        <template #title>Выбор действия</template>
+        <base-threeview
+          :selected="tableRowSelect"
+          :path-to-status="pathToStatus"
+          :actions="actions"
+        ></base-threeview>
+      </base-panel>
+    </div>
+
+    <base-table
+      v-model:size="size"
+      v-model:page="page"
+      v-model:tableRowSelect="tableRowSelect"
+      :table-headers="tableHeaders"
+      :additional-table-headers="additionalTableHeaders"
+      :table-data-and-pagination="tableDataAndPagination"
+      :path-to-status="pathToStatus"
+      class="base-table"
+      @find="find"
+    ></base-table>
+  </div>
 </template>
 
 <script setup>
-import { provide, reactive, ref } from 'vue'
-import LayoutPages from '../layout/LayoutPages.vue'
-import { useRequestStore } from '@/stores/requestStore'
-import { useGetAutocompliteData } from './composable'
-const requests = useRequestStore() // для работы с запросами
+import { ref, defineOptions, reactive } from 'vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
+import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BasePanel from '@/components/base/BasePanel.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import { useLoadItems, useCheckAndLoadData } from './composable'
+
+defineOptions({
+  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
+})
 const tableHeaders = [
   { text: 'Номер СБКТС', value: 'docId', id: 'h1' },
   { text: 'Дата изменения', value: 'tcInfo.lastModified', id: 'h2' },
@@ -21,6 +175,9 @@ const tableHeaders = [
   { text: 'Статус', value: `docStatusDetails.docStatus`, id: 'h5' },
   { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h6' }
 ]
+const pathToStatus = 'docStatusDetails.docStatus' // путь для статуса, используется в table и в action
+let tableDataAndPagination = ref({}) // данные для таблицы + информция для пагинации
+const form = ref(null) // ссылка на форму
 const additionalTableHeaders = [
   { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
   { text: 'Номер ОТТС', value: 'conformityInformation.docId', id: 2, model: false },
@@ -58,126 +215,31 @@ const additionalTableHeaders = [
     model: false
   }
 ]
-let tableDataFromResponse = ref({})
+const docStatusItems = ref([])
+const countryCodeItems = ref([])
+const makeNameItems = ref([])
+const manufacturerItems = ref([])
+const certificationAgencyItems = ref([])
+
 const fields = reactive({
-  own: {
-    width: 'all',
-    label: 'Только свои',
-    value: false,
-    type: 'BaseCheckbox'
-  },
-  docId: {
-    width: '6',
-    label: 'Номер документа',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  docStatus: {
-    width: '6',
-    label: 'Статус',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/status-directory-otts',
-    text: 'value'
-  },
-  countryCode: {
-    width: '6',
-    label: 'Страна выдачи документа',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/countries',
-    text: 'value',
-    itemValue: 'key'
-  },
-  vin: {
-    width: '6',
-    label: 'Идентификационный номер',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  makeName: {
-    width: '6',
-    label: 'Марка',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/vehicle-makes',
-    text: 'value'
-  },
-  lastModifiedWith: {
-    width: '3',
-    label: 'Дата изменения с',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  lastModifiedBy: {
-    width: '3',
-    label: 'Дата изменения по',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  commercialName: {
-    width: 'all',
-    label: 'Коммерческое наименование',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  fullName: {
-    width: 'all',
-    value: '',
-    type: 'BaseSlot',
-    fields: {
-      signerSurname: {
-        width: '4',
-        label: 'Документ подписан',
-        value: '',
-        type: 'BaseTextfield',
-        placeholder: 'Фамилия'
-      },
-      singerName: { width: '4', value: '', type: 'BaseTextfield', placeholder: 'Имя' },
-      singerPatronimic: {
-        width: '4',
-        value: '',
-        type: 'BaseTextfield',
-        placeholder: 'Отчество'
-      }
-    }
-  }
+  own: false,
+  docId: '',
+  docStatus: '',
+  countryCode: '',
+  vin: '',
+  makeName: '',
+  lastModifiedWith: '',
+  lastModifiedBy: '',
+  commercialName: '',
+  // Дополнительные поля
+  signerSurname: '',
+  singerName: '',
+  singerPatronimic: '',
+  manufacturer: '',
+  declarer: '',
+  certificationAgency: ''
 })
-const fieldsMore = reactive({
-  manufacturer: {
-    width: '6',
-    label: 'Изготовитель',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/manufacturer-registry/all',
-    text: 'businessEntityName',
-    itemValue: 'businessEntityName'
-  },
-  declarer: {
-    width: '6',
-    label: 'Заявитель',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/manufacturer-registry/all',
-    text: 'businessEntityName',
-    itemValue: 'businessEntityName'
-  },
-  certificationAgency: {
-    width: '6',
-    label: 'Испытательная лаборатория',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
-    text: 'certificationBodyNameBrief',
-    itemValue: 'certificationBodyNameBrief'
-  }
-})
+const defaultFields = JSON.parse(JSON.stringify(fields))
 const actions = [
   {
     text: 'Создать документ',
@@ -242,36 +304,30 @@ const actions = [
     }
   }
 ]
+const tableRowSelect = ref({}) // выбранная строка из таблицы
+let size = ref(5) //количество строк на одной странице
+let page = ref(0) // текущая страница в пагинации
 
-provide('tableDataFromResponse', tableDataFromResponse) // для заполнеия таблицы данными
-provide('additionalTableHeaders', additionalTableHeaders) // заколовки для таблицы дополнительные
-provide('tableHeaders', tableHeaders) // заколовки для таблицы
-provide('actions', actions) // все мозможные действия
-provide('pathToStatus', 'docStatusDetails.docStatus') // путь к статусу
-
-async function find(obj) {
+function clearForm() {
+  form.value.reset()
+}
+async function find() {
   const body = {
-    isOwn: fields.own.value,
+    isOwn: fields.own,
     isRegexSearch: true,
     query: {
-      ['docId']: fields.docId.value,
-      ['docStatusDetails.docStatus']: fields.docStatus.value,
-      ['unifiedCountryCode.value']: fields.countryCode.value,
-      ['vehicleTypeDetails.vehicleIdentificationNumberId']: fields.vin.value,
-      ['vehicleTypeDetails.vehicleMakeName']: fields.makeName.value,
-      ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
-      ['vehicleTypeDetails.vehicleCommercialName']: fields.commercialName.value,
-      ['cert.signer.surname']: fields.fullName.fields.signerSurname.value,
-      ['cert.signer.name']: (
-        fields.fullName.fields.singerName.value ||
-        '' + ' ' + fields.fullName.fields.singerPatronimic.value ||
-        ''
-      ).trim(),
-
-      ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
-      ['conformityAuthorityInformationDetails.businessEntityBriefName']:
-        fieldsMore.certificationAgency.value,
-      ['applicantDetails.businessEntityName']: fieldsMore.declarer.value
+      ['docId']: fields.docId,
+      ['docStatusDetails.docStatus']: fields.docStatus,
+      ['unifiedCountryCode.value']: fields.countryCode,
+      ['vehicleTypeDetails.vehicleIdentificationNumberId']: fields.vin,
+      ['vehicleTypeDetails.vehicleMakeName']: fields.makeName,
+      ['tcInfo.lastModified']: fields.lastModifiedWith + 'to' + fields.lastModifiedBy,
+      ['vehicleTypeDetails.vehicleCommercialName']: fields.commercialName,
+      ['cert.signer.surname']: fields.signerSurname,
+      ['cert.signer.name']: (fields.singerName || '' + ' ' + fields.singerPatronimic || '').trim(),
+      ['vehicleManufacturerDetails.businessEntityName']: fields.manufacturer,
+      ['conformityAuthorityInformationDetails.businessEntityBriefName']: fields.certificationAgency,
+      ['applicantDetails.businessEntityName']: fields.declarer
     },
     fields: [
       'docId',
@@ -293,15 +349,67 @@ async function find(obj) {
       'vehicleTypeDetails.vehicleIdentificationNumberId'
     ],
     pageAndSort: {
-      page: obj.page,
-      size: obj.size
+      page: page.value,
+      size: size.value
     }
   }
-  const res = await requests.post('/api/sbkts/modification/search', body)
-  tableDataFromResponse.value = res
+  tableDataAndPagination.value = await useCheckAndLoadData(
+    fields,
+    '/api/sbkts/modification/search',
+    body
+  )
 }
 
-useGetAutocompliteData({ ...fields, ...fieldsMore })
+//справочники для автокомплита
+async function load() {
+  docStatusItems.value = await useLoadItems('/api/classifier/epassport/status-directory-otts')
+  countryCodeItems.value = await useLoadItems('/api/classifier/epassport/countries')
+  makeNameItems.value = await useLoadItems('/api/classifier/epassport/vehicle-makes')
+  manufacturerItems.value = await useLoadItems('/api/manufacturer-registry/all')
+  certificationAgencyItems.value = await useLoadItems(
+    '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+  )
+}
+load()
 </script>
 
-<style scoped></style>
+<style scoped>
+.layoutPages {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: auto 1fr;
+  gap: 5px 20px;
+  padding: 10px 5px 15px 20px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  overflow-x: hidden;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
+}
+.baseForm {
+  width: 100%;
+}
+.base-search {
+  grid-area: 1/1/2/2;
+}
+.base-action {
+  grid-area: 1/2/-1/3;
+  overflow: hidden;
+  max-height: 90vh;
+  z-index: 1;
+  position: absolute;
+  right: 23px;
+  width: 400px;
+}
+.base-table {
+  grid-area: 2/1/3/-1;
+  z-index: 0;
+}
+.base-button {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

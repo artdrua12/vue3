@@ -37,7 +37,7 @@
             (!NSI_018.find((e) => e.key === props.item.vehicleUnitKindCode) &&
               !NSI_018.find((e) => e.title === props.item.vehicleUnitKindCode))
               ? 'Узел трансмиссии'
-              : item.vehicleUnitKindCode.length === 2
+              : props.item.vehicleUnitKindCode.length === 2
                 ? NSI_018.find((e) => e.key === props.item.vehicleUnitKindCode).title
                 : props.item.vehicleUnitKindCode
           }}
@@ -71,7 +71,7 @@
               id="transmissionTypeVehicleComponentText"
               v-model="props.item.vehicleComponentText"
               label="Описание конструктивных особенностей (типа) коробки передач*"
-              :items="transmissionTypeVehicleComponentText"
+              :items="NSI_053"
               :rules="[conformityRules.transmissionTypeVehicleComponentText]"
               class="full"
             ></base-autocomplete>
@@ -130,7 +130,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -139,19 +139,23 @@ import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema //схема
 
 const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_018 = ref([])
 const NSI_026 = ref([])
 const NSI_051 = ref([])
+const NSI_053 = ref([])
 const NSI_058 = ref([])
 
 async function load() {
   NSI_018.value = (await indexDB.getFromDatabase('catalog', 'NSI_018')) || []
   NSI_026.value = (await indexDB.getFromDatabase('catalog', 'NSI_026')) || []
   NSI_051.value = (await indexDB.getFromDatabase('catalog', 'NSI_051')) || []
+  NSI_053.value = (await indexDB.getFromDatabase('catalog', 'NSI_053')) || []
   NSI_058.value = (await indexDB.getFromDatabase('catalog', 'NSI_058')) || []
 }
 load()

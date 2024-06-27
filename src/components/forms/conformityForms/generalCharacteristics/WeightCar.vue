@@ -26,30 +26,23 @@
         "
         class="full mt-5"
       >
-        <base-textfield
-          v-model.sync="props2.item.minMassMeasure"
-          label="Минимально*"
-          type="number"
-          max-length="24"
-          :rules="[conformityRules.minMassMeasure]"
-          class="span3"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="props2.item.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props2.item.rangeIndicator"
-          v-model:data="props2.item.maxMassMeasure"
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="props2.item.maxMassMeasure = 0"
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model.sync="props2.item.minMassMeasure"
+            label="Минимально*"
+            type="number"
+            max-length="24"
+            :rules="[conformityRules.minMassMeasure]"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="props2.item.maxMassMeasure"
             label="Максимально"
@@ -63,8 +56,17 @@
                 props2.item.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="props2.item.measurementUnitCode"
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
       </base-constructor>
     </base-constructor>
   </div>
@@ -72,15 +74,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_019 = ref([])

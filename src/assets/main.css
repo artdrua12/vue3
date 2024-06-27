@@ -8,6 +8,13 @@ html {
   width: 100%;
   height: 100vh;
 }
+.grid12 {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 12px 20px;
+  align-content: flex-start;
+}
 
 .adaptiveGrid {
   position: relative;
@@ -19,13 +26,17 @@ html {
   /* grid-auto-flow: dense; */
   border: none;
   align-items: flex-start;
+  align-content: flex-start;
 }
+
 @media (max-width: 1200px) {
   .adaptiveGrid {
     grid-template-columns: repeat(6, 1fr);
   }
 }
-
+.span11 {
+  grid-column: span 11;
+}
 .span6 {
   grid-column: span 6;
 }

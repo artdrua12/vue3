@@ -18,29 +18,22 @@
         "
         class="full mt-5"
       >
-        <base-textfield
-          v-model.sync="props.item.valueMin"
-          label="Минимально*"
-          type="number"
-          max-length="24"
-          class="span3"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="props.item.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props.item.rangeIndicator"
-          v-model:data="props.item.valueMax"
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="props.item.valueMax = 0"
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model.sync="props.item.valueMin"
+            label="Минимально*"
+            type="number"
+            max-length="24"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="props.item.valueMax"
             label="Максимально"
@@ -54,8 +47,17 @@
                 props.item.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="props.item.measurementUnitCode"
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
       </base-constructor>
 
       <base-constructor
@@ -68,29 +70,22 @@
         "
         class="full mt-5"
       >
-        <base-textfield
-          v-model.sync="props.item.valueMin"
-          label="Минимально*"
-          type="number"
-          max-length="24"
-          class="span3"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="props.item.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props.item.rangeIndicator"
-          v-model:data="props.item.valueMax"
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="props.item.valueMax = 0"
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model.sync="props.item.valueMin"
+            label="Минимально*"
+            type="number"
+            max-length="24"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="props.item.valueMax"
             label="Максимально"
@@ -104,8 +99,17 @@
                 props.item.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="props.item.measurementUnitCode"
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
       </base-constructor>
 
       <base-constructor
@@ -116,29 +120,22 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].vehicleHitchLoadMeasure[0]"
         class="full mt-5"
       >
-        <base-textfield
-          v-model.sync="props.item.valueMin"
-          label="Минимально*"
-          type="number"
-          max-length="24"
-          class="span3"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="props.item.measurementUnitCode"
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span3"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props.item.rangeIndicator"
-          v-model:data="props.item.valueMax"
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="props.item.valueMax = 0"
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model.sync="props.item.valueMin"
+            label="Минимально*"
+            type="number"
+            max-length="24"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="props.item.valueMax"
             label="Максимально"
@@ -152,8 +149,17 @@
                 props.item.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="props.item.measurementUnitCode"
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
       </base-constructor>
     </base-is-missing>
   </div>
@@ -161,16 +167,18 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])

@@ -25,7 +25,7 @@
         <base-textarea
           v-model="props.item.vehicleComponentText"
           label="Описание типа*"
-          :validators="[conformityRules.vehicleClutchType]"
+          :rules="[conformityRules.vehicleClutchType]"
           class="full"
         ></base-textarea>
 
@@ -40,11 +40,13 @@
 </template>
 
 <script setup>
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema //схема
 </script>

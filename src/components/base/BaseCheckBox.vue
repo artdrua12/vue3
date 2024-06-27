@@ -31,8 +31,8 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
-  },
-  additionData: { type: Boolean, default: true }
+  }
+  // additionData: { type: Boolean, default: true }
 })
 // const checkbox = ref(props.value)
 // watch(

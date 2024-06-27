@@ -8,6 +8,7 @@
     variant="outlined"
     class="base"
     bg-color="white"
+    :chips="props.chips"
     dirty
     clearable
     :menu-props="{
@@ -27,9 +28,10 @@ const emit = defineEmits(['update:enter'])
 
 const props = defineProps({
   label: { type: String, default: '' },
-  itemValue: { type: String, default: 'value' },
-  itemText: { type: String, default: 'value' },
-  value: { type: String, default: '' },
+  itemValue: { type: [String, Object], default: 'value' },
+  itemText: { type: [String, Object], default: 'value' },
+  value: { type: [String, Object], default: '' },
+  chips: { type: Boolean, default: false },
   items: {
     type: Array,
     default() {

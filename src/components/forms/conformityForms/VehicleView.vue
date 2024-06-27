@@ -27,6 +27,7 @@
     </div>
 
     <!-- <base-modal v-model:isOpen="isOpen" :is-empty="true">
+     <div class="modal-wrapper">
       <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
 
       <div class="modalButtons">
@@ -34,10 +35,11 @@
         <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
         <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
       </div>
+    </div>
     </base-modal> -->
 
     <v-dialog v-model="isOpen" fullscreen hide-overlay transition="dialog-top-transition">
-      <div class="modal-wrapper">
+      <div class="wrapperDialog">
         <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
 
         <div class="modalButtons">
@@ -54,8 +56,10 @@
 
 <script setup>
 import { ref, nextTick, computed } from 'vue'
-import shema from './shema'
+// import shema from './shema'
+import { useShemaStore } from '@/stores/shemaStore'
 
+const shema = useShemaStore().shema // схема
 const modalCanvas = ref(null) // canvas который находится в модальном окне
 const isOpen = ref(false)
 const currentIndex = ref()
@@ -212,29 +216,33 @@ function removingImg(index) {
   font-weight: 700;
   text-transform: uppercase;
 }
-.imgSize {
-  position: relative;
-  bottom: -12px;
-  left: -80%;
-  font-size: 12px;
-  font-weight: 500;
-}
+
 .imgDelete {
   position: relative;
   bottom: 0px;
   left: 0px;
 }
-.modalImg {
+/* .modalImg {
   border: 4px solid white;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
   transition: transform 0.4s ease-in-out;
+} */
+.wrapperDialog {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  align-content: center;
+  overflow: hidden;
 }
 .modalButtons {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
-  position: fixed;
+
   bottom: 40px;
 }
 .modalButtonImg {
@@ -243,5 +251,6 @@ function removingImg(index) {
 }
 .canvasC {
   border: 2px solid white;
+  margin: auto;
 }
 </style>

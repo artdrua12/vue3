@@ -37,7 +37,7 @@
           id="type"
           v-model="props.item.vehicleTypeId"
           label="Идентификатор типа*"
-          :validators="[conformityRules.vehicleTypeId]"
+          :rules="[conformityRules.vehicleTypeId]"
           max-length="50"
           class="span6"
         ></base-textfield>
@@ -65,7 +65,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -77,7 +77,9 @@ import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
-const indexDB = useIndexDBStore() // для работы с IndexDB
+import { useShemaStore } from '@/stores/shemaStore'
+const indexDB = useIndexDBStore() // для работы с базой данных
+const shema = useShemaStore().shema // схема
 
 const NSI_046 = ref([])
 

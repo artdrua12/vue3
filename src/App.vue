@@ -23,7 +23,7 @@
     </div>
 
     <div class="app-footer">
-      <p>@2024</p>
+      <p>©2024</p>
     </div>
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">

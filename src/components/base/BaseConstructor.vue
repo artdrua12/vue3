@@ -1,10 +1,11 @@
 <template>
   <div class="constructor">
     <v-btn
-      icon="mdi-plus-box"
-      color="#465f6b"
+      icon="mdi-plus"
+      color="#546e7a"
       rounded="0"
-      class="addBtn"
+      size="30"
+      class="btnAdd"
       :disabled="props.disabled"
       @click="add"
     >
@@ -22,15 +23,27 @@
       <slot :index="index" :item="item"></slot>
 
       <slot name="btnRemove" :index="index" :item="item">
-        <v-icon
-          v-if="props.filterData.length != 1"
-          color="red"
-          icon="mdi-close-box"
+        <v-btn
+          v-if="props.filterData.length > 1"
+          icon
           class="btnRemove"
+          size="30"
           @click="remove(item)"
-        ></v-icon
-      ></slot>
+        >
+          {{ index + 1 }}
+        </v-btn>
+      </slot>
     </fieldset>
+    <v-btn
+      icon="mdi-plus"
+      color="#546e7a"
+      rounded="0"
+      size="30"
+      class="btnAddBottom"
+      :disabled="props.disabled"
+      @click="add"
+    >
+    </v-btn>
   </div>
 </template>
 
@@ -111,30 +124,35 @@ legend {
   border-left: 1px solid #2c4957;
 }
 
-.adaptiveGrid:first-of-type::before {
+/* .adaptiveGrid:first-of-type::before {
   height: 50%;
-}
-.adaptiveGrid:last-of-type::after {
+} */
+/* .adaptiveGrid:last-of-type::after {
   border: none;
-}
+} */
 
-.addBtn {
+.btnAdd,
+.btnAddBottom {
   position: absolute;
-  top: 0px;
   left: 0px;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
   z-index: 2;
   background-color: #ebebeb;
+}
+.btnAdd {
+  top: 0px;
+}
+.btnAddBottom {
+  bottom: 10px;
 }
 
 .btnRemove {
-  font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 4px);
-  left: -47px;
+  bottom: calc(50% - 6px);
+  left: -51px;
   z-index: 2;
-  background-color: #ebebeb;
+  color: orangered;
+  font-family: sans-serif;
+  font-weight: 700;
+  border: 1px solid #2c4957;
 }
 </style>

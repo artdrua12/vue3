@@ -1,9 +1,10 @@
 <template>
   <div class="constructor">
     <v-btn
-      icon="mdi-plus-box"
+      icon="mdi-plus"
       color="#465f6b"
       rounded="0"
+      size="30"
       class="addBtn"
       :disabled="props.disabled"
       @click="add"
@@ -31,21 +32,26 @@ const props = defineProps({
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
+setTimeout(() => {
+  if (!data.value) {
+    // если у нас поле не массив то создаем массив
+    data.value = [props.defaultData.value]
+    add()
+  }
+
+  if (data.value.length == 0) {
+    // если у нас пустой массив то заполняем дефолтными значениями
+    data.value.push(props.defaultData)
+  }
+}, 1000)
+
 function add() {
   data.value.push(props.defaultData)
 }
+
 function remove(item) {
   const index = data.value.findIndex((dataItem) => dataItem == item)
   data.value.splice(index, 1)
-}
-if (!data.value) {
-  // если у нас поле не массив то создаем массив
-  data.value = []
-}
-
-if (data.value.length == 0) {
-  // если у нас поле не массив то заполняем дефолтными значениями
- add()
 }
 </script>
 
@@ -63,7 +69,7 @@ if (data.value.length == 0) {
 }
 .element::before {
   width: 37px;
-  height: 100%;
+  height: calc(50% + 7px);;
   content: '';
   position: absolute;
   left: -35px;

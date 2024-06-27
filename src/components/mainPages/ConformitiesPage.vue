@@ -1,21 +1,193 @@
 <template>
-  <layout-pages
-    v-model:fields="fields"
-    v-model:fieldsMore="fieldsMore"
-    title="Реестр ОТТС"
-    @find="find"
-  ></layout-pages>
+  <div class="layoutPages">
+    <base-panel class="baseSearch" elevation="3" open-panel="1">
+      <template #title>Реестр ОТТС</template>
+      <v-form class="adaptiveGrid pa-5">
+        <base-checkbox :v-model="fields.own" label="Только свои" class="full"></base-checkbox>
+
+        <base-textfield
+          v-model="fields.docId"
+          label="Номер документа"
+          class="span6"
+        ></base-textfield>
+        <base-datefield
+          v-model="fields.startDateTime"
+          label="Срок действия с"
+          class="span3"
+        ></base-datefield>
+        <base-datefield
+          v-model="fields.endDateTime"
+          label="Срок действия по"
+          class="span3"
+        ></base-datefield>
+
+        <base-autocomplete
+          v-model="fields.docStatus"
+          label="Статус"
+          class="span6"
+          :items="NSI_003"
+        ></base-autocomplete>
+        <base-datefield
+          v-model="fields.lastModifiedWith"
+          label="Дата изменения с"
+          class="span3"
+        ></base-datefield>
+        <base-datefield
+          v-model="fields.lastModifiedBy"
+          label="Дата изменения по"
+          class="span3"
+        ></base-datefield>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model="fields.signerSurname"
+            label="Документ подписан"
+            placeholder="Фамилия"
+            class="span4"
+          ></base-textfield>
+          <base-textfield
+            v-model="fields.singerName"
+            placeholder="Имя"
+            class="span4"
+          ></base-textfield>
+          <base-textfield
+            v-model="fields.singerPatronimic"
+            placeholder="Отчество"
+            class="span4"
+          ></base-textfield>
+        </div>
+
+        <base-panel class="full" elevation="3">
+          <template #title>Дополнительные поля</template>
+          <div class="adaptiveGrid mt-3 pa-5">
+            <base-autocomplete
+              v-model="fields.vehicleMakeName"
+              label="Марка"
+              class="span6"
+              :items="NSI_046"
+            ></base-autocomplete>
+            <base-textfield
+              v-model="fields.commercialName"
+              label="Коммерческое наименование"
+              class="span6"
+            ></base-textfield>
+
+            <base-autocomplete
+              v-model="fields.manufacturer"
+              label="Изготовитель"
+              class="span6"
+              :items="manufacturerItems"
+              item-text="businessEntityName"
+              item-value="businessEntityName"
+            ></base-autocomplete>
+            <base-autocomplete
+              v-model="fields.assemblyPlant"
+              label="Сборочный завод"
+              class="span6"
+              :items="manufacturerItems"
+              item-text="businessEntityName"
+              item-value="businessEntityName"
+            ></base-autocomplete>
+
+            <base-autocomplete
+              v-model="fields.certificationAgency"
+              label="Орган по сертификации"
+              class="span6"
+              :items="certificationAgencyItems"
+              item-text="certificationBodyNameBrief"
+              item-value="certificationBodyNameBrief"
+            ></base-autocomplete>
+            <base-autocomplete
+              v-model="fields.docType"
+              label="Тип документа"
+              class="span6"
+              :items="docTypeItems.filter((e) => ['30', '35'].includes(e.key))"
+            ></base-autocomplete>
+
+            <base-autocomplete
+              v-model="fields.countryCode"
+              label="Страна выдачи документа'"
+              class="span6"
+              :items="NSI_034"
+              item-value="key"
+            ></base-autocomplete>
+            <base-autocomplete
+              v-model="fields.techCategory"
+              label="Категория ТС"
+              class="span6"
+              :items="NSI_015.filter((e) => e.key.match(/L|M|N|O/))"
+              item-text="key"
+              item-value="key"
+            ></base-autocomplete>
+          </div>
+        </base-panel>
+      </v-form>
+      <div class="full base-button">
+        <v-btn
+          prepend-icon="mdi-close-circle"
+          color="red"
+          size="small"
+          class="rounded-0"
+          variant="tonal"
+          @click="Object.assign(fields, defaultFields)"
+        >
+          Очистить форму
+        </v-btn>
+        <v-btn
+          append-icon="mdi-magnify"
+          width="120px"
+          color="#546e7a"
+          size="small"
+          elevation="3"
+          class="rounded-0"
+          @click="find"
+        >
+          Поиск
+        </v-btn>
+      </div>
+    </base-panel>
+
+    <div class="base-action elevation-5">
+      <base-panel open-panel="1">
+        <template #title>Выбор действия</template>
+        <base-threeview
+          :selected="tableRowSelect"
+          :path-to-status="pathToStatus"
+          :actions="actions"
+        ></base-threeview>
+      </base-panel>
+    </div>
+
+    <base-table
+      v-model:size="size"
+      v-model:page="page"
+      v-model:tableRowSelect="tableRowSelect"
+      :table-headers="tableHeaders"
+      :additional-table-headers="additionalTableHeaders"
+      :table-data-and-pagination="tableDataAndPagination"
+      :path-to-status="pathToStatus"
+      class="base-table"
+      @find="find"
+    ></base-table>
+  </div>
 </template>
 
 <script setup>
+import { ref, defineOptions, reactive } from 'vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
+import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BasePanel from '@/components/base/BasePanel.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import BaseDatefield from '@/components/base/BaseDatefield.vue'
 import { useRouter } from 'vue-router'
-import { provide, reactive, ref } from 'vue'
-import LayoutPages from '../layout/LayoutPages.vue'
-import { useGetAutocompliteData } from './composable'
-import { useRequestStore } from '@/stores/requestStore'
+import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
 
+defineOptions({
+  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
+})
 const route = useRouter()
-const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
   { text: 'Номер  документа', value: 'docId', id: 'h1' },
   { text: 'Тип  документа', value: 'conformityDocKindName', id: 'h2' },
@@ -25,6 +197,8 @@ const tableHeaders = [
   { text: 'Статус', value: `conformityDocStatusDetails.docStatus`, id: 'h6' },
   { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h7' }
 ]
+const pathToStatus = 'conformityDocStatusDetails.docStatus' // путь для статуса, используется в table и в action
+let tableDataAndPagination = ref({}) // данные для таблицы + информция для пагинации
 const additionalTableHeaders = [
   { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
   { text: 'Сформирован на основании', value: 'conformityDocKindName', id: 2, model: false },
@@ -125,164 +299,28 @@ const additionalTableHeaders = [
     model: false
   }
 ]
-let tableDataFromResponse = ref({})
 const fields = reactive({
-  own: {
-    width: 'all',
-    label: 'Только свои',
-    value: false,
-    type: 'BaseCheckbox'
-  },
-  docId: {
-    width: '6',
-    label: 'Номер документа',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  startDateTime: {
-    width: '3',
-    label: 'Срок действия с',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  endDateTime: {
-    width: '3',
-    label: 'Срок действия по',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  docStatus: {
-    width: '6',
-    label: 'Статус',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/status-directory-otts',
-    catalog: 'NSI_003'
-  },
-  lastModifiedWith: {
-    width: '3',
-    label: 'Дата изменения с',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  lastModifiedBy: {
-    width: '3',
-    label: 'Дата изменения по',
-    value: '',
-    type: 'BaseDatefield'
-  },
-  fullName: {
-    width: 'all',
-    value: '',
-    type: 'BaseSlot',
-    fields: {
-      signerSurname: {
-        label: 'Документ подписан',
-        width: '4',
-        value: '',
-        type: 'BaseTextfield',
-        placeholder: 'Фамилия'
-      },
-      singerName: {
-        width: '4',
-        value: '',
-        type: 'BaseTextfield',
-        placeholder: 'Имя'
-      },
-      singerPatronimic: {
-        width: '4',
-        value: '',
-        type: 'BaseTextfield',
-        placeholder: 'Отчество'
-      }
-    }
-  }
+  own: false,
+  docId: '',
+  startDateTime: '',
+  endDateTime: '',
+  docStatus: '',
+  lastModifiedWith: '',
+  lastModifiedBy: '',
+  signerSurname: '',
+  singerName: '',
+  singerPatronimic: '',
+  // Дополнительные поля
+  vehicleMakeName: '',
+  commercialName: '',
+  manufacturer: '',
+  assemblyPlant: '',
+  certificationAgency: '',
+  docType: '',
+  countryCode: '',
+  techCategory: ''
 })
-const fieldsMore = reactive({
-  vehicleMakeName: {
-    width: '6',
-    label: 'Марка',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    // url: '/api/classifier/epassport/vehicle-makes',
-    text: 'value',
-    itemValue: 'value',
-    catalog: 'NSI_046'
-  },
-  commercialName: {
-    width: '6',
-    label: 'Коммерческое наименование',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  manufacturer: {
-    width: '6',
-    label: 'Изготовитель',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/manufacturer-registry/all',
-    text: 'businessEntityName',
-    itemValue: 'businessEntityName'
-  },
-  assemblyPlant: {
-    width: '6',
-    label: 'Сборочный завод',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/manufacturer-registry/all',
-    text: 'businessEntityName',
-    itemValue: 'businessEntityName'
-  },
-  certificationAgency: {
-    width: '6',
-    label: 'Орган по сертификации',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/certification-body/search/certificateAccreditations',
-    text: 'certificationBodyNameBrief',
-    itemValue: 'certificationBodyNameBrief'
-  },
-  docType: {
-    width: '6',
-    label: 'Тип документа',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    //conformityDocKind отправляем в экшены
-    url: '/api/classifier/epassport/conformity-doc-kinds',
-    filter: "filter(e =>['30', '35'].includes(e.key))",
-    text: 'value',
-    itemValue: 'value'
-  },
-  countryCode: {
-    width: '6',
-    label: 'Страна выдачи документа',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/countries',
-    text: 'value',
-    itemValue: 'key',
-    catalog: 'NSI_034'
-  },
-  techCategory: {
-    width: '6',
-    label: 'Категория ТС',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/vehicle-tech-categories',
-    filter: 'filter(e => e.key.match(/L|M|N|O/))',
-    text: 'key',
-    itemValue: 'key',
-    catalog: 'NSI_015'
-  }
-})
+const defaultFields = JSON.parse(JSON.stringify(fields))
 const actions = [
   {
     text: 'Создать документ',
@@ -292,13 +330,22 @@ const actions = [
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () => route.push('/conformities/forms')
+        action: () => {
+          route.push({
+            path: '/conformities/forms',
+            query: { val: '30' }
+          })
+        }
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () => route.push('/layoutPanel')
+        action: () =>
+          route.push({
+            path: '/conformities/forms',
+            query: { val: '35' }
+          })
       }
     ]
   },
@@ -404,32 +451,37 @@ const actions = [
     }
   }
 ]
-provide('tableDataFromResponse', tableDataFromResponse)
-provide('additionalTableHeaders', additionalTableHeaders)
-provide('tableHeaders', tableHeaders)
-provide('actions', actions)
-provide('pathToStatus', 'conformityDocStatusDetails.docStatus') // путь для статуса, используется в table и в action
+const tableRowSelect = ref({}) // выбранная строка из таблицы
+let size = ref(5) //количество строк на одной странице
+let page = ref(0) // текущая страница в пагинации
 
-async function find(obj) {
+const NSI_003 = ref([])
+const NSI_015 = ref([])
+const NSI_034 = ref([])
+const NSI_046 = ref([])
+const manufacturerItems = ref([])
+const certificationAgencyItems = ref([])
+const docTypeItems = ref([])
+
+async function find() {
   const body = {
-    isOwn: fields.own.value,
+    isOwn: fields.own,
     isRegexSearch: true,
     query: {
-      ['docId']: fields.docId.value,
-      ['docStartDate']: fields.startDateTime.value + 'to',
-      ['docValidityDate']: 'to' + fields.endDateTime.value,
-      ['conformityDocStatusDetails.docStatus']: fields.docStatus.value,
-      ['unifiedCountryCode.value']: fieldsMore.countryCode.value,
-      ['vehicleManufacturerDetails.businessEntityName']: fieldsMore.manufacturer.value,
-      ['cert.signer.surname']: fields.fullName.fields.signerSurname.value,
-      ['cert.signer.name']: fieldsMore.namePartonimic,
-      ['tcInfo.lastModified']: fields.lastModifiedWith.value + 'to' + fields.lastModifiedBy.value,
-      ['conformityAuthorityInformationDetails.businessEntityBriefName']:
-        fieldsMore.certificationAgency.value,
-      ['vehicleTypeDetails.vehicleMakeName']: fieldsMore.vehicleMakeName.value,
-      ['vehicleTypeDetails.vehicleCommercialName']: fieldsMore.commercialName.value,
-      ['vehicleTypeDetails.vehicleTechCategoryCode']: fieldsMore.techCategory.value,
-      ['conformityDocKindName']: fieldsMore.docType.value,
+      ['docId']: fields.docId,
+      ['docStartDate']: fields.startDateTime + 'to',
+      ['docValidityDate']: 'to' + fields.endDateTime,
+      ['conformityDocStatusDetails.docStatus']: fields.docStatus,
+      ['unifiedCountryCode.value']: fields.countryCode,
+      ['vehicleManufacturerDetails.businessEntityName']: fields.manufacturer,
+      ['cert.signer.surname']: fields.signerSurname,
+      ['cert.signer.name']: fields.namePartonimic,
+      ['tcInfo.lastModified']: fields.lastModifiedWith + 'to' + fields.lastModifiedBy,
+      ['conformityAuthorityInformationDetails.businessEntityBriefName']: fields.certificationAgency,
+      ['vehicleTypeDetails.vehicleMakeName']: fields.vehicleMakeName,
+      ['vehicleTypeDetails.vehicleCommercialName']: fields.commercialName,
+      ['vehicleTypeDetails.vehicleTechCategoryCode']: fields.techCategory,
+      ['conformityDocKindName']: fields.docType,
       ['vehicleManufacturerDetails.vehicleManufacturerKindCode']: '05'
     },
     fields: [
@@ -463,17 +515,69 @@ async function find(obj) {
       'cert.signer'
     ],
     pageAndSort: {
-      page: obj.page,
-      size: obj.size
+      page: page.value,
+      size: size.value
     }
   }
-  const res = (await requests.post('/api/otts/docDetails/modification/search', body)) || []
-
-  tableDataFromResponse.value = res
+  // проверка на заполенность хотя бы одного поля и загрузка данных
+  tableDataAndPagination.value = await useCheckAndLoadData(
+    fields,
+    '/api/otts/docDetails/modification/search',
+    body
+  )
 }
-
-useGetAutocompliteData({ ...fields, ...fieldsMore })
+//справочники для автокомплита
+async function load() {
+  NSI_003.value = await useGetCatalog('NSI_003')
+  NSI_015.value = await useGetCatalog('NSI_015')
+  NSI_034.value = await useGetCatalog('NSI_034')
+  NSI_046.value = await useGetCatalog('NSI_046')
+  manufacturerItems.value = await useLoadItems('/api/manufacturer-registry/all')
+  certificationAgencyItems.value = await useLoadItems(
+    '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+  )
+  docTypeItems.value = await useLoadItems('/api/classifier/epassport/conformity-doc-kinds')
+}
+load()
 </script>
 
-<style scoped></style>
-
+<style scoped>
+.layoutPages {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: auto 1fr;
+  gap: 5px 20px;
+  padding: 10px 5px 15px 20px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  overflow-x: hidden;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
+}
+.baseForm {
+  width: 100%;
+}
+.base-search {
+  grid-area: 1/1/2/2;
+}
+.base-action {
+  grid-area: 1/2/-1/3;
+  overflow: hidden;
+  max-height: 90vh;
+  z-index: 1;
+  position: absolute;
+  right: 23px;
+  width: 400px;
+}
+.base-table {
+  grid-area: 2/1/3/-1;
+  z-index: 0;
+}
+.base-button {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

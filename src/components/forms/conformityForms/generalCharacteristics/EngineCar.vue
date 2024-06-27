@@ -128,38 +128,27 @@
           двигателя
         </p>
 
-        <base-textfield
-          v-model="
-            props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMinMeasure.value
-          "
-          label="Минимальная скорость*"
-          type="number"
-          :rules="[conformityRules.vehicleShaftRotationFrequencyMinMeasure]"
-          class="span4"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="
-            props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMinMeasure.measurementUnitCode
-          "
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span2"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency.rangeIndicator"
-          v-model:data="
-            props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMaxMeasure.value
-          "
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="
+            props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency.vehicleShaftRotationFrequencyMaxMeasure.value = 0
+          "
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model="
+              props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
+                .vehicleShaftRotationFrequencyMinMeasure.value
+            "
+            label="Минимальная скорость*"
+            type="number"
+            :rules="[conformityRules.vehicleShaftRotationFrequencyMinMeasure]"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="
               props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
@@ -180,14 +169,26 @@
                 props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="
+              props.item.engineMaxPowerDetails.vehicleShaftRotationFrequency
+                .vehicleShaftRotationFrequencyMinMeasure.measurementUnitCode
+            "
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
 
         <base-textfield
           v-model="props.item.engineMaxTorqueDetails.engineMaxTorqueMeasure.value"
           label="Максимальный крутящий момент двигателя*"
           type="number"
-          :validators="[conformityRules.engineMaxTorqueMeasure]"
+          :rules="[conformityRules.engineMaxTorqueMeasure]"
           class="span6"
         ></base-textfield>
 
@@ -203,39 +204,27 @@
           Скорость вращения коленчатого вала, при которой достигается максимальный крутящий момент
           двигателя
         </p>
-
-        <base-textfield
-          v-model="
-            props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMinMeasure.value
-          "
-          label="Минимальная скорость*"
-          :rules="[conformityRules.vehicleShaftRotationFrequencyMinMeasure]"
-          type="number"
-          class="span4"
-        ></base-textfield>
-
-        <base-autocomplete
-          v-model="
-            props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMinMeasure.measurementUnitCode
-          "
-          label="Ед. измерения"
-          :items="NSI_033"
-          item-value="key"
-          class="span2"
-        ></base-autocomplete>
-
-        <base-is-missing-disabled
+        <base-checkbox
           v-model="props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency.rangeIndicator"
-          v-model:data="
-            props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
-              .vehicleShaftRotationFrequencyMaxMeasure.value
-          "
-          default-data="0"
           label="Признак интервала значений"
-          class="span6"
-        >
+          class="full"
+          @change="
+            props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency.vehicleShaftRotationFrequencyMaxMeasure.value = 0
+          "
+        ></base-checkbox>
+
+        <div class="full grid12">
+          <base-textfield
+            v-model="
+              props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
+                .vehicleShaftRotationFrequencyMinMeasure.value
+            "
+            label="Минимальная скорость*"
+            :rules="[conformityRules.vehicleShaftRotationFrequencyMinMeasure]"
+            type="number"
+            class="span4"
+          ></base-textfield>
+
           <base-textfield
             v-model="
               props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
@@ -256,8 +245,20 @@
                 props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency.rangeIndicator
               )
             ]"
+            class="span4"
           ></base-textfield>
-        </base-is-missing-disabled>
+
+          <base-autocomplete
+            v-model="
+              props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency
+                .vehicleShaftRotationFrequencyMinMeasure.measurementUnitCode
+            "
+            label="Ед. измерения"
+            :items="NSI_033"
+            item-value="key"
+            class="span4"
+          ></base-autocomplete>
+        </div>
       </base-constructor>
 
       <ElectroEngine
@@ -269,18 +270,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import ElectroEngine from '@/components/forms/conformityForms/generalCharacteristics/ElectroEngine.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema //схема
 
 const NSI_033 = ref([])
 const NSI_118 = ref([])

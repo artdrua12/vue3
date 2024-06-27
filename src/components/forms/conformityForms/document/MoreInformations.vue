@@ -96,14 +96,16 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore()
+const shema = useShemaStore().shema // схема
 
 const NSI_067 = ref([])
 const emergencyCallDeviceFree =

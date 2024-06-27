@@ -1,6 +1,6 @@
 <template>
   <div class="tabsWrapper">
-    <v-tabs v-model="currentTab" align-tabs="right" density="compact" mandatory>
+    <v-tabs v-model="currentTab" align-tabs="right" density="compact" mandatory style="position: sticky; top: 0px">
       <v-tab v-for="item in tabs" :id="item.id" :key="item.id" :value="item.component">
         {{ item.title }}
       </v-tab>
@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 
 import DocumentComformity from '@/components/forms/conformityForms/document/DocumentComformity.vue'
 import VehicleDetails from '@/components/forms/conformityForms/document/VehicleDetails.vue'

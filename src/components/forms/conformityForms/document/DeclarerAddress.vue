@@ -50,17 +50,22 @@
       )"
       :key="index"
     >
-      <base-textfield
-        v-model="item.fullAddress"
-        :label="
-          item.addressKindCode === '4'
-            ? 'Местонахождение (Юридический адрес)'
-            : 'Местонахождение (Фактический адрес)'
-        "
-        disabled
+      <base-delete-element
         class="full"
+        :fun="() => shema.applicantDetails.subjectAddressDetails.splice(index, 1)"
       >
-      </base-textfield>
+        <base-textfield
+          v-model="item.fullAddress"
+          :label="
+            item.addressKindCode === '4'
+              ? 'Местонахождение (Юридический адрес)'
+              : 'Местонахождение (Фактический адрес)'
+          "
+          disabled
+          class="full"
+        >
+        </base-textfield>
+      </base-delete-element>
     </template>
 
     <p class="full title">Контактные данные</p>
@@ -68,36 +73,44 @@
       v-for="(item, index) in shema.applicantDetails.unifiedCommunicationDetails"
       :key="index"
     >
-      <base-autocomplete
-        v-model="item.unifiedCommunicationChannelCode.value"
-        label="Тип контактной информации"
-        :items="NSI_042"
-        class="span6"
-        disabled
-      ></base-autocomplete>
-      <base-combobox
-        v-model="item.communicationChannelId"
-        label="Контактные данные"
-        :disabled="item.communicationChannelId.length < 2"
-        class="span6"
-      ></base-combobox>
+      <base-delete-element
+        class="full"
+        :fun="() => shema.applicantDetails.unifiedCommunicationDetails.splice(index, 1)"
+      >
+        <base-autocomplete
+          v-model="item.unifiedCommunicationChannelCode.value"
+          label="Тип контактной информации"
+          :items="NSI_042"
+          class="span6"
+          disabled
+        ></base-autocomplete>
+        <base-combobox
+          v-model="item.communicationChannelId"
+          label="Контактные данные"
+          :disabled="item.communicationChannelId.length < 2"
+          class="span6"
+        ></base-combobox>
+      </base-delete-element>
     </template>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema // схема
 
 const NSI_034 = ref([])
 const NSI_042 = ref([])

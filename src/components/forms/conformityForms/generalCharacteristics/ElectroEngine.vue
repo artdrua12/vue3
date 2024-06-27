@@ -3,7 +3,7 @@
     v-slot="props"
     v-model="shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails"
     :filter-data="shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails"
-    :default-data="shemaDefault.shema.vehicleVariantDetails[0].vehicleElectricalMachineDetails[0]"
+    :default-data="shemaDefault.vehicleVariantDetails[0].vehicleElectricalMachineDetails[0]"
     class="full"
     label="Электродвигатель"
   >
@@ -18,7 +18,7 @@
     <base-textfield
       v-model="props.item.vehicleComponentMakeName"
       label="Марка*"
-      :validators="[conformityRules.vehicleComponentMakeName]"
+      :rules="[conformityRules.vehicleComponentMakeName]"
       max-length="1000"
       class="span6"
     ></base-textfield>
@@ -68,14 +68,16 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema //схема
 
 const NSI_028 = ref([])
 const NSI_033 = ref([])

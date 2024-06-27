@@ -40,12 +40,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema // схема
 
 const NSI_046 = ref([])
 

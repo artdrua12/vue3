@@ -18,7 +18,6 @@
       ></v-text-field>
 
       <v-btn block class="rounded-0 mt-3" @click="entrance">Войти</v-btn>
-      <v-btn block class="rounded-0 mt-3" @click="entrance2">Войти c неполным меню</v-btn>
     </div>
   </div>
 </template>
@@ -31,19 +30,13 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useSnackStore } from '@/stores/snackStore'
 import { useUserStore } from '@/stores/userStore'
 
-const login = ref('bts')
-const password = ref('w6Zvb')
+const login = ref('') //bts
+const password = ref('') //w6Zvb
 const requests = useRequestStore()
 const indexDB = useIndexDBStore()
 const route = useRouter()
 const snack = useSnackStore()
 const currentUser = useUserStore()
-
-async function entrance2() {
-  login.value = 'HiHHzyu3'
-  password.value = 'gI,7v$U7dkkn'
-  await entrance()
-}
 
 async function entrance() {
   const login = await checkLogin()

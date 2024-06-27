@@ -120,7 +120,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -131,8 +131,10 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const requests = useRequestStore() // для работы с запросами
-const indexDB = useIndexDBStore()
+const indexDB = useIndexDBStore() // для работы с базой данных IndexDB
+const shema = useShemaStore().shema //схема
 
 const NSI_042 = ref([])
 const NSI_310 = ref([])

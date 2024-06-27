@@ -48,7 +48,7 @@
           v-model="props.item.massValue.value"
           label="Масса"
           type="number"
-          class="span4"
+          class="span3"
         ></base-textfield>
 
         <base-autocomplete
@@ -56,13 +56,13 @@
           label="Ед.измерения"
           :items="NSI_033"
           item-value="key"
-          class="span2"
+          class="span3"
         ></base-autocomplete>
 
         <base-textfield
           v-model="props.item.powerStorageDeviceVoltageMeasure.value"
           label="Рабочее напряжение устройства накопления энергии"
-          class="span4"
+          class="span3"
         ></base-textfield>
 
         <base-autocomplete
@@ -70,7 +70,7 @@
           label="Ед.измерения"
           :items="NSI_033"
           item-value="key"
-          class="span2"
+          class="span3"
         ></base-autocomplete>
 
         <base-textfield
@@ -83,7 +83,7 @@
           v-model="props.item.capacity.value"
           label="Ёмкость"
           type="number"
-          class="span4"
+          class="span3"
         ></base-textfield>
 
         <base-autocomplete
@@ -91,14 +91,14 @@
           label="Ед.измерения"
           :items="NSI_033"
           item-value="key"
-          class="span2"
+          class="span3"
         ></base-autocomplete>
 
         <base-textfield
           v-model="props.item.vehicleRangeMeasure.value"
           label="Запас хода"
           type="number"
-          class="span4"
+          class="span3"
         ></base-textfield>
 
         <base-autocomplete
@@ -106,7 +106,7 @@
           label="Ед.измерения"
           :items="NSI_033"
           item-value="key"
-          class="span2"
+          class="span3"
         ></base-autocomplete>
       </base-constructor>
     </base-is-missing>
@@ -115,16 +115,18 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
+import { useShemaStore } from '@/stores/shemaStore'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema //схема
 
 const NSI_033 = ref([])
 const NSI_059 = ref([])

@@ -60,17 +60,28 @@
           ].subjectAddressDetails.filter((e) => ['2', '4'].includes(e.addressKindCode))"
           :key="index2"
         >
-          <base-textfield
-            v-model="item2.fullAddress"
-            :label="
-              item2.addressKindCode === '4'
-                ? 'Местонахождение (Юридический адрес)'
-                : 'Местонахождение (Фактический адрес)'
-            "
-            disabled
+          <base-delete-element
             class="full"
+            :fun="
+              () =>
+                shema.vehicleManufacturerDetails[props.index].subjectAddressDetails.splice(
+                  index2,
+                  1
+                )
+            "
           >
-          </base-textfield>
+            <base-textfield
+              v-model="item2.fullAddress"
+              :label="
+                item2.addressKindCode === '4'
+                  ? 'Местонахождение (Юридический адрес)'
+                  : 'Местонахождение (Фактический адрес)'
+              "
+              disabled
+              class="full"
+            >
+            </base-textfield>
+          </base-delete-element>
         </template>
 
         <p class="full title">Контактные данные</p>
@@ -79,19 +90,30 @@
             .unifiedCommunicationDetails"
           :key="index3"
         >
-          <base-autocomplete
-            v-model="item3.communicationChannelName"
-            label="Тип контактной информации"
-            :items="NSI_042"
-            class="span6"
-            disabled
-          ></base-autocomplete>
-          <base-combobox
-            v-model="item3.communicationChannelId"
-            label="Контактные данные"
-            :disabled="item3.communicationChannelId.length < 2"
-            class="span6"
-          ></base-combobox>
+          <base-delete-element
+            class="full"
+            :fun="
+              () =>
+                shema.vehicleManufacturerDetails[props.index].unifiedCommunicationDetails.splice(
+                  index3,
+                  1
+                )
+            "
+          >
+            <base-autocomplete
+              v-model="item3.communicationChannelName"
+              label="Тип контактной информации"
+              :items="NSI_042"
+              class="span6"
+              disabled
+            ></base-autocomplete>
+            <base-combobox
+              v-model="item3.communicationChannelId"
+              label="Контактные данные"
+              :disabled="item3.communicationChannelId.length < 2"
+              class="span6"
+            ></base-combobox>
+          </base-delete-element>
         </template>
       </base-constructor>
     </base-is-missing>
@@ -100,7 +122,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -108,11 +130,14 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
+import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
+const shema = useShemaStore().shema // схема
 
 const NSI_034 = ref([])
 const NSI_042 = ref([])

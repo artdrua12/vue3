@@ -180,14 +180,16 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const shema = useShemaStore().shema //схема
 
 const NSI_013 = ref([])
 const NSI_015 = ref([])
@@ -208,4 +210,3 @@ async function load() {
 }
 load()
 </script>
-

@@ -76,7 +76,7 @@
             shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
               .engineIdentificationNumberLocationText[props4.index]
           "
-          label="Место расположения идентификационного номера  двигателя"
+          label="Место расположения идентификационного номера двигателя"
         ></base-textarea>
       </base-constructor-one-element>
 
@@ -196,7 +196,7 @@
 </template>
 
 <script setup>
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -206,6 +206,8 @@ import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSquares from '@/components/base/BaseSquares.vue'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema // схема
 
 const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']

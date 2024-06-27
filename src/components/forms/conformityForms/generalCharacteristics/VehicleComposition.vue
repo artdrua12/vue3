@@ -10,7 +10,8 @@
       :items="NSI_050"
       label="Схема компоновки транспортного средства*"
       max-length="250"
-      :validators="[conformityRules.vehicleLayoutPatternText]"
+      chips
+      :rules="[conformityRules.vehicleLayoutPatternText]"
       multiple
       class="full"
     ></base-autocomplete>
@@ -38,7 +39,7 @@
 
     <base-checkbox
       v-if="conformityDocKindCodeis35"
-      v-model="formModel.isNotRequiredVehicleEmergencyCallDeviceIndicator"
+      v-model="shema.isNotRequiredVehicleEmergencyCallDeviceIndicator"
       label="Возможность оформления ЭПТС без УВЭОС"
       style="margin-top: -0.4rem"
       :disabled="
@@ -78,7 +79,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -86,8 +87,9 @@ import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useShemaStore } from '@/stores/shemaStore'
+const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
-
 
 const conformityDocKindCodeis35 = computed(() => {
   return shema.conformityDocKindCode === '35'
@@ -97,9 +99,9 @@ const NSI_047 = ref([])
 const NSI_050 = ref([])
 
 async function load() {
-  NSI_017.value = await indexDB.getFromDatabase('catalog', 'NSI_017') || []
-  NSI_047.value = await indexDB.getFromDatabase('catalog', 'NSI_047') || []
-  NSI_050.value = await indexDB.getFromDatabase('catalog', 'NSI_050') || []
+  NSI_017.value = (await indexDB.getFromDatabase('catalog', 'NSI_017')) || []
+  NSI_047.value = (await indexDB.getFromDatabase('catalog', 'NSI_047')) || []
+  NSI_050.value = (await indexDB.getFromDatabase('catalog', 'NSI_050')) || []
 }
 load()
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5">
     <base-autocomplete
       v-model="shema.unifiedCountryCode.value"
       label="Код страны, выдавшей  документ об оценке соответствия колесных транспортных средств"
@@ -20,7 +20,7 @@
     <base-autocomplete
       v-model="shema.conformityDocKindCode"
       label="Наименование вида документа об оценке соответствия"
-      :items="NSI_012"
+      :items="conformityDocKindName"
       item-value="key"
       disabled
       class="span6"
@@ -139,12 +139,12 @@
       label="Примечание"
       class="full"
     ></base-textfield>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -154,13 +154,20 @@ import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
-const indexDB = useIndexDBStore()
+import { useShemaStore } from '@/stores/shemaStore'
+import { useRequestStore } from '@/stores/requestStore'
 
-const NSI_012 = ref([])
+const indexDB = useIndexDBStore()
+const requests = useRequestStore() // для работы с запросами
+const shema = useShemaStore().shema //схема
+const form = ref(null)
+
+const conformityDocKindName = ref([])
 const NSI_034 = ref([])
 
 async function load() {
-  NSI_012.value = (await indexDB.getFromDatabase('catalog', 'NSI_012')) || []
+  conformityDocKindName.value =
+    (await requests.get('/api/classifier/epassport/conformity-doc-kinds')) || []
   NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
 }
 load()

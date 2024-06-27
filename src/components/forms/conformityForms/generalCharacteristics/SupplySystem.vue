@@ -111,7 +111,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import shema from '@/components/forms/conformityForms/shema'
+// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
@@ -119,8 +119,9 @@ import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-
+import { useShemaStore } from '@/stores/shemaStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+const shema = useShemaStore().shema //схема
 
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_056 = ref([])
