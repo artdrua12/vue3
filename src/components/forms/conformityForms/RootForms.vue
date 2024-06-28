@@ -67,8 +67,8 @@
         }}</strong>
       </p>
 
-      <v-btn class="btn ma-3" @click="isShowText = !isShowText">
-        <v-icon dark>{{ isShowText ? 'mdi-arrow-up' : 'mdi-arrow-down' }}</v-icon></v-btn
+      <v-btn class="btn my-3" @click="isShowText = !isShowText">
+        <v-icon size="25">{{ isShowText ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon></v-btn
       >
       <div v-if="isShowText === true">
         <p>Сформирован на основании:</p>
@@ -86,149 +86,169 @@
 
       <div class="btnActions">
         <v-btn
-          class="btn"
-          :disabled="
-            !['Действующий', 'Утвержден', 'Приостановлен', 'Прекращен'].includes(
+          v-if="
+            ['Действующий', 'Утвержден', 'Приостановлен', 'Прекращен'].includes(
               shema.conformityDocStatusDetails.docStatus
             )
           "
+          class="btn"
         >
           Корректировать
         </v-btn>
         <v-btn
-          class="btn"
-          :disabled="
-            $route.name !== 'look' ||
-            !permissions.includes('Редактировать документ ОТТС (ОТШ)') ||
-            shema.conformityDocStatusDetails.docStatus !== 'Черновик'
+          v-if="
+            !(
+              $route.name !== 'look' ||
+              !getPermissions.has('Редактировать документ ОТТС (ОТШ)') ||
+              shema.conformityDocStatusDetails.docStatus !== 'Черновик'
+            )
           "
+          class="btn"
           @click="() => $router.push('/conformities/form/' + shema.id)"
           >Редактировать</v-btn
         >
-        <v-btn class="btn" :disabled="shema.conformityDocStatusDetails.docStatus !== ''"
+        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== '')" class="btn"
           >Создать черновик</v-btn
         >
 
         <v-btn
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
-            !permissions.includes('Утвердить документ ОТТС (ОТШ)')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
+              !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
+            )
           "
           class="btn"
           >Утвердить</v-btn
         >
         <v-btn
-          class="btn"
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
-            !permissions.includes('Утвердить документ ОТТС (ОТШ)')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
+              !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
+            )
           "
+          class="btn"
           >Отказать</v-btn
         >
-        <v-btn class="btn" :disabled="shema.conformityDocStatusDetails.docStatus !== 'Черновик'"
+        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')" class="btn"
           >Создать проект</v-btn
         >
 
         <v-btn
+          v-if="!!['На согласовании'].includes(shema.conformityDocStatusDetails.docStatus)"
           class="btn"
-          :disabled="!['На согласовании'].includes(shema.conformityDocStatusDetails.docStatus)"
         >
           Согласовать
         </v-btn>
 
         <v-btn
-          class="btn"
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'Действующий' ||
-            !permissions.includes('Копировать документ ОТТС (ОТШ)')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'Действующий' ||
+              !getPermissions.has('Копировать документ ОТТС (ОТШ)')
+            )
           "
+          class="btn"
           >Копировать</v-btn
         >
         <v-btn
+          v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
           class="btn"
-          :disabled="shema.conformityDocStatusDetails.docStatus !== 'Черновик'"
           @click.stop="saveImage()"
           >Сохранить</v-btn
         >
 
         <v-btn
-          class="btn"
-          :disabled="
-            !['Действующий', 'Приостановлен'].includes(shema.conformityDocStatusDetails.docStatus)
+          v-if="
+            !!['Действующий', 'Приостановлен'].includes(shema.conformityDocStatusDetails.docStatus)
           "
+          class="btn"
         >
           Аннулировать
         </v-btn>
-        <v-btn class="btn" disabled>Вернуть</v-btn>
-        <v-btn class="btn" disabled>На согласование</v-btn>
 
         <v-btn
-          class="btn"
-          :disabled="
-            !['Действующий', 'Приостановлен', 'Прекращен'].includes(
+          v-if="
+            !!['Действующий', 'Приостановлен', 'Прекращен'].includes(
               shema.conformityDocStatusDetails.docStatus
             )
           "
+          class="btn"
           >Продлить</v-btn
         >
         <v-btn
-          class="btn"
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'Черновик'
-            // || !permissions.includes('Удалить документ ОТТС (ОТШ)')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'Черновик' ||
+              !getPermissions.has('Удалить документ ОТТС (ОТШ)')
+            )
           "
+          class="btn"
           >Удалить</v-btn
         >
+
         <v-btn
-          class="btn"
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'На утверждении'
-            // || !permissions.includes('Отзыв документа в статусе «На утверждении»')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
+              !getPermissions.has('Отзыв документа в статусе «На утверждении»')
+            )
           "
+          class="btn"
           >Отозвать</v-btn
         >
-        <v-btn class="btn" disabled>Пересмотреть</v-btn>
         <v-btn class="btn">Проверка</v-btn>
         <v-btn
+          v-if="!!['Действующий'].includes(shema.conformityDocStatusDetails.docStatus)"
           class="btn"
-          :disabled="!['Действующий'].includes(shema.conformityDocStatusDetails.docStatus)"
         >
           Приостановить
         </v-btn>
 
         <v-btn
-          class="btn"
-          :disabled="
-            !['Приостановлен', 'Отменен в СЭП', 'Прекращен'].includes(
+          v-if="
+            !!['Приостановлен', 'Отменен в СЭП', 'Прекращен'].includes(
               shema.conformityDocStatusDetails.docStatus
             )
           "
+          class="btn"
         >
           Возобновить
         </v-btn>
         <v-btn
-          class="btn"
-          :disabled="
-            !['Действующий'].includes(shema.conformityDocStatusDetails.docStatus) ||
-            // || !permissions.includes('Утвердить документ ОТТС (ОТШ)')
-            $route.name === 'look'
+          v-if="
+            !(
+              !['Действующий'].includes(shema.conformityDocStatusDetails.docStatus) ||
+              !getPermissions.has('Утвердить документ ОТТС (ОТШ)') ||
+              $route.name === 'look'
+            )
           "
+          class="btn"
         >
           Изменить
         </v-btn>
 
         <v-btn
-          class="btn"
-          :disabled="
-            shema.conformityDocStatusDetails.docStatus !== 'Проект'
-            // || !permissions.includes('Создать документ ОТТС (ОТШ)')
+          v-if="
+            !(
+              shema.conformityDocStatusDetails.docStatus !== 'Проект' ||
+              !getPermissions.has('Создать документ ОТТС (ОТШ)')
+            )
           "
+          class="btn"
           >Отправить на утверждение
         </v-btn>
 
-        <v-btn class="btn" :disabled="!shema.id" @click="dialog3 = !dialog3">Работа с Pdf</v-btn>
+        <v-btn v-if="shema.id" class="btn" @click="dialog3 = !dialog3">Работа с Pdf</v-btn>
         <v-btn class="btn" @click.stop="askClose()">Закрыть документ</v-btn>
       </div>
+      <v-btn
+        prepend-icon="mdi-close-thick"
+        class="btnClose block full"
+        @click="isOpenRightMenu = !isOpenRightMenu"
+        >Закрыть
+      </v-btn>
     </div>
   </div>
 </template>
@@ -259,10 +279,14 @@ import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vu
 import { useRoute } from 'vue-router'
 import { useRequestStore } from '@/stores/requestStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
 
 const shemaStore = useShemaStore()
 shemaStore.createShema(shemaDefault) // создаем схему
 const shema = shemaStore.shema // после связываем схему с полями
+const user = useUserStore() //получение permissions из пользователя
+const { getPermissions } = storeToRefs(user) //получение permissions
 
 const isCategoryCode = computed(() => {
   return shema.vehicleTypeDetails.vehicleTechCategoryCode.every(
@@ -474,7 +498,7 @@ const data = reactive([
         enabled: computed(() => isCategoryCodeAndEngineType.value)
       },
       {
-        title: 'Система выпуска и нейтрализации отработавших газов',
+        title: 'Система нейтрализации',
         id: '#neutralization-system',
         component: 'NeutralizationSystem',
         enabled: computed(() => isCategoryCodeAndEngineType.value)
@@ -586,7 +610,7 @@ function getComponent(type) {
   top: 65px;
   right: 0px;
   z-index: 2;
-  width: 400px;
+  width: 370px;
   max-height: calc(100vh - 120px);
   background-color: rgba(219, 219, 219);
   /* background-color: rgba(127, 255, 212, 0.589); */
@@ -594,24 +618,29 @@ function getComponent(type) {
   display: flex;
   flex-direction: column;
   border-radius: 7px;
-  overflow: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
   border: 1px solid white;
+  overflow: auto;
   box-shadow:
     rgba(44, 73, 87, 0.79) 0px 1px 20px,
     rgba(44, 73, 87, 0.4) 0px 7px 7px;
   transform: translateX(110%);
   transition: transform 0.35s ease-in-out;
 }
-
+.btnClose {
+  margin-top: 10px;
+  position: sticky;
+  bottom: 0px;
+  color: red;
+}
 .openRightMenu {
   transform: translateX(-25px);
 }
 
 .btnActions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
 }
 .btn {

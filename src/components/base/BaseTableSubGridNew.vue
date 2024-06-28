@@ -316,8 +316,10 @@ function valueFromPatch(item, patch) {
   if (Array.isArray(value)) {
     const str = value.join()
     return str.replace(/,/gi, ', ')
+  } else if (typeof value == 'string') {
+    return value.trim()
   }
-  return value.trim()
+  return value
 }
 
 function valueUseEval(item, patch) {

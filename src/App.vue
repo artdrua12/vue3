@@ -22,9 +22,9 @@
       </router-view>
     </div>
 
-    <div class="app-footer">
+    <!-- <div class="app-footer">
       <p>©2024</p>
-    </div>
+    </div> -->
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
@@ -62,22 +62,13 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
 </script>
 
 <style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .app {
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 40px 1fr 30px;
+  /* grid-template-rows: 40px 1fr 30px; */
+  grid-template-rows: 40px 1fr ;
   background-color: #f7f7f7;
 }
 .app-title {

@@ -19,6 +19,7 @@
           :items="NSI_030"
           label="Вид топлива*"
           multiple
+          chips
           :rules="[conformityRules.vehicleFuelKindName]"
           class="full"
         ></base-autocomplete>

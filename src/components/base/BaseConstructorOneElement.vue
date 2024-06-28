@@ -13,14 +13,17 @@
     <div v-for="(item, index) in data" :key="index" class="element">
       <slot name="default" :index="index"></slot>
       <slot name="btnRemove" :index="index">
-        <v-icon
+        <!-- <v-icon
           v-if="data.length != 1"
           color="red"
           class="btnRemove"
           icon="mdi-close-box"
           @click="remove(item)"
-        ></v-icon
-      ></slot>
+        ></v-icon> -->
+        <v-btn v-if="data.length != 1" icon class="btnRemove" size="30" @click="remove(item)">
+          {{ index + 1 }}
+        </v-btn>
+      </slot>
     </div>
   </div>
 </template>
@@ -62,18 +65,18 @@ function remove(item) {
   padding: 15px 0px 10px 50px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 3px;
 }
 .element {
   position: relative;
 }
 .element::before {
   width: 37px;
-  height: calc(50% + 7px);;
+  height: calc(50% + 7px);
   content: '';
   position: absolute;
   left: -35px;
-  bottom: calc(50% + 7px);
+  bottom: calc(50% + 10px);
   border-bottom: 1px solid #2c4957;
   border-left: 1px solid #2c4957;
 }
@@ -87,29 +90,27 @@ function remove(item) {
   border-left: 1px solid #2c4957;
 }
 
-.element:first-of-type::before {
+/* .element:first-of-type::before {
   height: 50%;
-}
+} */
 .element:last-of-type::after {
   border: none;
 }
 .addBtn {
   position: absolute;
-  top: -15px;
+  top: -20px;
   left: 0px;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
   z-index: 2;
-  background-color: #ebebeb;
 }
 
 .btnRemove {
-  font-size: 23px;
   position: absolute;
-  bottom: calc(50% - 4px);
-  left: -47px;
+  bottom: calc(50% - 3px);
+  left: -50px;
   z-index: 2;
-  background-color: #ebebeb;
+  color: orangered;
+  font-family: sans-serif;
+  font-weight: 700;
+  border: 1px solid #2c4957;
 }
 </style>

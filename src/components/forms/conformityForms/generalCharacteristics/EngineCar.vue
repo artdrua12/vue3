@@ -46,7 +46,7 @@
         :filter-data="shema.vehicleVariantDetails[0].engineDetails"
         :default-data="shemaDefault.vehicleVariantDetails[0].engineDetails[0]"
         class="full"
-        label="Базовое ТС"
+        label="Двигатель внутреннего сгорания"
       >
         <base-textfield
           v-model="props.item.vehicleComponentMakeName"

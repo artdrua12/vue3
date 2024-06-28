@@ -12,6 +12,7 @@
         :items="NSI_046"
         :disabled="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
         multiple
+        chips
         item-value="key"
         max-length="120"
         :rules="
@@ -46,6 +47,7 @@
       v-if="shema.conformityDocKindCode !== '35'"
       v-model="shema.vehicleTypeDetails.vehicleTypeId"
       multiple
+      chips
       label="Тип"
       item-text="value"
       :items="NSI_399"
@@ -92,9 +94,10 @@
     <base-autocomplete
       v-model="shema.vehicleTypeDetails.vehicleTechCategoryCode"
       label="Категория ТС в соответствии с ТР ТС № 018/2011*"
-      item-text="key"
+      item-value="key"
       :items="NSI_015.filter((e) => e.key.match(/L|M|N|O/))"
       multiple
+      chips
       :rules="[conformityRules.vehicleTechCategoryCode]"
       class="span6"
     >
@@ -113,6 +116,7 @@
         :items="NSI_016"
         item-text="value"
         multiple
+        chips
         :rules="
           !shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator
             ? [conformityRules.vehicleEcoClassCode]
@@ -139,6 +143,7 @@
         :disabled="shema.vehicleVariantDetails[0].notClassCode"
         item-text="value"
         multiple
+        chips
       ></base-autocomplete>
     </base-is-missing-disabled>
 
@@ -155,6 +160,7 @@
         :disabled="shema.vehicleVariantDetails[0].notCodOKPBY"
         item-text="key"
         multiple
+        chips
         :rules="!shema.vehicleVariantDetails[0].notCodOKPBY ? [conformityRules.codOKPBY] : []"
       ></base-autocomplete>
     </base-is-missing-disabled>
@@ -172,6 +178,7 @@
         :disabled="shema.vehicleVariantDetails[0].notCodTNVED"
         item-text="key"
         multiple
+        chips
         :rules="!shema.vehicleVariantDetails[0].notCodTNVED ? [conformityRules.codTNVED] : []"
       ></base-autocomplete>
     </base-is-missing-disabled>

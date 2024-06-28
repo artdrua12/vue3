@@ -22,6 +22,7 @@
       label="Код варианта изготовления шасси транспортного средства"
       :items="NSI_017"
       multiple
+      chips
       class="full"
     ></base-autocomplete>
 
@@ -70,6 +71,7 @@
       :items="NSI_047"
       :model="shema.vehicleVariantDetails[0].vehicleComponentLocationText"
       multiple
+      chips
       :rules="[conformityRules.vehicleComponentLocationText]"
       max-length="1000"
       class="full"

@@ -59,6 +59,8 @@
         :items="NSI_039"
         :rules="[conformityRules.vehicleTyreKindCategorySpeed]"
         class="span6"
+        multiple
+        chips
       ></base-autocomplete>
 
       <p class="title full">Индекс несущей способности для максимально допустимой нагрузки</p>

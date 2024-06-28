@@ -4,7 +4,7 @@
       v-model="shema.vehicleVariantDetails[0].notExhaust"
       v-model:data="shema.vehicleVariantDetails[0].exhaustDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].exhaustDetails"
-      label="Система выпуска и нейтрализации отработавших газов - отсутствует"
+      label="Система нейтрализации - отсутствует"
     >
       <base-constructor
         v-slot="props"
