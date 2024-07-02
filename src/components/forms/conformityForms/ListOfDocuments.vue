@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-7">
+  <v-form ref="form" class="pa-7">
     <v-btn
       class="mb-2"
       color="#546e7a"
@@ -11,7 +11,7 @@
     </v-btn>
 
     <base-modal
-      v-model:isOpen="isOpen"
+      v-model="isOpen"
       :title="currentIndex === -1 ? 'Добавление документа' : 'Редактирование документа'"
       icon="mdi-file-document-plus-outline"
       :ok-function="addOrEdit"
@@ -86,7 +86,7 @@
       <template #no-data> Документы отсутствуют </template>
       <template #bottom></template>
     </v-data-table>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -153,6 +153,7 @@ const headers = ref([
 
   { title: 'Действия', value: 'actions', sortable: false }
 ])
+const form = ref(null) // ссылка на форму
 
 function addOrEdit() {
   // редактируем
@@ -189,6 +190,14 @@ async function load() {
   )
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>
 
 <style scoped>

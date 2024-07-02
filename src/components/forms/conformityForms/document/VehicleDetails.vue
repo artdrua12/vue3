@@ -1,16 +1,15 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5">
     <base-is-missing-disabled
       v-model="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleMakeName"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-autocomplete
         v-model="shema.vehicleTypeDetails.vehicleMakeName"
         label="Марка*"
         :items="NSI_046"
-        :disabled="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
         multiple
         chips
         item-value="key"
@@ -26,7 +25,7 @@
     <base-is-missing-disabled
       v-model="shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleCommercialName"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-combobox
@@ -34,12 +33,7 @@
         label="Коммерческое наименование*"
         item-value="key"
         max-length="120"
-        :rules="
-          !shema.vehicleTypeDetails.notVehicleCommercialNameIndicator
-            ? [conformityRules.vehicleCommercialName]
-            : []
-        "
-        :disabled="shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
+        :rules="!shema.vehicleTypeDetails.notVehicleCommercialNameIndicator ? [conformityRules.vehicleCommercialName] : []"
       ></base-combobox>
     </base-is-missing-disabled>
 
@@ -64,7 +58,7 @@
     <base-is-missing-disabled
       v-model="shema.vehicleVariantDetails[0].notVehicleTypeId"
       v-model:data="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-combobox
@@ -75,7 +69,6 @@
             ? [conformityRules.vehicleTypeVariantId]
             : []
         "
-        :disabled="shema.vehicleVariantDetails[0].notVehicleTypeId"
       ></base-combobox>
     </base-is-missing-disabled>
 
@@ -87,7 +80,6 @@
       <base-textfield
         v-model="shema.vehicleVariantDetails[0].modificationVirtual"
         label="Виртуальная модификация*"
-        :disabled="shema.vehicleVariantDetails[0].notModificationVirtual"
       ></base-textfield>
     </base-is-missing-disabled>
 
@@ -106,13 +98,12 @@
     <base-is-missing-disabled
       v-model="shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
       v-model:data="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
         label="Экологический класс*"
-        :disabled="shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
         :items="NSI_016"
         item-text="value"
         multiple
@@ -133,14 +124,13 @@
       "
       v-model="shema.vehicleVariantDetails[0].notClassCode"
       v-model:data="shema.vehicleVariantDetails[0].classCode"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].classCode"
         label="Класс для категорий M2, M2G, M3, M3G "
         :items="NSI_013"
-        :disabled="shema.vehicleVariantDetails[0].notClassCode"
         item-text="value"
         multiple
         chips
@@ -150,14 +140,13 @@
     <base-is-missing-disabled
       v-model="shema.vehicleVariantDetails[0].notCodOKPBY"
       v-model:data="shema.vehicleVariantDetails[0].codOKPBY"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].codOKPBY"
         label="Код ОКП*"
         :items="NSI_089"
-        :disabled="shema.vehicleVariantDetails[0].notCodOKPBY"
         item-text="key"
         multiple
         chips
@@ -168,21 +157,20 @@
     <base-is-missing-disabled
       v-model="shema.vehicleVariantDetails[0].notCodTNVED"
       v-model:data="shema.vehicleVariantDetails[0].codTNVED"
-      :default-data="[null]"
+      :default-data="[]"
       class="span6"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].codTNVED"
         label="Код ТН ВЭД*"
         :items="NSI_108"
-        :disabled="shema.vehicleVariantDetails[0].notCodTNVED"
         item-text="key"
         multiple
         chips
         :rules="!shema.vehicleVariantDetails[0].notCodTNVED ? [conformityRules.codTNVED] : []"
       ></base-autocomplete>
     </base-is-missing-disabled>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -197,6 +185,7 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
+const form = ref(null) // ссылка на форму
 
 const NSI_013 = ref([])
 const NSI_015 = ref([])
@@ -216,4 +205,12 @@ async function load() {
   NSI_399.value = (await indexDB.getFromDatabase('catalog', 'NSI_399')) || []
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5">
     <base-autocomplete
       v-model="shema.applicantDetails.businessEntityName"
       label="Организация*"
@@ -92,7 +92,7 @@
         ></base-combobox>
       </base-delete-element>
     </template>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -111,6 +111,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema // схема
+const form = ref(null) // ссылка на форму
 
 const NSI_034 = ref([])
 const NSI_042 = ref([])
@@ -157,4 +158,12 @@ async function load() {
   authority.value = (await requests.get('/api/manufacturer-registry/all')) || []
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

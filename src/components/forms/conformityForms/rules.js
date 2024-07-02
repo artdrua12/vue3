@@ -14,7 +14,7 @@ export const conformityRules = {
     return true;
   }, */
   vehicleMakeName: value => {
-    if (value.length == []) {
+    if (value.length == 0) {
       return `Поле "Марка" обязательно к заполнению`;
     }
     return true;

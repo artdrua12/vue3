@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5">
     <base-autocomplete
       v-if="
         !shema.conformityDocStatusDetails.docStatus ||
@@ -115,7 +115,7 @@
       disabled
       class="full"
     ></base-textfield>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -135,6 +135,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с базой данных IndexDB
 const shema = useShemaStore().shema //схема
+const form = ref(null) // ссылка на форму
 
 const NSI_042 = ref([])
 const NSI_310 = ref([])
@@ -190,4 +191,12 @@ async function load() {
   authority.value = await requests.get('/api/classifier/epassport/certification-body/search/all')
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

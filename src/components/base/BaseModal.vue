@@ -35,13 +35,7 @@
 </template>
 
 <script setup>
-import { defineEmits } from 'vue'
 const props = defineProps({
-  // если empty true то отобращаем без рамоки, заголовка и кнопок
-  // isEmpty: {
-  //   type: Boolean,
-  //   default: false
-  // },
   title: {
     type: String,
     default: ''
@@ -69,18 +63,15 @@ const props = defineProps({
     type: String,
     default: 'Закрыть'
   },
-  isOpen: {
-    type: Boolean,
-    default: false
-  },
   icon: {
     type: String,
     default: 'mdi-tune-variant'
   }
 })
-const emit = defineEmits(['update:isOpen'])
+// const emit = defineEmits(['update:isOpen'])
+const isOpen = defineModel({ type: Boolean })
 function close() {
-  emit('update:isOpen', false)
+  isOpen.value = !isOpen.value
 }
 function ok() {
   if (props.okFunction) {
@@ -93,15 +84,6 @@ function ok() {
 </script>
 
 <style>
-/* .empty {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  max-width: 96vw;
-  max-height: 96vh;
-} */
 .modal-wrapper {
   position: fixed;
   display: flex;

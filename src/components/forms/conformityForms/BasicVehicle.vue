@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid pa-7">
+  <v-form ref="form" class="adaptiveGrid pa-7">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notBaseVehicleDetails"
       v-model:data="shema.vehicleVariantDetails[0].baseVehicleDetails"
@@ -60,7 +60,7 @@
         </base-datefield>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -80,6 +80,7 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore() // для работы с базой данных
 const shema = useShemaStore().shema // схема
+const form = ref(null) // ссылка на форму
 
 const NSI_046 = ref([])
 
@@ -87,4 +88,12 @@ async function load() {
   NSI_046.value = (await indexDB.getFromDatabase('catalog', 'NSI_046')) || []
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

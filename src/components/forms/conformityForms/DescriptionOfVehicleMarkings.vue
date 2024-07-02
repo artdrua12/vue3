@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-7">
+  <v-form ref="form" class="pa-7">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
@@ -192,10 +192,11 @@
         </base-constructor>
       </base-constructor>
     </base-constructor>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
@@ -208,7 +209,16 @@ import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSquares from '@/components/base/BaseSquares.vue'
 import { useShemaStore } from '@/stores/shemaStore'
 const shema = useShemaStore().shema // схема
+const form = ref(null) // ссылка на форму
 
 const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

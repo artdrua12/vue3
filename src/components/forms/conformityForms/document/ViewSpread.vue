@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <v-form ref="form" class="adaptiveGrid">
     <base-checkbox
       v-model="shema.series"
       label="На серийно выпускаемую продукцию"
@@ -70,7 +70,7 @@
         ></base-combobox>
       </base-is-missing>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -89,6 +89,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 const shema = useShemaStore().shema // схема
 const indexDB = useIndexDBStore()
 const NSI_033 = ref([])
+const form = ref(null) // ссылка на форму
 
 function change() {
   if (shema.unifiedCommodityMeasure) {
@@ -99,4 +100,11 @@ async function load() {
   NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []
 }
 load()
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

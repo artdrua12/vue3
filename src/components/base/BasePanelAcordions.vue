@@ -1,14 +1,14 @@
 <template>
-  <v-expansion-panels style="gap: 1px" class="base" variant="popout">
+  <v-expansion-panels v-model="panel" style="gap: 1px" class="base" variant="popout">
     <v-expansion-panel
       v-for="item in data"
-      :key="item.id"
+      :key="item.component"
       :elevation="3"
       :title="item.title"
       :hide-actions="!item.tabs"
       color="#2c4957"
       bg-color="#ebebeb"
-      @click="toId(item)"
+      @click="goToId(item)"
     >
       <v-expansion-panel-text class="elevetion-0">
         <v-btn
@@ -27,11 +27,12 @@
 
 <script setup>
 const data = defineModel({ type: Array })
+const panel = defineModel('panel', { type: Number })
 
-function toId(item) {
-  let elem = document.getElementById(item.id)
+function goToId(item) {
+  let elem = document.getElementById(item.component)
   elem.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  openPanel(item)
+  openPanel(item) // открываем панель если она закрыта
 }
 function openPanel(item) {
   item.openPanel = '1'

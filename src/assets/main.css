@@ -77,6 +77,11 @@ html {
 .base .v-field--disabled {
   opacity: 0.52;
 }
+/* расстояние от нижнего края поля, при уведомления об ошибке */
+.base .v-messages__message {
+  margin-top: -5px;
+}
+
 
 /* .v-input__details {
   min-height: 10px;

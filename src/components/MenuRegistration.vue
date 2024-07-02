@@ -1,6 +1,6 @@
 <template>
   <base-modal
-    v-model:isOpen="isOpen"
+    v-model="isOpen"
     title="Основание оформления электронного паспорта"
     icon="mdi-firebase"
     ok-title="Создать"

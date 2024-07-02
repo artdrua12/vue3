@@ -109,7 +109,7 @@
     </div>
 
     <base-modal
-      v-model:isOpen="isOpen"
+      v-model="isOpen"
       title="Настройки"
       ok-title="Снять все выделения"
       :ok-function="removeActiveCheckboxes"

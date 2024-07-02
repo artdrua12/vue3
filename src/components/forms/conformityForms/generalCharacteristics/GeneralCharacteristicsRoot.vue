@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-
 import VehicleComposition from '@/components/forms/conformityForms/generalCharacteristics/VehicleComposition.vue'
 import VehicleRunningGearDetails from '@/components/forms/conformityForms/generalCharacteristics/VehicleRunningGearDetails.vue'
 import VehicleAxis from '@/components/forms/conformityForms/generalCharacteristics/VehicleAxis.vue'
@@ -61,6 +60,11 @@ const allComponents = {
 function getComponent(type) {
   return allComponents[type]
 }
+async function isValidation() {
+  // await childCompRef.value[0].isValidate()
+  return true
+}
+defineExpose({
+  isValidation
+})
 </script>
-
-<style></style>

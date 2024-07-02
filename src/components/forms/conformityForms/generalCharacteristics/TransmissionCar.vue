@@ -211,12 +211,12 @@
             label="Передаточные числа"
             class="full"
           >
-            <base-text-field
+            <base-textfield
               v-model="props3.vehicleShaftRotationFrequencyMeasure.value"
               label="Скорость вращения вала"
               type="number"
               class="span6"
-            ></base-text-field>
+            ></base-textfield>
             <base-autocomplete
               v-model="props3.item.vehicleShaftRotationFrequencyMeasure.measurementUnitCode"
               label="Ед. измерения"
@@ -224,11 +224,11 @@
               :items="measurementUnitCode"
               class="span6"
             ></base-autocomplete>
-            <base-text-field
+            <base-textfield
               v-model="props3.item.transmissionUnitGearRate"
               label="Передаточное отношение"
               class="full"
-            ></base-text-field>
+            ></base-textfield>
           </base-constructor>
         </template>
       </base-constructor>

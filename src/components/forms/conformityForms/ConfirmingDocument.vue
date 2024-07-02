@@ -55,4 +55,10 @@ async function load() {
   NSI_046.value = (await indexDB.getFromDatabase('catalog', 'NSI_046')) || []
 }
 load()
+async function isValidation() {
+  return true
+}
+defineExpose({
+  isValidation
+})
 </script>

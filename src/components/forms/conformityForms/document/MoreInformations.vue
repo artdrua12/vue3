@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <v-form ref="form" class="adaptiveGrid">
     <base-is-missing
       v-model="shema.vehicleTypeDetails.vehicleUseRestrictionIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionText"
@@ -91,7 +91,7 @@
         <div v-if="props.index == 0 && isEmergencyCallDeviceFree"></div>
       </template>
     </base-constructor-one-element>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -106,6 +106,7 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 const indexDB = useIndexDBStore()
 const shema = useShemaStore().shema // схема
+const form = ref(null) // ссылка на форму
 
 const NSI_067 = ref([])
 const emergencyCallDeviceFree =
@@ -134,4 +135,11 @@ async function load() {
   NSI_067.value = (await indexDB.getFromDatabase('catalog', 'NSI_067')) || []
 }
 load()
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await form.value.validate()
+    return valid
+  }
+})
 </script>

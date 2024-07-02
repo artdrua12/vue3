@@ -17,6 +17,14 @@
       class="span6"
     ></base-textfield>
 
+    <!-- <base-textfield
+      v-model="shema.docId"
+      label="Номер документа*"
+      max-length="50"
+      hint="Номер документа должен соответствовать формату ТС ZZ (А|Е|К)-ZZ.0000.00000.*  (символы ТС, А, Е, К - с использованием букв кириллицы, ZZ - с использованием латиницы)"
+      class="span6"
+    ></base-textfield> -->
+
     <base-autocomplete
       v-model="shema.conformityDocKindCode"
       label="Наименование вида документа об оценке соответствия"
@@ -160,7 +168,7 @@ import { useRequestStore } from '@/stores/requestStore'
 const indexDB = useIndexDBStore()
 const requests = useRequestStore() // для работы с запросами
 const shema = useShemaStore().shema //схема
-const form = ref(null)
+const form = ref(null) // ссылка на форму
 
 const conformityDocKindName = ref([])
 const NSI_034 = ref([])
@@ -171,4 +179,13 @@ async function load() {
   NSI_034.value = (await indexDB.getFromDatabase('catalog', 'NSI_034')) || []
 }
 load()
+
+// для того что бы метод был доступен у родителя
+defineExpose({
+  async isValidation() {
+    const { valid } = await this.$refs.form.validate()
+    console.log('valid', valid)
+    return valid
+  }
+})
 </script>

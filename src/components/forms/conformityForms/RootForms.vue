@@ -1,11 +1,16 @@
 <template>
   <div class="layoutForms">
-    <base-panel-acordions v-model="dataEnabled" class="forms-menu"></base-panel-acordions>
+    <base-panel-acordions
+      v-model="dataEnabled"
+      v-model:panel="panel"
+      class="forms-menu"
+    ></base-panel-acordions>
+
     <div class="forms-data">
       <base-panel
         v-for="item in dataEnabled"
-        :id="item.id"
-        :key="item.id"
+        :id="item.component"
+        :key="item.component"
         v-model:open-panel="item.openPanel"
         elevation="5"
         bg-color="#ebebeb"
@@ -13,6 +18,7 @@
         <template #title>{{ item.title }} </template>
         <component
           :is="getComponent(item.component)"
+          ref="childCompRef"
           v-model="item.tabsEnabled"
           v-model:tab="item.tab"
           class="mainContent"
@@ -67,10 +73,12 @@
         }}</strong>
       </p>
 
-      <v-btn class="btn my-3" @click="isShowText = !isShowText">
-        <v-icon size="25">{{ isShowText ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon></v-btn
+      <v-btn class="btn my-3" @click="isAdditionInfoRightMenu = !isAdditionInfoRightMenu">
+        <v-icon size="25">{{
+          isAdditionInfoRightMenu ? 'mdi-chevron-up' : 'mdi-chevron-down'
+        }}</v-icon></v-btn
       >
-      <div v-if="isShowText === true">
+      <div v-if="isAdditionInfoRightMenu === true">
         <p>Сформирован на основании:</p>
         <p>
           Орган по сертификации:
@@ -91,7 +99,7 @@
               shema.conformityDocStatusDetails.docStatus
             )
           "
-          class="btn"
+          class="btnItem"
         >
           Корректировать
         </v-btn>
@@ -103,11 +111,14 @@
               shema.conformityDocStatusDetails.docStatus !== 'Черновик'
             )
           "
-          class="btn"
+          class="btnItem"
           @click="() => $router.push('/conformities/form/' + shema.id)"
           >Редактировать</v-btn
         >
-        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== '')" class="btn"
+        <v-btn
+          v-if="!(shema.conformityDocStatusDetails.docStatus !== '')"
+          class="btnItem"
+          @click="saveAsDraftDocument"
           >Создать черновик</v-btn
         >
 
@@ -118,7 +129,7 @@
               !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
             )
           "
-          class="btn"
+          class="btnItem"
           >Утвердить</v-btn
         >
         <v-btn
@@ -128,16 +139,16 @@
               !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
             )
           "
-          class="btn"
+          class="btnItem"
           >Отказать</v-btn
         >
-        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')" class="btn"
+        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')" class="btnItem"
           >Создать проект</v-btn
         >
 
         <v-btn
           v-if="!!['На согласовании'].includes(shema.conformityDocStatusDetails.docStatus)"
-          class="btn"
+          class="btnItem"
         >
           Согласовать
         </v-btn>
@@ -149,12 +160,12 @@
               !getPermissions.has('Копировать документ ОТТС (ОТШ)')
             )
           "
-          class="btn"
+          class="btnItem"
           >Копировать</v-btn
         >
         <v-btn
           v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
-          class="btn"
+          class="btnItem"
           @click.stop="saveImage()"
           >Сохранить</v-btn
         >
@@ -163,7 +174,7 @@
           v-if="
             !!['Действующий', 'Приостановлен'].includes(shema.conformityDocStatusDetails.docStatus)
           "
-          class="btn"
+          class="btnItem"
         >
           Аннулировать
         </v-btn>
@@ -174,7 +185,7 @@
               shema.conformityDocStatusDetails.docStatus
             )
           "
-          class="btn"
+          class="btnItem"
           >Продлить</v-btn
         >
         <v-btn
@@ -184,7 +195,7 @@
               !getPermissions.has('Удалить документ ОТТС (ОТШ)')
             )
           "
-          class="btn"
+          class="btnItem"
           >Удалить</v-btn
         >
 
@@ -195,13 +206,13 @@
               !getPermissions.has('Отзыв документа в статусе «На утверждении»')
             )
           "
-          class="btn"
+          class="btnItem"
           >Отозвать</v-btn
         >
-        <v-btn class="btn">Проверка</v-btn>
+        <v-btn class="btnItem" @click="validation">Проверка</v-btn>
         <v-btn
           v-if="!!['Действующий'].includes(shema.conformityDocStatusDetails.docStatus)"
-          class="btn"
+          class="btnItem"
         >
           Приостановить
         </v-btn>
@@ -212,7 +223,7 @@
               shema.conformityDocStatusDetails.docStatus
             )
           "
-          class="btn"
+          class="btnItem"
         >
           Возобновить
         </v-btn>
@@ -224,7 +235,7 @@
               $route.name === 'look'
             )
           "
-          class="btn"
+          class="btnItem"
         >
           Изменить
         </v-btn>
@@ -236,20 +247,32 @@
               !getPermissions.has('Создать документ ОТТС (ОТШ)')
             )
           "
-          class="btn"
+          class="btnItem"
           >Отправить на утверждение
         </v-btn>
 
-        <v-btn v-if="shema.id" class="btn" @click="dialog3 = !dialog3">Работа с Pdf</v-btn>
-        <v-btn class="btn" @click.stop="askClose()">Закрыть документ</v-btn>
+        <v-btn v-if="shema.id" class="btnItem" @click="dialog3 = !dialog3">Работа с Pdf</v-btn>
+        <v-btn class="btnItem" @click="isCloseDocument = !isCloseDocument">Закрыть документ</v-btn>
       </div>
       <v-btn
+        color="orange"
         prepend-icon="mdi-close-thick"
         class="btnClose block full"
         @click="isOpenRightMenu = !isOpenRightMenu"
-        >Закрыть
+        >Закрыть меню действий
       </v-btn>
     </div>
+
+    <base-modal
+      v-model="isCloseDocument"
+      title="Закрыть документ"
+      icon="mdi-file-document-remove-outline"
+      ok-title="Продолжить"
+      cancel-title="отмена"
+      :ok-function="()=>$router.push('/conformities')"
+    >
+      Все изменения будут потеряны. Продолжить?
+    </base-modal>
   </div>
 </template>
 
@@ -257,24 +280,17 @@
 import { reactive, ref, computed } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-// Документ об оценке соответствия
-import DocumentRoot from '@/components/forms/conformityForms/document/DocumentRoot.vue'
-//  Базовое ТС
-import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue'
-// Общие характеристики транспортного средства (Шасси)
-import GeneralCharacteristicsRoot from '@/components/forms/conformityForms/generalCharacteristics/GeneralCharacteristicsRoot.vue'
-// Описание маркировки транспортного средства (Шасси)
-import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue'
-// Общий вид транспортного средства (Шасси)
-import VehicleView from '@/components/forms/conformityForms/VehicleView.vue'
-// Документ, подтверждающий соответствие обязательным требованиям
-import ConfirmingDocument from '@/components/forms/conformityForms/ConfirmingDocument.vue'
-// Перечень документов, являющихся основанием для оформления ОТТС
-import ListOfDocuments from '@/components/forms/conformityForms/ListOfDocuments.vue'
-// История изменения документа
-import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vue'
+
+import shemaDefault from '@/components/forms/conformityForms/shemaDefault' // import shema from '@/components/forms/conformityForms/shema'
+import DocumentRoot from '@/components/forms/conformityForms/document/DocumentRoot.vue' // Документ об оценке соответствия
+import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue' //  Базовое ТС
+import GeneralCharacteristicsRoot from '@/components/forms/conformityForms/generalCharacteristics/GeneralCharacteristicsRoot.vue' // Общие характеристики транспортного средства (Шасси)
+import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue' // Описание маркировки транспортного средства (Шасси)
+import VehicleView from '@/components/forms/conformityForms/VehicleView.vue' // Общий вид транспортного средства (Шасси)
+import ConfirmingDocument from '@/components/forms/conformityForms/ConfirmingDocument.vue' // Документ, подтверждающий соответствие обязательным требованиям
+import ListOfDocuments from '@/components/forms/conformityForms/ListOfDocuments.vue' // Перечень документов, являющихся основанием для оформления ОТТС
+import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vue' // История изменения документа
+import BaseModal from '@/components/base/BaseModal.vue'
 
 import { useRoute } from 'vue-router'
 import { useRequestStore } from '@/stores/requestStore'
@@ -282,25 +298,223 @@ import { useShemaStore } from '@/stores/shemaStore'
 import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 
+const isCloseDocument = ref(false)
+
 const shemaStore = useShemaStore()
 shemaStore.createShema(shemaDefault) // создаем схему
 const shema = shemaStore.shema // после связываем схему с полями
 const user = useUserStore() //получение permissions из пользователя
 const { getPermissions } = storeToRefs(user) //получение permissions
 
+const panel = ref(0) // текущая панель
+const childCompRef = ref(null) // ссылка на дочерние компоненты
+const data = reactive([
+  {
+    title: 'Документ об оценке соответствия',
+    component: 'DocumentRoot',
+    tab: 'DocumentComformity',
+    openPanel: '1',
+    enabled: true,
+    tabs: [
+      {
+        title: 'Документ',
+        component: 'DocumentComformity',
+        enabled: true
+      },
+      {
+        title: 'Транспортное средство',
+        component: 'VehicleDetails',
+        enabled: true
+      },
+      {
+        title: 'Наименование органа, выдавшего документ',
+        component: 'CertificationAgency',
+        enabled: true
+      },
+      {
+        title: 'Заявитель и его адрес',
+        component: 'DeclarerAddress',
+        enabled: true
+      },
+      {
+        title: 'Изготовитель и его адрес',
+        component: 'ManufacturerAddress',
+        enabled: true
+      },
+      {
+        title: 'Представители изготовителя и их адреса',
+        component: 'ManufacturersRepresentativesAddress',
+        enabled: true
+      },
+      {
+        title: 'Сборочный завод и его адрес',
+        component: 'AssemblyPlantAddress',
+        enabled: true
+      },
+      {
+        title: 'Поставщик сборочных комплектов и его адрес',
+        component: 'ProviderAddress',
+        enabled: true
+      },
+      {
+        title: 'Вид распространения',
+        component: 'ViewSpread',
+        enabled: true
+      },
+      {
+        title: 'Дополнительная информаци',
+        component: 'MoreInformations',
+        enabled: true
+      }
+    ]
+  },
+  {
+    title: 'Базовое ТС',
+    component: 'BasicVehicle',
+    openPanel: '1',
+    enabled: true
+  },
+  {
+    title: 'Общие характеристики транспортного средства (Шасси)',
+    component: 'GeneralCharacteristicsRoot',
+    tab: 'VehicleComposition',
+    openPanel: '1',
+    enabled: true,
+    tabs: [
+      {
+        title: 'Компоновка транспортного средства',
+        component: 'VehicleComposition',
+        enabled: true
+      },
+      {
+        title: 'Ходовая часть ТС',
+        component: 'VehicleRunningGearDetails',
+        enabled: true
+      },
+      {
+        title: 'Ось транспортного средства',
+        component: 'VehicleAxis',
+        enabled: true
+      },
+      {
+        title: 'Габаритные размеры',
+        component: 'DimensionsSize',
+        enabled: true
+      },
+      {
+        title: 'Масса',
+        component: 'WeightCar',
+        enabled: true
+      },
+      {
+        title: 'Масса буксируемого прицепа',
+        component: 'WeightTowedTrailer',
+        enabled: true
+      },
+      {
+        title: 'Двигатель',
+        component: 'EngineCar',
+        enabled: computed(() => isCategoryCode.value)
+      },
+      {
+        title: 'Устройство накопления энергии',
+        component: 'StorageDevice',
+        enabled: computed(() => isCategoryCode.value)
+      },
+      {
+        title: 'Топливо',
+        component: 'FuelCar',
+        enabled: computed(() => isCategoryCodeAndEngineType.value)
+      },
+      {
+        title: 'Система питания',
+        component: 'SupplySystem',
+        enabled: computed(() => isCategoryCodeAndEngineType.value)
+      },
+      {
+        title: 'Система зажигания',
+        component: 'IgnitionSystem',
+        enabled: computed(() => isCategoryCodeAndEngineType.value)
+      },
+      {
+        title: 'Система нейтрализации',
+        component: 'NeutralizationSystem',
+        enabled: computed(() => isCategoryCodeAndEngineType.value)
+      },
+      {
+        title: 'Сцепление',
+        component: 'ClutchCar',
+        enabled: computed(() => isCategoryCode.value)
+      },
+      {
+        title: 'Трансмиссия',
+        component: 'TransmissionCar',
+        enabled: computed(() => isCategoryCode.value)
+      },
+      {
+        title: 'Подвеска',
+        component: 'SuspensionCar',
+        enabled: true
+      },
+      {
+        title: 'Рулевое управление',
+        component: 'SteerageCar',
+        enabled: true
+      },
+      {
+        title: 'Тормозные системы',
+        component: 'BrakeSystems',
+        enabled: true
+      },
+      {
+        title: 'Шины',
+        component: 'TiresCar',
+        enabled: true
+      }
+    ]
+  },
+  {
+    title: 'Описание маркировки транспортного средства (Шасси)',
+    component: 'DescriptionOfVehicleMarkings',
+    openPanel: '1',
+    enabled: true
+  },
+  {
+    title: 'Общий вид транспортного средства (Шасси)',
+    component: 'VehicleView',
+    openPanel: '1',
+    enabled: true
+  },
+  {
+    title: 'Документ, подтверждающий соответствие обязательным требованиям',
+    component: 'ConfirmingDocument',
+    openPanel: '1',
+    enabled: true
+  },
+  {
+    title: 'Перечень документов, являющихся основанием для оформления ОТТС',
+    component: 'ListOfDocuments',
+    openPanel: '1',
+    enabled: computed(() => shema.conformityDocKindCode === '30')
+  },
+  {
+    title: 'История изменения документа',
+    component: 'HistoryDocument',
+    openPanel: '1',
+    enabled: true
+  }
+])
 const isCategoryCode = computed(() => {
   return shema.vehicleTypeDetails.vehicleTechCategoryCode.every(
     (i) => !['O1', 'O2', 'O3', 'O4'].includes(i)
   )
 })
-
 const isCategoryCodeAndEngineType = computed(() => {
   return (
     isCategoryCode.value &&
     shema.vehicleVariantDetails[0].engineType === 'Двигатель внутреннего сгорания'
   )
 })
-
 const dataEnabled = computed(() => {
   return data.filter((item) => {
     if (item.tabs) {
@@ -312,7 +526,7 @@ const dataEnabled = computed(() => {
 
 const requests = useRequestStore()
 const route = useRoute()
-const isShowText = ref(false)
+const isAdditionInfoRightMenu = ref(false)
 let isOpenRightMenu = ref(false)
 
 // если есть квери параметр, заполняем первоначально схему данными
@@ -320,14 +534,18 @@ if (route.query.val) {
   shema.conformityDocKindCode = route.query.val
 }
 
-// если есть id то получаем данные с сервета
+// если есть id то получаем данные с сервера
 if (route.params.id) {
   shemaStore.LoadDataAndNormaliseImages(`/api/otts/docDetails/search/${route.params.id}`)
 }
 
+async function saveAsDraftDocument() {
+  const response = await requests.post(`/api/otts/docDetails/saving-as-draft?docId=${shema.docId}`)
+  console.log('response', response)
+}
+
 async function saveImage() {
   const images = JSON.parse(JSON.stringify(shema.vehicleTypeDetails.vehiclePicture))
-  console.log('images', images)
   for (let i = 0; i < images.length; i++) {
     images[i].value = images[i].value.split(';base64,')[1]
   }
@@ -336,247 +554,26 @@ async function saveImage() {
     otts: shema
   })
 }
-
-// async function loadServerData() {
-//   return await requests.get(`/api/otts/docDetails/search/${route.params.id}`)
-// }
-
-// async function gettingURLImg(nameImg) {
-//   return await requests.postText('/api/storage/image/get', { fileName: nameImg })
-// }
-
-const data = reactive([
-  {
-    title: 'Документ об оценке соответствия',
-    id: '#vehicle-details',
-    component: 'DocumentRoot',
-    tab: 'DocumentComformity',
-    openPanel: '1',
-    enabled: true,
-    tabs: [
-      {
-        title: 'Документ',
-        id: '#vehicle-details-document',
-        component: 'DocumentComformity',
-        enabled: true
-      },
-      {
-        title: 'Транспортное средство',
-        id: '#vehicle-details-vehicle',
-        component: 'VehicleDetails',
-        enabled: true
-      },
-      {
-        title: 'Наименование органа, выдавшего документ',
-        id: '#vehicle-details-certification',
-        component: 'CertificationAgency',
-        enabled: true
-      },
-      {
-        title: 'Заявитель и его адрес',
-        id: '#vehicle-details-applicant',
-        component: 'DeclarerAddress',
-        enabled: true
-      },
-      {
-        title: 'Изготовитель и его адрес',
-        id: '#vehicle-details-manufacturer',
-        component: 'ManufacturerAddress',
-        enabled: true
-      },
-      {
-        title: 'Представители изготовителя и их адреса',
-        id: '#vehicle-details-representatives',
-        component: 'ManufacturersRepresentativesAddress',
-        enabled: true
-      },
-      {
-        title: 'Сборочный завод и его адрес',
-        id: '#vehicle-details-factory',
-        component: 'AssemblyPlantAddress',
-        enabled: true
-      },
-      {
-        title: 'Поставщик сборочных комплектов и его адрес',
-        id: '#vehicle-details-provider',
-        component: 'ProviderAddress',
-        enabled: true
-      },
-      {
-        title: 'Вид распространения',
-        id: '#vehicle-details-view',
-        component: 'ViewSpread',
-        enabled: true
-      },
-      {
-        title: 'Дополнительная информаци',
-        id: '#vehicle-details-additional',
-        component: 'MoreInformations',
-        enabled: true
-      }
-    ]
-  },
-  {
-    title: 'Базовое ТС',
-    id: '#base-vehicle',
-    component: 'BasicVehicle',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Общие характеристики транспортного средства (Шасси)',
-    id: '#vehicle-setting',
-    component: 'GeneralCharacteristicsRoot',
-    tab: 'VehicleComposition',
-    openPanel: '1',
-    enabled: true,
-    tabs: [
-      {
-        title: 'Компоновка транспортного средства',
-        id: '#vehicle-composition',
-        component: 'VehicleComposition',
-        enabled: true
-      },
-      {
-        title: 'Ходовая часть ТС',
-        id: '#numbers-vheels',
-        component: 'VehicleRunningGearDetails',
-        enabled: true
-      },
-      {
-        title: 'Ось транспортного средства',
-        id: '#vehicle-axis',
-        component: 'VehicleAxis',
-        enabled: true
-      },
-      {
-        title: 'Габаритные размеры',
-        id: '#dimensions',
-        component: 'DimensionsSize',
-        enabled: true
-      },
-      {
-        title: 'Масса',
-        id: '#weight',
-        component: 'WeightCar',
-        enabled: true
-      },
-      {
-        title: 'Масса буксируемого прицепа',
-        id: '#weight-towed-trailer',
-        component: 'WeightTowedTrailer',
-        enabled: true
-      },
-      {
-        title: 'Двигатель',
-        id: '#engine',
-        component: 'EngineCar',
-        enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Устройство накопления энергии',
-        id: '#storage-device',
-        component: 'StorageDevice',
-        enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Топливо',
-        id: '#fuel',
-        component: 'FuelCar',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система питания',
-        id: '#supply-system',
-        component: 'SupplySystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система зажигания',
-        id: '#ignition-system',
-        component: 'IgnitionSystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система нейтрализации',
-        id: '#neutralization-system',
-        component: 'NeutralizationSystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Сцепление',
-        id: '#clutch',
-        component: 'ClutchCar',
-        enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Трансмиссия',
-        id: '#transmission',
-        component: 'TransmissionCar',
-        enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Подвеска',
-        id: '#suspension',
-        component: 'SuspensionCar',
-        enabled: true
-      },
-      {
-        title: 'Рулевое управление',
-        id: '#steerage',
-        component: 'SteerageCar',
-        enabled: true
-      },
-      {
-        title: 'Тормозные системы',
-        id: '#brake-systems',
-        component: 'BrakeSystems',
-        enabled: true
-      },
-      {
-        title: 'Шины',
-        id: '#tires',
-        component: 'TiresCar',
-        enabled: true
-      }
-    ]
-  },
-  {
-    title: 'Описание маркировки транспортного средства (Шасси)',
-    id: '#description-of-vehicle-markings',
-    component: 'DescriptionOfVehicleMarkings',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Общий вид транспортного средства (Шасси)',
-    id: '#vehicle-general-form',
-    component: 'VehicleView',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Документ, подтверждающий соответствие обязательным требованиям',
-    id: '#confirming-document',
-    component: 'ConfirmingDocument',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Перечень документов, являющихся основанием для оформления ОТТС',
-    id: '#list-of-documents',
-    component: 'ListOfDocuments',
-    openPanel: '1',
-    enabled: computed(() => shema.conformityDocKindCode === '30')
-  },
-  {
-    title: 'История изменения документа',
-    id: '#conformity-change-history',
-    component: 'HistoryDocument',
-    openPanel: '1',
-    enabled: true
+function goToId(item) {
+  let elem = document.getElementById(item.component)
+  elem.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  openPanel(item) // открываем панель если она закрыта
+}
+function openPanel(item) {
+  item.openPanel = '1'
+}
+//  проверяем на валидность panel(которые отображаются), если находим невалидную, прекращаем проверку
+async function validation() {
+  for (let i = 0; i < dataEnabled.value.length; i++) {
+    const check = await childCompRef.value[i]?.isValidation()
+    if (check == false) {
+      // переход к невалидной panel(по айди)
+      panel.value = i
+      goToId(dataEnabled.value[i])
+      return
+    }
   }
-])
+}
 const allComponents = {
   DocumentRoot,
   BasicVehicle,
@@ -632,7 +629,6 @@ function getComponent(type) {
   margin-top: 10px;
   position: sticky;
   bottom: 0px;
-  color: red;
 }
 .openRightMenu {
   transform: translateX(-25px);
@@ -643,10 +639,15 @@ function getComponent(type) {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
 }
-.btn {
+.btnItem {
   /* color: #648194; */
   font-size: 12px;
 }
+.btnItem .v-btn__content {
+  white-space: wrap;
+  padding: 0px 0px !important;
+}
+
 .action-title {
   line-height: 1;
   text-align: center;

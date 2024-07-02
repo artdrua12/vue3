@@ -35,12 +35,12 @@ function onEnter() {
 </script>
 <!-- не имеет scoope поэтому эти стили распространяются и на baseDataField? BaseAutocomplete и другие с классом base, родные vuetify не изменяются  -->
 <style>
-/* .v-field__input { */
-  /* min-height: 25px; */
-  /* height: 27px; */
-  /* min-height: 34px; */
-  /* padding-top: 1px;
+/* .v-field__input {
+  min-height: 25px;
+  height: 27px;
+  min-height: 34px;
+  padding-top: 1px;
   padding-bottom: 3px;
-  line-height: 1.2; */
-/* } */
+  line-height: 1.2;
+} */
 </style>

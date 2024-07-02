@@ -26,18 +26,6 @@
       ></v-icon>
     </div>
 
-    <!-- <base-modal v-model:isOpen="isOpen" :is-empty="true">
-     <div class="modal-wrapper">
-      <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
-
-      <div class="modalButtons">
-        <v-btn icon="mdi-arrow-left-top-bold" class="modalButtonImg" @click="rotate(-90)"> </v-btn>
-        <v-btn icon="mdi-close-circle" class="modalButtonImg" @click="closeModal"> </v-btn>
-        <v-btn icon="mdi-arrow-right-top-bold" class="modalButtonImg" @click="rotate(90)"> </v-btn>
-      </div>
-    </div>
-    </base-modal> -->
-
     <v-dialog v-model="isOpen" fullscreen hide-overlay transition="dialog-top-transition">
       <div class="wrapperDialog">
         <canvas ref="modalCanvas" class="canvasC" @click="closeModal" @wheel="onwheel"></canvas>
@@ -171,6 +159,12 @@ function drop(e) {
 function removingImg(index) {
   images.value.splice(index, 1)
 }
+async function isValidation() {
+  return true
+}
+defineExpose({
+  isValidation
+})
 </script>
 
 <style scoped>
