@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notVehicleBrakingSystem"
       v-model:data="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
       label="Рулевого управления - отсутствует"
       class="full"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -14,6 +15,7 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails[0]"
         label="Рулевое управление"
         class="full"
+        :disabled="isLook"
       >
         <base-autocomplete
           v-if="
@@ -47,7 +49,7 @@
         ></base-textarea>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -61,11 +63,16 @@ import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
-const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_029 = ref([])
+const form = ref(null) // ссылка на форму
+
+const isLook = computed(() => route.query.look != null)
+const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 
 async function load() {
   NSI_029.value = (await indexDB.getFromDatabase('catalog', 'NSI_029')) || []

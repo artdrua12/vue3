@@ -1,10 +1,11 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5" :disabled="isLook">
     <base-is-missing-disabled
       v-model="shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleMakeName"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleTypeDetails.vehicleMakeName"
@@ -27,13 +28,18 @@
       v-model:data="shema.vehicleTypeDetails.vehicleCommercialName"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-combobox
         v-model="shema.vehicleTypeDetails.vehicleCommercialName"
         label="Коммерческое наименование*"
         item-value="key"
         max-length="120"
-        :rules="!shema.vehicleTypeDetails.notVehicleCommercialNameIndicator ? [conformityRules.vehicleCommercialName] : []"
+        :rules="
+          !shema.vehicleTypeDetails.notVehicleCommercialNameIndicator
+            ? [conformityRules.vehicleCommercialName]
+            : []
+        "
       ></base-combobox>
     </base-is-missing-disabled>
 
@@ -60,6 +66,7 @@
       v-model:data="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-combobox
         v-model="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
@@ -76,6 +83,7 @@
       v-model="shema.vehicleVariantDetails[0].notModificationVirtual"
       v-model:data="shema.vehicleVariantDetails[0].modificationVirtual"
       class="span6"
+      :disabled="isLook"
     >
       <base-textfield
         v-model="shema.vehicleVariantDetails[0].modificationVirtual"
@@ -100,6 +108,7 @@
       v-model:data="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].vehicleEcoClassCode"
@@ -126,6 +135,7 @@
       v-model:data="shema.vehicleVariantDetails[0].classCode"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].classCode"
@@ -142,6 +152,7 @@
       v-model:data="shema.vehicleVariantDetails[0].codOKPBY"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].codOKPBY"
@@ -159,6 +170,7 @@
       v-model:data="shema.vehicleVariantDetails[0].codTNVED"
       :default-data="[]"
       class="span6"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleVariantDetails[0].codTNVED"
@@ -174,7 +186,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import { conformityRules } from '../rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -183,6 +195,8 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
 const form = ref(null) // ссылка на форму
@@ -194,6 +208,8 @@ const NSI_046 = ref([])
 const NSI_089 = ref([])
 const NSI_108 = ref([])
 const NSI_399 = ref([])
+
+const isLook = computed(() => route.query.look != null)
 
 async function load() {
   NSI_013.value = (await indexDB.getFromDatabase('catalog', 'NSI_015')) || []

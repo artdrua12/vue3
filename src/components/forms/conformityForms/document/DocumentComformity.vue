@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5" :disabled="isLook">
     <base-autocomplete
       v-model="shema.unifiedCountryCode.value"
       label="Код страны, выдавшей  документ об оценке соответствия колесных транспортных средств"
@@ -30,7 +30,6 @@
       label="Наименование вида документа об оценке соответствия"
       :items="conformityDocKindName"
       item-value="key"
-      disabled
       class="span6"
     ></base-autocomplete>
 
@@ -39,6 +38,7 @@
       v-model="shema.docCreationDate"
       label="Дата оформления бумажного ОТТС"
       class="span6"
+      :disabled="isLook"
     ></base-datefield>
 
     <base-datefield
@@ -46,6 +46,7 @@
       v-model="shema.docCreationDate"
       label="Дата оформления бумажного ОТШ"
       class="span6"
+      :disabled="isLook"
     ></base-datefield>
 
     <base-datefield
@@ -54,6 +55,7 @@
       label="Дата начала срока действия документа*"
       :rules="[conformityRules.docStartDate]"
       class="span3"
+      :disabled="isLook"
     ></base-datefield>
 
     <base-datefield
@@ -61,6 +63,7 @@
       v-model="shema.docValidityDate"
       label="Дата истечения срока действия документа*"
       class="span3"
+      :disabled="isLook"
     ></base-datefield>
 
     <base-textfield
@@ -82,6 +85,7 @@
       label="Приложение к документу"
       :filter-data="shema.docAnnexDetails"
       :default-data="shemaDefault.docAnnexDetails"
+      :disabled="isLook"
     >
       <base-textfield
         v-model="shema.docAnnexDetails[props.index].objectOrdinal"
@@ -119,6 +123,7 @@
       v-model="shema.conformityDocStatusDetails.docStatusChangeDocDetails.docCreationDate"
       label="Дата выдачи документа"
       class="span6"
+      :disabled="isLook"
     >
     </base-datefield>
 
@@ -132,6 +137,7 @@
       v-model="shema.conformityDocStatusDetails.startDate"
       label="Начальная дата"
       class="span3"
+      :disabled="isLook"
     >
     </base-datefield>
 
@@ -139,6 +145,7 @@
       v-model="shema.conformityDocStatusDetails.endDate"
       label="Конечная дата"
       class="span3"
+      :disabled="isLook"
     >
     </base-datefield>
 
@@ -151,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -164,12 +171,15 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useRequestStore } from '@/stores/requestStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const indexDB = useIndexDBStore()
 const requests = useRequestStore() // для работы с запросами
 const shema = useShemaStore().shema //схема
 const form = ref(null) // ссылка на форму
 
+const isLook = computed(() => route.query.look != null)
 const conformityDocKindName = ref([])
 const NSI_034 = ref([])
 

@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5" :disabled="$route.query.look == null">
     <base-autocomplete
       v-if="
         !shema.conformityDocStatusDetails.docStatus ||
@@ -12,6 +12,7 @@
       item-value="accreditationId"
       :rules="[conformityRules.authority]"
       class="full"
+      :disabled="false"
       @update:search="chooseAuthorityOnForm"
     ></base-autocomplete>
 

@@ -73,12 +73,17 @@
         }}</strong>
       </p>
 
-      <v-btn class="btn my-3" @click="isAdditionInfoRightMenu = !isAdditionInfoRightMenu">
+      <v-btn
+        class="my-3"
+        size="small"
+        color="#648194"
+        @click="isAdditionInfoRightMenu = !isAdditionInfoRightMenu"
+      >
         <v-icon size="25">{{
           isAdditionInfoRightMenu ? 'mdi-chevron-up' : 'mdi-chevron-down'
         }}</v-icon></v-btn
       >
-      <div v-if="isAdditionInfoRightMenu === true">
+      <div v-if="isAdditionInfoRightMenu === true" class="mb-3">
         <p>Сформирован на основании:</p>
         <p>
           Орган по сертификации:
@@ -100,6 +105,7 @@
             )
           "
           class="btnItem"
+          size="small"
         >
           Корректировать
         </v-btn>
@@ -112,12 +118,14 @@
             )
           "
           class="btnItem"
+          size="small"
           @click="() => $router.push('/conformities/form/' + shema.id)"
           >Редактировать</v-btn
         >
         <v-btn
           v-if="!(shema.conformityDocStatusDetails.docStatus !== '')"
           class="btnItem"
+          size="small"
           @click="saveAsDraftDocument"
           >Создать черновик</v-btn
         >
@@ -130,6 +138,7 @@
             )
           "
           class="btnItem"
+          size="small"
           >Утвердить</v-btn
         >
         <v-btn
@@ -140,15 +149,20 @@
             )
           "
           class="btnItem"
+          size="small"
           >Отказать</v-btn
         >
-        <v-btn v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')" class="btnItem"
+        <v-btn
+          v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
+          class="btnItem"
+          size="small"
           >Создать проект</v-btn
         >
 
         <v-btn
           v-if="!!['На согласовании'].includes(shema.conformityDocStatusDetails.docStatus)"
           class="btnItem"
+          size="small"
         >
           Согласовать
         </v-btn>
@@ -161,11 +175,13 @@
             )
           "
           class="btnItem"
+          size="small"
           >Копировать</v-btn
         >
         <v-btn
           v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
           class="btnItem"
+          size="small"
           @click.stop="saveImage()"
           >Сохранить</v-btn
         >
@@ -175,6 +191,7 @@
             !!['Действующий', 'Приостановлен'].includes(shema.conformityDocStatusDetails.docStatus)
           "
           class="btnItem"
+          size="small"
         >
           Аннулировать
         </v-btn>
@@ -186,6 +203,7 @@
             )
           "
           class="btnItem"
+          size="small"
           >Продлить</v-btn
         >
         <v-btn
@@ -196,6 +214,7 @@
             )
           "
           class="btnItem"
+          size="small"
           >Удалить</v-btn
         >
 
@@ -207,12 +226,14 @@
             )
           "
           class="btnItem"
+          size="small"
           >Отозвать</v-btn
         >
-        <v-btn class="btnItem" @click="validation">Проверка</v-btn>
+        <v-btn class="btnItem" size="small" @click="validation">Проверка</v-btn>
         <v-btn
           v-if="!!['Действующий'].includes(shema.conformityDocStatusDetails.docStatus)"
           class="btnItem"
+          size="small"
         >
           Приостановить
         </v-btn>
@@ -224,6 +245,7 @@
             )
           "
           class="btnItem"
+          size="small"
         >
           Возобновить
         </v-btn>
@@ -236,6 +258,7 @@
             )
           "
           class="btnItem"
+          size="small"
         >
           Изменить
         </v-btn>
@@ -248,18 +271,24 @@
             )
           "
           class="btnItem"
+          size="small"
           >Отправить на утверждение
         </v-btn>
 
-        <v-btn v-if="shema.id" class="btnItem" @click="dialog3 = !dialog3">Работа с Pdf</v-btn>
-        <v-btn class="btnItem" @click="isCloseDocument = !isCloseDocument">Закрыть документ</v-btn>
+        <v-btn v-if="shema.id" class="btnItem" size="small" @click="dialog3 = !dialog3"
+          >Работа с Pdf</v-btn
+        >
+        <v-btn class="btnItem" size="small" @click="isCloseDocument = !isCloseDocument"
+          >Закрыть документ</v-btn
+        >
       </div>
       <v-btn
-        color="orange"
-        prepend-icon="mdi-close-thick"
+        prepend-icon="mdi-menu"
+        color="#2c4957"
+        size="small"
         class="btnClose block full"
         @click="isOpenRightMenu = !isOpenRightMenu"
-        >Закрыть меню действий
+        >скрыть меню действий
       </v-btn>
     </div>
 
@@ -269,7 +298,7 @@
       icon="mdi-file-document-remove-outline"
       ok-title="Продолжить"
       cancel-title="отмена"
-      :ok-function="()=>$router.push('/conformities')"
+      :ok-function="() => $router.push('/conformities')"
     >
       Все изменения будут потеряны. Продолжить?
     </base-modal>
@@ -301,8 +330,9 @@ import { storeToRefs } from 'pinia'
 const isCloseDocument = ref(false)
 
 const shemaStore = useShemaStore()
-shemaStore.createShema(shemaDefault) // создаем схему
+// shemaStore.createShema(shemaDefault) // создаем схему
 const shema = shemaStore.shema // после связываем схему с полями
+console.log('shemaStore', shema)
 const user = useUserStore() //получение permissions из пользователя
 const { getPermissions } = storeToRefs(user) //получение permissions
 
@@ -540,7 +570,10 @@ if (route.params.id) {
 }
 
 async function saveAsDraftDocument() {
-  const response = await requests.post(`/api/otts/docDetails/saving-as-draft?docId=${shema.docId}`)
+  const response = await requests.post(
+    `/api/otts/docDetails/saving-as-draft?docId=${shema.docId}`,
+    shema
+  )
   console.log('response', response)
 }
 
@@ -614,7 +647,7 @@ function getComponent(type) {
   padding: 0px 2px 10px 12px;
   display: flex;
   flex-direction: column;
-  border-radius: 7px;
+  border-radius: 4px;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
   border: 1px solid white;
@@ -637,11 +670,12 @@ function getComponent(type) {
 .btnActions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+  gap: 7px;
 }
 .btnItem {
-  /* color: #648194; */
+  color: white;
   font-size: 12px;
+  background-color: rgb(100, 129, 148);
 }
 .btnItem .v-btn__content {
   white-space: wrap;
@@ -679,9 +713,5 @@ function getComponent(type) {
 }
 .mainContent {
   min-height: calc(100vh - 160px);
-}
-::v-deep .v-btn__content {
-  white-space: pre-wrap;
-  padding: 5px 0px;
 }
 </style>

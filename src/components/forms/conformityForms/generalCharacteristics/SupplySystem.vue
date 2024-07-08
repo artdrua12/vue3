@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notFuelFeed"
       v-model:data="shema.vehicleVariantDetails[0].fuelFeedDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].fuelFeedDetails"
       label="Система питания - отсутствует"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -13,6 +14,7 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].fuelFeedDetails[0]"
         class="full"
         label="Система питания"
+        :disabled="isLook"
       >
         <base-autocomplete
           v-model="props.item.vehicleComponentText"
@@ -83,6 +85,7 @@
             "
             class="full"
             label="Cтупень глушителя"
+            :disabled="isLook"
           >
             <base-textfield
               v-model="props3.item.vehicleComponentStageNumber"
@@ -106,11 +109,11 @@
         </base-constructor>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -121,7 +124,12 @@ import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const shema = useShemaStore().shema //схема
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_056 = ref([])

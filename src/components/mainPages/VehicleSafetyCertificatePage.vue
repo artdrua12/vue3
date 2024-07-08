@@ -308,9 +308,6 @@ const tableRowSelect = ref({}) // выбранная строка из табл�
 let size = ref(5) //количество строк на одной странице
 let page = ref(0) // текущая страница в пагинации
 
-function clearForm() {
-  form.value.reset()
-}
 async function find() {
   const body = {
     isOwn: fields.own,

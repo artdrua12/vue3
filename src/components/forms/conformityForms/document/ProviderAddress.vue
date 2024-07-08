@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" :disabled="true">
     <base-is-missing
       v-model="shema.notVehicleRepresentativeDetails"
       v-model:data="shema.vehicleManufacturerDetails"
@@ -22,6 +22,7 @@
           :items="authority"
           :rules="[conformityRules.authority]"
           class="full"
+          :disabled="false"
           @update:search="chooseManufacturerDoc(shema.vehicleManufacturerDetails[props.index])"
         ></base-autocomplete>
 
@@ -41,7 +42,6 @@
           item-text="key"
           :items="NSI_034"
           class="span6"
-          disabled
         ></base-autocomplete>
 
         <base-autocomplete
@@ -51,7 +51,6 @@
           item-text="value"
           :items="NSI_310"
           class="span6"
-          disabled
         ></base-autocomplete>
 
         <template
@@ -77,7 +76,6 @@
                   ? 'Местонахождение (Юридический адрес)'
                   : 'Местонахождение (Фактический адрес)'
               "
-              disabled
               class="full"
             >
             </base-textfield>
@@ -105,7 +103,6 @@
               label="Тип контактной информации"
               :items="NSI_042"
               class="span6"
-              disabled
             ></base-autocomplete>
             <base-combobox
               v-model="item3.communicationChannelId"
@@ -135,6 +132,7 @@ import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
 const shema = useShemaStore().shema // схема
@@ -144,7 +142,6 @@ const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
-
 const cloneObj = JSON.parse(JSON.stringify(shemaDefault.vehicleManufacturerDetails[0]))
 const defaultDataConstructor = { ...cloneObj, vehicleManufacturerKindCode: '20' }
 

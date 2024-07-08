@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isShow" class="adaptiveGrid mt-5">
+  <v-form v-if="isShow" ref="form" :disabled="isLook" class="adaptiveGrid mt-5">
     <base-autocomplete
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelFormula"
       :items="NSI_045"
@@ -30,7 +30,7 @@
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleWheelLocation"
       label="Расположение колес"
       max-length="1000"
-       class="span6"
+      class="span6"
     ></base-textfield>
 
     <base-combobox
@@ -42,9 +42,9 @@
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleFrameText"
       label="Рама"
       max-length="1000"
-       class="span6"
+      class="span6"
     ></base-combobox>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -59,7 +59,11 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 const isShow = computed(() =>
   shema.vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
     [

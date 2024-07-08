@@ -1,10 +1,11 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.notVehicleRepresentativeDetails"
       v-model:data="shema.vehicleManufacturerDetails"
       label="Представитель изготовителя и его адрес - отсутствует"
       :default-data="shemaDefault.vehicleManufacturerDetails"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -13,6 +14,7 @@
         :default-data="defaultDataConstructor"
         class="full"
         label="Представитель изготовителя и его адрес"
+        :disabled="isLook"
       >
         <base-autocomplete
           v-model="shema.vehicleManufacturerDetails[props.index].businessEntityName"
@@ -117,7 +119,7 @@
         </template>
       </base-constructor>
     </base-is-missing>
-  </v-form >
+  </v-form>
 </template>
 
 <script setup>
@@ -135,6 +137,9 @@ import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с indexDB
 const shema = useShemaStore().shema // схема
@@ -148,6 +153,7 @@ const authority = ref([])
 const cloneObj = JSON.parse(JSON.stringify(shemaDefault.vehicleManufacturerDetails[0]))
 const defaultDataConstructor = { ...cloneObj, vehicleManufacturerKindCode: '10' }
 
+const isLook = computed(() => route.query.look != null)
 const filterData = computed(() =>
   shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '10')
 )

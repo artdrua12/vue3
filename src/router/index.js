@@ -38,8 +38,7 @@ const router = createRouter({
           meta: [
             { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
             { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
-          ],
-          name: 'edit'
+          ]
         }
       ]
     },

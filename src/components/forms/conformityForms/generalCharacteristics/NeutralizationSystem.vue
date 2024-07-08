@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notExhaust"
       v-model:data="shema.vehicleVariantDetails[0].exhaustDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].exhaustDetails"
       label="Система нейтрализации - отсутствует"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -13,6 +14,7 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].exhaustDetails[0]"
         class="full"
         label="Система выпуска и нейтрализации отработавших газов"
+        :disabled="isLook"
       >
         <base-textarea
           v-model="props.item.vehicleComponentText"
@@ -38,6 +40,7 @@
           "
           class="full"
           label="Элемент системы выпуска и нейтрализации отработавших газов"
+          :disabled="isLook"
         >
           <base-autocomplete
             v-model="props2.item.vehicleComponentName"
@@ -56,6 +59,7 @@
             "
             class="full"
             label="Ступень"
+            :disabled="isLook"
           >
             <base-textfield
               v-model="props3.item.vehicleComponentStageNumber"
@@ -85,11 +89,11 @@
         </base-constructor>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -99,11 +103,16 @@ import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
+import { useRoute } from 'vue-router'
+
 
 import { useShemaStore } from '@/stores/shemaStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 const NSI_119 = ref([])
 const NSI_455 = ref([])

@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" :disabled="isLook" class="adaptiveGrid mt-5">
     <base-textfield
       v-if="
         shema.vehicleTypeDetails.vehicleTechCategoryCode.find((i) =>
@@ -34,6 +34,7 @@
         shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleAxleDetails[0]
       "
       class="full"
+      :disabled="isLook"
     >
       <base-textfield
         v-model="props.item.vehicleAxleOrdinal"
@@ -62,9 +63,11 @@
 
         <base-textfield
           v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.maxValue"
-          label="Максимальноeee"
+          label="Максимально"
           type="number"
-          :disabled="!props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator"
+          :disabled="
+            !props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.rangeIndicator || isLook
+          "
           max-length="24"
           :rules="[
             conformityRules.minMax(
@@ -130,7 +133,7 @@
           v-model="props.item.vehicleAxleSweptPathMeasure.maxValue"
           label="Максимально"
           type="number"
-          :disabled="!props.item.vehicleAxleSweptPathMeasure.rangeIndicator"
+          :disabled="!props.item.vehicleAxleSweptPathMeasure.rangeIndicator || isLook"
           max-length="24"
           :rules="[
             conformityRules.minMax(
@@ -143,9 +146,7 @@
         ></base-textfield>
 
         <base-autocomplete
-          v-model="
-            props.item.vehicleAxleSweptPathMeasure.measurementUnitCode
-          "
+          v-model="props.item.vehicleAxleSweptPathMeasure.measurementUnitCode"
           label="Ед. измерения"
           :items="NSI_033"
           item-value="key"
@@ -187,7 +188,7 @@
           v-model="props2.item.valueMax"
           label="Максимально"
           type="number"
-          :disabled="!props2.item.rangeIndicator"
+          :disabled="!props2.item.rangeIndicator || isLook"
           max-length="24"
           class="span4"
         ></base-textfield>
@@ -200,28 +201,12 @@
           class="span4"
         ></base-autocomplete>
       </div>
-
-      <!-- <base-is-missing-disabled
-        v-model="props2.item.rangeIndicator"
-        v-model:data="props2.item.valueMax"
-        default-data="0"
-        label="Признак интервала значений"
-        class="span6"
-      >
-        <base-textfield
-          v-model="props2.item.valueMax"
-          label="Максимально"
-          type="number"
-          :disabled="!props2.item.rangeIndicator"
-          max-length="24"
-        ></base-textfield>
-      </base-is-missing-disabled> -->
     </base-constructor>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -230,13 +215,17 @@ import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 async function load() {
   NSI_033.value = (await indexDB.getFromDatabase('catalog', 'NSI_033')) || []

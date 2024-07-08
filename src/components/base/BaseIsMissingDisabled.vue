@@ -1,7 +1,12 @@
 <template>
   <div class="baseIsMissing">
     <slot class="field"></slot>
-    <BaseCheckbox v-model="checkbox" :label="props.label" class="ckeckbox"></BaseCheckbox>
+    <BaseCheckbox
+      v-model="checkbox"
+      :label="props.label"
+      :disabled="disabled"
+      class="ckeckbox"
+    ></BaseCheckbox>
   </div>
 </template>
 
@@ -11,7 +16,8 @@ import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['change'])
 const props = defineProps({
   label: { type: String, default: 'Отсутствует' },
-  defaultData: { type: [String, Object, Array], default: null }
+  defaultData: { type: [String, Object, Array], default: null },
+  disabled: { type: Boolean, default: false }
 })
 // то куда потставляются данные
 const data = defineModel('data', {

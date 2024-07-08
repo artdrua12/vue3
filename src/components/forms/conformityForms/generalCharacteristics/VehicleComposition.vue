@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid mt-5">
+  <v-form ref="form" :disabled="isLook" class="adaptiveGrid mt-5">
     <base-autocomplete
       v-if="
         shema.vehicleTypeDetails.vehicleTechCategoryCode.every(
@@ -30,6 +30,7 @@
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleEquipmentText"
       class="full mt-5"
+      :disabled="isLook"
     >
       <base-textarea
         v-model="shema.vehicleTypeDetails.vehicleEquipmentText[props.index]"
@@ -45,7 +46,8 @@
       style="margin-top: -0.4rem"
       :disabled="
         shema.vehicleVariantDetails[0].vehicleEmergencyCallDeviceIndicator ||
-        !shema.docId.match(/^ТС /)
+        !shema.docId.match(/^ТС /) ||
+        isLook
       "
       class="span6"
     >
@@ -56,7 +58,8 @@
       label="Оборудование УВЭОС"
       :disabled="
         shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator ||
-        !shema.docId.match(/^ТС /)
+        !shema.docId.match(/^ТС /) ||
+        isLook
       "
       class="span6"
     ></base-checkbox>
@@ -76,7 +79,7 @@
       max-length="1000"
       class="full"
     ></base-autocomplete>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -90,8 +93,13 @@ import BaseConstructorOneElement from '@/components/base/BaseConstructorOneEleme
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 const conformityDocKindCodeis35 = computed(() => {
   return shema.conformityDocKindCode === '35'

@@ -6,6 +6,7 @@
     :default-data="shemaDefault.vehicleVariantDetails[0].vehicleElectricalMachineDetails[0]"
     class="full"
     label="Электродвигатель"
+    :disabled="isLook"
   >
     <base-autocomplete
       v-model="props.item.electricalMachineKindCode"
@@ -67,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -76,8 +77,12 @@ import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
+const isLook = computed(() => route.query.look != null)
 
 const NSI_028 = ref([])
 const NSI_033 = ref([])

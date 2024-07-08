@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notVehicleTrailerIndicator"
       v-model:data="shema.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
       :default-data="shemaDefault.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure"
       label="Буксировка прицепа"
       invert
+      :disabled="isLook"
       @change="onChange"
     >
       <base-constructor
@@ -17,6 +18,7 @@
           shemaDefault.vehicleVariantDetails[0].vehicleMaxUnbrakedTrailerWeightMeasure[0]
         "
         class="full mt-5"
+        :disabled="isLook"
       >
         <base-checkbox
           v-model="props.item.rangeIndicator"
@@ -38,7 +40,7 @@
             v-model="props.item.valueMax"
             label="Максимально"
             type="number"
-            :disabled="!props.item.rangeIndicator"
+            :disabled="!props.item.rangeIndicator || isLook"
             max-length="24"
             :rules="[
               conformityRules.minMax(
@@ -69,6 +71,7 @@
           shemaDefault.vehicleVariantDetails[0].vehicleMaxBrakedTrailerWeightMeasure[0]
         "
         class="full mt-5"
+        :disabled="isLook"
       >
         <base-checkbox
           v-model="props.item.rangeIndicator"
@@ -90,7 +93,7 @@
             v-model="props.item.valueMax"
             label="Максимально"
             type="number"
-            :disabled="!props.item.rangeIndicator"
+            :disabled="!props.item.rangeIndicator || isLook"
             max-length="24"
             :rules="[
               conformityRules.minMax(
@@ -119,6 +122,7 @@
         :filter-data="shema.vehicleVariantDetails[0].vehicleHitchLoadMeasure"
         :default-data="shemaDefault.vehicleVariantDetails[0].vehicleHitchLoadMeasure[0]"
         class="full mt-5"
+        :disabled="isLook"
       >
         <base-checkbox
           v-model="props.item.rangeIndicator"
@@ -140,7 +144,7 @@
             v-model="props.item.valueMax"
             label="Максимально"
             type="number"
-            :disabled="!props.item.rangeIndicator"
+            :disabled="!props.item.rangeIndicator || isLook"
             max-length="24"
             :rules="[
               conformityRules.minMax(
@@ -162,11 +166,11 @@
         </div>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -175,12 +179,15 @@ import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import { useRoute } from 'vue-router'
 
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+const route = useRoute()
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
-
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 const NSI_033 = ref([])
 
 function onChange() {

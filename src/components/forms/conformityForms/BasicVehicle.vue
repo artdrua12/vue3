@@ -1,11 +1,12 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid pa-7">
+  <v-form ref="form" class="adaptiveGrid pa-7" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notBaseVehicleDetails"
       v-model:data="shema.vehicleVariantDetails[0].baseVehicleDetails"
       label="Базовое ТС - отсутствует"
       :default-data="shemaDefault.vehicleVariantDetails[0].baseVehicleDetails"
       class="full"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -14,11 +15,13 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].baseVehicleDetails[0]"
         class="full"
         label="Базовое ТС"
+        :disabled="isLook"
       >
         <base-is-missing-disabled
           v-model="props.item.notVehicleMakeNameIndicator"
           v-model:data="props.item.vehicleMakeName"
           class="full"
+          :disabled="isLook"
         >
           <base-autocomplete
             v-model="props.item.vehicleMakeName"
@@ -64,7 +67,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
@@ -75,13 +78,16 @@ import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с базой данных
 const shema = useShemaStore().shema // схема
 const form = ref(null) // ссылка на форму
 
+const isLook = computed(() => route.query.look != null)
 const NSI_046 = ref([])
 
 async function load() {

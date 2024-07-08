@@ -22,13 +22,13 @@
       </router-view>
     </div>
 
-    <!-- <div class="app-footer">
+    <div class="app-footer">
       <p>©2024</p>
-    </div> -->
+    </div>
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
-        <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-message-processing"></v-icon>
+        <v-icon v-if="item.type == 'info'" size="35" icon=" mdi-information"></v-icon>
         <v-icon v-if="item.type == 'error'" size="35" icon="mdi-close-thick"></v-icon>
         <span>{{ item.text }}</span>
       </div>
@@ -67,8 +67,8 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   height: 100%;
   display: grid;
   grid-template-columns: 100%;
-  /* grid-template-rows: 40px 1fr 30px; */
-  grid-template-rows: 40px 1fr ;
+  grid-template-rows: 40px 1fr 30px;
+  /* grid-template-rows: 40px 1fr ; */
   background-color: #f7f7f7;
 }
 .app-title {

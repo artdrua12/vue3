@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" :disabled="isLook">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleManufacturerDetails"
@@ -7,7 +7,7 @@
       :default-data="shemaDefault.vehicleManufacturerDetails[0]"
       class="mt-5"
       label="Изготовитель"
-      disabled
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="shema.vehicleManufacturerDetails[props.index].businessEntityName"
@@ -125,6 +125,8 @@ import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema // схема
@@ -135,6 +137,7 @@ const NSI_042 = ref([])
 const NSI_310 = ref([])
 const authority = ref([])
 
+const isLook = computed(() => route.query.look != null)
 const filterData = computed(() =>
   shema.vehicleManufacturerDetails.filter((item) => item.vehicleManufacturerKindCode === '05')
 )

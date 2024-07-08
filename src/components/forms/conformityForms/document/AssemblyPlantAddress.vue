@@ -1,10 +1,11 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.notVehicleRepresentativeDetails"
       v-model:data="shema.vehicleManufacturerDetails"
       label="Сборочный завод и его адрес - отсутствует"
       :default-data="shemaDefault.vehicleManufacturerDetails"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -13,6 +14,7 @@
         :default-data="defaultDataConstructor"
         class="full"
         label="Сборочный завод и его адрес"
+        :disabled="isLook"
       >
         <base-autocomplete
           v-model="shema.vehicleManufacturerDetails[props.index].businessEntityName"
@@ -135,11 +137,15 @@ import BaseDeleteElement from '@/components/base/BaseDeleteElement.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore() // для работы с базой данных
 const shema = useShemaStore().shema // схема
 const form = ref(null) // ссылка на форму
 
+const isLook = computed(() => route.query.look != null)
 const NSI_034 = ref([])
 const NSI_042 = ref([])
 const NSI_310 = ref([])

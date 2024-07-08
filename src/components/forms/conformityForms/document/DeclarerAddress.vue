@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid mt-5">
+  <v-form ref="form" class="adaptiveGrid mt-5" :disabled="$route.query.look == null">
     <base-autocomplete
       v-model="shema.applicantDetails.businessEntityName"
       label="Организация*"
@@ -12,6 +12,7 @@
       "
       :rules="[conformityRules.authority]"
       class="full"
+      :disabled="false"
       @update:search="chooseApplicantDoc"
     ></base-autocomplete>
 

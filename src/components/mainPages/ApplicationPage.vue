@@ -161,7 +161,7 @@ const actions = [
     action: () =>
       this.$router.push({
         text: 'CREATE_PASSPORT',
-        params: { epassportId: 'epassport' }
+        query: { epassportId: 'epassport' }
       })
   },
   {

@@ -183,6 +183,12 @@ import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 import { useRouter } from 'vue-router'
 import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
+import { useRequestStore } from '@/stores/requestStore'
+import shemaDefault from '../forms/conformityForms/shemaDefault'
+import { useShemaStore } from '@/stores/shemaStore' //для работы со схемой
+const requests = useRequestStore()
+
+const shemaStore = useShemaStore()
 
 defineOptions({
   inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
@@ -331,21 +337,20 @@ const actions = [
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
         action: () => {
-          route.push({
-            path: '/conformities/forms',
-            query: { val: '30' }
-          })
+          const shema = shemaStore.createShema(shemaDefault) // создаем схему
+          shema.conformityDocKindCode = '30' // вносим изменения в схему
+          route.push('/conformities/forms')
         }
       },
       {
         text: 'ОТШ',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () =>
-          route.push({
-            path: '/conformities/forms',
-            query: { val: '35' }
-          })
+        action: () => {
+          const shema = shemaStore.createShema(shemaDefault) // создаем схему
+          shema.conformityDocKindCode = '35' // вносим изменения в схему
+          route.push('/conformities/forms')
+        }
       }
     ]
   },
@@ -381,6 +386,12 @@ const actions = [
     enabled: {
       notEmptyAndStatus: ['Действующий'],
       permission: ['Утвердить документ ОТТС (ОТШ)']
+    },
+    action: (id) => {
+      route.push({
+        path: `/conformities/forms/${id}`,
+        query: { docStatus: 'Действующий' }
+      })
     }
   },
   {
@@ -389,6 +400,12 @@ const actions = [
     enabled: {
       notEmpty: 'true',
       permission: ['Просмотреть документ ОТТС (ОТШ)']
+    },
+    action: (id) => {
+      route.push({
+        path: `/conformities/forms/${id}`,
+        query: { look: true }
+      })
     }
   },
   {
@@ -397,6 +414,18 @@ const actions = [
     enabled: {
       notEmptyAndStatus: ['Действующий'],
       permission: ['Копировать документ ОТТС (ОТШ)']
+    },
+    action: async () => {
+      await shemaStore.createShema(shemaDefault) // создаем схему
+      const shema = await shemaStore.LoadDataAndNormaliseImages(
+        `/api/otts/docDetails/search/${tableRowSelect.value.id}`
+      ) //загружаем в схему новые данные
+      route.push(`/conformities/forms/${tableRowSelect.value.id}`) // переходим на документ
+      const copy = await requests.post(
+        `/api/otts/docDetails/saving/copy/${tableRowSelect.value.id}`,
+        shema
+      ) //запрос на копирование объекта
+      console.log('copy', copy)
     }
   },
   {

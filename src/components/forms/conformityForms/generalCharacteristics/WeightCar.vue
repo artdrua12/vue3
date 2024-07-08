@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptiveGrid">
+  <v-form ref="form" :disabled="isLook" class="adaptiveGrid">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleVariantDetails[0].vehicleMassMeasures"
@@ -7,6 +7,7 @@
       :filter-data="shema.vehicleVariantDetails[0].vehicleMassMeasures"
       :default-data="shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0]"
       class="full mt-5"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="props.item.massView"
@@ -25,6 +26,7 @@
           shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0].meaningMassMeasure[0]
         "
         class="full mt-5"
+        :disabled="isLook"
       >
         <base-checkbox
           v-model="props2.item.rangeIndicator"
@@ -47,7 +49,7 @@
             v-model="props2.item.maxMassMeasure"
             label="Максимально"
             type="number"
-            :disabled="!props2.item.rangeIndicator"
+            :disabled="!props2.item.rangeIndicator || isLook"
             max-length="24"
             :rules="[
               conformityRules.minMax(
@@ -69,11 +71,11 @@
         </div>
       </base-constructor>
     </base-constructor>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -81,9 +83,13 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 

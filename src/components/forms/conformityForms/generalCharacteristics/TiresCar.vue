@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <v-form ref="form" :disabled="isLook" class="mt-5">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTyreKindInfo"
@@ -9,6 +9,7 @@
       "
       label="Шины"
       class="full"
+      :disabled="isLook"
     >
       <base-is-missing
         v-model="props.item.differentTires"
@@ -17,6 +18,7 @@
         label="Разные шины"
         class="full"
         invert
+        :disabled="isLook"
       >
         <base-autocomplete
           v-model="props.item.vehicleTyreKindLocation"
@@ -77,6 +79,7 @@
         v-model="props.item.vehicleTyreKindMaxIndexSingleTire"
         label="Максимально"
         class="span6"
+        :disabled="isLook"
       ></base-textfield>
 
       <base-is-missing
@@ -85,6 +88,7 @@
         label="Двускатные шины"
         class="full"
         invert
+        :disabled="isLook"
         @change="onChange(props.index)"
       >
         <p class="title full" style="margin-top: -40px">Для двухскатных шин</p>
@@ -100,6 +104,7 @@
           v-model="props.item.vehicleTyreKindMaxIndexGableTire"
           label="Максимально"
           class="span6"
+          :disabled="isLook"
         ></base-textfield>
       </base-is-missing>
 
@@ -107,13 +112,14 @@
         v-model="props.item.isSupplementVehicleTyre"
         label="Запасная шина для временного пользования"
         class="full"
+        :disabled="isLook"
       ></base-checkbox>
     </base-constructor>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -124,12 +130,16 @@ import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const shema = useShemaStore().shema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_033 = ref([])
 const NSI_039 = ref([])
 const NSI_107 = ref([])
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 function onChange(index) {
   // функция нужна потому что меняем данные в двух местах на одном уровне вложености

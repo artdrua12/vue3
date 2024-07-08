@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].notSteeringWheel"
       v-model:data="
@@ -10,6 +10,7 @@
       "
       label="Рулевого управления - отсутствует"
       class="full"
+      :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
@@ -23,6 +24,7 @@
         "
         label="Рулевое управление"
         class="full"
+        :disabled="isLook"
       >
         <base-textfield
           v-model="props.item.vehicleComponentMakeName"
@@ -99,7 +101,7 @@
         ></base-textfield>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -114,11 +116,15 @@ import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
 const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_027 = ref([])
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 async function load() {
   NSI_027.value = (await indexDB.getFromDatabase('catalog', 'NSI_027')) || []

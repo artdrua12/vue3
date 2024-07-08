@@ -1,10 +1,11 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid">
+  <v-form ref="form" class="adaptiveGrid" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleTypeDetails.vehicleUseRestrictionIndicator"
       v-model:data="shema.vehicleTypeDetails.vehicleUseRestrictionText"
       label="Наличие ограничений использования ТС"
       :default-data="['']"
+      :disabled="isLook"
       invert
       class="full"
     >
@@ -12,6 +13,7 @@
         v-slot="props"
         v-model="shema.vehicleTypeDetails.vehicleUseRestrictionText"
         class="full"
+        :disabled="isLook"
       >
         <base-textarea
           v-model="shema.vehicleTypeDetails.vehicleUseRestrictionText[props.index]"
@@ -25,6 +27,7 @@
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleUseRestrictionShipping"
       class="full mt-4"
+      :disabled="isLook"
     >
       <base-textarea
         v-model="shema.vehicleTypeDetails.vehicleUseRestrictionShipping[props.index]"
@@ -38,12 +41,14 @@
       v-model="shema.vehicleTypeDetails.vehicleRoutingIndicator"
       label="Признак маршрутного ТС"
       class="full"
+      :disabled="isLook"
     ></base-checkbox>
 
     <base-checkbox
       v-model="shema.vehicleTypeDetails.vehicleMovementPermitIndicator"
       label="Признак обязательности оформления специального разрешения"
       class="full"
+      :disabled="isLook"
     ></base-checkbox>
 
     <base-autocomplete
@@ -58,7 +63,7 @@
       v-model="shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator"
       label="Возможность оформления ЭПТС без УВЭОС"
       :disabled="
-        shema.vehicleTypeDetails.addInfoIndicator
+        shema.vehicleTypeDetails.addInfoIndicator || isLook
         // || !shema.vehicleTypeDetails.docId.match(/^ТС /)
       "
       class="full"
@@ -70,20 +75,24 @@
       v-model="shema.vehicleTypeDetails.addInfoIndicator"
       :label="emergencyCallDeviceFree"
       :disabled="
-        shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator
+        shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator || isLook
         // || !shema.vehicleTypeDetails.docId.match(/^ТС /)
       "
       class="full"
       @change="onChange"
     ></base-checkbox>
 
-    <base-constructor-one-element v-model="shema.vehicleTypeDetails.addInfo" class="full mt-5">
+    <base-constructor-one-element
+      v-model="shema.vehicleTypeDetails.addInfo"
+      class="full mt-5"
+      :disabled="isLook"
+    >
       <template #default="props">
         <base-textarea
           v-model="shema.vehicleTypeDetails.addInfo[props.index]"
           label="Прочая информация"
           class="full"
-          :disabled="props.index == 0 && isEmergencyCallDeviceFree"
+          :disabled="(props.index == 0 && isEmergencyCallDeviceFree) || isLook"
         ></base-textarea>
       </template>
 
@@ -104,10 +113,13 @@ import BaseConstructorOneElement from '@/components/base/BaseConstructorOneEleme
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const indexDB = useIndexDBStore()
 const shema = useShemaStore().shema // схема
 const form = ref(null) // ссылка на форму
-
+const isLook = computed(() => route.query.look != null)
 const NSI_067 = ref([])
 const emergencyCallDeviceFree =
   'Без применения пункта 13-1 Технического регламента, пунктов 113 и 114 приложения N 2 к Техническому регламенту и пунктов 16 и 17 приложения N 3 к Техническому регламенту.'

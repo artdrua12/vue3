@@ -1,11 +1,12 @@
 <template>
-  <v-form ref="form" class="pa-7">
+  <v-form ref="form" :disabled="isLook" class="pa-7">
     <base-constructor
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :filter-data="shema.vehicleTypeDetails.vehicleLabelingDetails"
       :default-data="shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0]"
       label="Маркировка"
+      :disabled="isLook"
     >
       <base-textarea
         v-model="
@@ -25,6 +26,7 @@
         :default-data="['']"
         label="Признак отсутствия таблички изготовителя"
         class="full"
+        :disabled="isLook"
       >
         <base-constructor-one-element
           v-slot="props2"
@@ -33,6 +35,7 @@
               .vehicleComponentLocationText
           "
           class="full"
+          :disabled="isLook"
         >
           <base-textarea
             v-model="
@@ -52,6 +55,7 @@
             .vehicleIdentificationNumberLocationText
         "
         class="full"
+        :disabled="isLook"
       >
         <base-textarea
           v-model="
@@ -70,6 +74,7 @@
             .engineIdentificationNumberLocationText
         "
         class="full"
+        :disabled="isLook"
       >
         <base-textarea
           v-model="
@@ -103,6 +108,7 @@
         "
         class="full"
         label="Группа"
+        :disabled="isLook"
       >
         <base-autocomplete
           v-model="
@@ -168,6 +174,7 @@
           "
           class="full"
           label="Значение"
+          :disabled="isLook"
         >
           <base-textfield
             v-model="
@@ -196,7 +203,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
@@ -208,8 +215,12 @@ import BaseConstructorOneElement from '@/components/base/BaseConstructorOneEleme
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseSquares from '@/components/base/BaseSquares.vue'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const shema = useShemaStore().shema // схема
 const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']

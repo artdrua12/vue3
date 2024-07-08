@@ -2,7 +2,7 @@
   <div class="constructor">
     <v-btn
       icon="mdi-plus"
-      color="#546e7a"
+      color="#69808a"
       rounded="0"
       size="30"
       class="btnAdd"
@@ -28,15 +28,16 @@
           icon
           class="btnRemove"
           size="30"
+          :disabled="props.disabled"
           @click="remove(item)"
         >
-          {{ index + 1 }}
+          <p>{{ index + 1 }}</p>
         </v-btn>
       </slot>
     </fieldset>
     <v-btn
       icon="mdi-plus"
-      color="#546e7a"
+      color="#69808a"
       rounded="0"
       size="30"
       class="btnAddBottom"
@@ -150,7 +151,6 @@ legend {
   bottom: calc(50% - 6px);
   left: -51px;
   z-index: 2;
-  color: orangered;
   font-family: sans-serif;
   font-weight: 700;
   border: 1px solid #2c4957;

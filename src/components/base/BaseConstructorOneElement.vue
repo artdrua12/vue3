@@ -2,7 +2,7 @@
   <div class="constructor">
     <v-btn
       icon="mdi-plus"
-      color="#465f6b"
+      color="#69808a"
       rounded="0"
       size="30"
       class="addBtn"
@@ -13,14 +13,14 @@
     <div v-for="(item, index) in data" :key="index" class="element">
       <slot name="default" :index="index"></slot>
       <slot name="btnRemove" :index="index">
-        <!-- <v-icon
+        <v-btn
           v-if="data.length != 1"
-          color="red"
+          icon
           class="btnRemove"
-          icon="mdi-close-box"
+          size="30"
+          :disabled="props.disabled"
           @click="remove(item)"
-        ></v-icon> -->
-        <v-btn v-if="data.length != 1" icon class="btnRemove" size="30" @click="remove(item)">
+        >
           {{ index + 1 }}
         </v-btn>
       </slot>
@@ -108,7 +108,7 @@ function remove(item) {
   bottom: calc(50% - 3px);
   left: -50px;
   z-index: 2;
-  color: orangered;
+  /* color: orangered; */
   font-family: sans-serif;
   font-weight: 700;
   border: 1px solid #2c4957;

@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].notEngine"
       v-model:data="shema.vehicleVariantDetails[0]"
       :default-data="shemaDefault.vehicleVariantDetails[0]"
       label="Двигатель - отсутствует"
+      :disabled="isLook"
     >
       <base-is-missing
         v-model="shema.vehicleTypeDetails.vehicleHybrid"
@@ -12,6 +13,7 @@
         label="Наличие гибридного транспортного средства"
         :default-data="shemaDefault.vehicleVariantDetails[0].vehicleElectricalMachineDetails[0]"
         class="full"
+        :disabled="isLook"
         invert
       >
         <base-combobox
@@ -47,6 +49,7 @@
         :default-data="shemaDefault.vehicleVariantDetails[0].engineDetails[0]"
         class="full"
         label="Двигатель внутреннего сгорания"
+        :disabled="isLook"
       >
         <base-textfield
           v-model="props.item.vehicleComponentMakeName"
@@ -208,6 +211,7 @@
           v-model="props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency.rangeIndicator"
           label="Признак интервала значений"
           class="full"
+            :disabled="isLook"
           @change="
             props.item.engineMaxTorqueDetails.vehicleShaftRotationFrequency.vehicleShaftRotationFrequencyMaxMeasure.value = 0
           "
@@ -265,11 +269,11 @@
         v-else-if="shema.vehicleVariantDetails[0].engineType === 'Электрический двигатель'"
       />
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -282,9 +286,14 @@ import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import ElectroEngine from '@/components/forms/conformityForms/generalCharacteristics/ElectroEngine.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
 
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 const NSI_033 = ref([])
 const NSI_118 = ref([])
 const NSI_301 = ref([])

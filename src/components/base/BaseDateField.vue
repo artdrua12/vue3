@@ -21,7 +21,7 @@ import { ref, defineProps } from 'vue'
 import BaseTextfield from './BaseTextfield.vue'
 const { label, disabled } = defineProps({
   label: { type: String, default: '' },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean }
 })
 
 const textDate = defineModel({ type: String })

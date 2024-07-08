@@ -164,8 +164,7 @@ function checkObj(obj) {
 }
 .threeTitle:hover {
   /* background-color: rgba(128, 128, 128, 0.1); */
-  background-color: #f7e6d2;
-  color: rgb(2, 150, 196);
+  background-color: #d3d2d1;
 }
 .threeChield {
   grid-column: 1/-1;

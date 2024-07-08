@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <v-form ref="form" :disabled="isLook">
     <base-is-missing
       v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].notTransmissionUnit"
       v-model:data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails"
       label="Трансмиссия - отсутствует"
+      :disabled="isLook"
     >
       <base-autocomplete
         v-model="
@@ -31,6 +32,7 @@
             .transmissionUnitDetails[0]
         "
         class="full"
+        :disabled="isLook"
       >
         <template #label="props">
           {{
@@ -159,6 +161,7 @@
             "
             label="Передаточные числа"
             class="full"
+            :disabled="isLook"
           >
             <base-autocomplete
               v-model="props2.item.transmissionUnitGearName"
@@ -210,6 +213,7 @@
             "
             label="Передаточные числа"
             class="full"
+            :disabled="isLook"
           >
             <base-textfield
               v-model="props3.vehicleShaftRotationFrequencyMeasure.value"
@@ -233,7 +237,7 @@
         </template>
       </base-constructor>
     </base-is-missing>
-  </div>
+  </v-form>
 </template>
 
 <script setup>
@@ -250,11 +254,15 @@ import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useRequestStore } from '@/stores/requestStore'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().shema //схема
 const requests = useRequestStore() // для работы с запросами
 
+const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_018 = ref([])
 const NSI_026 = ref([])

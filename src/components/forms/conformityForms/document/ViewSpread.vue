@@ -1,9 +1,9 @@
 <template>
-  <v-form ref="form" class="adaptiveGrid">
+  <v-form ref="form" class="adaptiveGrid" :disabled="isLook">
     <base-checkbox
       v-model="shema.series"
       label="На серийно выпускаемую продукцию"
-      :disabled="shema.party.partyValue"
+      :disabled="shema.party.partyValue || isLook"
       class="full"
     ></base-checkbox>
 
@@ -11,7 +11,7 @@
       v-model="shema.party.partyValue"
       v-model:data="shema.unifiedCommodityMeasure"
       label="На партию транспортных средств"
-      :disabled="shema.series"
+      :disabled="shema.series || isLook"
       :default-data="shemaDefault.unifiedCommodityMeasure"
       invert
       class="full"
@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from '../rules'
@@ -83,13 +83,16 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
-
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const shema = useShemaStore().shema // схема
 const indexDB = useIndexDBStore()
 const NSI_033 = ref([])
 const form = ref(null) // ссылка на форму
+const isLook = computed(() => route.query.look != null)
 
 function change() {
   if (shema.unifiedCommodityMeasure) {
