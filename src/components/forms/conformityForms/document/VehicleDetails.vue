@@ -15,6 +15,7 @@
         chips
         item-value="key"
         max-length="120"
+        :disabled="isLook || shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
         :rules="
           !shema.vehicleTypeDetails.notVehicleMakeNameIndicator
             ? [conformityRules.vehicleMakeName]
@@ -35,6 +36,7 @@
         label="Коммерческое наименование*"
         item-value="key"
         max-length="120"
+        :disabled="isLook || shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
         :rules="
           !shema.vehicleTypeDetails.notVehicleCommercialNameIndicator
             ? [conformityRules.vehicleCommercialName]
@@ -71,6 +73,7 @@
       <base-combobox
         v-model="shema.vehicleVariantDetails[0].vehicleTypeVariantId"
         label="Модификация транспортного средства"
+        :disabled="isLook || shema.vehicleVariantDetails[0].notVehicleTypeId"
         :rules="
           !shema.vehicleVariantDetails[0].notVehicleTypeId
             ? [conformityRules.vehicleTypeVariantId]
@@ -88,6 +91,7 @@
       <base-textfield
         v-model="shema.vehicleVariantDetails[0].modificationVirtual"
         label="Виртуальная модификация*"
+        :disabled="isLook || shema.vehicleVariantDetails[0].notModificationVirtual"
       ></base-textfield>
     </base-is-missing-disabled>
 
@@ -117,6 +121,7 @@
         item-text="value"
         multiple
         chips
+        :disabled="isLook || shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator"
         :rules="
           !shema.vehicleVariantDetails[0].notVehicleEcoClassCodeIndicator
             ? [conformityRules.vehicleEcoClassCode]
@@ -142,6 +147,7 @@
         label="Класс для категорий M2, M2G, M3, M3G "
         :items="NSI_013"
         item-text="value"
+        :disabled="isLook || shema.vehicleVariantDetails[0].notClassCode"
         multiple
         chips
       ></base-autocomplete>
@@ -160,6 +166,7 @@
         :items="NSI_089"
         item-text="key"
         multiple
+        :disabled="isLook || shema.vehicleVariantDetails[0].notCodOKPBY"
         chips
         :rules="!shema.vehicleVariantDetails[0].notCodOKPBY ? [conformityRules.codOKPBY] : []"
       ></base-autocomplete>
@@ -178,6 +185,7 @@
         :items="NSI_108"
         item-text="key"
         multiple
+        :disabled="isLook || shema.vehicleVariantDetails[0].notCodTNVED"
         chips
         :rules="!shema.vehicleVariantDetails[0].notCodTNVED ? [conformityRules.codTNVED] : []"
       ></base-autocomplete>
@@ -188,7 +196,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -198,7 +206,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const form = ref(null) // ссылка на форму
 
 const NSI_013 = ref([])

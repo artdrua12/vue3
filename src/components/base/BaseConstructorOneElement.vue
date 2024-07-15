@@ -1,20 +1,10 @@
 <template>
   <div class="constructor">
-    <v-btn
-      icon="mdi-plus"
-      color="#69808a"
-      rounded="0"
-      size="30"
-      class="addBtn"
-      :disabled="props.disabled"
-      @click="add"
-    >
-    </v-btn>
-    <div v-for="(item, index) in data" :key="index" class="element">
+    <div v-for="(item, index) in data" :key="index" class="element" :class="{ many: isOneField }">
       <slot name="default" :index="index"></slot>
       <slot name="btnRemove" :index="index">
         <v-btn
-          v-if="data.length != 1"
+          v-if="isOneField"
           icon
           class="btnRemove"
           size="30"
@@ -23,17 +13,34 @@
         >
           {{ index + 1 }}
         </v-btn>
+        <v-btn v-else size="30" icon class="btnRemove" :disabled="props.disabled" @click="add">
+          <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
+        </v-btn>
       </slot>
     </div>
+    <v-btn
+      v-show="isOneField"
+      icon
+      size="30"
+      class="addBtn"
+      :disabled="props.disabled"
+      @click="add"
+    >
+      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
+    </v-btn>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const data = defineModel({ type: [Array, null], required: true }) // место куда вставляем данные
 const props = defineProps({
   defaultData: { type: String, default: '' },
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
+
+const isOneField = computed(() => data.value.length > 1)
 
 setTimeout(() => {
   if (!data.value) {
@@ -62,7 +69,7 @@ function remove(item) {
 .constructor {
   position: relative;
   width: 100%;
-  padding: 15px 0px 10px 50px;
+  padding: 5px 0px 15px 50px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -71,41 +78,40 @@ function remove(item) {
   position: relative;
 }
 .element::before {
-  width: 37px;
-  height: calc(50% + 7px);
+  width: 35px;
+  height: 50%;
   content: '';
   position: absolute;
   left: -35px;
-  bottom: calc(50% + 10px);
-  border-bottom: 1px solid #2c4957;
+  top: calc(50% - 12px);
+  border-top: 1px solid #2c4957;
+}
+.many.element::before {
   border-left: 1px solid #2c4957;
 }
 .element::after {
-  width: 35px;
-  height: 100%;
+  height: 50%;
   content: '';
   position: absolute;
   left: -35px;
-  bottom: 0%;
+  top: -15px;
   border-left: 1px solid #2c4957;
 }
 
-/* .element:first-of-type::before {
-  height: 50%;
-} */
-.element:last-of-type::after {
+.element:first-of-type::after {
   border: none;
 }
 .addBtn {
   position: absolute;
-  top: -20px;
+  bottom: 3px;
   left: 0px;
   z-index: 2;
+  border: 1px solid #2c4957;
 }
 
 .btnRemove {
   position: absolute;
-  bottom: calc(50% - 3px);
+  bottom: calc(50% - 2px);
   left: -50px;
   z-index: 2;
   /* color: orangered; */

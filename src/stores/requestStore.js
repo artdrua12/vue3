@@ -104,5 +104,29 @@ export const useRequestStore = defineStore('request', () => {
     }
   }
 
-  return { get, post, postText, put }
+  async function delet(url) {
+    try {
+      const response = await fetch(BASE_URL + url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+          'API-Key': 'secret'
+        },
+        credentials: 'include',
+      })
+      if (response.ok) {
+        return true
+      } else {
+        throw new Error(response.status)
+      }
+    } catch (error) {
+      console.log('error', error)
+      const snack = useSnackStore()
+      snack.setSnack({ text: 'Ошибка сети ', type: 'error' })
+      return null
+    }
+  }
+
+  return { get, post, postText, put, delet }
 })

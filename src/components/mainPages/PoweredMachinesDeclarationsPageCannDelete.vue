@@ -9,7 +9,7 @@
 
 <script setup>
 import { provide, reactive, ref } from 'vue'
-import LayoutPages from '../layout/LayoutPages.vue'
+import LayoutPages from '../layout/LayoutPagesCannDelete.vue'
 import { useRequestStore } from '@/stores/requestStore'
 import { useGetAutocompliteData } from './composable'
 const requests = useRequestStore() // для работы с запросами

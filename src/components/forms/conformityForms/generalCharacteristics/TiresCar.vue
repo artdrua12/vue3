@@ -122,7 +122,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
@@ -133,7 +133,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const NSI_033 = ref([])
 const NSI_039 = ref([])

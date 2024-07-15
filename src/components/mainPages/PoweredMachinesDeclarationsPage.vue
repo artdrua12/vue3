@@ -25,13 +25,13 @@
           v-model="fields.docStatus"
           label="Статус"
           class="span6"
-          :items="docStatusItems"
+          :items="NSI_003"
         ></base-autocomplete>
         <base-autocomplete
           v-model="fields.countryCode"
           label="Страна выдачи документа'"
           class="span6"
-          :items="countryCodeItems"
+          :items="NSI_034"
           item-value="key"
         ></base-autocomplete>
 
@@ -39,7 +39,8 @@
           v-model="fields.makeName"
           label="Марка"
           class="span6"
-          :items="makeNameItems"
+          item-text="title"
+          :items="NSI_046"
         ></base-autocomplete>
         <base-datefield
           v-model="fields.lastModifiedWith"
@@ -79,7 +80,7 @@
 
         <base-panel class="full" elevation="3">
           <template #title>Дополнительные поля</template>
-          <div class="adaptiveGrid mt-3 pa-5">
+          <div class="adaptiveGrid pt-7 px-5">
             <base-autocomplete
               v-model="fields.manufacturer"
               label="Изготовитель"
@@ -150,19 +151,19 @@
 </template>
 
 <script setup>
-import { ref, defineOptions, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
-import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import { useLoadItems, useCheckAndLoadData } from './composable'
+import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
 
-defineOptions({
-  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
-})
+// defineOptions({
+//   inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
+// })
 const tableHeaders = [
   { text: 'Номер  документа', value: 'docId', id: 'h1' },
   { text: 'Дата изменения', value: 'tcInfo.lastModified', id: 'h2' },
@@ -223,9 +224,9 @@ const additionalTableHeaders = [
   { text: 'Тех.регламент ТС', value: 'technicalRegulations', id: 14 }
 ]
 let tableDataAndPagination = ref({})
-const docStatusItems = ref([])
-const countryCodeItems = ref([])
-const makeNameItems = ref([])
+const NSI_003 = ref([])
+const NSI_034 = ref([])
+const NSI_046 = ref([])
 const manufacturerItems = ref([])
 
 const fields = reactive({
@@ -391,9 +392,9 @@ async function find() {
 }
 //справочники для автокомплита
 async function load() {
-  docStatusItems.value = await useLoadItems('/api/classifier/epassport/status-directory-otts')
-  countryCodeItems.value = await useLoadItems('/api/classifier/epassport/countries')
-  makeNameItems.value = await useLoadItems('/api/classifier/epassport/vehicle-makes')
+  NSI_003.value = await useGetCatalog('NSI_003')
+  NSI_034.value = await useGetCatalog('NSI_034')
+  NSI_046.value = await useGetCatalog('NSI_046')
   manufacturerItems.value = await useLoadItems('/api/manufacturer-registry/all')
 }
 load()

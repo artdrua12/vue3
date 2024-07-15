@@ -116,7 +116,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
@@ -127,7 +127,7 @@ import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const form = ref(null) // ссылка на форму
 const isLook = computed(() => route.query.look != null)
 

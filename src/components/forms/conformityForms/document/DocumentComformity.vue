@@ -84,7 +84,7 @@
       class="full"
       label="Приложение к документу"
       :filter-data="shema.docAnnexDetails"
-      :default-data="shemaDefault.docAnnexDetails"
+      :default-data="shemaDefault.docAnnexDetails[0]"
       :disabled="isLook"
     >
       <base-textfield
@@ -161,7 +161,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
@@ -176,7 +176,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const indexDB = useIndexDBStore()
 const requests = useRequestStore() // для работы с запросами
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const form = ref(null) // ссылка на форму
 
 const isLook = computed(() => route.query.look != null)

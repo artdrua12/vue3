@@ -209,7 +209,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -220,7 +220,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 
 const NSI_033 = ref([])

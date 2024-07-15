@@ -1,5 +1,5 @@
 <template>
-  <div tag="div" name="list" class="wrapper">
+  <div class="wrapper">
     <div v-for="item in actionsFiltered" :key="item.text">
       <div v-if="item.children">
         <input :id="item.text" type="checkbox" :value="item.text" />
@@ -62,29 +62,30 @@
 </template>
 
 <script setup>
-import { defineProps, inject, computed } from 'vue'
+import { defineProps, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
-const currentUser = useUserStore() //получение permissions
-const { getPermissions } = storeToRefs(currentUser)
+
+const user = useUserStore() //получение permissions из пользователя
+const { getPermissions } = storeToRefs(user) //получение permissions
 
 const route = useRouter()
 console.log(route.listening)
 const props = defineProps({
-  selected: { type: Object, required: true } // выбранная строка из таблицы
+  selected: { type: Object, required: true }, // выбранная строка из таблицы
+  pathToStatus: { type: String, required: true }, // путь для статуса
+  actions: { type: Array, required: true } // массив всех действия
 })
-const actions = inject('actions') // все действия
-const pathToStatus = inject('pathToStatus') //путь к статусу
 let isSelected = computed(() => Object.keys(props.selected).length > 0)
 let actionsFiltered = computed(() => {
-  return filteringByEnabled(actions)
+  return filteringByEnabled(props.actions)
 })
 
 function runAction(item) {
   try {
     const funActions = item.action
-    funActions(props.selected.id)
+    funActions()
   } catch {
     console.log('Ошибка при выполнении действия')
   }
@@ -98,6 +99,7 @@ function filteringByEnabled(array) {
     return typeof item.enabled === 'object' ? checkObj(item.enabled) : item.enabled
   })
 }
+
 function checkObj(obj) {
   let isTrue = true
   for (let key in obj) {
@@ -111,7 +113,7 @@ function checkObj(obj) {
     } else if (key === 'notEmptyAndStatus') {
       if (!isSelected.value) return false //проверка что не пустой
       try {
-        const evalVal = eval(`props.selected.${pathToStatus}`) || ''
+        const evalVal = eval(`props.selected.${props.pathToStatus}`) || ''
         isTrue = obj[key].includes(evalVal)
       } catch {
         return false
@@ -162,8 +164,7 @@ function checkObj(obj) {
 }
 .threeTitle:hover {
   /* background-color: rgba(128, 128, 128, 0.1); */
-  background-color: #f7e6d2;
-  color: rgb(2, 150, 196);
+  background-color: #d3d2d1;
 }
 .threeChield {
   grid-column: 1/-1;

@@ -1,14 +1,7 @@
 <template>
   <div class="constructor">
-    <v-btn
-      icon="mdi-plus"
-      color="#69808a"
-      rounded="0"
-      size="30"
-      class="btnAdd"
-      :disabled="props.disabled"
-      @click="add"
-    >
+    <v-btn size="30" icon class="btnAdd" :disabled="props.disabled" @click="add">
+      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
     </v-btn>
     <fieldset
       v-for="(item, index) in filterData"
@@ -35,15 +28,8 @@
         </v-btn>
       </slot>
     </fieldset>
-    <v-btn
-      icon="mdi-plus"
-      color="#69808a"
-      rounded="0"
-      size="30"
-      class="btnAddBottom"
-      :disabled="props.disabled"
-      @click="add"
-    >
+    <v-btn size="30" icon class="btnAddBottom" :disabled="props.disabled" @click="add">
+      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
     </v-btn>
   </div>
 </template>
@@ -91,6 +77,7 @@ if (props.filterData && props.filterData?.length == 0) {
   border: 1px solid #2c4957;
   border-radius: 4px;
   padding: 25px 24px 10px 24px;
+  box-shadow: -3px 3px 7px 2px rgba(54, 54, 54, 0.3);
 }
 
 legend {
@@ -125,9 +112,9 @@ legend {
   border-left: 1px solid #2c4957;
 }
 
-/* .adaptiveGrid:first-of-type::before {
+.adaptiveGrid:first-of-type::before {
   height: 50%;
-} */
+}
 /* .adaptiveGrid:last-of-type::after {
   border: none;
 } */
@@ -137,7 +124,7 @@ legend {
   position: absolute;
   left: 0px;
   z-index: 2;
-  background-color: #ebebeb;
+  border: 1px solid #2c4957;
 }
 .btnAdd {
   top: 0px;

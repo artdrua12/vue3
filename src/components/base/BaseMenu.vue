@@ -102,22 +102,19 @@ const items = [
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений по получению сведений',
-        to: '/conformities',
-        // to: '/application-request',
+        to: '/application-request',
         permission: 'Доступ к реестру заявлений по получению сведений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр заявлений',
-        to: '/conformities',
-        // to: '/application',
+        to: '/application',
         permission: 'Доступ к реестру заявлений'
       },
       {
         icon: 'mdi-file-outline',
         title: 'Реестр шаблонов',
-        to: '/conformities',
-        // to: '/registry-templates',
+        to: '/registry-templates',
         permission: 'Доступ к реестру шаблонов'
       },
       {
@@ -226,7 +223,8 @@ onMounted(() => {
   top: 40px;
   position: fixed;
   width: 360px;
-  height: calc(100% - 70px);
+  /* height: calc(100% - 70px); */
+  height: 100%;
   transition: transform 0.4s;
   transform: translateX(-100%);
   --height: 0px;

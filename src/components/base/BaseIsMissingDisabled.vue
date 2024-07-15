@@ -1,6 +1,6 @@
 <template>
   <div class="baseIsMissing">
-    <slot class="field"></slot>
+    <slot class="field" :disabled="true"></slot>
     <BaseCheckbox
       v-model="checkbox"
       :label="props.label"

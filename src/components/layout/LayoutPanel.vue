@@ -48,7 +48,7 @@
         </div>
       </base-panel>
     </div>
-    <menu-registration v-model:isOpen="isOpen"></menu-registration>
+    <menu-registration v-model="isOpen"></menu-registration>
   </div>
 </template>
 <script setup>

@@ -14,14 +14,14 @@
           v-model="fields.docStatus"
           label="Статус"
           class="span6"
-          :items="docStatusItems"
+          :items="NSI_003"
         ></base-autocomplete>
 
         <base-autocomplete
           v-model="fields.countryCode"
           label="Страна выдачи документа'"
           class="span6"
-          :items="countryCodeItems"
+          :items="NSI_034"
           item-value="key"
         ></base-autocomplete>
         <base-textfield
@@ -34,7 +34,8 @@
           v-model="fields.makeName"
           label="Марка"
           class="span6"
-          :items="makeNameItems"
+          :items="NSI_046"
+          item-text="title"
         ></base-autocomplete>
         <base-datefield
           v-model="fields.lastModifiedWith"
@@ -74,7 +75,7 @@
 
         <base-panel class="full" elevation="3">
           <template #title>Дополнительные поля</template>
-          <div class="adaptiveGrid mt-3 pa-5">
+          <div class="adaptiveGrid pt-7 px-5">
             <base-autocomplete
               v-model="fields.manufacturer.value"
               label="Изготовитель"
@@ -150,23 +151,27 @@
       class="base-table"
       @find="find"
     ></base-table>
+
+    <menu-vehicle-saf-cer-create-document
+      v-model="isCreateDocument"
+    ></menu-vehicle-saf-cer-create-document>
   </div>
 </template>
 
 <script setup>
-import { ref, defineOptions, reactive } from 'vue'
+import { ref, reactive } from 'vue'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
-import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import { useLoadItems, useCheckAndLoadData } from './composable'
+import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
+import MenuVehicleSafCerCreateDocument from '@/components/MenuVehicleSafCerCreateDocument.vue'
+import { useShemaStore } from '@/stores/shemaStore' // для работы со схемой
 
-defineOptions({
-  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
-})
 const tableHeaders = [
   { text: 'Номер СБКТС', value: 'docId', id: 'h1' },
   { text: 'Дата изменения', value: 'tcInfo.lastModified', id: 'h2' },
@@ -175,6 +180,7 @@ const tableHeaders = [
   { text: 'Статус', value: `docStatusDetails.docStatus`, id: 'h5' },
   { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h6' }
 ]
+const shemaStore = useShemaStore()
 const pathToStatus = 'docStatusDetails.docStatus' // путь для статуса, используется в table и в action
 let tableDataAndPagination = ref({}) // данные для таблицы + информция для пагинации
 const form = ref(null) // ссылка на форму
@@ -215,11 +221,13 @@ const additionalTableHeaders = [
     model: false
   }
 ]
-const docStatusItems = ref([])
-const countryCodeItems = ref([])
-const makeNameItems = ref([])
+
 const manufacturerItems = ref([])
 const certificationAgencyItems = ref([])
+const NSI_003 = ref([])
+const NSI_034 = ref([])
+const NSI_046 = ref([])
+const isCreateDocument = ref(false)
 
 const fields = reactive({
   own: false,
@@ -244,7 +252,12 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: ['Создать документ СБКТС'] }
+    enabled: { permission: ['Создать документ СБКТС'] },
+    action: () => {
+      const shema = shemaStore.createShema(shemaDefault) // создаем схему
+      shema.conformityInformation.documentType = 'Одобрение типа транспортного средства' // заносим данные в схему
+      isCreateDocument.value = !isCreateDocument.value
+    }
   },
   {
     text: 'Редактировать',
@@ -359,9 +372,9 @@ async function find() {
 
 //справочники для автокомплита
 async function load() {
-  docStatusItems.value = await useLoadItems('/api/classifier/epassport/status-directory-otts')
-  countryCodeItems.value = await useLoadItems('/api/classifier/epassport/countries')
-  makeNameItems.value = await useLoadItems('/api/classifier/epassport/vehicle-makes')
+  NSI_003.value = await useGetCatalog('NSI_003')
+  NSI_034.value = await useGetCatalog('NSI_034')
+  NSI_046.value = await useGetCatalog('NSI_046')
   manufacturerItems.value = await useLoadItems('/api/manufacturer-registry/all')
   certificationAgencyItems.value = await useLoadItems(
     '/api/classifier/epassport/certification-body/search/certificateAccreditations'

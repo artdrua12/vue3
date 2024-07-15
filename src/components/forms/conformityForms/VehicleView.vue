@@ -47,7 +47,7 @@ import { ref, nextTick, computed } from 'vue'
 // import shema from './shema'
 import { useShemaStore } from '@/stores/shemaStore'
 
-const shema = useShemaStore().shema // схема
+const shema = useShemaStore().getShema // схема
 const modalCanvas = ref(null) // canvas который находится в модальном окне
 const isOpen = ref(false)
 const currentIndex = ref()

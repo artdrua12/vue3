@@ -25,13 +25,13 @@
           v-model="fields.docStatus"
           label="Статус"
           class="span6"
-          :items="docStatusItems"
+          :items="NSI_003"
         ></base-autocomplete>
         <base-autocomplete
           v-model="fields.countryCode"
-          label="Страна выдачи документа'"
+          label="Страна выдачи документа"
           class="span6"
-          :items="countryCodeItems"
+          :items="NSI_034"
           item-value="key"
         ></base-autocomplete>
 
@@ -39,7 +39,8 @@
           v-model="fields.makeName"
           label="Марка"
           class="span6"
-          :items="makeNameItems"
+          item-text="title"
+          :items="NSI_046"
         ></base-autocomplete>
         <base-datefield
           v-model="fields.lastModifiedWith"
@@ -79,7 +80,7 @@
 
         <base-panel class="full" elevation="3">
           <template #title>Дополнительные поля</template>
-          <div class="adaptiveGrid mt-3 pa-5">
+          <div class="adaptiveGrid pt-7 px-5">
             <base-autocomplete
               v-model="fields.manufacturer"
               label="Изготовитель"
@@ -99,7 +100,7 @@
 
             <base-autocomplete
               v-model="fields.certificationAgency"
-              label="Испытательная лаборатория"
+              label="Орган по сертификации"
               class="full"
               :items="certificationAgencyItems"
               item-text="certificationBodyNameBrief"
@@ -159,19 +160,15 @@
 </template>
 
 <script setup>
-import { ref, defineOptions, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
-import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import { useLoadItems, useCheckAndLoadData } from './composable'
-
-defineOptions({
-  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
-})
+import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
 
 const tableHeaders = [
   { text: 'Номер  документа', value: 'docId', id: 'h1' },
@@ -235,11 +232,11 @@ const additionalTableHeaders = [
   { text: 'Тех.регламент ТС', value: 'technicalRegulations', id: 14 }
 ]
 
-const docStatusItems = ref([])
-const countryCodeItems = ref([])
-const makeNameItems = ref([])
+const NSI_003 = ref([])
+const NSI_034 = ref([])
+const NSI_046 = ref([])
 const manufacturerItems = ref([])
-const certificationAgency = ref([])
+const certificationAgencyItems = ref([])
 
 const fields = reactive({
   own: false,
@@ -351,7 +348,6 @@ const tableRowSelect = ref({}) // выбранная строка из табл�
 let size = ref(5) //количество строк на одной странице
 let page = ref(0) // текущая страница в пагинации
 
-
 async function find() {
   const body = {
     isOwn: fields.own,
@@ -407,11 +403,11 @@ async function find() {
 }
 //справочники для автокомплита
 async function load() {
-  docStatusItems.value = await useLoadItems('/api/classifier/epassport/status-directory-otts')
-  countryCodeItems.value = await useLoadItems('/api/classifier/epassport/countries')
-  makeNameItems.value = await useLoadItems('/api/classifier/epassport/vehicle-makes')
+  NSI_003.value = await useGetCatalog('NSI_003')
+  NSI_034.value = await useGetCatalog('NSI_034')
+  NSI_046.value = await useGetCatalog('NSI_046')
   manufacturerItems.value = await useLoadItems('/api/manufacturer-registry/all')
-  certificationAgency.value = await useLoadItems(
+  certificationAgencyItems.value = await useLoadItems(
     '/api/classifier/epassport/certification-body/search/certificateAccreditations'
   )
 }

@@ -20,32 +20,40 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'page',
+          name: 'ConformitiesPage',
           component: () => import('../components/mainPages/ConformitiesPage.vue')
         },
         {
-          path: 'forms',
-          component: () => import('@/components/forms/conformityForms/RootForms.vue'),
-          meta: [
-            { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
-            { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
-          ],
-          name: 'create'
-        },
-        {
-          path: 'forms/:id',
-          component: () => import('@/components/forms/conformityForms/RootForms.vue'),
-          meta: [
-            { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
-            { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
-          ]
+          path: 'form',
+          name: 'ConformitiesCreate',
+          component: () => import('@/components/forms/conformityForms/RootForm.vue')
         }
+        // {
+        //   path: 'form/:id',
+        //   component: () => import('@/components/forms/conformityForms/RootForms.vue'),
+        //   meta: [
+        //     { subtitle: 'Карточка ОТТС', type: 'одобрение типа транспортного средства ЕАЭС' },
+        //     { subtitle: 'Карточка ОТШ', type: 'одобрение типа шасси ЕАЭС' }
+        //   ]
+        // }
       ]
     },
     {
       path: '/vehicle-safety-certificate',
       name: 'vehicleSafetyCertificate',
-      component: () => import('../components/mainPages/VehicleSafetyCertificatePage.vue')
+      children: [
+        {
+          path: '',
+          name: 'VehicleSafetyCertificatePage',
+          component: () => import('../components/mainPages/VehicleSafetyCertificatePage.vue')
+        },
+        {
+          path: 'form',
+          name: 'VehicleSafetyCertificateForm',
+          component: () => import('@/components/forms/vechicleSaferyCertificate/RootForm.vue')
+          // component: () => import('@/components/forms/vechicleSaferyCertificate/TEST.vue')
+        }
+      ]
     },
     {
       path: '/powered-machines-certificates',
@@ -86,11 +94,6 @@ const router = createRouter({
       path: '/layoutPanel',
       name: 'layoutPanel',
       component: () => import('../components/layout/LayoutPanel.vue')
-    },
-    {
-      path: '/layoutPanelTabs',
-      name: 'layoutPanelTabs',
-      component: () => import('../components/layout/LayoutPanelTabs.vue')
     },
     {
       path: '/test',

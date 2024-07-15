@@ -10,7 +10,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { provide, reactive, ref } from 'vue'
-import LayoutPages from '../layout/LayoutPages.vue'
+import LayoutPages from '../layout/LayoutPagesCannDelete.vue'
 import { useGetAutocompliteData } from './composable'
 import { useRequestStore } from '@/stores/requestStore'
 
@@ -292,7 +292,7 @@ const actions = [
         text: 'ОТТС',
         icon: 'mdi-file-plus-outline',
         enabled: { permission: ['Создать документ ОТТС (ОТШ)'] },
-        action: () => route.push('/conformities/forms')
+        action: () => route.push('/conformities/form')
       },
       {
         text: 'ОТШ',
@@ -325,7 +325,7 @@ const actions = [
       notEmptyAndStatus: ['Черновик'],
       permission: ['Редактировать документ ОТТС (ОТШ)']
     },
-    action: (id) => route.push(`/conformities/forms/${id}`)
+    action: (id) => route.push(`/conformities/form/${id}`)
   },
   // решение до реализации заявлений!!
   {
@@ -343,7 +343,7 @@ const actions = [
       notEmpty: 'true',
       permission: ['Просмотреть документ ОТТС (ОТШ)']
     },
-    action: (id) => route.push(`/conformities/forms/${id}`)
+    action: (id) => route.push(`/conformities/form/${id}`)
   },
   {
     text: 'Копировать',

@@ -59,11 +59,12 @@
 
         <base-panel class="full" elevation="3">
           <template #title>Дополнительные поля</template>
-          <div class="adaptiveGrid mt-3 pa-5">
+          <div class="adaptiveGrid pt-7 px-5">
             <base-autocomplete
               v-model="fields.vehicleMakeName"
               label="Марка"
               class="span6"
+              item-text="title"
               :items="NSI_046"
             ></base-autocomplete>
             <base-textfield
@@ -101,7 +102,7 @@
               v-model="fields.docType"
               label="Тип документа"
               class="span6"
-              :items="docTypeItems.filter((e) => ['30', '35'].includes(e.key))"
+              :items="NSI_012.filter((e) => ['30', '35'].includes(e.key))"
             ></base-autocomplete>
 
             <base-autocomplete
@@ -169,14 +170,35 @@
       class="base-table"
       @find="find"
     ></base-table>
+
+    <base-modal
+      v-model="isModalDelete"
+      title="Удаление документа"
+      icon="mdi-file-document-remove-outline"
+      ok-title="Продолжить"
+      cancel-title="отмена"
+      :ok-function="
+        async () => {
+          const res = await requests.delet(`/api/otts/docDetails/delete/${tableRowSelect.id}`)
+          if (res) {
+            await find()
+            snack.setSnack({ text: 'Документ удален', type: 'info' })
+          } else {
+            snack.setSnack({ text: 'Ошибка удаления', type: 'error' })
+          }
+        }
+      "
+    >
+      Вы действительно хотите удалить выбранный документ?
+    </base-modal>
   </div>
 </template>
 
 <script setup>
-import { ref, defineOptions, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
-import BaseThreeview from '@/components/base/BaseThreeviewNew.vue'
-import BaseTable from '@/components/base/BaseTableSubGridNew.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
@@ -185,14 +207,13 @@ import { useRouter } from 'vue-router'
 import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
 import { useRequestStore } from '@/stores/requestStore'
 import shemaDefault from '../forms/conformityForms/shemaDefault'
-import { useShemaStore } from '@/stores/shemaStore' //для работы со схемой
+import { useShemaStore } from '@/stores/shemaStore' // для работы со схемой
+import { useSnackStore } from '@/stores/snackStore' // для работы с уведомлениями
+import BaseModal from '@/components/base/BaseModal.vue'
 const requests = useRequestStore()
 
 const shemaStore = useShemaStore()
-
-defineOptions({
-  inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
-})
+const snack = useSnackStore()
 const route = useRouter()
 const tableHeaders = [
   { text: 'Номер  документа', value: 'docId', id: 'h1' },
@@ -339,7 +360,7 @@ const actions = [
         action: () => {
           const shema = shemaStore.createShema(shemaDefault) // создаем схему
           shema.conformityDocKindCode = '30' // вносим изменения в схему
-          route.push('/conformities/forms')
+          route.push('/conformities/form')
         }
       },
       {
@@ -349,7 +370,7 @@ const actions = [
         action: () => {
           const shema = shemaStore.createShema(shemaDefault) // создаем схему
           shema.conformityDocKindCode = '35' // вносим изменения в схему
-          route.push('/conformities/forms')
+          route.push('/conformities/form')
         }
       }
     ]
@@ -377,7 +398,13 @@ const actions = [
       notEmptyAndStatus: ['Черновик'],
       permission: ['Редактировать документ ОТТС (ОТШ)']
     },
-    action: (id) => route.push(`/conformities/forms/${id}`)
+    action: async () => {
+      shemaStore.createShema(shemaDefault) // создаем схему
+      await shemaStore.LoadDataAndNormaliseImages(
+        `/api/otts/docDetails/search/${tableRowSelect.value.id}`
+      ) // получаем данные о конкретной строке и заполняем ими таблицу
+      route.push('/conformities/form') // переходим на страницу формы
+    }
   },
   // решение до реализации заявлений!!
   {
@@ -387,11 +414,16 @@ const actions = [
       notEmptyAndStatus: ['Действующий'],
       permission: ['Утвердить документ ОТТС (ОТШ)']
     },
-    action: (id) => {
-      route.push({
-        path: `/conformities/forms/${id}`,
-        query: { docStatus: 'Действующий' }
-      })
+    action: async () => {
+      shemaStore.createShema(shemaDefault) // создаем схему
+      await shemaStore.LoadDataAndNormaliseImages(
+        `/api/otts/docDetails/search/${tableRowSelect.value.id}`
+      ) // получаем данные о конкретной строке и заполняем ими таблицу
+      route.push('/conformities/form') // переходим на страницу формы
+      // route.push({
+      //   path: `/conformities/form/${id}`,
+      //   query: { docStatus: 'Действующий' }
+      // })
     }
   },
   {
@@ -401,11 +433,15 @@ const actions = [
       notEmpty: 'true',
       permission: ['Просмотреть документ ОТТС (ОТШ)']
     },
-    action: (id) => {
+    action: async () => {
+      shemaStore.createShema(shemaDefault) // создаем схему
+      await shemaStore.LoadDataAndNormaliseImages(
+        `/api/otts/docDetails/search/${tableRowSelect.value.id}`
+      ) // получаем данные о конкретной строке и заполняем ими таблицу
       route.push({
-        path: `/conformities/forms/${id}`,
+        path: `/conformities/form`,
         query: { look: true }
-      })
+      }) // переход на страницу формы в режиме просмотра
     }
   },
   {
@@ -417,15 +453,13 @@ const actions = [
     },
     action: async () => {
       await shemaStore.createShema(shemaDefault) // создаем схему
-      const shema = await shemaStore.LoadDataAndNormaliseImages(
+      await shemaStore.LoadDataAndNormaliseImages(
         `/api/otts/docDetails/search/${tableRowSelect.value.id}`
       ) //загружаем в схему новые данные
-      route.push(`/conformities/forms/${tableRowSelect.value.id}`) // переходим на документ
-      const copy = await requests.post(
-        `/api/otts/docDetails/saving/copy/${tableRowSelect.value.id}`,
-        shema
-      ) //запрос на копирование объекта
-      console.log('copy', copy)
+      route.push(`/conformities/form`) // переходим на документ
+      const saveShema = shemaStore.beforeSave() // нормализуем картинки перед сохранением
+      await requests.post(`/api/otts/docDetails/saving/copy/${tableRowSelect.value.id}`, saveShema) //запрос на копирование объекта
+      snack.setSnack({ text: 'Документ скопирован', type: 'info' })
     }
   },
   {
@@ -477,20 +511,24 @@ const actions = [
     enabled: {
       notEmptyAndStatus: ['Черновик'],
       permission: ['Удалить документ ОТТС (ОТШ)']
+    },
+    action: () => {
+      isModalDelete.value = !isModalDelete.value
     }
   }
 ]
 const tableRowSelect = ref({}) // выбранная строка из таблицы
 let size = ref(5) //количество строк на одной странице
 let page = ref(0) // текущая страница в пагинации
+const isModalDelete = ref(false)
 
 const NSI_003 = ref([])
+const NSI_012 = ref([])
 const NSI_015 = ref([])
 const NSI_034 = ref([])
 const NSI_046 = ref([])
 const manufacturerItems = ref([])
 const certificationAgencyItems = ref([])
-const docTypeItems = ref([])
 
 async function find() {
   const body = {
@@ -558,6 +596,7 @@ async function find() {
 //справочники для автокомплита
 async function load() {
   NSI_003.value = await useGetCatalog('NSI_003')
+  NSI_012.value = await useGetCatalog('NSI_012')
   NSI_015.value = await useGetCatalog('NSI_015')
   NSI_034.value = await useGetCatalog('NSI_034')
   NSI_046.value = await useGetCatalog('NSI_046')
@@ -565,7 +604,10 @@ async function load() {
   certificationAgencyItems.value = await useLoadItems(
     '/api/classifier/epassport/certification-body/search/certificateAccreditations'
   )
-  docTypeItems.value = await useLoadItems('/api/classifier/epassport/conformity-doc-kinds')
+  // const r = await useLoadItems(
+  //   '/api/classifier/epassport/certification-body/search/certificateAccreditations'
+  // )
+  // console.log('r', r)
 }
 load()
 </script>

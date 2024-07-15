@@ -29,7 +29,7 @@
     <base-constructor-one-element
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleEquipmentText"
-      class="full mt-5"
+      class="full"
       :disabled="isLook"
     >
       <base-textarea
@@ -85,7 +85,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
@@ -96,7 +96,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const shema = useShemaStore().shema //схема
+const shema = useShemaStore().getShema //схема
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const form = ref(null) // ссылка на форму
 const isLook = computed(() => route.query.look != null)

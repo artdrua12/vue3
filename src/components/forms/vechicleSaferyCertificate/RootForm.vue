@@ -54,10 +54,8 @@
       <p>
         Номер документа: <strong>{{ shema.docId }}</strong>
       </p>
-      <p>
-        Статус: <strong>{{ shema.conformityDocStatusDetails.docStatus }}</strong>
-      </p>
-      <p v-if="shema.refuseReason && shema.conformityDocStatusDetails.docStatus === 'Черновик'">
+      <p>Статус: <strong>{{}}</strong></p>
+      <p v-if="shema.refuseReason">
         Причина отказа: <strong>{{ shema.refuseReason }}</strong>
       </p>
       <p v-if="shema.conformityDocKindCode === '30'">
@@ -98,17 +96,7 @@
       </div>
 
       <div class="btnActions">
-        <v-btn
-          v-if="
-            ['Действующий', 'Утвержден', 'Приостановлен', 'Прекращен'].includes(
-              shema.conformityDocStatusDetails.docStatus
-            )
-          "
-          class="btnItem"
-          size="small"
-        >
-          Корректировать
-        </v-btn>
+        <v-btn class="btnItem" size="small"> Корректировать </v-btn>
         <v-btn
           v-if="
             !(
@@ -122,160 +110,36 @@
           @click="() => $router.push('/conformities/form/' + shema.id)"
           >Редактировать</v-btn
         >
-        <v-btn
-          v-if="!(shema.conformityDocStatusDetails.docStatus !== '')"
-          class="btnItem"
-          size="small"
-          @click="saveAsDraftDocument"
-          >Создать черновик</v-btn
-        >
+        <v-btn class="btnItem" size="small" @click="saveAsDraftDocument">Создать черновик</v-btn>
 
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
-              !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Утвердить</v-btn
-        >
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
-              !getPermissions.has('Утвердить документ ОТТС (ОТШ)')
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Отказать</v-btn
-        >
-        <v-btn
-          v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
-          class="btnItem"
-          size="small"
-          >Создать проект</v-btn
-        >
+        <v-btn class="btnItem" size="small">Утвердить</v-btn>
+        <v-btn class="btnItem" size="small">Отказать</v-btn>
+        <v-btn class="btnItem" size="small">Создать проект</v-btn>
 
-        <v-btn
-          v-if="!!['На согласовании'].includes(shema.conformityDocStatusDetails.docStatus)"
-          class="btnItem"
-          size="small"
-        >
-          Согласовать
-        </v-btn>
+        <v-btn class="btnItem" size="small"> Согласовать </v-btn>
 
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'Действующий' ||
-              !getPermissions.has('Копировать документ ОТТС (ОТШ)')
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Копировать</v-btn
-        >
-        <v-btn
-          v-if="!(shema.conformityDocStatusDetails.docStatus !== 'Черновик')"
-          class="btnItem"
-          size="small"
-          @click.stop="saveImage()"
-          >Сохранить</v-btn
-        >
+        <v-btn class="btnItem" size="small">Копировать</v-btn>
+        <v-btn class="btnItem" size="small" @click.stop="saveImage()">Сохранить</v-btn>
 
-        <v-btn
-          v-if="
-            !!['Действующий', 'Приостановлен'].includes(shema.conformityDocStatusDetails.docStatus)
-          "
-          class="btnItem"
-          size="small"
-        >
-          Аннулировать
-        </v-btn>
+        <v-btn class="btnItem" size="small"> Аннулировать </v-btn>
 
-        <v-btn
-          v-if="
-            !!['Действующий', 'Приостановлен', 'Прекращен'].includes(
-              shema.conformityDocStatusDetails.docStatus
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Продлить</v-btn
-        >
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'Черновик' ||
-              !getPermissions.has('Удалить документ ОТТС (ОТШ)')
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Удалить</v-btn
-        >
+        <v-btn class="btnItem" size="small">Продлить</v-btn>
+        <v-btn class="btnItem" size="small">Удалить</v-btn>
 
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'На утверждении' ||
-              !getPermissions.has('Отзыв документа в статусе «На утверждении»')
-            )
-          "
-          class="btnItem"
-          size="small"
-          >Отозвать</v-btn
-        >
+        <v-btn class="btnItem" size="small">Отозвать</v-btn>
         <v-btn class="btnItem" size="small" @click="validation">Проверка</v-btn>
-        <v-btn
-          v-if="!!['Действующий'].includes(shema.conformityDocStatusDetails.docStatus)"
-          class="btnItem"
-          size="small"
-        >
-          Приостановить
-        </v-btn>
+        <v-btn class="btnItem" size="small"> Приостановить </v-btn>
+
+        <v-btn class="btnItem" size="small"> Возобновить </v-btn>
+        <v-btn class="btnItem" size="small"> Изменить </v-btn>
 
         <v-btn
-          v-if="
-            !!['Приостановлен', 'Отменен в СЭП', 'Прекращен'].includes(
-              shema.conformityDocStatusDetails.docStatus
-            )
-          "
-          class="btnItem"
-          size="small"
-        >
-          Возобновить
-        </v-btn>
-        <v-btn
-          v-if="
-            !(
-              !['Действующий'].includes(shema.conformityDocStatusDetails.docStatus) ||
-              !getPermissions.has('Утвердить документ ОТТС (ОТШ)') ||
-              $route.name === 'look'
-            )
-          "
-          class="btnItem"
-          size="small"
-        >
-          Изменить
-        </v-btn>
-
-        <v-btn
-          v-if="
-            !(
-              shema.conformityDocStatusDetails.docStatus !== 'Проект' ||
-              !getPermissions.has('Создать документ ОТТС (ОТШ)')
-            )
-          "
           class="btnItem"
           size="small"
           >Отправить на утверждение
         </v-btn>
 
-        <v-btn v-if="shema.id" class="btnItem" size="small" @click="dialog3 = !dialog3"
+        <v-btn  class="btnItem" size="small" @click="dialog3 = !dialog3"
           >Работа с Pdf</v-btn
         >
         <v-btn class="btnItem" size="small" @click="isCloseDocument = !isCloseDocument"
@@ -309,16 +173,11 @@
 import { reactive, ref, computed } from 'vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BasePanelAcordions from '@/components/base/BasePanelAcordions.vue'
-
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault' // import shema from '@/components/forms/conformityForms/shema'
-import DocumentRoot from '@/components/forms/conformityForms/document/DocumentRoot.vue' // Документ об оценке соответствия
-import BasicVehicle from '@/components/forms/conformityForms/BasicVehicle.vue' //  Базовое ТС
-import GeneralCharacteristicsRoot from '@/components/forms/conformityForms/generalCharacteristics/GeneralCharacteristicsRoot.vue' // Общие характеристики транспортного средства (Шасси)
-import DescriptionOfVehicleMarkings from '@/components/forms/conformityForms/DescriptionOfVehicleMarkings.vue' // Описание маркировки транспортного средства (Шасси)
-import VehicleView from '@/components/forms/conformityForms/VehicleView.vue' // Общий вид транспортного средства (Шасси)
-import ConfirmingDocument from '@/components/forms/conformityForms/ConfirmingDocument.vue' // Документ, подтверждающий соответствие обязательным требованиям
-import ListOfDocuments from '@/components/forms/conformityForms/ListOfDocuments.vue' // Перечень документов, являющихся основанием для оформления ОТТС
-import HistoryDocument from '@/components/forms/conformityForms/ChangeHistory.vue' // История изменения документа
+import GeneralInformationRoot from '@/components/forms/vechicleSaferyCertificate/generalInformation/GeneralInformationRoot.vue' // Документ об оценке соответствия
+import VehicleFrame from '@/components/forms/vechicleSaferyCertificate/VehicleFrame.vue' //  Шасси
+import GeneralCharacteristicsRoot from '@/components/forms/vechicleSaferyCertificate/generalCharacteristics/GeneralCharacteristicsRoot.vue' // Общие характеристики транспортного средства
+import ConformityInformation from '@/components/forms/vechicleSaferyCertificate/ConformityInformation.vue' // Сведения об ОТТС, на основании которого оформлено СБКТС"
+import ChangeHistory from '@/components/forms/vechicleSaferyCertificate/ChangeHistory.vue' // История изменения документа
 import BaseModal from '@/components/base/BaseModal.vue'
 
 import { useRoute } from 'vue-router'
@@ -326,13 +185,12 @@ import { useRequestStore } from '@/stores/requestStore'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
+import { useSnackStore } from '@/stores/snackStore'
 
+const snack = useSnackStore()
 const isCloseDocument = ref(false)
-
 const shemaStore = useShemaStore()
-// shemaStore.createShema(shemaDefault) // создаем схему
-const shema = shemaStore.shema // после связываем схему с полями
-console.log('shemaStore', shema)
+const shema = shemaStore.getShema // получаем схему
 const user = useUserStore() //получение permissions из пользователя
 const { getPermissions } = storeToRefs(user) //получение permissions
 
@@ -340,15 +198,15 @@ const panel = ref(0) // текущая панель
 const childCompRef = ref(null) // ссылка на дочерние компоненты
 const data = reactive([
   {
-    title: 'Документ об оценке соответствия',
-    component: 'DocumentRoot',
-    tab: 'DocumentComformity',
+    title: 'Общие сведения',
+    component: 'GeneralInformationRoot',
+    tab: 'DocumentVechicle',
     openPanel: '1',
     enabled: true,
     tabs: [
       {
-        title: 'Документ',
-        component: 'DocumentComformity',
+        title: 'Документ об оценке соответствия',
+        component: 'DocumentVechicle',
         enabled: true
       },
       {
@@ -357,7 +215,12 @@ const data = reactive([
         enabled: true
       },
       {
-        title: 'Наименование органа, выдавшего документ',
+        title: 'Идентификационный номер ТС',
+        component: 'VehicleId',
+        enabled: true
+      },
+      {
+        title: 'Испытательная лаборатория',
         component: 'CertificationAgency',
         enabled: true
       },
@@ -372,40 +235,25 @@ const data = reactive([
         enabled: true
       },
       {
-        title: 'Представители изготовителя и их адреса',
-        component: 'ManufacturersRepresentativesAddress',
-        enabled: true
-      },
-      {
         title: 'Сборочный завод и его адрес',
         component: 'AssemblyPlantAddress',
         enabled: true
       },
       {
-        title: 'Поставщик сборочных комплектов и его адрес',
-        component: 'ProviderAddress',
-        enabled: true
-      },
-      {
-        title: 'Вид распространения',
-        component: 'ViewSpread',
-        enabled: true
-      },
-      {
-        title: 'Дополнительная информаци',
+        title: 'Ограничения',
         component: 'MoreInformations',
         enabled: true
       }
     ]
   },
   {
-    title: 'Базовое ТС',
-    component: 'BasicVehicle',
+    title: 'Шасси',
+    component: 'VehicleFrame ',
     openPanel: '1',
     enabled: true
   },
   {
-    title: 'Общие характеристики транспортного средства (Шасси)',
+    title: 'Компоновка ТС',
     component: 'GeneralCharacteristicsRoot',
     tab: 'VehicleComposition',
     openPanel: '1',
@@ -418,12 +266,7 @@ const data = reactive([
       },
       {
         title: 'Ходовая часть ТС',
-        component: 'VehicleRunningGearDetails',
-        enabled: true
-      },
-      {
-        title: 'Ось транспортного средства',
-        component: 'VehicleAxis',
+        component: 'NumbersVheels',
         enabled: true
       },
       {
@@ -445,31 +288,6 @@ const data = reactive([
         title: 'Двигатель',
         component: 'EngineCar',
         enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Устройство накопления энергии',
-        component: 'StorageDevice',
-        enabled: computed(() => isCategoryCode.value)
-      },
-      {
-        title: 'Топливо',
-        component: 'FuelCar',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система питания',
-        component: 'SupplySystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система зажигания',
-        component: 'IgnitionSystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
-      },
-      {
-        title: 'Система нейтрализации',
-        component: 'NeutralizationSystem',
-        enabled: computed(() => isCategoryCodeAndEngineType.value)
       },
       {
         title: 'Сцепление',
@@ -504,46 +322,20 @@ const data = reactive([
     ]
   },
   {
-    title: 'Описание маркировки транспортного средства (Шасси)',
-    component: 'DescriptionOfVehicleMarkings',
+    title: 'Сведения об ОТТС, на основании которого оформлено СБКТС',
+    component: 'ConformityInformation',
     openPanel: '1',
     enabled: true
-  },
-  {
-    title: 'Общий вид транспортного средства (Шасси)',
-    component: 'VehicleView',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Документ, подтверждающий соответствие обязательным требованиям',
-    component: 'ConfirmingDocument',
-    openPanel: '1',
-    enabled: true
-  },
-  {
-    title: 'Перечень документов, являющихся основанием для оформления ОТТС',
-    component: 'ListOfDocuments',
-    openPanel: '1',
-    enabled: computed(() => shema.conformityDocKindCode === '30')
   },
   {
     title: 'История изменения документа',
-    component: 'HistoryDocument',
+    component: 'ChangeHistory',
     openPanel: '1',
     enabled: true
   }
 ])
 const isCategoryCode = computed(() => {
-  return shema.vehicleTypeDetails.vehicleTechCategoryCode.every(
-    (i) => !['O1', 'O2', 'O3', 'O4'].includes(i)
-  )
-})
-const isCategoryCodeAndEngineType = computed(() => {
-  return (
-    isCategoryCode.value &&
-    shema.vehicleVariantDetails[0].engineType === 'Двигатель внутреннего сгорания'
-  )
+  return true
 })
 const dataEnabled = computed(() => {
   return data.filter((item) => {
@@ -553,38 +345,25 @@ const dataEnabled = computed(() => {
     return item.enabled
   })
 })
-
 const requests = useRequestStore()
 const route = useRoute()
 const isAdditionInfoRightMenu = ref(false)
 let isOpenRightMenu = ref(false)
 
-// если есть квери параметр, заполняем первоначально схему данными
-if (route.query.val) {
-  shema.conformityDocKindCode = route.query.val
-}
-
-// если есть id то получаем данные с сервера
-if (route.params.id) {
-  shemaStore.LoadDataAndNormaliseImages(`/api/otts/docDetails/search/${route.params.id}`)
-}
-
 async function saveAsDraftDocument() {
+  const saveShema = shemaStore.beforeSave() // обрезка картинок
   const response = await requests.post(
     `/api/otts/docDetails/saving-as-draft?docId=${shema.docId}`,
-    shema
+    saveShema
   )
   console.log('response', response)
 }
 
 async function saveImage() {
-  const images = JSON.parse(JSON.stringify(shema.vehicleTypeDetails.vehiclePicture))
-  for (let i = 0; i < images.length; i++) {
-    images[i].value = images[i].value.split(';base64,')[1]
-  }
+  const saveShema = shemaStore.beforeSave() // обрезка картинок
   return await requests.put(`/api/otts/docDetails/update/${route.params.id}?docId=${shema.docId}`, {
     cms: null,
-    otts: shema
+    otts: saveShema
   })
 }
 function goToId(item) {
@@ -606,16 +385,14 @@ async function validation() {
       return
     }
   }
+  snack.setSnack({ text: 'G ', type: 'info' })
 }
 const allComponents = {
-  DocumentRoot,
-  BasicVehicle,
+  GeneralInformationRoot,
+  VehicleFrame,
   GeneralCharacteristicsRoot,
-  DescriptionOfVehicleMarkings,
-  VehicleView,
-  ConfirmingDocument,
-  ListOfDocuments,
-  HistoryDocument
+  ConformityInformation,
+  ChangeHistory
 }
 function getComponent(type) {
   return allComponents[type]
@@ -693,6 +470,7 @@ function getComponent(type) {
   position: fixed;
   right: 120px;
   top: 2px;
+  z-index: 2;
 }
 
 .forms-menu {

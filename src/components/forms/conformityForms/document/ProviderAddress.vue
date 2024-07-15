@@ -121,7 +121,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '../rules'
+import { conformityRules } from '@/components/forms/conformityForms/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -135,7 +135,7 @@ import { useShemaStore } from '@/stores/shemaStore'
 
 const requests = useRequestStore() // для работы с запросами
 const indexDB = useIndexDBStore()
-const shema = useShemaStore().shema // схема
+const shema = useShemaStore().getShema // схема
 const form = ref(null) // ссылка на форму
 
 const NSI_034 = ref([])

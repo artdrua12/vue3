@@ -6,20 +6,16 @@ export const useShemaStore = defineStore('shemaStore', () => {
   const requests = useRequestStore() // для работы с запросами
 
   //state
-  let shema = ref({})
+  let shema = ref(null)
 
-  watch(
-    shema,
-    (shema) => {
-      if (shema == {}) {
-        shema = JSON.parse(sessionStorage.getItem('shema'))
-        console.log('nulle', shema)
-      } else {
-        sessionStorage.setItem('shema', JSON.stringify(shema))
-      }
-    },
-    { deep: true }
-  )
+  watch(shema, (shema) => sessionStorage.setItem('shema', JSON.stringify(shema)), { deep: true })
+  //get
+  let getShema = computed(() => {
+    if (shema.value == null) {
+      shema.value = JSON.parse(sessionStorage.getItem('shema'))
+    }
+    return shema.value
+  })
   //action
   function createShema(defaultShema) {
     shema.value = JSON.parse(JSON.stringify(defaultShema))
@@ -30,6 +26,15 @@ export const useShemaStore = defineStore('shemaStore', () => {
     await loadServerData(url) // загрузка данных с cервера и перезапись схемы
     await normalizeImagesBase64(shema.value) // загрузка картинок и приведение к нормальному Base64
     return shema.value
+  }
+
+  function beforeSave() {
+    const saveShema = JSON.parse(sessionStorage.getItem('shema'))
+    const images = saveShema.vehicleTypeDetails.vehiclePicture
+    for (let i = 0; i < images.length; i++) {
+      images[i].value = images[i].value.split(';base64,')[1]
+    }
+    return saveShema
   }
 
   async function loadServerData(url) {
@@ -49,5 +54,5 @@ export const useShemaStore = defineStore('shemaStore', () => {
     }
   }
 
-  return { createShema, LoadDataAndNormaliseImages, shema }
+  return { createShema, LoadDataAndNormaliseImages, getShema, beforeSave }
 })

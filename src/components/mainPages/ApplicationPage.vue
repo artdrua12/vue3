@@ -1,19 +1,137 @@
 <template>
-  <layout-pages
-    v-model:fields="fields"
-    v-model:fields-more="fieldsMore"
-    title="Реестр заявлений"
-    @find="find"
-  ></layout-pages>
+  <div class="layoutPages">
+    <base-panel class="baseSearch" elevation="3" open-panel="1">
+      <template #title>Реестр заявлений</template>
+      <v-form class="adaptiveGrid pa-5">
+        <base-checkbox :v-model="fields.own" label="Только свои" class="full"></base-checkbox>
+
+        <base-autocomplete
+          v-model="fields.type"
+          label="Тип заявления"
+          class="span3"
+          :items="[]"
+        ></base-autocomplete>
+        <base-textfield
+          v-model="fields.number"
+          label="Номер заявления"
+          class="span3"
+        ></base-textfield>
+        <base-autocomplete
+          v-model="fields.type"
+          label="Заявитель"
+          class="span3"
+          :items="[{ value: 'registrant1' }, { value: 'registrant2' }, { value: 'registrant3' }]"
+        ></base-autocomplete>
+        <base-textfield
+          v-model="fields.epassportNumb"
+          label="Номер электронного паспорта"
+          class="span3"
+        ></base-textfield>
+
+        <base-autocomplete
+          v-model="fields.docStatus"
+          label="Статус"
+          class="span3"
+          :items="NSI_100"
+        ></base-autocomplete>
+        <base-autocomplete
+          v-model="fields.organization"
+          label="Организация заявителя"
+          class="span3"
+          :items="[
+            { value: 'organization1' },
+            { value: 'organization2' },
+            { value: 'organization3' }
+          ]"
+        ></base-autocomplete>
+        <base-textfield
+          v-model="fields.bodyId"
+          label="Идентификационный номер ТС"
+          class="span6"
+        ></base-textfield>
+
+        <base-panel class="full" elevation="3">
+          <template #title>Дополнительные поля</template>
+          <div class="adaptiveGrid pt-7 px-5">
+            <base-textfield
+              v-model="fields.engineId"
+              label="Номер двигателя"
+              class="span3"
+            ></base-textfield>
+            <base-textfield
+              v-model="fields.frameId"
+              label="Номер шасси"
+              class="span3"
+            ></base-textfield>
+            <base-textfield
+              v-model="fields.bodyId"
+              label="Номер кузова(прицепа, рамы)"
+              class="span6"
+            ></base-textfield>
+          </div>
+        </base-panel>
+      </v-form>
+
+      <div class="full base-button">
+        <v-btn
+          prepend-icon="mdi-close-circle"
+          color="red"
+          size="small"
+          class="rounded-0"
+          variant="tonal"
+          @click="Object.assign(fields, defaultFields)"
+        >
+          Очистить форму
+        </v-btn>
+        <v-btn
+          append-icon="mdi-magnify"
+          width="120px"
+          color="#546e7a"
+          size="small"
+          elevation="3"
+          class="rounded-0"
+          @click="find"
+        >
+          Поиск
+        </v-btn>
+      </div>
+    </base-panel>
+
+    <div class="base-action elevation-5">
+      <base-panel open-panel="1">
+        <template #title>Выбор действия</template>
+        <base-threeview
+          :selected="tableRowSelect"
+          :path-to-status="pathToStatus"
+          :actions="actions"
+        ></base-threeview>
+      </base-panel>
+    </div>
+
+    <base-table
+      v-model:size="size"
+      v-model:page="page"
+      v-model:tableRowSelect="tableRowSelect"
+      :table-headers="tableHeaders"
+      :additional-table-headers="additionalTableHeaders"
+      :table-data-and-pagination="tableDataAndPagination"
+      :path-to-status="pathToStatus"
+      class="base-table"
+      @find="find"
+    ></base-table>
+  </div>
 </template>
 
 <script setup>
-import { provide, reactive, ref } from 'vue'
-import LayoutPages from '../layout/LayoutPages.vue'
-import { useRequestStore } from '@/stores/requestStore'
-import { useGetAutocompliteData } from './composable'
+import { ref, reactive } from 'vue'
+import BaseTextfield from '@/components/base/BaseTextfield.vue'
+import BaseThreeview from '@/components/base/BaseThreeview.vue'
+import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
+import BaseTable from '@/components/base/BaseTableSubGrid.vue'
+import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
+import BasePanel from '@/components/base/BasePanel.vue'
+import { useGetCatalog, useCheckAndLoadData } from './composable'
 
-const requests = useRequestStore() // для работы с запросами
 const tableHeaders = [
   {
     text: 'Номер заявления',
@@ -40,6 +158,8 @@ const tableHeaders = [
     value: 'epassportNumb'
   }
 ]
+const pathToStatus = 'docStatus' // путь для статуса, используется в table и в action
+let tableDataAndPagination = ref({}) // данные для таблицы + информция для пагинации
 const additionalTableHeaders = [
   {
     text: 'ФИО заявителя',
@@ -66,91 +186,20 @@ const additionalTableHeaders = [
     model: false
   }
 ]
-let tableDataFromResponse = ref({})
-
 const fields = reactive({
-  own: {
-    width: 'all',
-    label: 'Только свои',
-    value: false,
-    type: 'BaseCheckbox'
-  },
-  type: {
-    width: '3',
-    label: 'Тип заявления',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    text: 'name',
-    itemValue: 'type'
-  },
-  number: {
-    width: '3',
-    label: 'Номер заявления',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  applicant: {
-    width: '3',
-    label: 'Заявитель',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/status-directory-otts',
-    text: 'value'
-  },
-  epassportNumb: {
-    width: '3',
-    label: 'Номер электронного паспорта',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  docStatus: {
-    width: '3',
-    label: 'Статус',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/status-directory-otts',
-    text: 'name',
-    itemValue: 'type'
-  },
-  organization: {
-    width: '3',
-    label: 'Организация заявителя',
-    value: '',
-    type: 'BaseAutocomplete',
-    items: [],
-    url: '/api/classifier/epassport/status-directory-otts',
-    text: 'value'
-  },
-  vehicleId: {
-    width: '6',
-    label: 'Идентификационный номер ТС',
-    value: '',
-    type: 'BaseTextfield'
-  }
+  own: false,
+  type: '',
+  number: '',
+  applicant: '',
+  epassportNumb: '',
+  docStatus: '',
+  organization: '',
+  vehicleId: '',
+  engineId: '',
+  frameId: '',
+  bodyId: ''
 })
-const fieldsMore = reactive({
-  engineId: {
-    width: '3',
-    label: 'Номер двигателя',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  frameId: {
-    width: '3',
-    label: 'Номер шасси',
-    value: '',
-    type: 'BaseTextfield'
-  },
-  bodyId: {
-    width: '6',
-    label: 'Номер кузова(прицепа, рамы)',
-    value: '',
-    type: 'BaseTextfield'
-  }
-})
+const defaultFields = JSON.parse(JSON.stringify(fields))
 const actions = [
   {
     text: 'Просмотреть заявление',
@@ -333,39 +382,82 @@ const actions = [
     ]
   }
 ]
+const tableRowSelect = ref({}) // выбранная строка из таблицы
+let size = ref(5) //количество строк на одной странице
+let page = ref(0) // текущая страница в пагинации
+const NSI_100 = ref([])
 
-provide('tableDataFromResponse', tableDataFromResponse)
-provide('additionalTableHeaders', additionalTableHeaders)
-provide('tableHeaders', tableHeaders)
-provide('actions', actions)
-provide('pathToStatus', 'docStatus') // путь для статуса, используется в table и в action
-
-async function find(obj) {
+async function find() {
   const body = {
-    isOwn: fields.own.value,
+    isOwn: fields.own,
     isRegexSearch: true,
     query: {
-      ['type']: fields.type.value,
-      ['number']: fields.number.value,
-      ['applicant']: fields.applicant.value,
-      ['epassportNumb']: fields.epassportNumb.value,
-      ['status']: fields.docStatus.value,
-      ['organization']: fields.organization.value,
-      ['vehicleId']: fields.vehicleId.value,
-      ['engineId']: fieldsMore.engineId.value,
-      ['bodyId']: fieldsMore.bodyId.value,
-      ['frameId']: fieldsMore.frameId.value
+      ['type']: fields.type,
+      ['number']: fields.number,
+      ['applicant']: fields.applicant,
+      ['epassportNumb']: fields.epassportNumb,
+      // ['status']: fields.docStatus, правильное решение
+      ['status']: 'CONFIRMED', // временное решение
+      ['organization']: fields.organization,
+      ['vehicleId']: fields.vehicleId,
+      ['engineId']: fields.engineId,
+      ['bodyId']: fields.bodyId,
+      ['frameId']: fields.frameId
     },
     pageAndSort: {
-      page: obj.page,
-      size: obj.size
+      page: page.value,
+      size: size.value
     }
   }
-  const res = await requests.post('/application/search', body)
-  tableDataFromResponse.value = res
+  // проверка на заполенность хотя бы одного поля и загрузка данных
+  const response = await useCheckAndLoadData(fields, '/application/search', body)
+  tableDataAndPagination.value = { result: response }
+  console.log('tableDataAndPagination.value ', tableDataAndPagination.value)
 }
-
-useGetAutocompliteData({ ...fields, ...fieldsMore })
+//справочники для автокомплита
+async function load() {
+  NSI_100.value = await useGetCatalog('NSI_100')
+}
+load()
 </script>
 
-<style scoped></style>
+<style scoped>
+.layoutPages {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: auto 1fr;
+  gap: 5px 20px;
+  padding: 10px 5px 15px 20px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  overflow-x: hidden;
+  /* резервирует место под скролл */
+  scrollbar-gutter: stable;
+}
+.baseForm {
+  width: 100%;
+}
+.base-search {
+  grid-area: 1/1/2/2;
+}
+.base-action {
+  grid-area: 1/2/-1/3;
+  overflow: hidden;
+  max-height: 90vh;
+  z-index: 1;
+  position: absolute;
+  right: 23px;
+  width: 400px;
+}
+.base-table {
+  grid-area: 2/1/3/-1;
+  z-index: 0;
+}
+.base-button {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

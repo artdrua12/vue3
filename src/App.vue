@@ -22,9 +22,9 @@
       </router-view>
     </div>
 
-    <div class="app-footer">
+    <!-- <div class="app-footer">
       <p>©2024</p>
-    </div>
+    </div> -->
 
     <transition-group name="slide" tag="div" class="snackbar-wrapper">
       <div v-for="item in snack" :key="item.id" class="snackbar" :class="item.type">
@@ -67,15 +67,14 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   height: 100%;
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 40px 1fr 30px;
-  /* grid-template-rows: 40px 1fr ; */
+  /* grid-template-rows: 40px 1fr 30px; */
+  grid-template-rows: 40px 1fr ;
   background-color: #f7f7f7;
 }
 .app-title {
   justify-self: flex-start;
   margin-right: auto;
   margin-left: 30px;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 18px;
@@ -88,6 +87,7 @@ const { snack } = storeToRefs(store) // для работы с уведомле�
   align-items: center;
   color: white;
   padding: 0px 0px 0px 20px;
+  z-index: 2;
 }
 .app-content {
   overflow: hidden;

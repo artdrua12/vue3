@@ -84,7 +84,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с базой данных
-const shema = useShemaStore().shema // схема
+const shema = useShemaStore().getShema // схема
 const form = ref(null) // ссылка на форму
 
 const isLook = computed(() => route.query.look != null)
