@@ -14,6 +14,7 @@
         v-model:open-panel="item.openPanel"
         elevation="5"
         bg-color="#ebebeb"
+        style="scroll-margin-top:10px"
       >
         <template #title>{{ item.title }} </template>
         <component
@@ -37,14 +38,8 @@
     </v-btn>
 
     <div class="forms-action" :class="{ openRightMenu: isOpenRightMenu }">
-      <p class="action-title">
-        {{
-          shema.conformityDocKindCode === '30'
-            ? 'Одобрение типа транспортного средства'
-            : 'Одобрение типа шасси'
-        }}
-      </p>
-      <p v-if="shema.cert.signer.name != ''">
+      <p class="action-title">СБКТС</p>
+      <p :disabled="shema.cert && shema.cert.signer.name != ''">
         Подписан:
         <strong
           >{{ shema.cert.signer.organization }} {{ shema.cert.signer.surname }}
@@ -55,20 +50,13 @@
         Номер документа: <strong>{{ shema.docId }}</strong>
       </p>
       <p>Статус: <strong>{{}}</strong></p>
-      <p v-if="shema.refuseReason">
+      <p :disabled="shema.refuseReason">
         Причина отказа: <strong>{{ shema.refuseReason }}</strong>
       </p>
-      <p v-if="shema.conformityDocKindCode === '30'">
-        Дата оформления бумажного ОТТС: <strong>{{ shema.docCreationDate }}</strong>
-      </p>
-      <p v-if="shema.conformityDocKindCode === '35'">
-        Дата оформления бумажного ОТШ: <strong>{{ shema.docCreationDate }}</strong>
-      </p>
+
       <p>
-        Срок действия:
-        <strong>{{
-          `${shema.docStartDate} ${shema.docStartDate ? '-' : ''} ${shema.docValidityDate}`
-        }}</strong>
+        Дата оформления:
+        <strong>{{ `${shema.docCreationDate}` }}</strong>
       </p>
 
       <v-btn
@@ -81,65 +69,147 @@
           isAdditionInfoRightMenu ? 'mdi-chevron-up' : 'mdi-chevron-down'
         }}</v-icon></v-btn
       >
-      <div v-if="isAdditionInfoRightMenu === true" class="mb-3">
-        <p>Сформирован на основании:</p>
+      <div v-show="isAdditionInfoRightMenu === true" class="mb-3">
         <p>
-          Орган по сертификации:
+          Сформирован на основании:<strong>{{ shema.conformityInformation.docId }}</strong>
+        </p>
+        <p>
+          Испытательная лаборатория:
           <strong>{{ shema.conformityAuthorityInformationDetails.businessEntityBriefName }}</strong>
         </p>
         <p>
-          Марка: <strong>{{ shema.vehicleTypeDetails.vehicleMakeName.join(' , ') }}</strong>
+          Марка: <strong>{{ shema.vehicleTypeDetails.vehicleMakeName }}</strong>
         </p>
         <p>
-          Тип: <strong>{{ shema.vehicleTypeDetails.vehicleTypeId.join('  , ') }}</strong>
+          Тип: <strong>{{ shema.vehicleTypeDetails.vehicleTypeId }}</strong>
         </p>
       </div>
 
       <div class="btnActions">
-        <v-btn class="btnItem" size="small"> Корректировать </v-btn>
+        <v-btn :disabled="true" color="#648194" size="small">Корректировать</v-btn>
+
         <v-btn
-          v-if="
-            !(
-              $route.name !== 'look' ||
-              !getPermissions.has('Редактировать документ ОТТС (ОТШ)') ||
-              shema.conformityDocStatusDetails.docStatus !== 'Черновик'
-            )
+          :disabled="
+            $route.name !== 'look' ||
+            !getPermissions.has('Редактировать документ СБКТС') ||
+            shema.conformityDocStatusDetails.docStatus !== 'Черновик'
           "
           class="btnItem"
           size="small"
-          @click="() => $router.push('/conformities/form/' + shema.id)"
+          @click="() => $router.push('/vehicle-safety-certificate/form/')"
           >Редактировать</v-btn
         >
         <v-btn class="btnItem" size="small" @click="saveAsDraftDocument">Создать черновик</v-btn>
 
-        <v-btn class="btnItem" size="small">Утвердить</v-btn>
-        <v-btn class="btnItem" size="small">Отказать</v-btn>
-        <v-btn class="btnItem" size="small">Создать проект</v-btn>
-
-        <v-btn class="btnItem" size="small"> Согласовать </v-btn>
-
-        <v-btn class="btnItem" size="small">Копировать</v-btn>
-        <v-btn class="btnItem" size="small" @click.stop="saveImage()">Сохранить</v-btn>
-
-        <v-btn class="btnItem" size="small"> Аннулировать </v-btn>
-
-        <v-btn class="btnItem" size="small">Продлить</v-btn>
-        <v-btn class="btnItem" size="small">Удалить</v-btn>
-
-        <v-btn class="btnItem" size="small">Отозвать</v-btn>
-        <v-btn class="btnItem" size="small" @click="validation">Проверка</v-btn>
-        <v-btn class="btnItem" size="small"> Приостановить </v-btn>
-
-        <v-btn class="btnItem" size="small"> Возобновить </v-btn>
-        <v-btn class="btnItem" size="small"> Изменить </v-btn>
+        <v-btn
+          :disabled="
+            shema.docStatusDetails.docStatus !== 'На утверждении' ||
+            !getPermissions.has('Утвердить документ СБКТС')
+          "
+          color="#648194"
+          size="small"
+          @click="isApprove = !isApprove"
+          >Утвердить</v-btn
+        >
 
         <v-btn
+          :disabled="
+            shema.docStatusDetails.docStatus !== 'На утверждении' ||
+            !getPermissions.has('Утвердить документ СБКТС')
+          "
           class="btnItem"
+          size="small"
+          @click="isRefuse = !isRefuse"
+          >Отказать</v-btn
+        >
+        <v-btn
+          :disabled="shema.docStatusDetails.docStatus !== 'Черновик'"
+          class="btnItem"
+          size="small"
+          @click="createProject"
+          >Создать проект</v-btn
+        >
+        <v-btn :disabled="true" color="#648194" size="small">Согласовать</v-btn>
+        <v-btn
+          :disabled="
+            shema.docStatusDetails.docStatus !== 'Действующий' ||
+            !getPermissions.has('Копировать документ СБКТС')
+          "
+          class="btnItem"
+          size="small"
+          @click="copyDocument(shema.id)"
+          >Копировать</v-btn
+        >
+        <v-btn
+          :disabled="shema.docStatusDetails.docStatus !== 'Черновик'"
+          class="btnItem"
+          size="small"
+          @click="save()"
+          >Сохранить</v-btn
+        >
+        <v-btn :disabled="true" color="#648194" size="small">Аннулировать</v-btn>
+        <v-btn :disabled="true" color="#648194" size="small">Вернуть</v-btn>
+        <v-btn :disabled="true" color="#648194" size="small">На согласование</v-btn>
+
+        <v-btn
+          :disabled="
+            !['Действующий', 'Приостановлен', 'Прекращен'].includes(
+              shema.docStatusDetails.docStatus
+            )
+          "
+          class="btnItem"
+          size="small"
+          >Продлить</v-btn
+        >
+        <v-btn
+          :disabled="
+            !getPermissions.has('Удалить документ СБКТС') ||
+            shema.docStatusDetails.docStatus !== 'Черновик'
+          "
+          class="btnItem"
+          size="small"
+          >Удалить</v-btn
+        >
+
+        <v-btn
+          :disabled="
+            shema.docStatusDetails.docStatus !== 'На утверждении' ||
+            !getPermissions.has('Отзыв документа в статусе «На утверждении»')
+          "
+          class="btnItem"
+          size="small"
+          >Отозвать</v-btn
+        >
+        <v-btn
+          :disabled="shema.docStatusDetails.docStatus !== 'Черновик'"
+          class="btnItem"
+          size="small"
+          @click="validation"
+          >Проверка</v-btn
+        >
+        <v-btn :disabled="true" color="#648194" size="small">Приостановить</v-btn>
+        <v-btn
+          :disabled="
+            !['Действующий'].includes(shema.docStatusDetails.docStatus) ||
+            !getPermissions.has('Утвердить документ СБКТС')
+          "
+          class="btnItem"
+          size="small"
+        >
+          Изменить
+        </v-btn>
+
+        <v-btn
+          :disabled="
+            shema.docStatusDetails.docStatus !== 'Проект' ||
+            !getPermissions.has('Создать документ СБКТС')
+          "
+          class="btnItem full"
           size="small"
           >Отправить на утверждение
         </v-btn>
 
-        <v-btn  class="btnItem" size="small" @click="dialog3 = !dialog3"
+        <v-btn :disabled="!shema.id" class="btnItem" size="small" @click="dialog3 = !dialog3"
           >Работа с Pdf</v-btn
         >
         <v-btn class="btnItem" size="small" @click="isCloseDocument = !isCloseDocument"
@@ -194,6 +264,11 @@ const shema = shemaStore.getShema // получаем схему
 const user = useUserStore() //получение permissions из пользователя
 const { getPermissions } = storeToRefs(user) //получение permissions
 
+let isAdditionInfoRightMenu = ref(false)
+let isOpenRightMenu = ref(false)
+const isApprove = ref(false)
+const isRefuse = ref(false)
+
 const panel = ref(0) // текущая панель
 const childCompRef = ref(null) // ссылка на дочерние компоненты
 const data = reactive([
@@ -221,7 +296,7 @@ const data = reactive([
       },
       {
         title: 'Испытательная лаборатория',
-        component: 'CertificationAgency',
+        component: 'TestingLaboratory',
         enabled: true
       },
       {
@@ -241,19 +316,19 @@ const data = reactive([
       },
       {
         title: 'Ограничения',
-        component: 'MoreInformations',
+        component: 'RestrictionsCar',
         enabled: true
       }
     ]
   },
   {
     title: 'Шасси',
-    component: 'VehicleFrame ',
+    component: 'VehicleFrame',
     openPanel: '1',
     enabled: true
   },
   {
-    title: 'Компоновка ТС',
+    title: 'Общие характеристики ТС',
     component: 'GeneralCharacteristicsRoot',
     tab: 'VehicleComposition',
     openPanel: '1',
@@ -347,19 +422,14 @@ const dataEnabled = computed(() => {
 })
 const requests = useRequestStore()
 const route = useRoute()
-const isAdditionInfoRightMenu = ref(false)
-let isOpenRightMenu = ref(false)
 
 async function saveAsDraftDocument() {
   const saveShema = shemaStore.beforeSave() // обрезка картинок
-  const response = await requests.post(
-    `/api/otts/docDetails/saving-as-draft?docId=${shema.docId}`,
-    saveShema
-  )
+  const response = await requests.post(`/api/sbkts/create/draft?docId=${shema.docId}`, saveShema)
   console.log('response', response)
 }
 
-async function saveImage() {
+async function save() {
   const saveShema = shemaStore.beforeSave() // обрезка картинок
   return await requests.put(`/api/otts/docDetails/update/${route.params.id}?docId=${shema.docId}`, {
     cms: null,
@@ -382,11 +452,25 @@ async function validation() {
       // переход к невалидной panel(по айди)
       panel.value = i
       goToId(dataEnabled.value[i])
-      return
+      return false
     }
   }
-  snack.setSnack({ text: 'G ', type: 'info' })
+  snack.setSnack({ text: 'Валидация успешно пройдена', type: 'info' })
+  return true
 }
+function createProject() {
+  const isValid = validation()
+  if (isValid) {
+    console.log('валидация пройдена')
+  }
+  console.log('createProject')
+}
+
+async function copyDocument() {
+  const saveShema = shemaStore.beforeSave() // обрезка картинок
+  return await requests.post(`/api/sbkts/saving/copy/${shema.id}`, saveShema)
+}
+
 const allComponents = {
   GeneralInformationRoot,
   VehicleFrame,
@@ -430,8 +514,8 @@ function getComponent(type) {
   border: 1px solid white;
   overflow: auto;
   box-shadow:
-    rgba(44, 73, 87, 0.79) 0px 1px 20px,
-    rgba(44, 73, 87, 0.4) 0px 7px 7px;
+    rgba(44, 44, 44, 0.79) 0px 1px 15px,
+    rgba(44, 73, 87, 0.4) 0px 1px 7px;
   transform: translateX(110%);
   transition: transform 0.35s ease-in-out;
 }
@@ -478,7 +562,7 @@ function getComponent(type) {
   max-height: calc(100% - 90px);
   overflow: auto;
   scrollbar-width: none;
-  margin-top: 10px;
+  margin: 10px 0px 0px 10px;
   position: fixed;
 }
 .forms-data {

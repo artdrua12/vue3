@@ -1,12 +1,10 @@
 <template>
   <div class="constructor">
-    <v-btn size="30" icon class="btnAdd" :disabled="props.disabled" @click="add">
-      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
-    </v-btn>
     <fieldset
       v-for="(item, index) in filterData"
       :key="index"
-      class="adaptiveGrid adaptiveGrid--setting"
+      class="adaptiveGrid item"
+      :class="{ many: isOneField }"
     >
       <legend>
         <slot name="label" :index="index" :item="item">
@@ -17,7 +15,7 @@
 
       <slot name="btnRemove" :index="index" :item="item">
         <v-btn
-          v-if="props.filterData.length > 1"
+          v-if="isOneField"
           icon
           class="btnRemove"
           size="30"
@@ -26,15 +24,26 @@
         >
           <p>{{ index + 1 }}</p>
         </v-btn>
+        <v-btn v-else size="30" icon class="btnOne" stacked :disabled="props.disabled" @click="add">
+          <v-icon size="34" color="#69808a" icon="mdi-plus-circle"></v-icon>
+        </v-btn>
       </slot>
     </fieldset>
-    <v-btn size="30" icon class="btnAddBottom" :disabled="props.disabled" @click="add">
-      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
+    <v-btn
+      v-show="isOneField"
+      size="30"
+      icon
+      class="btnAdd"
+      :disabled="props.disabled"
+      @click="add"
+    >
+      <v-icon size="22" color="#69808a" icon="mdi-plus-circle"></v-icon>
     </v-btn>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 const data = defineModel({ type: [Array, Object, String], required: true })
 const props = defineProps({
   label: { type: String, default: '' },
@@ -50,6 +59,8 @@ function remove(item) {
   const index = data.value.findIndex((dataItem) => dataItem == item)
   data.value.splice(index, 1)
 }
+const isOneField = computed(() => props.filterData.length > 1)
+
 // если массив не приходит, заменяем тогда дефолтным значением
 if (!props.filterData) {
   data.value = [JSON.parse(JSON.stringify(props.defaultData))]
@@ -71,15 +82,6 @@ if (props.filterData && props.filterData?.length == 0) {
   overflow: hidden;
 }
 
-.adaptiveGrid--setting {
-  overflow: visible;
-  background-color: rgba(173, 178, 180, 0.122);
-  border: 1px solid #2c4957;
-  border-radius: 4px;
-  padding: 25px 24px 10px 24px;
-  box-shadow: -3px 3px 7px 2px rgba(54, 54, 54, 0.3);
-}
-
 legend {
   font-weight: 500;
   font-size: 17px;
@@ -92,54 +94,57 @@ legend {
   -webkit-box-orient: vertical; /* Вертикальная ориентация */
   overflow: hidden;
 }
-.adaptiveGrid::before {
+.item {
+  background-color: rgba(173, 178, 180, 0.122);
+  border: 1px solid #2c4957;
+  border-radius: 4px;
+  padding: 25px 24px 10px 24px;
+  box-shadow: -3px 3px 7px 2px rgba(54, 54, 54, 0.3);
+}
+
+.item::before {
   width: 36px;
-  height: 100%;
+  height: calc(50% + 12px);
   content: '';
   position: absolute;
   left: -36px;
-  bottom: calc(50% + 7px);
-  border-bottom: 1px solid #2c4957;
+  top: calc(50% - 5px);
+  border-top: 1px solid #2c4957;
+}
+.many.item::before {
   border-left: 1px solid #2c4957;
 }
-.adaptiveGrid::after {
+.item::after {
   width: 36px;
-  height: 100%;
+  height: calc(50% + 35px);
   content: '';
   position: absolute;
   left: -36px;
-  bottom: 0%;
+  top: -40px;
   border-left: 1px solid #2c4957;
 }
 
-.adaptiveGrid:first-of-type::before {
-  height: 50%;
-}
-/* .adaptiveGrid:last-of-type::after {
+.item:first-of-type::after {
   border: none;
-} */
+}
 
-.btnAdd,
-.btnAddBottom {
+.btnAdd {
   position: absolute;
+  bottom: 3px;
   left: 0px;
   z-index: 2;
   border: 1px solid #2c4957;
 }
-.btnAdd {
-  top: 0px;
-}
-.btnAddBottom {
-  bottom: 10px;
-}
 
-.btnRemove {
+.btnRemove,.btnOne {
   position: absolute;
-  bottom: calc(50% - 6px);
-  left: -51px;
+  bottom: calc(50% - 10px);
+  left: -50px;
   z-index: 2;
   font-family: sans-serif;
   font-weight: 700;
+}
+.btnRemove {
   border: 1px solid #2c4957;
 }
 </style>

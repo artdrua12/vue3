@@ -21,7 +21,7 @@
         :rules="
           shema.vehicleTypeDetails.validationVehicleIdentityNumberIndicator
             ? []
-            : [commonRules.identityNumberValidator]
+            : [rules.identityNumberValidator]
         "
         class="full"
       ></base-textfield>
@@ -34,14 +34,13 @@
 
       <p class="full title">Маркировка</p>
 
-      <div class="full" style=" width: 100%; margin: auto;">
-      <BaseConstructorOneElement
-        v-slot="props"
-        v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
-        :disabled="isLook"
-        :default-data="shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0]"
-      >
-      
+      <div class="full" style="margin: auto; max-width: 100%">
+        <BaseConstructorOneElement
+          v-slot="props"
+          v-model="shema.vehicleTypeDetails.vehicleLabelingDetails"
+          :disabled="isLook"
+          :default-data="shemaDefault.vehicleTypeDetails.vehicleLabelingDetails"
+        >
           <base-squares
             :items="
               shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
@@ -49,8 +48,8 @@
             "
             class="full mb-5"
           ></base-squares>
-      </BaseConstructorOneElement>
-    </div>
+        </BaseConstructorOneElement>
+      </div>
     </template>
   </v-form>
 </template>
@@ -63,7 +62,7 @@ import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
-import { commonRules } from '@/components/forms/vechicleSaferyCertificate/rules'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
 const route = useRoute()
 const shema = useShemaStore().getShema //схема

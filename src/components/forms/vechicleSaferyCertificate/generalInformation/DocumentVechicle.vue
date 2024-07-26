@@ -18,7 +18,7 @@
     <base-textfield
       v-model="shema.docId"
       label="Номер документа*"
-      :rules="[commonRules.docId]"
+      :rules="[rules.docId]"
       max-length="50"
       hint="Номер документа должен соответствовать формату ТС ZZ (А|Е|К)-ZZ.0000.00000.*  (символы ТС, А, Е, К - с использованием букв кириллицы, ZZ - с использованием латиницы)"
       class="full"
@@ -29,6 +29,7 @@
       :items="conformityDocKindName"
       :disabled="true"
       item-value="key"
+      item-text="title"
       class="full"
     ></base-autocomplete>
   </v-form>
@@ -37,7 +38,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
-import { commonRules } from '@/components/forms/vechicleSaferyCertificate/rules'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'

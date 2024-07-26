@@ -14,6 +14,7 @@
         elevation="5"
         open-panel="1"
         bg-color="#ebebeb"
+        style="scroll-margin-top:10px"
       >
         <template #title>{{ item.title }} </template>
 
@@ -149,7 +150,7 @@ function getComponent(type) {
   overflow: auto;
   scrollbar-width: none;
   position: fixed;
-  margin-top: 10px;
+  margin: 10px 0px 0px 10px;
 }
 .forms-data {
   grid-column: -1/-2;

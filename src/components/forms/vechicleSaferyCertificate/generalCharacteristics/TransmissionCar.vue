@@ -1,35 +1,39 @@
 <template>
   <v-form ref="form" :disabled="isLook">
     <base-is-missing
-      v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].notTransmissionUnit"
-      v-model:data="shema.vehicleVariantDetails[0].vehicleRunningGearDetails"
-      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails"
+      v-model="shema.vehicleVariantDetails.vehicleRunningGearDetails.notTransmissionUnit"
+      v-model:data="shema.vehicleVariantDetails.vehicleRunningGearDetails"
+      :default-data="shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails"
       label="Трансмиссия - отсутствует"
       :disabled="isLook"
     >
-      <base-autocomplete
-        v-model="
-          shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleTransmissionText
-        "
-        label="Тип трансмиссии*"
-        :items="NSI_058"
-        max-length="1000"
-        multiple
-        chips
-        :rules="[conformityRules.vehicleTransmissionText]"
+      <base-constructor-one-element
+        v-slot="props"
+        v-model="shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleTransmissionText"
         class="full"
-      ></base-autocomplete>
+        :disabled="isLook"
+      >
+        <base-autocomplete
+          v-model="
+            shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleTransmissionText[
+              props.index
+            ]
+          "
+          label="Тип трансмиссии*"
+          :items="NSI_058"
+          max-length="1000"
+          multiple
+          chips
+          :rules="[rules.vehicleTransmissionText]"
+          class="full"
+        ></base-autocomplete>
+      </base-constructor-one-element>
 
       <base-constructor
-        v-model="
-          shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].transmissionUnitDetails
-        "
-        :filter-data="
-          shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].transmissionUnitDetails
-        "
+        v-model="shema.vehicleVariantDetails.vehicleRunningGearDetails.transmissionUnitDetails"
+        :filter-data="shema.vehicleVariantDetails.vehicleRunningGearDetails.transmissionUnitDetails"
         :default-data="
-          shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
-            .transmissionUnitDetails[0]
+          shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails.transmissionUnitDetails[0]
         "
         class="full"
         :disabled="isLook"
@@ -49,14 +53,15 @@
           <base-autocomplete
             v-if="
               (props.item.vehicleUnitKindCode && props.item.vehicleUnitKindCode.length === 2) ||
-              docStatus === 'Черновик' ||
-              !docStatus
+              shema.docStatusDetails.docStatus === 'Черновик' ||
+              !shema.docStatusDetails.docStatus
             "
             v-model="props.item.vehicleUnitKindCode"
             label="Узел*"
             :items="NSI_018"
             item-value="key"
             class="full"
+            :rules="[rules.vehicleUnitKindCode]"
           ></base-autocomplete>
 
           <base-autocomplete
@@ -71,11 +76,10 @@
           <template v-if="!!props.item.vehicleUnitKindCode.indexOf('20')">
             <base-autocomplete
               v-if="!props.item.vehicleUnitKindCode.indexOf('05')"
-              id="transmissionTypeVehicleComponentText"
               v-model="props.item.vehicleComponentText"
               label="Описание конструктивных особенностей (типа) коробки передач*"
               :items="NSI_053"
-              :rules="[conformityRules.transmissionTypeVehicleComponentText]"
+              :rules="[rules.transmissionTypeVehicleComponentText]"
               class="full"
             ></base-autocomplete>
 
@@ -84,7 +88,7 @@
               id="transferCaseType"
               v-model="props.item.vehicleComponentText"
               label="Описание конструктивных особенностей (типа) раздаточной коробки*"
-              :rules="[conformityRules.transferCaseType]"
+              :rules="[rules.transferCaseType]"
               class="full"
             ></base-textfield>
 
@@ -93,15 +97,7 @@
               v-model="props.item.vehicleComponentText"
               label="Описание конструктивных особенностей (типа) главной передачи*"
               :items="NSI_051"
-              :rules="[conformityRules.mainGearType]"
-              class="span6"
-            ></base-autocomplete>
-
-            <base-autocomplete
-              v-if="!props.item.vehicleUnitKindCode.indexOf('15')"
-              v-model="props.item.axisDistribution"
-              label="Распределение по осям"
-              :items="NSI_026"
+              :rules="[rules.mainGearType]"
               class="span6"
             ></base-autocomplete>
 
@@ -117,10 +113,18 @@
               class="span6"
             ></base-combobox>
 
+            <base-autocomplete
+              v-if="!props.item.vehicleUnitKindCode.indexOf('15')"
+              v-model="props.item.axisDistribution"
+              label="Распределение по осям"
+              :items="NSI_026"
+              class="span6"
+            ></base-autocomplete>
+
             <base-textfield
               v-model="props.item.transmissionUnitGearQuantity"
               type="number"
-              label="Количество передач*"
+              label="Количество передач"
               class="span6"
             ></base-textfield>
           </template>
@@ -156,7 +160,7 @@
             v-model="props.item.transmissionUnitGearDetails"
             :filter-data="props.item.transmissionUnitGearDetails"
             :default-data="
-              shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+              shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails
                 .transmissionUnitDetails[0].transmissionUnitGearDetails
             "
             label="Передаточные числа"
@@ -165,8 +169,8 @@
           >
             <base-autocomplete
               v-model="props2.item.transmissionUnitGearName"
-              label="Наименование передачи*"
-              :rules="[conformityRules.transmissionUnitGearName]"
+              label="Наименование передачи"
+              :rules="[rules.transmissionUnitGearName]"
               max-length="120"
               :items="NSI_307"
               class="span6"
@@ -174,7 +178,7 @@
             <base-autocomplete
               v-model="props2.item.transmissionUnitGearType"
               label="Вид передаточного числа"
-              :rules="[conformityRules.transmissionUnitGearType]"
+              :rules="[rules.transmissionUnitGearType]"
               max-length="20"
               :items="NSI_081"
               class="span6"
@@ -184,7 +188,7 @@
               v-model="props2.item.transmissionUnitGearRate"
               type="number"
               label="Передаточное число*"
-              :rules="[conformityRules.transmissionUnitGearRate]"
+              :rules="[rules.transmissionUnitGearRate]"
               class="span6"
             ></base-textfield>
 
@@ -208,7 +212,7 @@
             v-model="props.item.vehiclePowerTakeOffDetails"
             :filter-data="props.item.vehiclePowerTakeOffDetails"
             :default-data="
-              shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+              shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails
                 .transmissionUnitDetails[0].vehiclePowerTakeOffDetails
             "
             label="Передаточные числа"
@@ -242,11 +246,11 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '@/components/forms/conformityForms/rules'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
+import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
@@ -263,7 +267,6 @@ const requests = useRequestStore() // для работы с запросами
 
 const form = ref(null) // ссылка на форму
 const isLook = computed(() => route.query.look != null)
-const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 const NSI_018 = ref([])
 const NSI_026 = ref([])
 const NSI_051 = ref([])

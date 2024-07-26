@@ -37,7 +37,7 @@
 
         <div class="full grid12">
           <base-textfield
-            v-model.sync="props2.item.minMassMeasure"
+            v-model="props2.item.minMassMeasure"
             label="Минимально*"
             type="number"
             max-length="24"

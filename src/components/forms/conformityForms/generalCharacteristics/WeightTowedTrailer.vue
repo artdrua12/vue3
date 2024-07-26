@@ -29,7 +29,7 @@
 
         <div class="full grid12">
           <base-textfield
-            v-model.sync="props.item.valueMin"
+            v-model="props.item.valueMin"
             label="Минимально*"
             type="number"
             max-length="24"
@@ -82,7 +82,7 @@
 
         <div class="full grid12">
           <base-textfield
-            v-model.sync="props.item.valueMin"
+            v-model="props.item.valueMin"
             label="Минимально*"
             type="number"
             max-length="24"
@@ -133,7 +133,7 @@
 
         <div class="full grid12">
           <base-textfield
-            v-model.sync="props.item.valueMin"
+            v-model="props.item.valueMin"
             label="Минимально*"
             type="number"
             max-length="24"

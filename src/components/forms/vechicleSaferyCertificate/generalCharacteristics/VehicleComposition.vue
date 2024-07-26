@@ -10,16 +10,6 @@
       class="full"
     ></base-autocomplete>
 
-    <base-autocomplete
-      v-if="conformityDocKindCodeis35"
-      v-model="shema.vehicleVariantDetails[0].vehicleChassisDesignCode"
-      label="Код варианта изготовления шасси транспортного средства"
-      :items="NSI_017"
-      multiple
-      chips
-      class="full"
-    ></base-autocomplete>
-
     <base-constructor-one-element
       v-slot="props"
       v-model="shema.vehicleTypeDetails.vehicleEquipmentText"
@@ -32,31 +22,6 @@
       >
       </base-textarea>
     </base-constructor-one-element>
-
-    <base-checkbox
-      v-if="conformityDocKindCodeis35"
-      v-model="shema.isNotRequiredVehicleEmergencyCallDeviceIndicator"
-      label="Возможность оформления ЭПТС без УВЭОС"
-      style="margin-top: -0.4rem"
-      :disabled="
-        shema.vehicleVariantDetails[0].vehicleEmergencyCallDeviceIndicator ||
-        !shema.docId.match(/^ТС /) ||
-        isLook
-      "
-      class="span6"
-    >
-    </base-checkbox>
-    <base-checkbox
-      v-if="conformityDocKindCodeis35"
-      v-model="shema.vehicleVariantDetails[0].vehicleEmergencyCallDeviceIndicator"
-      label="Оборудование УВЭОС"
-      :disabled="
-        shema.vehicleTypeDetails.isNotRequiredVehicleEmergencyCallDeviceIndicator ||
-        !shema.docId.match(/^ТС /) ||
-        isLook
-      "
-      class="span6"
-    ></base-checkbox>
 
     <base-autocomplete
       label="Расположение двигателя*"
@@ -71,8 +36,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
@@ -87,9 +50,6 @@ const indexDB = useIndexDBStore() // для работы с IndexDB
 const form = ref(null) // ссылка на форму
 const isLook = computed(() => route.query.look != null)
 
-const conformityDocKindCodeis35 = computed(() => {
-  return shema.conformityDocKindCode === '35'
-})
 const NSI_017 = ref([])
 const NSI_047 = ref([])
 const NSI_050 = ref([])

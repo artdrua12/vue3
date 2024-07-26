@@ -54,7 +54,7 @@
 
       <div class="full grid12">
         <base-textfield
-          v-model.sync="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value"
+          v-model="props.item.vehicleTechnicallyPermissibleMaxWeightOnAxleMeasure.value"
           label="Минимально"
           type="number"
           max-length="24"

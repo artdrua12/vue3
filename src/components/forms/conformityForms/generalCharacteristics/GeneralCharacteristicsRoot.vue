@@ -38,24 +38,24 @@ const tabs = defineModel({ type: Array }) // массив табов
 const currentTab = defineModel('tab', { type: String }) //текущая таб
 
 const allComponents = {
-  VehicleComposition,
-  VehicleRunningGearDetails,
-  VehicleAxis,
-  DimensionsSize,
-  WeightCar,
-  WeightTowedTrailer,
-  EngineCar,
-  StorageDevice,
-  FuelCar,
-  SupplySystem,
-  IgnitionSystem,
-  NeutralizationSystem,
-  ClutchCar,
-  TransmissionCar,
-  SuspensionCar,
-  SteerageCar,
-  BrakeSystems,
-  TiresCar
+  VehicleComposition, //Компоновка транспортного средства
+  VehicleRunningGearDetails, //Ходовая часть ТС
+  VehicleAxis, //Ось ТС
+  DimensionsSize, //Габаритные размеры
+  WeightCar, //Масса
+  WeightTowedTrailer, //Масса буксируемого прицепа
+  EngineCar, //Двигатель
+  StorageDevice, //Устройство накопление энергии
+  FuelCar, //Топливо
+  SupplySystem, //Система питания
+  IgnitionSystem, //Система зажигания
+  NeutralizationSystem, //Система нейтрализации
+  ClutchCar, //Сцепление
+  TransmissionCar, //Трансмиссия
+  SuspensionCar, //Подвеска
+  SteerageCar, //Рулевое управление
+  BrakeSystems, //Тормозная система
+  TiresCar //Шины
 }
 function getComponent(type) {
   return allComponents[type]

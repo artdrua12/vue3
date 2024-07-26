@@ -152,9 +152,9 @@
       @find="find"
     ></base-table>
 
-    <menu-vehicle-saf-cer-create-document
+    <menu-create-document
       v-model="isCreateDocument"
-    ></menu-vehicle-saf-cer-create-document>
+    ></menu-create-document>
   </div>
 </template>
 
@@ -168,8 +168,8 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
-import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
-import MenuVehicleSafCerCreateDocument from '@/components/MenuVehicleSafCerCreateDocument.vue'
+import { useGetCatalog, useLoadItems, useCheckAndLoadData } from '../composable'
+import MenuCreateDocument from '@/components/mainPages/vehicleSafetyCertificate/MenuCreateDocument.vue'
 import { useShemaStore } from '@/stores/shemaStore' // для работы со схемой
 
 const tableHeaders = [

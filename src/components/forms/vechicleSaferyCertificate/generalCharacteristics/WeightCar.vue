@@ -1,11 +1,11 @@
 <template>
-  <v-form ref="form" :disabled="isLook" class="adaptiveGrid">
+  <v-form ref="form" :disabled="isLook" class="grid12">
     <base-constructor
       v-slot="props"
-      v-model="shema.vehicleVariantDetails[0].vehicleMassMeasures"
+      v-model="shema.vehicleVariantDetails.vehicleMassMeasure"
       label="Масса"
-      :filter-data="shema.vehicleVariantDetails[0].vehicleMassMeasures"
-      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0]"
+      :filter-data="shema.vehicleVariantDetails.vehicleMassMeasure"
+      :default-data="shemaDefault.vehicleVariantDetails.vehicleMassMeasure[0]"
       class="full mt-5"
       :disabled="isLook"
     >
@@ -23,42 +23,20 @@
         label="Значение массы"
         :filter-data="props.item.meaningMassMeasure"
         :default-data="
-          shemaDefault.vehicleVariantDetails[0].vehicleMassMeasures[0].meaningMassMeasure[0]
+          shemaDefault.vehicleVariantDetails.vehicleMassMeasure[0].meaningMassMeasure[0]
         "
         class="full mt-5"
         :disabled="isLook"
       >
-        <base-checkbox
-          v-model="props2.item.rangeIndicator"
-          label="Признак интервала значений"
-          class="full"
-          @change="props2.item.maxMassMeasure = 0"
-        ></base-checkbox>
 
         <div class="full grid12">
           <base-textfield
-            v-model.sync="props2.item.minMassMeasure"
-            label="Минимально*"
+            v-model="props2.item.minMassMeasure"
+            label="Масса*"
             type="number"
             max-length="24"
-            :rules="[conformityRules.minMassMeasure]"
-            class="span4"
-          ></base-textfield>
-
-          <base-textfield
-            v-model="props2.item.maxMassMeasure"
-            label="Максимально"
-            type="number"
-            :disabled="!props2.item.rangeIndicator || isLook"
-            max-length="24"
-            :rules="[
-              conformityRules.minMax(
-                props2.item.minMassMeasure,
-                props2.item.maxMassMeasure,
-                props2.item.rangeIndicator
-              )
-            ]"
-            class="span4"
+            :rules="[rules.minMassMeasure]"
+            class="span6"
           ></base-textfield>
 
           <base-autocomplete
@@ -66,7 +44,7 @@
             label="Ед. измерения"
             :items="NSI_033"
             item-value="key"
-            class="span4"
+            class="span6"
           ></base-autocomplete>
         </div>
       </base-constructor>
@@ -77,12 +55,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '@/components/forms/conformityForms/rules'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
-import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'

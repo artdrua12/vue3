@@ -1,50 +1,49 @@
 <template>
   <v-form ref="form" :disabled="isLook">
     <base-is-missing
-      v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].notVehicleClutch"
-      v-model:data="
-        shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleClutchDetails
-      "
+      v-model="shema.vehicleVariantDetails.vehicleRunningGearDetails.notVehicleClutchIndicator"
+      v-model:data="shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleClutchDetails"
       :default-data="
-        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleClutchDetails
+        shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails.vehicleClutchDetails
       "
       label="Сцепление - отсутствует"
       :disabled="isLook"
     >
-      <base-constructor
-        v-slot="props"
-        v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleClutchDetails"
-        :filter-data="
-          shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleClutchDetails
+      <base-textfield
+        v-model="
+          shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleClutchDetails
+            .vehicleClutchType
         "
-        :default-data="
-          shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleClutchDetails[0]
-        "
+        label="Тип сцепления*"
         class="full"
-        label="Сцепление"
-        :disabled="isLook"
-      >
-        <base-textarea
-          v-model="props.item.vehicleComponentText"
-          label="Описание типа*"
-          class="full"
-        ></base-textarea>
+        :rules="[rules.vehicleClutchType]"
+      ></base-textfield>
 
-        <base-textfield
-          v-model="props.item.vehicleComponentMakeName"
-          label="Марка"
-          class="full"
-        ></base-textfield>
-      </base-constructor>
+      <base-textfield
+        v-model="
+          shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleClutchDetails
+            .vehicleComponentMakeName
+        "
+        label="Марка"
+        class="full"
+      ></base-textfield>
+
+      <base-textarea
+        v-model="
+          shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleClutchDetails
+            .vehicleComponentText
+        "
+        label="Описание"
+        class="full"
+      ></base-textarea>
     </base-is-missing>
   </v-form>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import BaseConstructor from '@/components/base/BaseConstructor.vue'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'

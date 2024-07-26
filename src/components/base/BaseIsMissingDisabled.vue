@@ -16,12 +16,12 @@ import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['change'])
 const props = defineProps({
   label: { type: String, default: 'Отсутствует' },
-  defaultData: { type: [String, Object, Array], default: null },
+  defaultData: { type: [String, Object, Array, null], default: null },
   disabled: { type: Boolean, default: false }
 })
 // то куда потставляются данные
 const data = defineModel('data', {
-  type: [String, Object, Array, Number],
+  type: [String, Object, Array, Number,null],
   default: null
 })
 const checkbox = defineModel({

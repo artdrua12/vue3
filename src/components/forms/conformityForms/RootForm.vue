@@ -14,6 +14,7 @@
         v-model:open-panel="item.openPanel"
         elevation="5"
         bg-color="#ebebeb"
+        style="scroll-margin-top:10px"
       >
         <template #title>{{ item.title }} </template>
         <component
@@ -697,7 +698,7 @@ function getComponent(type) {
   max-height: calc(100% - 90px);
   overflow: auto;
   scrollbar-width: none;
-  margin-top: 10px;
+  margin: 10px 0px 0px 10px;
   position: fixed;
 }
 .forms-data {

@@ -15,7 +15,7 @@
         item-text="businessEntityName"
         item-value="businessEntityName"
         :items="authority"
-        :rules="[conformityRules.authority]"
+        :rules="[rules.authority]"
         class="full"
         @update:model-value="chooseManufacturerDoc(shema.vehicleManufacturerDetails[props.index])"
       ></base-autocomplete>
@@ -115,7 +115,7 @@
 import { ref, computed } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '@/components/forms/conformityForms/rules'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'

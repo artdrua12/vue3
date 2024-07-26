@@ -1,6 +1,6 @@
 <template>
   <div class="constructor">
-    <div v-for="(item, index) in data" :key="index" class="element" :class="{ many: isOneField }">
+    <div v-for="(item, index) in data" :key="index" class="item" :class="{ many: isOneField }">
       <slot name="default" :index="index"></slot>
       <slot name="btnRemove" :index="index">
         <v-btn
@@ -13,8 +13,8 @@
         >
           {{ index + 1 }}
         </v-btn>
-        <v-btn v-else size="30" icon class="btnRemove" :disabled="props.disabled" @click="add">
-          <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
+        <v-btn v-else size="30" icon class="btnOne" stacked :disabled="props.disabled" @click="add">
+          <v-icon size="34" color="#69808a" icon="mdi-plus-circle"></v-icon>
         </v-btn>
       </slot>
     </div>
@@ -26,37 +26,35 @@
       :disabled="props.disabled"
       @click="add"
     >
-      <v-icon size="24" color="#69808a" icon="mdi-plus-circle"></v-icon>
+      <v-icon size="22" color="#69808a" icon="mdi-plus-circle"></v-icon>
     </v-btn>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-
 const data = defineModel({ type: [Array, null], required: true }) // место куда вставляем данные
 const props = defineProps({
-  defaultData: { type: String, default: '' },
+  defaultData: { type: [String, Array], default: [''] },
   disabled: { type: Boolean, default: false } //выключает кнопку добавления
 })
 
-const isOneField = computed(() => data.value.length > 1)
+const isOneField = computed(() => Boolean(data.value?.length > 1))
 
 setTimeout(() => {
   if (!data.value) {
     // если у нас поле не массив то создаем массив
-    data.value = [props.defaultData.value]
-    add()
+    data.value = JSON.parse(JSON.stringify(props.defaultData))
   }
 
   if (data.value.length == 0) {
     // если у нас пустой массив то заполняем дефолтными значениями
-    data.value.push(props.defaultData)
+    data.value.push(props.defaultData[0])
   }
-}, 1000)
+}, 0)
 
 function add() {
-  data.value.push(props.defaultData)
+  data.value.push(props.defaultData[0])
 }
 
 function remove(item) {
@@ -74,10 +72,10 @@ function remove(item) {
   flex-direction: column;
   gap: 3px;
 }
-.element {
+.item {
   position: relative;
 }
-.element::before {
+.item::before {
   width: 35px;
   height: 50%;
   content: '';
@@ -86,10 +84,10 @@ function remove(item) {
   top: calc(50% - 12px);
   border-top: 1px solid #2c4957;
 }
-.many.element::before {
+.many.item::before {
   border-left: 1px solid #2c4957;
 }
-.element::after {
+.item::after {
   height: 50%;
   content: '';
   position: absolute;
@@ -98,7 +96,7 @@ function remove(item) {
   border-left: 1px solid #2c4957;
 }
 
-.element:first-of-type::after {
+.item:first-of-type::after {
   border: none;
 }
 .addBtn {
@@ -109,14 +107,16 @@ function remove(item) {
   border: 1px solid #2c4957;
 }
 
-.btnRemove {
+.btnRemove,
+.btnOne {
   position: absolute;
   bottom: calc(50% - 2px);
   left: -50px;
   z-index: 2;
-  /* color: orangered; */
   font-family: sans-serif;
   font-weight: 700;
+}
+.btnRemove {
   border: 1px solid #2c4957;
 }
 </style>

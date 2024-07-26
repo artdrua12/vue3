@@ -45,25 +45,46 @@ const router = createRouter({
         {
           path: '',
           name: 'VehicleSafetyCertificatePage',
-          component: () => import('../components/mainPages/VehicleSafetyCertificatePage.vue')
+          component: () => import('../components/mainPages/vehicleSafetyCertificate/VehicleSafetyCertificatePage.vue')
         },
         {
           path: 'form',
           name: 'VehicleSafetyCertificateForm',
           component: () => import('@/components/forms/vechicleSaferyCertificate/RootForm.vue')
-          // component: () => import('@/components/forms/vechicleSaferyCertificate/TEST.vue')
         }
       ]
     },
     {
       path: '/powered-machines-certificates',
       name: 'poweredMachinesCertificates',
-      component: () => import('../components/mainPages/PoweredMachinesCertificatesPage.vue')
+      children: [
+        {
+          path: '',
+          name: 'PoweredMachinesCertificatesPage',
+          component: () => import('@/components/mainPages/PoweredMachinesCertificatesPage.vue')
+        },
+        {
+          path: 'form',
+          name: 'PoweredMachinesCertificatesForm',
+          component: () => import('@/components/forms/poweredMachinesCertificates/RootForm.vue')
+        }
+      ]
     },
     {
       path: '/powered-machines-declarations',
       name: 'poweredMachinesDeclarations',
-      component: () => import('../components/mainPages/PoweredMachinesDeclarationsPage.vue')
+      children: [
+        {
+          path: '',
+          name: 'PoweredMachinesDeclarationsPage',
+          component: () => import('@/components/mainPages/PoweredMachinesDeclarationsPage.vue')
+        },
+        {
+          path: 'form',
+          name: 'PoweredMachinesDeclarationsForm',
+          component: () => import('@/components/forms/poweredMachinesDeclarations/RootForm.vue')
+        }
+      ]
     },
     {
       path: '/epassports',

@@ -2,22 +2,21 @@
   <v-form ref="form" class="adaptiveGrid mt-5" :disabled="$route.query.look == null">
     <base-autocomplete
       v-if="
-        !shema.conformityDocStatusDetails.docStatus ||
-        shema.conformityDocStatusDetails.docStatus === 'Черновик'
+        !shema.docStatusDetails.docStatus ||
+        shema.docStatusDetails.docStatus === 'Черновик'
       "
       v-model="shema.conformityAuthorityInformationDetails.authority"
       label="Организация*"
       :items="certificateAccreditations"
       item-text="certificationBodyNameBrief"
       item-value="accreditationId"
-      :rules="[conformityRules.authority]"
+      :rules="[rules.authority]"
       class="full"
       :disabled="false"
       @update:search="chooseAuthorityOnForm"
     ></base-autocomplete>
 
     <base-textarea
-      v-else
       v-model="shema.conformityAuthorityInformationDetails.businessEntityBriefName"
       label="Организация*"
       disabled
@@ -27,7 +26,7 @@
 
     <base-textarea
       v-model="shema.conformityAuthorityInformationDetails.businessEntityName"
-      label="Полное наименование органа по сертификации"
+      label="Полное наименование испытательной лаборатории"
       disabled
       class="span6"
     >
@@ -35,7 +34,7 @@
 
     <base-textarea
       v-model="shema.conformityAuthorityInformationDetails.businessEntityBriefName"
-      label="Краткое наименование органа по сертификации"
+      label="Краткое наименование испытательной лаборатории"
       disabled
       class="span6"
     >
@@ -84,6 +83,38 @@
       class="full"
     ></base-autocomplete>
 
+    <base-textarea
+      v-if="
+        shema.conformityAuthorityInformationDetails.subjectAddressDetails.find(
+          (e) => e.addressKindCode === '4'
+        )
+      "
+      v-model="
+        shema.conformityAuthorityInformationDetails.subjectAddressDetails.find(
+          (e) => e.addressKindCode === '4'
+        ).fullAddress
+      "
+      label="Местонахождение (Юридический адрес)"
+      disabled
+      class="full"
+    ></base-textarea>
+
+    <base-textarea
+      v-if="
+        shema.conformityAuthorityInformationDetails.subjectAddressDetails.find(
+          (e) => e.addressKindCode === '2'
+        )
+      "
+      v-model="
+        shema.conformityAuthorityInformationDetails.subjectAddressDetails.find(
+          (e) => e.addressKindCode === '2'
+        ).fullAddress
+      "
+      label="Фактический адрес"
+      disabled
+      class="full"
+    ></base-textarea>
+
     <p class="full title">Контактные данные</p>
     <template
       v-for="(item, index) in shema.conformityAuthorityInformationDetails
@@ -122,8 +153,8 @@
 <script setup>
 import { ref } from 'vue'
 // import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '@/components/forms/conformityForms/rules'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'

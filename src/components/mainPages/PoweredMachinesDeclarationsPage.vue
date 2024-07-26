@@ -152,6 +152,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import shemaDefault from '@/components/forms/poweredMachinesCertificates/shemaDefault'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseThreeview from '@/components/base/BaseThreeview.vue'
 import BaseTable from '@/components/base/BaseTableSubGrid.vue'
@@ -159,7 +160,9 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BasePanel from '@/components/base/BasePanel.vue'
 import BaseCheckbox from '@/components/base/BaseCheckbox.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
+import { useRouter } from 'vue-router'
 import { useGetCatalog, useLoadItems, useCheckAndLoadData } from './composable'
+import { useShemaStore } from '@/stores/shemaStore' // для работы со схемой
 
 // defineOptions({
 //   inheritAttrs: false //отключаем передачу атрибутов, иначе предупреждение
@@ -172,7 +175,9 @@ const tableHeaders = [
   { text: 'Статус', value: `docStatus`, id: 'h5' },
   { text: 'Документ подписан', value: ['cert.signer.surname', 'cert.signer.name'], id: 'h6' }
 ]
-const pathToStatus = 'docStatus' // путь для статуса, используется в table и в action
+const shemaStore = useShemaStore()
+const route = useRouter()
+const pathToStatus = 'conformityDocKindCode' // путь для статуса, используется в table и в action
 const additionalTableHeaders = [
   { text: 'Страна выдачи документа', value: 'unifiedCountryCode.value', id: 1, model: false },
   { text: 'Сформирован на основании', value: 'conformityDocKindName', id: 2, model: false },
@@ -253,7 +258,13 @@ const actions = [
   {
     text: 'Создать документ',
     icon: 'mdi-file-plus-outline',
-    enabled: { permission: ['Создать декларацию соответствия'] }
+    enabled: { permission: ['Создать декларацию соответствия'] },
+    action: () => {
+      const shema = shemaStore.createShema(shemaDefault) // создаем схему
+      console.log(shema)
+      shema.conformityDocKindCode = '10' // заносим данные в схему
+      route.push('/powered-machines-declarations/form')
+    }
   },
   {
     text: 'Редактировать',

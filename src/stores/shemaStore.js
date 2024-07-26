@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useRequestStore } from '@/stores/requestStore'
 
 export const useShemaStore = defineStore('shemaStore', () => {
@@ -8,7 +8,7 @@ export const useShemaStore = defineStore('shemaStore', () => {
   //state
   let shema = ref(null)
 
-  watch(shema, (shema) => sessionStorage.setItem('shema', JSON.stringify(shema)), { deep: true })
+  // watch(shema, (shema) => sessionStorage.setItem('shema', JSON.stringify(shema)), { deep: true })
   //get
   let getShema = computed(() => {
     if (shema.value == null) {
@@ -19,6 +19,7 @@ export const useShemaStore = defineStore('shemaStore', () => {
   //action
   function createShema(defaultShema) {
     shema.value = JSON.parse(JSON.stringify(defaultShema))
+    sessionStorage.setItem('shema', JSON.stringify(shema.value)) // временное решение
     return shema.value
   }
 

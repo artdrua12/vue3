@@ -17,14 +17,14 @@
         max-length="120"
         :disabled="isLook || shema.vehicleTypeDetails.notVehicleMakeNameIndicator"
         :rules="
-          !shema.vehicleTypeDetails.notVehicleMakeNameIndicator ? [commonRules.vehicleMakeName] : []
+          !shema.vehicleTypeDetails.notVehicleMakeNameIndicator ? [rules.vehicleMakeName] : []
         "
       ></base-autocomplete>
     </base-is-missing-disabled>
 
     <base-is-missing-disabled
       v-model:data="shema.vehicleTypeDetails.vehicleCommercialName"
-      :default-data="[]"
+      :default-data="''"
       class="span6"
       :disabled="isLook"
     >
@@ -35,33 +35,33 @@
         :disabled="isLook || shema.vehicleTypeDetails.notVehicleCommercialNameIndicator"
         :rules="
           !shema.vehicleTypeDetails.notVehicleCommercialNameIndicator
-            ? [commonRules.vehicleCommercialName]
+            ? [rules.vehicleCommercialName]
             : []
         "
       ></base-combobox>
     </base-is-missing-disabled>
 
-    <BaseConstructorOneElement
+    <base-constructor-one-element
       v-slot="props"
-      v-model="shema.vehicleTypeDetails.vehicleTypeId"
+      v-model="shema.vehicleTypeDetails.vehicleType"
       class="full"
       :disabled="isLook"
-      :default-data="[null]"
+      :default-data="shemaDefault.vehicleTypeDetails.vehicleType"
     >
       <base-autocomplete
-        v-model="shema.vehicleTypeDetails.vehicleTypeId[props.index]"
+        v-model="shema.vehicleTypeDetails.vehicleType[props.index]"
         multiple
         chips
         label="Тип"
         :items="NSI_399"
         class="span6"
       ></base-autocomplete>
-    </BaseConstructorOneElement>
+    </base-constructor-one-element>
 
     <base-combobox
       v-model="shema.vehicleTypeDetails.vehicleTypeIdZ"
       label="Идентификатор типа*"
-      :rules="[commonRules.vehicleTypeId]"
+      :rules="[rules.vehicleTypeId]"
       :max-length="50"
       class="span6"
     ></base-combobox>
@@ -79,7 +79,7 @@
       :items="NSI_015.filter((e) => e.key.match(/L|M|N|O/))"
       multiple
       chips
-      :rules="[commonRules.vehicleTechCategoryCode]"
+      :rules="[rules.vehicleTechCategoryCode]"
       class="full"
     >
     </base-autocomplete>
@@ -101,7 +101,7 @@
         :disabled="isLook || shema.vehicleVariantDetails.notVehicleEcoClassCodeIndicator"
         :rules="
           !shema.vehicleVariantDetails.notVehicleEcoClassCodeIndicator
-            ? [commonRules.vehicleEcoClassCode]
+            ? [rules.vehicleEcoClassCode]
             : []
         "
       ></base-autocomplete>
@@ -115,10 +115,11 @@ import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseConstructorOneElement from '@/components/base/BaseConstructorOneElement.vue'
 import BaseIsMissingDisabled from '@/components/base/BaseIsMissingDisabled.vue'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
 import { useIndexDBStore } from '@/stores/indexDBStore'
 import { useShemaStore } from '@/stores/shemaStore'
 import { useRoute } from 'vue-router'
-import { commonRules } from '@/components/forms/vechicleSaferyCertificate/rules'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 const route = useRoute()
 const indexDB = useIndexDBStore() // для работы с IndexDB
 const shema = useShemaStore().getShema //схема

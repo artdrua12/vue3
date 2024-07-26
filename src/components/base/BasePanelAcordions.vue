@@ -15,7 +15,7 @@
           v-for="itm in item.tabsEnabled"
           :key="itm"
           v-model="item.tab"
-          class="menu-button rounded-0"
+          class="rounded-0"
           block
           @click="updateTab(item, itm)"
           >{{ itm.title }}
@@ -48,10 +48,10 @@ function updateTab(item, itm) {
 ::v-deep .v-expansion-panel-text__wrapper {
   padding: 0px 0px 0px 0px;
 }
-::v-deep .v-expansion-panel-title--active {
+/* ::v-deep .v-expansion-panel-title--active {
   font-weight: bolder;
   font-size: 18px;
-}
+} */
 ::v-deep .v-btn__content {
   white-space: pre-wrap;
   padding: 10px 5px;

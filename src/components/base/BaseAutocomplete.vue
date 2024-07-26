@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+    v-model="value"
     :label="props.label"
     :items="props.items"
     :item-title="props.itemText"
@@ -9,6 +10,7 @@
     class="base"
     bg-color="white"
     :chips="props.chips"
+    closable-chips
     dirty
     clearable
     :menu-props="{
@@ -30,7 +32,7 @@ const props = defineProps({
   label: { type: String, default: '' },
   itemValue: { type: [String, Object], default: 'value' },
   itemText: { type: [String, Object], default: 'value' },
-  value: { type: [String, Object], default: '' },
+  // value: { type: [String, Object], default: '' },
   chips: { type: Boolean, default: false },
   items: {
     type: Array,
@@ -45,6 +47,7 @@ const props = defineProps({
     }
   }
 })
+let value = defineModel({ type: [Object, Array, String, Number, undefined, null], default: [] })
 function onEnter() {
   emit('update:enter')
 }

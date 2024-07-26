@@ -37,7 +37,7 @@
         <base-autocomplete
           v-if="props.item.vehicleFuelKindNameZ.find((i) => ['дизельное топливо'].includes(i))"
           v-model="props.item.cetaneNumber"
-          label="Цетановое число дизельного топлива"
+          label="Октановое число дизельного топлива"
           :items="NSI_120"
           class="full"
         ></base-autocomplete>

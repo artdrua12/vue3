@@ -29,8 +29,10 @@
       v-model="shema.conformityDocKindCode"
       label="Наименование вида документа об оценке соответствия"
       :items="conformityDocKindName"
+      item-text="title"
       item-value="key"
       class="span6"
+      disabled
     ></base-autocomplete>
 
     <base-datefield
@@ -81,7 +83,7 @@
     <base-constructor
       v-slot="props"
       v-model="shema.docAnnexDetails"
-      class="full"
+      class="full mb-5"
       label="Приложение к документу"
       :filter-data="shema.docAnnexDetails"
       :default-data="shemaDefault.docAnnexDetails[0]"

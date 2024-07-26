@@ -229,10 +229,10 @@ const shemaDefault = {
     notVehicleCommercialNameIndicator: false,
     notVehicleMakeNameIndicator: false,
     preferentialManufacturingModeText: '',
-    vehicleCommercialName: '',
+    vehicleCommercialName: [],
     vehicleEquipmentText: [''],
     vehicleHybridIndicator: false,
-    vehicleHybridDesignText: '',
+    vehicleHybridDesignText: null,
     vehicleIdentificationNumberId: '',
     validationVehicleIdentityNumberIndicator: false,
     vehicleFactoryNumberId: '',
@@ -264,9 +264,9 @@ const shemaDefault = {
         vehicleIdentificationNumberIdFull: ''
       }
     ],
-    vehicleLayoutPatternText: '',
+    vehicleLayoutPatternText: null,
     vehicleMakeCode: '',
-    vehicleMakeName: '',
+    vehicleMakeName: [],
     vehicleMovementPermitIndicator: false,
     pictureFile: [
       {
@@ -275,9 +275,9 @@ const shemaDefault = {
       }
     ],
     vehicleRoutingIndicator: false,
-    vehicleTechCategoryCode: '',
+    vehicleTechCategoryCode: [],
     vehicleTypeId: '',
-    vehicleType: [''],
+    vehicleType: [],
     vehicleUseRestrictionIndicator: false,
     vehicleUseRestrictionShipping: '',
     vehicleUseRestrictionText: ''
@@ -432,7 +432,7 @@ const shemaDefault = {
       }
     ],
     vehicleComponentLocationText: '',
-    vehicleEcoClassCode: '',
+    vehicleEcoClassCode: [],
     vehicleElectricalMachineDetails: [
       {
         electricMotorPowerMeasure: {
@@ -544,7 +544,7 @@ const shemaDefault = {
       ]
     },
     vehicleRunningGearDetails: {
-      vehicleTransmissionText: [''],
+      vehicleTransmissionText: [],
       vehicleWheelQuantity: 0,
       notTransmissionUnitIndicator: false,
       notSteeringIndicator: false,

@@ -32,16 +32,16 @@ const currentTab = defineModel('tab', { type: String }) //текущая таб
 const childCompRef = ref(null) // ссылка на дочерний компонент
 
 const allComponents = {
-  DocumentComformity,
-  VehicleDetails,
-  CertificationAgency,
-  DeclarerAddress,
-  ManufacturerAddress,
-  ManufacturersRepresentativesAddress,
-  AssemblyPlantAddress,
-  ProviderAddress,
-  ViewSpread,
-  MoreInformations
+  DocumentComformity, // документ
+  VehicleDetails, // Транспортное средство
+  CertificationAgency, // Наименование органа выдавшего документ
+  DeclarerAddress, //Заявитель и его адрес
+  ManufacturerAddress, //Изготовитель и его адрес
+  ManufacturersRepresentativesAddress, //Представить изготовитель и его адрес
+  AssemblyPlantAddress, //Сборочный завод и его адрес
+  ProviderAddress, // Поставщик сборочных комплектов
+  ViewSpread, // Вид распростанения
+  MoreInformations // Дополнительная информация
 }
 function getComponent(type) {
   return allComponents[type]

@@ -1,19 +1,19 @@
 <template>
   <v-form ref="form" :disabled="isLook">
     <base-is-missing
-      v-model="shema.vehicleVariantDetails[0].notVehicleBrakingSystem"
-      v-model:data="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
-      :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
-      label="Рулевого управления - отсутствует"
+      v-model="shema.vehicleVariantDetails.notVehicleBrakingSystem"
+      v-model:data="shema.vehicleVariantDetails.vehicleBrakingSystemDetails"
+      :default-data="shemaDefault.vehicleVariantDetails.vehicleBrakingSystemDetails"
+      label="Тормозные системы - отсутствует"
       class="full"
       :disabled="isLook"
     >
       <base-constructor
         v-slot="props"
-        v-model="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
-        :filter-data="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
-        :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails[0]"
-        label="Рулевое управление"
+        v-model="shema.vehicleVariantDetails.vehicleBrakingSystemDetails"
+        :filter-data="shema.vehicleVariantDetails.vehicleBrakingSystemDetails"
+        :default-data="shemaDefault.vehicleVariantDetails.vehicleBrakingSystemDetails[0]"
+        label="Тормозная система"
         class="full"
         :disabled="isLook"
       >
@@ -21,8 +21,8 @@
           v-if="
             (props.item.vehicleBrakingSystemKindCode &&
               props.item.vehicleBrakingSystemKindCode.length === 2) ||
-            docStatus === 'Черновик' ||
-            !docStatus
+            shema.docStatusDetails.docStatus === 'Черновик' ||
+            !shema.docStatusDetails.docStatus
           "
           v-model="props.item.vehicleBrakingSystemKindCode"
           label="Наименование элемента тормозной системы*"
@@ -51,8 +51,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseIsMissing from '@/components/base/BaseIsMissing.vue'
@@ -68,7 +67,6 @@ const NSI_029 = ref([])
 const form = ref(null) // ссылка на форму
 
 const isLook = computed(() => route.query.look != null)
-const docStatus = computed(() => shema.conformityDocStatusDetails.docStatus)
 
 async function load() {
   NSI_029.value = (await indexDB.getFromDatabase('catalog', 'NSI_029')) || []

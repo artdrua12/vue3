@@ -19,11 +19,11 @@ import { ref, nextTick } from 'vue'
 import DocumentVechicle from '@/components/forms/vechicleSaferyCertificate/generalInformation/DocumentVechicle.vue'
 import VehicleDetails from '@/components/forms/vechicleSaferyCertificate/generalInformation/VehicleDetails.vue'
 import VehicleId from '@/components/forms/vechicleSaferyCertificate/generalInformation/VehicleId.vue'
-import CertificationAgency from '@/components/forms/vechicleSaferyCertificate/generalInformation/CertificationAgency.vue'
+import TestingLaboratory from '@/components/forms/vechicleSaferyCertificate/generalInformation/TestingLaboratory.vue'
 import DeclarerAddress from '@/components/forms/vechicleSaferyCertificate/generalInformation/DeclarerAddress.vue'
 import ManufacturerAddress from '@/components/forms/vechicleSaferyCertificate/generalInformation/ManufacturerAddress.vue'
 import AssemblyPlantAddress from '@/components/forms/vechicleSaferyCertificate/generalInformation/AssemblyPlantAddress.vue'
-import MoreInformations from '@/components/forms/vechicleSaferyCertificate/generalInformation/MoreInformations.vue'
+import RestrictionsCar from '@/components/forms/vechicleSaferyCertificate/generalInformation/RestrictionsCar.vue'
 
 const tabs = defineModel({ type: Array }) // массив табов
 const currentTab = defineModel('tab', { type: String }) //текущая таб
@@ -33,11 +33,11 @@ const allComponents = {
   DocumentVechicle, //Документ об оценке соответствия
   VehicleDetails, //Транспортное средство
   VehicleId, //Идентификационный номер ТС
-  CertificationAgency, //Орган по сертификации
+  TestingLaboratory, //Испытательная лаборатория
   DeclarerAddress, //Заявитель и его адрес
   ManufacturerAddress, //Изготовитель и его адрес
   AssemblyPlantAddress, //Сборочный завод и его адрес
-  MoreInformations //Ограничения
+  RestrictionsCar //Ограничения
 }
 function getComponent(type) {
   return allComponents[type]

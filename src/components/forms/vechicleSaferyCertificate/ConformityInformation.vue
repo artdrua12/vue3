@@ -40,7 +40,6 @@
 
 <script setup>
 import { ref } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
 import BaseDatefield from '@/components/base/BaseDatefield.vue'
 

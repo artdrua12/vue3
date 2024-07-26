@@ -26,6 +26,7 @@ import TransmissionCar from '@/components/forms/vechicleSaferyCertificate/genera
 import SuspensionCar from '@/components/forms/vechicleSaferyCertificate/generalCharacteristics/SuspensionCar.vue'
 import SteerageCar from '@/components/forms/vechicleSaferyCertificate/generalCharacteristics/SteerageCar.vue'
 import BrakeSystems from '@/components/forms/vechicleSaferyCertificate/generalCharacteristics/BrakeSystems.vue'
+import TiresCar from '@/components/forms/vechicleSaferyCertificate/generalCharacteristics/TiresCar.vue'
 
 const tabs = defineModel({ type: Array }) // массив табов
 const currentTab = defineModel('tab', { type: String }) //текущая таб
@@ -35,13 +36,14 @@ const allComponents = {
   NumbersVheels, //Ходовая часть ТС
   DimensionsSize,//Габаритные размеры
   WeightCar, //Масса
-  WeightTowedTrailer,//Масса буксируемого прицепа-
+  WeightTowedTrailer,//Масса буксируемого прицепа
   EngineCar,//Двигатель
   ClutchCar, //Сцепление
   TransmissionCar,//Трансмиссия 
   SuspensionCar,//Подвеска
   SteerageCar, //Рулевое управление
   BrakeSystems, //Тормозная система
+  TiresCar // Шины
 }
 function getComponent(type) {
   return allComponents[type]

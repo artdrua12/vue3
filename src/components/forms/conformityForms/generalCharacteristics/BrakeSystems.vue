@@ -4,7 +4,7 @@
       v-model="shema.vehicleVariantDetails[0].notVehicleBrakingSystem"
       v-model:data="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
       :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
-      label="Рулевого управления - отсутствует"
+      label="Тормозные системы - отсутствуют"
       class="full"
       :disabled="isLook"
     >
@@ -13,7 +13,7 @@
         v-model="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
         :filter-data="shema.vehicleVariantDetails[0].vehicleBrakingSystemDetails"
         :default-data="shemaDefault.vehicleVariantDetails[0].vehicleBrakingSystemDetails[0]"
-        label="Рулевое управление"
+        label="Тормозная система"
         class="full"
         :disabled="isLook"
       >

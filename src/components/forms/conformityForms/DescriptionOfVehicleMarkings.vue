@@ -9,20 +9,14 @@
       :disabled="isLook"
     >
       <base-textarea
-        v-model="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].uniformSignLocationText
-        "
+        v-model="props.item.uniformSignLocationText"
         label="Место расположения и форма единого знака обращения на рынке государств-членов Таможенного союза*"
         class="full"
       ></base-textarea>
 
       <base-is-missing
-        v-model="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].notManufacturerPlateIndicator
-        "
-        v-model:data="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleComponentLocationText
-        "
+        v-model="props.item.notManufacturerPlateIndicator"
+        v-model:data="props.item.vehicleComponentLocationText"
         :default-data="['']"
         label="Признак отсутствия таблички изготовителя"
         class="full"
@@ -30,18 +24,12 @@
       >
         <base-constructor-one-element
           v-slot="props2"
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-              .vehicleComponentLocationText
-          "
+          v-model="props.item.vehicleComponentLocationText"
           class="full"
           :disabled="isLook"
         >
           <base-textarea
-            v-model="
-              shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-                .vehicleComponentLocationText[props2.index]
-            "
+            v-model="props.item.vehicleComponentLocationText[props2.index]"
             label="Место расположения таблички изготовителя*"
             class="full"
           ></base-textarea>
@@ -50,18 +38,12 @@
 
       <base-constructor-one-element
         v-slot="props3"
-        v-model="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-            .vehicleIdentificationNumberLocationText
-        "
+        v-model="props.item.vehicleIdentificationNumberLocationText"
         class="full"
         :disabled="isLook"
       >
         <base-textarea
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-              .vehicleIdentificationNumberLocationText[props3.index]
-          "
+          v-model="props.item.vehicleIdentificationNumberLocationText[props3.index]"
           label="Место расположения идентификационного номера*"
           :rules="[conformityRules.vehicleIdentificationNumberLocationText]"
         ></base-textarea>
@@ -69,18 +51,12 @@
 
       <base-constructor-one-element
         v-slot="props4"
-        v-model="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-            .engineIdentificationNumberLocationText
-        "
+        v-model="props.item.engineIdentificationNumberLocationText"
         class="full"
         :disabled="isLook"
       >
         <base-textarea
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-              .engineIdentificationNumberLocationText[props4.index]
-          "
+          v-model="props.item.engineIdentificationNumberLocationText[props4.index]"
           label="Место расположения идентификационного номера двигателя"
         ></base-textarea>
       </base-constructor-one-element>
@@ -88,21 +64,12 @@
       <p class="title full">
         Структура и содержание идентификационного номера транспортного средства
       </p>
-      <base-squares
-        :items="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdentificationNumberId
-        "
-        class="full"
-      ></base-squares>
+      <base-squares :items="props.item.vehicleIdentificationNumberId" class="full"></base-squares>
 
       <base-constructor
         v-slot="props5"
-        v-model="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails
-        "
-        :filter-data="
-          shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails
-        "
+        v-model="props.item.vehicleIdCharacterDetails"
+        :filter-data="props.item.vehicleIdCharacterDetails"
         :default-data="
           shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0].vehicleIdCharacterDetails[0]
         "
@@ -111,22 +78,14 @@
         :disabled="isLook"
       >
         <base-autocomplete
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].idCharacterStartingOrdinal
-          "
+          v-model="props5.item.idCharacterStartingOrdinal"
           label="Номер символа"
           :items="fromAndBy"
           class="span6"
         ></base-autocomplete>
 
         <base-autocomplete
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].idCharacterQuantity
-          "
+          v-model="props5.item.idCharacterQuantity"
           :items="fromAndBy"
           label="Количество символов*"
           :rules="[conformityRules.idCharacterQuantity]"
@@ -134,11 +93,7 @@
         ></base-autocomplete>
 
         <base-autocomplete
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].typeDate
-          "
+          v-model="props5.item.typeDate"
           label="Тип данных*"
           :items="groupType"
           :rules="[conformityRules.typeDate]"
@@ -146,11 +101,7 @@
         ></base-autocomplete>
 
         <base-textarea
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].idCharacterText
-          "
+          v-model="props5.item.idCharacterText"
           label="Описание*"
           :rules="[conformityRules.idCharacterText]"
           class="full"
@@ -158,16 +109,8 @@
 
         <base-constructor
           v-slot="props6"
-          v-model="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].idCharacterValueDetails
-          "
-          :filter-data="
-            shema.vehicleTypeDetails.vehicleLabelingDetails[props.index].vehicleIdCharacterDetails[
-              props5.index
-            ].idCharacterValueDetails
-          "
+          v-model="props.item.vehicleIdCharacterDetails[props5.index].idCharacterValueDetails"
+          :filter-data="props.item.vehicleIdCharacterDetails[props5.index].idCharacterValueDetails"
           :default-data="
             shemaDefault.vehicleTypeDetails.vehicleLabelingDetails[0].vehicleIdCharacterDetails[0]
               .idCharacterValueDetails[0]
@@ -178,9 +121,9 @@
         >
           <base-textfield
             v-model="
-              shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-                .vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[props6.index]
-                .idCharacterValueCode
+              props.item.vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[
+                props6.index
+              ].idCharacterValueCode
             "
             label="Значение"
             :items="groupType"
@@ -189,9 +132,9 @@
 
           <base-textarea
             v-model="
-              shema.vehicleTypeDetails.vehicleLabelingDetails[props.index]
-                .vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[props6.index]
-                .idCharacterValueText
+              props.item.vehicleIdCharacterDetails[props5.index].idCharacterValueDetails[
+                props6.index
+              ].idCharacterValueText
             "
             label="Расшифровка значения"
             class="full"
@@ -204,7 +147,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
 import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
 import { conformityRules } from './rules'
 import BaseTextfield from '@/components/base/BaseTextfield.vue'
@@ -221,8 +163,25 @@ const route = useRoute()
 const shema = useShemaStore().getShema // схема
 const form = ref(null) // ссылка на форму
 const isLook = computed(() => route.query.look != null)
-
-const fromAndBy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+const fromAndBy = [
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 4 },
+  { value: 5 },
+  { value: 6 },
+  { value: 7 },
+  { value: 8 },
+  { value: 9 },
+  { value: 10 },
+  { value: 11 },
+  { value: 12 },
+  { value: 13 },
+  { value: 14 },
+  { value: 15 },
+  { value: 16 },
+  { value: 17 }
+]
 const groupType = [' Год выпуска по ТР ТС 018/2011', 'Настраиваемое значение', ' Список']
 
 // для того что бы метод был доступен у родителя

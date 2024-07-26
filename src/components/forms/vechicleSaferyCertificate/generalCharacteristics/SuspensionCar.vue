@@ -2,12 +2,12 @@
   <v-form ref="form" :disabled="isLook" class="mt-5">
     <base-constructor
       v-slot="props"
-      v-model="shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleSuspensionDetails"
+      v-model="shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleSuspensionDetails"
       :filter-data="
-        shema.vehicleVariantDetails[0].vehicleRunningGearDetails[0].vehicleSuspensionDetails
+        shema.vehicleVariantDetails.vehicleRunningGearDetails.vehicleSuspensionDetails
       "
       :default-data="
-        shemaDefault.vehicleVariantDetails[0].vehicleRunningGearDetails[0]
+        shemaDefault.vehicleVariantDetails.vehicleRunningGearDetails
           .vehicleSuspensionDetails[0]
       "
       class="full"
@@ -19,14 +19,14 @@
         label="Вид подвески транспортных средств*"
         :items="NSI_138"
         item-value="key"
-        :rules="[conformityRules.vehicleSuspensionKindCode]"
+        :rules="[rules.vehicleSuspensionKindCode]"
         class="full"
       ></base-autocomplete>
 
       <base-textarea
         v-model="props.item.vehicleComponentText"
         label="Описание"
-        :rules="[conformityRules.vehicleComponentText]"
+        :rules="[rules.vehicleComponentText]"
         class="full"
       ></base-textarea>
     </base-constructor>
@@ -35,9 +35,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-// import shema from '@/components/forms/conformityForms/shema'
-import shemaDefault from '@/components/forms/conformityForms/shemaDefault'
-import { conformityRules } from '@/components/forms/conformityForms/rules'
+import shemaDefault from '@/components/forms/vechicleSaferyCertificate/shemaDefault'
+import { rules } from '@/components/forms/vechicleSaferyCertificate/rules'
 import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue'
 import BaseConstructor from '@/components/base/BaseConstructor.vue'
 import BaseTextarea from '@/components/base/BaseTextarea.vue'

@@ -16,11 +16,11 @@ import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['change'])
 const props = defineProps({
   label: { type: String, default: 'Отсутствует' },
-  defaultData: { type: [Array, Object, String, null], default: null },
+  defaultData: { type: [Array, Object, String, Number, null, undefined], default: null },
   disabled: { type: Boolean, default: false },
   invert: { type: Boolean, default: false } // инверсия галочки чекбокса
 })
-const data = defineModel('data', { type: [Array, Object, String, null], required: true }) //место, где изменяем данные
+const data = defineModel('data', { type: [Array, Object, String, Number, null], required: true }) //место, где изменяем данные
 const checkbox = defineModel({
   type: Boolean,
   set(value) {
